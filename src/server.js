@@ -29,6 +29,8 @@ app.get("/api/health", (_req, res) => {
   });
 });
 
+app.use("/api", requireDashboardPin);
+
 app.get("/api/items", async (_req, res, next) => {
   try {
     res.json({ items: await listItems() });
@@ -138,3 +140,10 @@ app.use((error, _req, res, _next) => {
 app.listen(publicConfig().port, () => {
   console.log(`BanyakTau Video Studio running at http://localhost:${publicConfig().port}`);
 });
+
+function requireDashboardPin(req, res, next) {
+  const expected = String(process.env.AUTO_DASHBOARD_PIN || "123456").trim();
+  const provided = String(req.headers["x-dashboard-pin"] || req.query.pin || "").trim();
+  if (!expected || provided === expected) return next();
+  res.status(401).json({ error: "PIN dashboard tidak valid." });
+}

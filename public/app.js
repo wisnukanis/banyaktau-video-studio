@@ -31,6 +31,9 @@ const els = {
   hookText: document.querySelector("#hookText"),
   pointList: document.querySelector("#pointList"),
   factNote: document.querySelector("#factNote"),
+  youtubeTitle: document.querySelector("#youtubeTitle"),
+  youtubeCaption: document.querySelector("#youtubeCaption"),
+  copyYoutubeBtn: document.querySelector("#copyYoutubeBtn"),
   sceneGrid: document.querySelector("#sceneGrid"),
   assetStatus: document.querySelector("#assetStatus"),
   providerStatus: document.querySelector("#providerStatus"),
@@ -68,6 +71,7 @@ function bindEvents() {
   els.ttsBtn?.addEventListener("click", generateTts);
   els.clipBtn?.addEventListener("click", () => generateClip());
   els.renderBtn?.addEventListener("click", renderVideo);
+  els.copyYoutubeBtn?.addEventListener("click", copyCurrentYoutube);
 }
 
 async function saveSettings(event) {
@@ -384,6 +388,7 @@ function renderGallery() {
           ${item.assets.thumbnail?.url ? `<a class="mini-action" href="${item.assets.thumbnail.url}" download>Thumbnail</a>` : ""}
           <a class="mini-action" href="${item.assets.video.url}" target="_blank" rel="noreferrer">Buka</a>
           <button type="button" class="mini-action" data-copy-url="${item.assets.video.url}">Copy Link</button>
+          <button type="button" class="mini-action" data-copy-youtube="${item.id}">Copy YouTube</button>
         </div>
       </div>
     </article>
@@ -393,6 +398,13 @@ function renderGallery() {
       const url = new URL(button.dataset.copyUrl, window.location.origin).href;
       await navigator.clipboard.writeText(url);
       setStatus("Link video disalin.");
+    });
+  });
+  els.galleryGrid.querySelectorAll("[data-copy-youtube]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const item = state.items.find((entry) => entry.id === button.dataset.copyYoutube);
+      await navigator.clipboard.writeText(youtubeCopy(item));
+      setStatus("Judul dan caption YouTube disalin.");
     });
   });
 }
@@ -433,9 +445,11 @@ function selectIdea(id, options = {}) {
 
 function renderSelectedIdea() {
   if (!state.selectedIdea) {
+    if (!els.selectedIdea) return;
     els.selectedIdea.textContent = "Belum ada ide terpilih.";
     return;
   }
+  if (!els.selectedIdea) return;
   els.selectedIdea.innerHTML = `
     <strong>${escapeHtml(state.selectedIdea.title)}</strong>
     <span>${escapeHtml(state.selectedIdea.hook)}</span>
@@ -453,6 +467,7 @@ function renderCurrent() {
     els.videoSlot.textContent = "Video belum dirender";
     els.assetStatus.textContent = "Alur: Generate Ide -> Buat Storyboard -> Generate Video Final";
     els.videoMetric.textContent = "$0.000";
+    renderYoutubeCopy(null);
     return;
   }
 
@@ -460,6 +475,7 @@ function renderCurrent() {
   els.hookText.textContent = item.plan.hook;
   els.pointList.innerHTML = (item.plan.importantPoints || []).map((point) => `<li>${escapeHtml(point)}</li>`).join("");
   els.factNote.textContent = item.plan.factCheckNote || "-";
+  renderYoutubeCopy(item);
   els.tokenMetric.textContent = formatNumber(item.cost.totalTokens);
   els.imageMetric.textContent = formatUsd(item.cost.imageUsd);
   els.ttsMetric.textContent = formatUsd(item.cost.ttsUsd);
@@ -498,6 +514,19 @@ function renderCurrent() {
   els.sceneGrid.querySelectorAll("[data-clip-scene]").forEach((button) => {
     button.addEventListener("click", () => generateClip(Number(button.dataset.clipScene)));
   });
+}
+
+function renderYoutubeCopy(item) {
+  if (!els.youtubeTitle || !els.youtubeCaption) return;
+  els.youtubeTitle.value = item ? youtubeTitle(item) : "";
+  els.youtubeCaption.value = item ? youtubeCaption(item) : "";
+  if (els.copyYoutubeBtn) els.copyYoutubeBtn.disabled = !item;
+}
+
+async function copyCurrentYoutube() {
+  if (!state.current) return;
+  await navigator.clipboard.writeText(youtubeCopy(state.current));
+  setStatus("Judul dan caption YouTube siap ditempel.");
 }
 
 function renderButtons() {
@@ -575,6 +604,38 @@ function formatDuration(seconds) {
   const minute = Math.floor(value / 60);
   const second = value % 60;
   return `${minute}:${String(second).padStart(2, "0")}`;
+}
+
+function youtubeCopy(item) {
+  return `JUDUL:\n${youtubeTitle(item)}\n\nCAPTION:\n${youtubeCaption(item)}`;
+}
+
+function youtubeTitle(item) {
+  const raw = String(item?.title || item?.plan?.title || "Fakta Menarik yang Jarang Dibahas");
+  const cleaned = raw
+    .replace(/\b(gimana|sih|kok|dong)\b/gi, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/[?.!]+$/g, "");
+  if (/kenapa|rahasia|ternyata|cara|fakta/i.test(cleaned)) return `${cleaned}?`;
+  return `Kenapa ${cleaned.charAt(0).toLowerCase()}${cleaned.slice(1)}?`;
+}
+
+function youtubeCaption(item) {
+  const title = youtubeTitle(item);
+  const hook = item?.plan?.hook || "";
+  const points = (item?.plan?.importantPoints || []).slice(0, 3);
+  const body = [
+    hook,
+    "",
+    "Di video ini kita bahas singkat dengan gaya BanyakTau:",
+    ...points.map((point) => `- ${point}`),
+    "",
+    "Kalau kamu suka fakta sains, sejarah, teknologi, dan hal sehari-hari yang sering luput, follow BanyakTau.",
+    "",
+    "#BanyakTau #FaktaMenarik #Shorts #YouTubeShorts #Pengetahuan"
+  ].filter((line, index, arr) => line || arr[index - 1]);
+  return `${title}\n\n${body.join("\n")}`;
 }
 
 function escapeHtml(value) {

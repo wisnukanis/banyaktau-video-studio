@@ -33,6 +33,7 @@ function buildIdeaPrompt(input, context) {
     "Buat 8 rekomendasi ide video pendek untuk channel BanyakTau.",
     "Channel ini berisi pengetahuan ringan: sains, sejarah, penemuan, tubuh manusia, alam semesta, teknologi, benda sehari-hari, dan tokoh dunia.",
     "Kamu yang menentukan hook dan judul; jangan beri template kosong dan jangan meminta user mengisi hook sendiri.",
+    "Judul harus siap pakai untuk YouTube Shorts: singkat, jelas, maksimal 70 karakter, tanpa slang pembuka seperti 'gimana sih', dan kuat dibaca di thumbnail.",
     "Setiap ide harus punya rasa penasaran kuat, mudah divisualkan dengan gambar AI, dan bisa dijelaskan faktual dalam maksimal 2 menit.",
     "Pilih ide yang hemat produksi: cukup gambar AI + TTS; jika memakai cuplikan video AI, cukup satu clip pendek sebagai sisipan.",
     "Jangan pilih klaim medis/keuangan/hukum yang berisiko, teori konspirasi, atau topik yang butuh wajah figur publik modern.",
@@ -52,7 +53,7 @@ function normalizeIdeas(ideas, input) {
   const normalized = [];
 
   for (const idea of rows) {
-    const title = titleCase(cleanText(idea?.title || idea?.topic || input.seed || "Fakta yang Jarang Dibahas", 90));
+    const title = cleanPublicTitle(idea?.title || idea?.topic || input.seed || "Fakta yang Jarang Dibahas");
     const hook = cleanText(idea?.hook || `Ternyata ${title.toLowerCase()} punya cerita yang jarang dibahas.`, 180);
     const key = `${title}|${hook}`.toLowerCase();
     if (seen.has(key)) continue;
@@ -311,6 +312,7 @@ function buildPrompt(input, context) {
     "Wajib faktual dan hati-hati. Jangan membuat klaim palsu, jangan menyebut angka spesifik jika tidak yakin, dan jangan memakai figur publik modern secara kontroversial.",
     "Bahasa harus natural, menyambung, dan enak dibacakan TTS. Jangan kaku seperti artikel Wikipedia. Jangan bertele-tele.",
     "Kamu yang membuat hook, judul, dan alur narasi. Jangan terasa seperti template.",
+    "Judul harus siap pakai untuk YouTube Shorts: singkat, jelas, maksimal 70 karakter, tanpa slang pembuka seperti 'gimana sih', dan kuat dibaca di thumbnail.",
     "Awali dengan satu kalimat hook yang membuat orang berhenti scroll, lalu langsung masuk ke penjelasan.",
     idea ? "Pakai ide terpilih user sebagai sumber utama. Jangan mengganti topik atau angle utamanya." : "Jika user belum memilih ide, buat sendiri hook paling kuat dari topik yang tersedia.",
     idea ? `Ide terpilih:\n- Judul: ${idea.title}\n- Topik: ${idea.topic}\n- Hook: ${idea.hook}\n- Angle: ${idea.angle}\n- Alasan kuat: ${idea.whyGood}` : "",
@@ -347,13 +349,21 @@ function normalizePlan(plan, input) {
   }
 
   return {
-    title: titleCase(cleanText(plan?.title || input.selectedIdea?.title || fallback.title, 90)),
+    title: cleanPublicTitle(plan?.title || input.selectedIdea?.title || fallback.title),
     hook: cleanText(plan?.hook || input.selectedIdea?.hook || fallback.hook, 180),
     summary: cleanText(plan?.summary || fallback.summary, 320),
     importantPoints: normalizePoints(plan?.importantPoints || fallback.importantPoints),
     factCheckNote: cleanText(plan?.factCheckNote || "Disusun sebagai penjelasan populer; detail teknis dapat diperdalam lagi dari sumber ilmiah.", 220),
     scenes
   };
+}
+
+function cleanPublicTitle(value) {
+  return titleCase(cleanText(value, 90)
+    .replace(/\b(gimana|sih|kok|dong)\b/gi, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/[?.!]+$/g, ""));
 }
 
 function normalizeScene(scene, index, input, durationSec) {

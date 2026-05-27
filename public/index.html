@@ -11,17 +11,18 @@
     <main class="app-shell">
       <aside class="sidebar">
         <div class="brand">
-          <span>BT</span>
+          <span class="brand-mark"><img src="/assets/banyaktau-logo-watermark.png" alt=""></span>
           <div>
             <strong>BanyakTau</strong>
-            <small>Knowledge video studio</small>
+            <small>Video studio</small>
           </div>
         </div>
 
         <form id="generateForm" class="form-stack">
           <input name="topic" type="hidden" value="">
           <button id="fullBtn" class="primary make-video-btn" type="submit">Buat Video</button>
-          <p class="one-click-copy">Sistem otomatis memilih ide, membuat storyboard, gambar, suara, subtitle, thumbnail, dan video final.</p>
+          <p class="one-click-copy">Auto storyboard, gambar, suara, subtitle, thumbnail, dan video final. PIN: 123456.</p>
+          <div id="selectedIdea" class="selected-idea">Belum ada ide terpilih.</div>
 
           <details class="advanced-fields">
             <summary>Opsi video</summary>
@@ -261,6 +262,20 @@
             <div>
               <h2>Catatan</h2>
               <p id="factNote">-</p>
+            </div>
+            <div class="youtube-box">
+              <div class="section-head compact-head">
+                <h2>Copy YouTube</h2>
+                <button id="copyYoutubeBtn" class="mini-action" type="button">Copy Semua</button>
+              </div>
+              <label>
+                <span>Judul</span>
+                <textarea id="youtubeTitle" rows="2" readonly></textarea>
+              </label>
+              <label>
+                <span>Caption</span>
+                <textarea id="youtubeCaption" rows="6" readonly></textarea>
+              </label>
             </div>
           </div>
         </section>

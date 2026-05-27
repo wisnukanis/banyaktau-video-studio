@@ -127,6 +127,9 @@ export function publicConfig() {
     render: config.render,
     pricing: {
       videoUsdPerSecond: config.pricing.videoUsdPerSecond
+    },
+    dashboard: {
+      pinRequired: true
     }
   };
 }

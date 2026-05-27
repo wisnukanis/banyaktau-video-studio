@@ -20,7 +20,7 @@ export async function readBody(req) {
 }
 
 export function requireAuth(req, res) {
-  const expected = clean(process.env.AUTO_DASHBOARD_PIN);
+  const expected = clean(process.env.AUTO_DASHBOARD_PIN || "123456");
   if (!expected) return true;
   const provided = clean(req.headers["x-dashboard-pin"] || queryValue(req, "pin") || cookieValue(req.headers.cookie || "", "banyaktau_pin"));
   if (provided === expected) return true;
@@ -101,7 +101,7 @@ export function publicConfig() {
     },
     dashboard: {
       vercel: true,
-      pinRequired: Boolean(process.env.AUTO_DASHBOARD_PIN)
+      pinRequired: true
     }
   };
 }
