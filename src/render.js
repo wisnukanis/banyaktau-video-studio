@@ -6,7 +6,7 @@ import { clamp, safeFilename, splitLines } from "./util.js";
 
 const fps = 30;
 const introDuration = 3.0;
-const outroDuration = 4.8;
+const outroDuration = 3.6;
 
 export async function renderKnowledgeVideo(item) {
   const workDir = path.join(paths.workDir, item.id);
@@ -89,7 +89,9 @@ function buildTiming(item, narrationDuration) {
   const forcedTempo = narrationDuration > maxContent ? narrationDuration / maxContent : 1;
   const narrationTempo = clamp(Math.max(relaxedFastTempo, forcedTempo), 0.9, 1.3);
   const adjustedNarration = narrationDuration ? narrationDuration / narrationTempo : 0;
-  const contentDuration = clamp(Math.max(requestedContent, adjustedNarration, 34), 34, maxContent);
+  const contentDuration = narrationDuration
+    ? clamp(Math.max(adjustedNarration + 0.35, 34), 34, maxContent)
+    : clamp(Math.max(requestedContent, 34), 34, maxContent);
   return {
     contentDuration,
     totalDuration: Number((contentDuration + introDuration + outroDuration).toFixed(2)),
@@ -239,7 +241,7 @@ async function addLogoWatermark({ inputPath, outputPath }) {
     "-i", logoPath,
     "-filter_complex",
     [
-      "[1:v]scale=108:-1,format=rgba,colorchannelmixer=aa=0.58[wm]",
+      "[1:v]scale=245:-1,format=rgba,colorchannelmixer=aa=0.78[wm]",
       "[0:v][wm]overlay=W-w-40:40:format=auto[v]"
     ].join(";"),
     "-map", "[v]",
@@ -352,12 +354,12 @@ async function muxVideoAudio({ videoPath, audioPath, outputPath }) {
 
 async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, narrationTempo, totalDuration }) {
   const events = [];
+  const titleText = splitLines(item.title || item.plan?.title || "BanyakTau", 24, 3).join("\\N");
+  events.push(dialogue(introDuration + 0.05, Math.max(introDuration + 0.1, totalDuration - outroDuration), "SceneTitle", `{\\fad(140,160)}${assEscape(titleText)}`));
 
   let cursor = introDuration;
   for (const scene of scenes) {
     const end = cursor + scene.durationSec;
-    const title = splitLines(scene.screenText, 25, 2).join("\\N");
-    events.push(dialogue(cursor + 0.05, end, "SceneTitle", `{\\fad(120,120)}${assEscape(title)}`));
     cursor = end;
   }
 
@@ -386,7 +388,7 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
     "[V4+ Styles]",
     "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
     `Style: Hook,${config.render.fontTitle},74,&H00FFFFFF,&H000000FF,&H98232A32,&HBB11171C,-1,0,0,0,100,100,0,0,1,3.5,0,5,80,80,140,1`,
-    `Style: SceneTitle,${config.render.fontTitle},46,&H00F7F2DC,&H000000FF,&H90222A2C,&HAA15191D,-1,0,0,0,100,100,0,0,1,2.5,0,8,80,80,116,1`,
+    `Style: SceneTitle,${config.render.fontTitle},42,&H00F7F2DC,&H000000FF,&H90222A2C,&HAA15191D,-1,0,0,0,100,100,0,0,1,2.5,0,7,54,340,78,1`,
     `Style: Subtitle,${config.render.fontBody},58,&H00FFFFFF,&H000000FF,&H9A11171B,&HBF11171B,-1,0,0,0,100,100,0,0,1,4,1,2,80,80,550,1`,
     `Style: Point,${config.render.fontBody},38,&H00FFFFFF,&H000000FF,&H9A14191D,&HCC11171B,-1,0,0,0,100,100,0,0,1,2.8,1,2,72,72,310,1`,
     "",

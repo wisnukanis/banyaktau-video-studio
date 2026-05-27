@@ -441,7 +441,6 @@ function renderGallery() {
   }
   els.galleryGrid.innerHTML = videos.map((item) => `
     <article class="gallery-card">
-      ${thumbnailUrl(item) ? `<img class="gallery-thumbnail" src="${thumbnailUrl(item)}" alt="Thumbnail ${escapeHtml(item.title)}" loading="lazy">` : ""}
       <video controls playsinline preload="metadata" poster="${thumbnailUrl(item)}" src="${item.assets.video.url}"></video>
       <div class="gallery-body">
         <strong>${escapeHtml(item.title)}</strong>
