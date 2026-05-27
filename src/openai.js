@@ -3,11 +3,9 @@ import path from "node:path";
 import { config, paths } from "./config.js";
 import { safeFilename } from "./util.js";
 
-const apiBase = "https://api.openai.com/v1";
-
 export async function requestKnowledgeJson(promptText) {
   assertOpenAi();
-  const response = await fetch(`${apiBase}/chat/completions`, {
+  const response = await fetch(`${config.openai.baseUrl}/chat/completions`, {
     method: "POST",
     headers: headersJson(),
     body: JSON.stringify({
@@ -30,7 +28,7 @@ export async function requestKnowledgeJson(promptText) {
 
 export async function requestIdeaJson(promptText) {
   assertOpenAi();
-  const response = await fetch(`${apiBase}/chat/completions`, {
+  const response = await fetch(`${config.openai.baseUrl}/chat/completions`, {
     method: "POST",
     headers: headersJson(),
     body: JSON.stringify({
@@ -56,7 +54,7 @@ export async function generateSceneImage({ itemId, scene, size, quality }) {
   await fs.mkdir(paths.imageDir, { recursive: true });
 
   const prompt = sanitizeImagePrompt(scene.imagePrompt);
-  const response = await fetch(`${apiBase}/images/generations`, {
+  const response = await fetch(`${config.openai.baseUrl}/images/generations`, {
     method: "POST",
     headers: headersJson(),
     body: JSON.stringify({
@@ -86,7 +84,7 @@ export async function generateSceneImage({ itemId, scene, size, quality }) {
 
   return {
     sceneIndex: scene.index,
-    provider: "openai",
+    provider: providerName(),
     path: outputPath,
     url: `/generated/images/${filename}`,
     prompt
@@ -100,16 +98,19 @@ export async function generateOpenAiSpeech({ itemId, text, voice, filenameSuffix
   const selectedVoice = voice || config.openai.ttsVoice;
   const filename = `${itemId}-${safeFilename(filenameSuffix)}-narration.mp3`;
   const outputPath = path.join(paths.audioDir, filename);
-  const response = await fetch(`${apiBase}/audio/speech`, {
+  const payload = {
+    model: config.openai.ttsModel,
+    voice: selectedVoice,
+    input: text,
+    response_format: "mp3"
+  };
+  if (!/dinoiki/i.test(config.openai.baseUrl)) {
+    payload.instructions = "Bacakan sepenuhnya dalam Bahasa Indonesia natural. Gaya suara hangat, penasaran, jelas, seperti kreator pengetahuan sedang menjelaskan fakta menarik kepada teman. Tempo sedang-cepat dan tetap santai; jangan terlalu lambat, jangan terdengar seperti robot, beri jeda ringan setelah kalimat penting, dan tekankan bagian hook dengan rasa ingin tahu.";
+  }
+  const response = await fetch(`${config.openai.baseUrl}/audio/speech`, {
     method: "POST",
     headers: headersJson(),
-    body: JSON.stringify({
-      model: config.openai.ttsModel,
-      voice: selectedVoice,
-      input: text,
-      instructions: "Bacakan sepenuhnya dalam Bahasa Indonesia natural. Gaya suara hangat, penasaran, jelas, seperti kreator pengetahuan sedang menjelaskan fakta menarik kepada teman. Tempo sedang-cepat dan tetap santai; jangan terlalu lambat, jangan terdengar seperti robot, beri jeda ringan setelah kalimat penting, dan tekankan bagian hook dengan rasa ingin tahu.",
-      response_format: "mp3"
-    })
+    body: JSON.stringify(payload)
   });
   if (!response.ok) {
     const detail = await response.text();
@@ -118,12 +119,16 @@ export async function generateOpenAiSpeech({ itemId, text, voice, filenameSuffix
 
   await fs.writeFile(outputPath, Buffer.from(await response.arrayBuffer()));
   return {
-    provider: "openai",
+    provider: providerName(),
     model: config.openai.ttsModel,
     voice: selectedVoice,
     path: outputPath,
     url: `/generated/audio/${filename}`
   };
+}
+
+function providerName() {
+  return /dinoiki/i.test(config.openai.baseUrl) ? "dinoiki" : "openai";
 }
 
 function assertOpenAi() {

@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>BanyakTau Studio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
@@ -21,6 +22,11 @@
           <input name="topic" type="hidden" value="">
           <button id="ideaBtn" class="secondary accent" type="button">Generate Ide</button>
           <div id="selectedIdea" class="selected-idea">Belum ada ide terpilih.</div>
+          <ol class="flow-list">
+            <li data-step="ideas"><strong>1. Ide</strong><span>Pilih topik yang paling menarik.</span></li>
+            <li data-step="storyboard"><strong>2. Storyboard</strong><span>Cek naskah, scene, dan visual.</span></li>
+            <li data-step="video"><strong>3. Video</strong><span>Generate final: gambar, TTS, clip opsional, render.</span></li>
+          </ol>
 
           <div class="two-col">
             <label>
@@ -88,8 +94,8 @@
             </div>
           </details>
 
-          <button id="fullBtn" class="primary" type="submit">Generate Video</button>
           <button id="draftBtn" class="secondary" type="button">Buat Storyboard</button>
+          <button id="fullBtn" class="primary" type="submit">Generate Video Final</button>
         </form>
 
         <section class="settings-block">
@@ -98,50 +104,98 @@
             <span id="providerStatus">-</span>
           </div>
           <form id="settingsForm" class="form-stack compact">
-            <label>
-              <span>OpenAI API Key</span>
-              <input name="openaiApiKey" type="password" autocomplete="off" placeholder="Kosongkan jika tidak diubah">
-            </label>
-            <label>
-              <span>ElevenLabs API Key</span>
-              <input name="elevenlabsApiKey" type="password" autocomplete="off" placeholder="Kosongkan jika tidak diubah">
-            </label>
-            <label>
-              <span>Dinoiki / Video API Key</span>
-              <input name="videoApiKey" type="password" autocomplete="off" placeholder="Kosongkan jika tidak diubah">
-            </label>
-            <label>
-              <span>Video Base URL</span>
-              <input name="videoBaseUrl" placeholder="https://ai.dinoiki.com">
-            </label>
-            <div class="two-col">
+            <div class="settings-tabs" role="tablist" aria-label="Setting API">
+              <button class="settings-tab active" type="button" data-settings-tab="ai">AI</button>
+              <button class="settings-tab" type="button" data-settings-tab="voice">Suara</button>
+              <button class="settings-tab" type="button" data-settings-tab="video">Video</button>
+              <button class="settings-tab" type="button" data-settings-tab="gemini">Gemini</button>
+            </div>
+
+            <div class="settings-panel active" data-settings-panel="ai">
               <label>
-                <span>OpenAI voice</span>
-                <input name="openaiTtsVoice" placeholder="shimmer">
+                <span>OpenAI / Dinoiki API Key</span>
+                <input name="openaiApiKey" type="password" autocomplete="off" placeholder="Kosongkan jika tidak diubah">
               </label>
               <label>
-                <span>Tempo</span>
-                <input name="speechTempo" type="number" min="0.9" max="1.3" step="0.01" value="1.15">
+                <span>OpenAI-compatible Base URL</span>
+                <input name="openaiBaseUrl" placeholder="https://api.openai.com/v1 atau https://ai.dinoiki.com/v1">
+              </label>
+              <div class="two-col">
+                <label>
+                  <span>Model ide/story</span>
+                  <input name="storyModel" placeholder="gpt-4.1-mini">
+                </label>
+                <label>
+                  <span>Model gambar</span>
+                  <input name="imageModel" placeholder="gpt-image-1.5">
+                </label>
+              </div>
+            </div>
+
+            <div class="settings-panel" data-settings-panel="voice">
+              <label>
+                <span>ElevenLabs API Key</span>
+                <input name="elevenlabsApiKey" type="password" autocomplete="off" placeholder="Kosongkan jika tidak diubah">
+              </label>
+              <div class="two-col">
+                <label>
+                  <span>OpenAI/Dinoiki voice</span>
+                  <input name="openaiTtsVoice" placeholder="shimmer">
+                </label>
+                <label>
+                  <span>Tempo</span>
+                  <input name="speechTempo" type="number" min="0.9" max="1.3" step="0.01" value="1.15">
+                </label>
+              </div>
+              <label>
+                <span>ElevenLabs voice ID</span>
+                <input name="elevenlabsVoiceId" placeholder="pFZP...">
               </label>
             </div>
-            <label>
-              <span>Model video</span>
-              <input name="videoModel" placeholder="veo-3.1-lite-generate-preview">
-            </label>
-            <div class="two-col">
+
+            <div class="settings-panel" data-settings-panel="video">
               <label>
-                <span>Durasi clip</span>
-                <input name="videoSeconds" type="number" min="2" max="8" step="1" value="4">
+                <span>Dinoiki / Video API Key</span>
+                <input name="videoApiKey" type="password" autocomplete="off" placeholder="Kosongkan jika tidak diubah">
               </label>
               <label>
-                <span>Estimasi $/detik</span>
-                <input name="videoUsdPerSecond" type="number" min="0" step="0.001" value="0.03">
+                <span>Video Base URL</span>
+                <input name="videoBaseUrl" placeholder="https://ai.dinoiki.com">
+              </label>
+              <label>
+                <span>Model video</span>
+                <input name="videoModel" placeholder="veo-3.1-lite-generate-preview">
+              </label>
+              <label>
+                <span>Mode endpoint video</span>
+                <select name="videoEndpointMode">
+                  <option value="gemini">Gemini/Veo long-running</option>
+                  <option value="openai-videos">OpenAI-compatible /v1/videos</option>
+                </select>
+              </label>
+              <div class="two-col">
+                <label>
+                  <span>Durasi clip</span>
+                  <input name="videoSeconds" type="number" min="2" max="8" step="1" value="4">
+                </label>
+                <label>
+                  <span>Estimasi $/detik</span>
+                  <input name="videoUsdPerSecond" type="number" min="0" step="0.001" value="0.03">
+                </label>
+              </div>
+            </div>
+
+            <div class="settings-panel" data-settings-panel="gemini">
+              <label>
+                <span>Gemini API Key</span>
+                <input name="geminiApiKey" type="password" autocomplete="off" placeholder="Disiapkan untuk nanti">
+              </label>
+              <label>
+                <span>Gemini Base URL</span>
+                <input name="geminiBaseUrl" placeholder="https://generativelanguage.googleapis.com">
               </label>
             </div>
-            <label>
-              <span>ElevenLabs voice ID</span>
-              <input name="elevenlabsVoiceId" placeholder="pFZP...">
-            </label>
+
             <button id="settingsBtn" class="secondary" type="submit">Simpan Setting</button>
           </form>
         </section>
@@ -162,10 +216,10 @@
             <h1 id="itemTitle">Belum ada video</h1>
           </div>
           <div class="toolbar">
-            <button id="imageBtn" class="ghost" type="button">Gambar</button>
-            <button id="ttsBtn" class="ghost" type="button">TTS</button>
-            <button id="clipBtn" class="ghost" type="button">Clip Veo Lite</button>
-            <button id="renderBtn" class="ghost strong" type="button">Render</button>
+            <button id="imageBtn" class="ghost" type="button" title="Manual: buat ulang gambar untuk storyboard ini">Buat Gambar</button>
+            <button id="ttsBtn" class="ghost" type="button" title="Manual: buat ulang suara dari naskah ini">Buat TTS</button>
+            <button id="clipBtn" class="ghost" type="button" title="Opsional: tambah satu B-roll video AI pendek ke scene yang dipilih">Tambah Clip Veo</button>
+            <button id="renderBtn" class="ghost strong" type="button" title="Manual: gabungkan aset yang sudah ada menjadi video final">Render Ulang</button>
           </div>
         </header>
 
@@ -227,6 +281,14 @@
             <span id="assetStatus">Belum ada aset</span>
           </div>
           <div id="sceneGrid" class="scene-grid"></div>
+        </section>
+
+        <section id="galleryPanel" class="gallery-panel">
+          <div class="section-head wide">
+            <strong>Galeri Video</strong>
+            <span>Download dan share ke YouTube</span>
+          </div>
+          <div id="galleryGrid" class="gallery-grid"></div>
         </section>
       </section>
     </main>

@@ -7,10 +7,13 @@
   "scripts": {
     "dev": "node src/server.js",
     "start": "node src/server.js",
+    "run:once": "node src/run-once.js",
     "check": "node --check src/server.js && node --check src/story-engine.js && node --check src/render.js && node --check src/openai.js && node --check src/elevenlabs.js && node --check src/video-provider.js"
   },
   "dependencies": {
+    "basic-ftp": "^5.3.1",
     "dotenv": "^16.4.7",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "ssh2-sftp-client": "^12.1.1"
   }
 }

@@ -50,6 +50,7 @@ export const config = {
   publicBaseUrl: clean(process.env.PUBLIC_BASE_URL),
   openai: {
     apiKey: process.env.OPENAI_API_KEY || "",
+    baseUrl: trimSlash(process.env.OPENAI_BASE_URL || "https://api.openai.com/v1"),
     storyModel: clean(process.env.STORY_MODEL || "gpt-4.1-mini"),
     imageModel: clean(process.env.IMAGE_MODEL || "gpt-image-1-mini"),
     imageSize: clean(process.env.IMAGE_SIZE || "1024x1536"),
@@ -66,6 +67,10 @@ export const config = {
     aspectRatio: clean(process.env.VIDEO_ASPECT_RATIO || "9:16"),
     resolution: clean(process.env.VIDEO_RESOLUTION || "720p"),
     seconds: Math.min(8, Math.max(2, numberEnv("VIDEO_SECONDS", 4)))
+  },
+  gemini: {
+    apiKey: process.env.GEMINI_API_KEY || "",
+    baseUrl: trimSlash(process.env.GEMINI_BASE_URL || "https://generativelanguage.googleapis.com")
   },
   elevenlabs: {
     apiKey: process.env.ELEVENLABS_API_KEY || "",
@@ -93,6 +98,7 @@ export function publicConfig() {
     publicBaseUrl: config.publicBaseUrl,
     providers: {
       openai: Boolean(config.openai.apiKey),
+      openaiBaseUrl: config.openai.baseUrl,
       elevenlabs: Boolean(config.elevenlabs.apiKey),
       storyModel: config.openai.storyModel,
       imageModel: config.openai.imageModel,
@@ -106,6 +112,8 @@ export function publicConfig() {
       videoResolution: config.video.resolution,
       videoSeconds: config.video.seconds,
       videoApiKeySet: bool(config.video.apiKey),
+      geminiApiKeySet: bool(config.gemini.apiKey),
+      geminiBaseUrl: config.gemini.baseUrl,
       openaiApiKeySet: bool(config.openai.apiKey),
       openaiTtsModel: config.openai.ttsModel,
       openaiTtsVoice: config.openai.ttsVoice,
@@ -123,29 +131,41 @@ export function publicConfig() {
 export async function updateRuntimeSettings(input = {}) {
   const updates = {};
   const openaiKey = clean(input.openaiApiKey);
+  const openaiBaseUrl = trimSlash(input.openaiBaseUrl);
+  const storyModel = clean(input.storyModel);
+  const imageModel = clean(input.imageModel);
   const elevenlabsKey = clean(input.elevenlabsApiKey);
   const openaiTtsVoice = clean(input.openaiTtsVoice);
   const openaiTtsModel = clean(input.openaiTtsModel);
   const videoApiKey = clean(input.videoApiKey);
   const videoBaseUrl = trimSlash(input.videoBaseUrl);
+  const videoEndpointMode = clean(input.videoEndpointMode);
   const videoModel = clean(input.videoModel);
   const videoSeconds = Number(input.videoSeconds);
   const videoUsdPerSecond = Number(input.videoUsdPerSecond);
   const elevenlabsModel = clean(input.elevenlabsModel);
   const elevenlabsVoiceId = clean(input.elevenlabsVoiceId);
+  const geminiKey = clean(input.geminiApiKey);
+  const geminiBaseUrl = trimSlash(input.geminiBaseUrl);
   const speechTempo = Number(input.speechTempo);
 
   if (openaiKey) updates.OPENAI_API_KEY = openaiKey;
+  if (openaiBaseUrl) updates.OPENAI_BASE_URL = openaiBaseUrl;
+  if (storyModel) updates.STORY_MODEL = storyModel;
+  if (imageModel) updates.IMAGE_MODEL = imageModel;
   if (elevenlabsKey) updates.ELEVENLABS_API_KEY = elevenlabsKey;
   if (openaiTtsVoice) updates.OPENAI_TTS_VOICE = openaiTtsVoice;
   if (openaiTtsModel) updates.OPENAI_TTS_MODEL = openaiTtsModel;
   if (videoApiKey) updates.VIDEO_API_KEY = videoApiKey;
   if (videoBaseUrl) updates.VIDEO_BASE_URL = videoBaseUrl;
+  if (["gemini", "openai-videos"].includes(videoEndpointMode)) updates.VIDEO_ENDPOINT_MODE = videoEndpointMode;
   if (videoModel) updates.VIDEO_MODEL = videoModel;
   if (Number.isFinite(videoSeconds)) updates.VIDEO_SECONDS = String(Math.min(8, Math.max(2, videoSeconds)));
   if (Number.isFinite(videoUsdPerSecond)) updates.VIDEO_USD_PER_SECOND = String(Math.max(0, videoUsdPerSecond));
   if (elevenlabsModel) updates.ELEVENLABS_MODEL = elevenlabsModel;
   if (elevenlabsVoiceId) updates.ELEVENLABS_VOICE_ID = elevenlabsVoiceId;
+  if (geminiKey) updates.GEMINI_API_KEY = geminiKey;
+  if (geminiBaseUrl) updates.GEMINI_BASE_URL = geminiBaseUrl;
   if (Number.isFinite(speechTempo)) updates.SPEECH_TEMPO = String(Math.min(1.3, Math.max(0.9, speechTempo)));
 
   if (Object.keys(updates).length) {
@@ -185,15 +205,21 @@ async function writeEnvUpdates(updates) {
 function applyConfigUpdates(updates) {
   for (const [name, value] of Object.entries(updates)) process.env[name] = value;
   if (updates.OPENAI_API_KEY !== undefined) config.openai.apiKey = updates.OPENAI_API_KEY;
+  if (updates.OPENAI_BASE_URL !== undefined) config.openai.baseUrl = trimSlash(updates.OPENAI_BASE_URL);
+  if (updates.STORY_MODEL !== undefined) config.openai.storyModel = updates.STORY_MODEL;
+  if (updates.IMAGE_MODEL !== undefined) config.openai.imageModel = updates.IMAGE_MODEL;
   if (updates.OPENAI_TTS_MODEL !== undefined) config.openai.ttsModel = updates.OPENAI_TTS_MODEL;
   if (updates.OPENAI_TTS_VOICE !== undefined) config.openai.ttsVoice = updates.OPENAI_TTS_VOICE;
   if (updates.VIDEO_API_KEY !== undefined) config.video.apiKey = updates.VIDEO_API_KEY;
   if (updates.VIDEO_BASE_URL !== undefined) config.video.baseUrl = trimSlash(updates.VIDEO_BASE_URL);
+  if (updates.VIDEO_ENDPOINT_MODE !== undefined) config.video.endpointMode = updates.VIDEO_ENDPOINT_MODE;
   if (updates.VIDEO_MODEL !== undefined) config.video.model = updates.VIDEO_MODEL;
   if (updates.VIDEO_SECONDS !== undefined) config.video.seconds = Number(updates.VIDEO_SECONDS);
   if (updates.VIDEO_USD_PER_SECOND !== undefined) config.pricing.videoUsdPerSecond = Number(updates.VIDEO_USD_PER_SECOND);
   if (updates.ELEVENLABS_API_KEY !== undefined) config.elevenlabs.apiKey = updates.ELEVENLABS_API_KEY;
   if (updates.ELEVENLABS_MODEL !== undefined) config.elevenlabs.model = updates.ELEVENLABS_MODEL;
   if (updates.ELEVENLABS_VOICE_ID !== undefined) config.elevenlabs.voiceId = updates.ELEVENLABS_VOICE_ID;
+  if (updates.GEMINI_API_KEY !== undefined) config.gemini.apiKey = updates.GEMINI_API_KEY;
+  if (updates.GEMINI_BASE_URL !== undefined) config.gemini.baseUrl = trimSlash(updates.GEMINI_BASE_URL);
   if (updates.SPEECH_TEMPO !== undefined) config.render.speechTempo = Number(updates.SPEECH_TEMPO);
 }

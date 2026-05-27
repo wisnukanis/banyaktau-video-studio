@@ -39,6 +39,8 @@ export async function renderKnowledgeVideo(item) {
     outputPath: assPath,
     item,
     scenes: renderScenes,
+    narrationDuration,
+    narrationTempo: timing.narrationTempo,
     totalDuration: timing.totalDuration
   });
 
@@ -276,10 +278,10 @@ async function muxVideoAudio({ videoPath, audioPath, outputPath }) {
   ]);
 }
 
-async function writeCaptionAss({ outputPath, item, scenes, totalDuration }) {
+async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, narrationTempo, totalDuration }) {
   const events = [];
   const introEnd = introDuration;
-  const hookLines = splitLines(item.plan.hook || item.title, 18, 4).join("\\N");
+  const hookLines = splitLines(item.plan.hook || item.title, 18, 3).join("\\N");
   events.push(dialogue(0.15, introEnd - 0.08, "Hook", `{\\fad(160,160)}${assEscape(hookLines)}`));
   events.push(dialogue(0, totalDuration, "Brand", "BANYAKTAU"));
 
@@ -287,10 +289,15 @@ async function writeCaptionAss({ outputPath, item, scenes, totalDuration }) {
   for (const scene of scenes) {
     const end = cursor + scene.durationSec;
     const title = splitLines(scene.screenText, 25, 2).join("\\N");
-    const narration = splitLines(scene.narration, 42, 4).join("\\N");
     events.push(dialogue(cursor + 0.05, end, "SceneTitle", `{\\fad(120,120)}${assEscape(title)}`));
-    events.push(dialogue(cursor + 0.12, end - 0.03, "Subtitle", `{\\fad(80,80)}${assEscape(narration)}`));
     cursor = end;
+  }
+
+  for (const caption of narrationCaptionSegments(item, {
+    start: introDuration + 0.05,
+    duration: narrationDuration ? narrationDuration / Math.max(0.1, Number(narrationTempo || 1)) : totalDuration - introDuration - outroDuration
+  })) {
+    events.push(dialogue(caption.start, caption.end, "Subtitle", `{\\fad(55,55)}${assEscape(caption.text)}`));
   }
 
   const points = (item.plan.importantPoints || []).slice(0, 3).map((point) => `- ${point}`).join("\\N");
@@ -308,7 +315,7 @@ async function writeCaptionAss({ outputPath, item, scenes, totalDuration }) {
     `Style: Brand,${config.render.fontMono},32,&H00EAF2F0,&H000000FF,&H70121A1E,&H90121A1E,-1,0,0,0,100,100,2,0,1,2,0,7,54,54,54,1`,
     `Style: Hook,${config.render.fontTitle},74,&H00FFFFFF,&H000000FF,&H98232A32,&HBB11171C,-1,0,0,0,100,100,0,0,1,3.5,0,5,80,80,140,1`,
     `Style: SceneTitle,${config.render.fontTitle},46,&H00F7F2DC,&H000000FF,&H90222A2C,&HAA15191D,-1,0,0,0,100,100,0,0,1,2.5,0,8,80,80,116,1`,
-    `Style: Subtitle,${config.render.fontBody},44,&H00FFFFFF,&H000000FF,&H9A11171B,&HBF11171B,-1,0,0,0,100,100,0,0,1,3,0,2,68,68,176,1`,
+    `Style: Subtitle,${config.render.fontBody},58,&H00FFFFFF,&H000000FF,&H9A11171B,&HBF11171B,-1,0,0,0,100,100,0,0,1,4,1,2,80,80,550,1`,
     `Style: Point,${config.render.fontBody},39,&H00FFFFFF,&H000000FF,&H9021272D,&HBB11171B,-1,0,0,0,100,100,0,0,1,2.4,0,2,70,70,150,1`,
     "",
     "[Events]",
@@ -317,6 +324,45 @@ async function writeCaptionAss({ outputPath, item, scenes, totalDuration }) {
   ].join("\n");
 
   await fs.writeFile(outputPath, ass, "utf8");
+}
+
+function narrationCaptionSegments(item, timing) {
+  const text = (item.plan?.scenes || [])
+    .map((scene) => String(scene.narration || "").trim())
+    .filter(Boolean)
+    .join(" ");
+  return captionSegments(text, timing.start, timing.start + timing.duration);
+}
+
+function captionSegments(text, start, end) {
+  const words = String(text || "").split(/\s+/).filter(Boolean);
+  const duration = Math.max(0.1, end - start);
+  if (!words.length || duration <= 0.2) return [];
+
+  const chunkSize = 4;
+  const chunks = [];
+  for (let index = 0; index < words.length; index += chunkSize) {
+    chunks.push(words.slice(index, index + chunkSize).join(" "));
+  }
+  if (chunks.length > 1 && chunks.at(-1).split(/\s+/).filter(Boolean).length < 3) {
+    const tail = chunks.pop();
+    chunks[chunks.length - 1] = `${chunks.at(-1)} ${tail}`;
+  }
+
+  const totalWords = chunks.reduce((sum, chunk) => sum + chunk.split(/\s+/).filter(Boolean).length, 0) || 1;
+  let cursor = start;
+  return chunks.map((chunk, index) => {
+    const weight = chunk.split(/\s+/).filter(Boolean).length / totalWords;
+    const isLast = index === chunks.length - 1;
+    const next = isLast ? end : Math.min(end, cursor + duration * weight);
+    const segment = {
+      start: cursor,
+      end: Math.max(cursor + 0.35, next - 0.04),
+      text: splitLines(chunk, 28, 2).join("\\N")
+    };
+    cursor = next;
+    return segment;
+  });
 }
 
 function dialogue(start, end, style, text) {

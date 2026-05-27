@@ -18,6 +18,7 @@ async function generateGeminiClip({ itemId, scene, prompt }) {
   const baseUrl = joinUrl(config.video.baseUrl, "v1beta");
   const createUrl = `${baseUrl}/models/${encodeURIComponent(model)}:predictLongRunning`;
   const payload = {
+    prompt: clipPrompt,
     instances: [{ prompt: clipPrompt }],
     parameters: {
       aspectRatio: config.video.aspectRatio,
@@ -76,7 +77,9 @@ async function generateOpenAiCompatibleClip({ itemId, scene, prompt }) {
     body: form
   });
   const videoId = create.id;
-  if (!videoId) throw new Error("Provider video tidak mengembalikan video id.");
+  if (!videoId) {
+    throw new Error("Endpoint /v1/videos merespons, tetapi tidak mengembalikan video id. Pastikan Dinoiki mendukung video generation untuk API key ini.");
+  }
 
   await pollOpenAiVideo(videoId);
   const filename = `${itemId}-scene-${scene.index}-clip-${safeFilename(scene.screenText || "clip")}.mp4`;
@@ -171,9 +174,23 @@ async function fetchJson(url, options = {}) {
   }
   if (!response.ok) {
     const detail = data?.error?.message || data?.message || text || `HTTP ${response.status}`;
-    throw new Error(detail.slice(0, 700));
+    throw new Error(providerErrorMessage(url, response.status, detail));
   }
   return data;
+}
+
+function providerErrorMessage(url, status, detail) {
+  const cleanDetail = String(detail || "").slice(0, 700);
+  if (/\/v1\/videos/i.test(url) && status === 404) {
+    return "Dinoiki belum membuka endpoint /v1/videos untuk key/base URL ini. Dari Quick Start yang tersedia, Dinoiki mendukung chat, image, TTS, dan transcribe, tetapi belum terlihat endpoint video.";
+  }
+  if (/predictLongRunning/i.test(url) && status >= 400) {
+    if (/specify\s+"prompt"\s+or\s+"messages"/i.test(cleanDetail)) {
+      return "Dinoiki menolak payload Veo/Gemini. Quick Start Dinoiki yang tersedia hanya mendokumentasikan chat, image, TTS, dan transcribe; endpoint video/Veo belum terlihat aktif untuk API key/base URL ini.";
+    }
+    return `Endpoint Veo/Gemini menolak request (${status}). Kemungkinan model video belum tersedia di akun Dinoiki ini atau format endpoint-nya berbeda dari Gemini native. Detail: ${cleanDetail}`;
+  }
+  return cleanDetail;
 }
 
 async function downloadBinary(url, outputPath, headers = {}) {

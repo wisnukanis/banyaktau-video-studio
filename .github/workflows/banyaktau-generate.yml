@@ -1,0 +1,122 @@
+name: BanyakTau Generate Video
+
+on:
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: Optional topic seed
+        required: false
+        default: ""
+      category:
+        description: Category
+        required: false
+        default: random
+      duration:
+        description: Duration seconds
+        required: false
+        default: "90"
+      scenes:
+        description: Scene count
+        required: false
+        default: "7"
+      tts_provider:
+        description: openai or elevenlabs
+        required: false
+        default: openai
+      image_quality:
+        description: low, medium, high
+        required: false
+        default: low
+      with_clip:
+        description: Try video AI clip true/false
+        required: false
+        default: "false"
+
+concurrency:
+  group: banyaktau-generate
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  generate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      PUBLIC_BASE_URL: ${{ secrets.PUBLIC_BASE_URL }}
+      UPLOAD_DRIVER: ${{ secrets.UPLOAD_DRIVER || 'sftp' }}
+      SFTP_HOST: ${{ secrets.SFTP_HOST || secrets.FTP_HOST }}
+      SFTP_PORT: ${{ secrets.SFTP_PORT || '22' }}
+      SFTP_USER: ${{ secrets.SFTP_USER || secrets.FTP_USER }}
+      SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD || secrets.FTP_PASSWORD }}
+      SFTP_REMOTE_DIR: ${{ secrets.SFTP_REMOTE_DIR || secrets.FTP_REMOTE_DIR }}
+      SFTP_UPLOAD_TIMEOUT_SECONDS: ${{ secrets.SFTP_UPLOAD_TIMEOUT_SECONDS || secrets.FTP_UPLOAD_TIMEOUT_SECONDS || '1200' }}
+      FTP_HOST: ${{ secrets.FTP_HOST }}
+      FTP_PORT: ${{ secrets.FTP_PORT || '21' }}
+      FTP_USER: ${{ secrets.FTP_USER }}
+      FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+      FTP_REMOTE_DIR: ${{ secrets.FTP_REMOTE_DIR }}
+      FTP_UPLOAD_TIMEOUT_SECONDS: ${{ secrets.FTP_UPLOAD_TIMEOUT_SECONDS || '1200' }}
+
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL || 'https://api.openai.com/v1' }}
+      STORY_MODEL: ${{ secrets.STORY_MODEL || 'gpt-4.1-mini' }}
+      IMAGE_MODEL: ${{ secrets.IMAGE_MODEL || 'gpt-image-1-mini' }}
+      IMAGE_SIZE: ${{ secrets.IMAGE_SIZE || '1024x1536' }}
+      IMAGE_QUALITY: ${{ github.event.inputs.image_quality || secrets.IMAGE_QUALITY || 'low' }}
+      OPENAI_TTS_MODEL: ${{ secrets.OPENAI_TTS_MODEL || 'gpt-4o-mini-tts' }}
+      OPENAI_TTS_VOICE: ${{ secrets.OPENAI_TTS_VOICE || 'shimmer' }}
+      ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+      ELEVENLABS_MODEL: ${{ secrets.ELEVENLABS_MODEL || 'eleven_multilingual_v2' }}
+      ELEVENLABS_VOICE_ID: ${{ secrets.ELEVENLABS_VOICE_ID }}
+
+      VIDEO_API_KEY: ${{ secrets.VIDEO_API_KEY || secrets.DINOIKI_API_KEY }}
+      VIDEO_BASE_URL: ${{ secrets.VIDEO_BASE_URL || 'https://ai.dinoiki.com' }}
+      VIDEO_ENDPOINT_MODE: ${{ secrets.VIDEO_ENDPOINT_MODE || 'gemini' }}
+      VIDEO_MODEL: ${{ secrets.VIDEO_MODEL || 'veo-3.1-lite-generate-preview' }}
+      VIDEO_SECONDS: ${{ secrets.VIDEO_SECONDS || '4' }}
+      VIDEO_USD_PER_SECOND: ${{ secrets.VIDEO_USD_PER_SECOND || '0.03' }}
+      SPEECH_TEMPO: ${{ secrets.SPEECH_TEMPO || '1.15' }}
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Check FFmpeg
+        id: ffmpeg
+        shell: bash
+        run: |
+          if command -v ffmpeg >/dev/null 2>&1 && command -v ffprobe >/dev/null 2>&1; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+            ffmpeg -version | head -n 1
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install FFmpeg
+        if: steps.ffmpeg.outputs.ready != 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ffmpeg
+
+      - name: Install dependencies
+        run: npm ci --no-audit --fund=false
+
+      - name: Validate source
+        run: npm run check
+
+      - name: Generate full video
+        run: |
+          npm run run:once -- \
+            --topic "${{ github.event.inputs.topic }}" \
+            --category "${{ github.event.inputs.category }}" \
+            --duration "${{ github.event.inputs.duration }}" \
+            --scenes "${{ github.event.inputs.scenes }}" \
+            --tts-provider "${{ github.event.inputs.tts_provider }}" \
+            --image-quality "${{ github.event.inputs.image_quality }}" \
+            --with-clip "${{ github.event.inputs.with_clip }}"
