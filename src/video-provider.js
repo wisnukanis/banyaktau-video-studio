@@ -21,7 +21,7 @@ async function generateGeminiClip({ itemId, scene, prompt }) {
     instances: [{ prompt: clipPrompt }],
     parameters: {
       aspectRatio: config.video.aspectRatio,
-      durationSeconds: String(Math.round(config.video.seconds)),
+      durationSeconds: Math.round(config.video.seconds),
       resolution: config.video.resolution,
       numberOfVideos: 1,
       negativePrompt: "text overlay, subtitles, watermark, logo, gore, injury, distorted hands, low quality"
@@ -193,7 +193,7 @@ function providerErrorMessage(url, status, detail) {
     if (/specify\s+"prompt"\s+or\s+"messages"/i.test(cleanDetail)) {
       return "Dinoiki menolak payload Veo/Gemini. Quick Start Dinoiki yang tersedia hanya mendokumentasikan chat, image, TTS, dan transcribe; endpoint video/Veo belum terlihat aktif untuk API key/base URL ini.";
     }
-    return `Endpoint Veo/Gemini menolak request (${status}). Kemungkinan model video belum tersedia di akun Dinoiki ini atau format endpoint-nya berbeda dari Gemini native. Detail: ${cleanDetail}`;
+    return `Endpoint Veo/Gemini menolak request (${status}). Kemungkinan model video belum tersedia untuk key ini atau format endpoint-nya berubah. Detail: ${cleanDetail}`;
   }
   return cleanDetail;
 }
