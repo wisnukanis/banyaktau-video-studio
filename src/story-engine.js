@@ -317,6 +317,7 @@ function buildPrompt(input, context) {
     idea ? "Pakai ide terpilih user sebagai sumber utama. Jangan mengganti topik atau angle utamanya." : "Jika user belum memilih ide, buat sendiri hook paling kuat dari topik yang tersedia.",
     idea ? `Ide terpilih:\n- Judul: ${idea.title}\n- Topik: ${idea.topic}\n- Hook: ${idea.hook}\n- Angle: ${idea.angle}\n- Alasan kuat: ${idea.whyGood}` : "",
     "Setelah hook, jelaskan isi video dengan alur: kejutan awal, penjelasan inti, analogi sederhana, bagian penting, lalu penutup yang membuat orang ingin tahu lebih banyak.",
+    "Jangan membuat scene atau screenText berjudul Kesimpulan, Kesimpulan Singkat, atau Summary. Pakai penutup natural tanpa label kesimpulan.",
     "Tulis narasi scene sebagai satu cerita utuh yang dibagi untuk visual, bukan potongan-potongan yang terasa terpisah.",
     "Setiap scene harus punya visualPrompt berbeda: variasikan objek close-up, diagram konseptual tanpa teks, manusia belajar/mengamati, timeline, eksperimen sederhana, alam, arsip sejarah, atau visual makro.",
     "Jangan minta gambar berisi teks, logo, watermark, atau wajah tokoh nyata yang masih hidup.",
@@ -367,7 +368,7 @@ function cleanPublicTitle(value) {
 }
 
 function normalizeScene(scene, index, input, durationSec) {
-  const screenText = cleanText(scene?.screenText || sceneTitle(index, input), 68);
+  const screenText = cleanSceneText(scene?.screenText || sceneTitle(index, input));
   const narration = cleanText(scene?.narration || fallbackNarration(index, input), 520);
   return {
     index: index + 1,
@@ -377,6 +378,15 @@ function normalizeScene(scene, index, input, durationSec) {
     imagePrompt: enhanceImagePrompt(scene?.imagePrompt || `${screenText}. ${narration}`, input, index),
     visualStyle: cleanText(scene?.visualStyle || visualStyle(index), 120)
   };
+}
+
+function cleanSceneText(value) {
+  const text = cleanText(value, 68)
+    .replace(/\bKesimpulan\s+Singkat\b/gi, "Fakta Utama")
+    .replace(/\bKesimpulan\b/gi, "Fakta Utama")
+    .replace(/\bSummary\b/gi, "Fakta Utama")
+    .trim();
+  return text || "Fakta Utama";
 }
 
 function normalizePoints(points) {
@@ -475,7 +485,7 @@ function sceneTitle(index, input) {
     "Bagian Paling Penting",
     "Kenapa Ini Menarik",
     "Yang Sering Salah Dipahami",
-    "Kesimpulan Singkat"
+    "Fakta Utama"
   ][index % 7] || input.category;
 }
 

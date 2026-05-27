@@ -6,7 +6,7 @@ import { clamp, safeFilename, splitLines } from "./util.js";
 
 const fps = 30;
 const introDuration = 3.0;
-const outroDuration = 2.0;
+const outroDuration = 3.0;
 
 export async function renderKnowledgeVideo(item) {
   const workDir = path.join(paths.workDir, item.id);
@@ -125,7 +125,7 @@ function buildOutroScene(item, lastScene) {
     kind: "outro",
     index: 999,
     durationSec: outroDuration,
-    screenText: summaryHeadline(item),
+    screenText: endOverlayText(item),
     narration: "",
     imageSourceSceneIndex: lastScene?.index || 1
   };
@@ -363,19 +363,24 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
     cursor = end;
   }
 
+  const subtitleEnd = Math.max(introDuration + 0.2, totalDuration - outroDuration - 0.08);
   for (const caption of timedCaptionSegments(item, {
     start: introDuration + 0.05,
     duration: narrationDuration ? narrationDuration / Math.max(0.1, Number(narrationTempo || 1)) : totalDuration - introDuration - outroDuration,
     tempo: narrationTempo
   })) {
-    events.push(dialogue(caption.start, caption.end, "Subtitle", `{\\fad(55,55)}${assEscape(caption.text)}`));
+    const start = Math.min(caption.start, subtitleEnd);
+    const end = Math.min(caption.end, subtitleEnd);
+    if (end - start >= 0.25) {
+      events.push(dialogue(start, end, "Subtitle", `{\\fad(55,55)}${assEscape(caption.text)}`));
+    }
   }
 
   events.push(dialogue(
     Math.max(0, totalDuration - outroDuration),
     totalDuration,
     "Point",
-    `{\\fad(100,100)}${assEscape(summaryText(item))}`
+    `{\\fad(120,180)}${assEscape(endOverlayText(item))}`
   ));
 
   const ass = [
@@ -390,7 +395,7 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
     `Style: Hook,${config.render.fontTitle},74,&H00FFFFFF,&H000000FF,&H98232A32,&HBB11171C,-1,0,0,0,100,100,0,0,1,3.5,0,5,80,80,140,1`,
     `Style: SceneTitle,${config.render.fontTitle},42,&H00F7F2DC,&H000000FF,&H90222A2C,&HAA15191D,-1,0,0,0,100,100,0,0,1,2.5,0,7,54,340,78,1`,
     `Style: Subtitle,${config.render.fontBody},58,&H00FFFFFF,&H000000FF,&H9A11171B,&HBF11171B,-1,0,0,0,100,100,0,0,1,4,1,2,80,80,550,1`,
-    `Style: Point,${config.render.fontBody},56,&H00FFFFFF,&H000000FF,&H9614191D,&HCC11171B,-1,0,0,0,100,100,0,0,1,3.6,1.2,2,64,64,350,1`,
+    `Style: Point,${config.render.fontBody},72,&H00FFFFFF,&H000000FF,&H8F11171B,&HCC11171B,-1,0,0,0,100,100,0,0,3,18,0,5,96,96,0,1`,
     "",
     "[Events]",
     "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
@@ -400,31 +405,35 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
   await fs.writeFile(outputPath, ass, "utf8");
 }
 
-function summaryHeadline(item) {
-  return splitLines(item.plan?.importantPoints?.[0] || item.plan?.summary || "Kesimpulan", 32, 2).join(" ");
-}
-
-function summaryText(item) {
+function endOverlayText(item) {
   const points = (item.plan?.importantPoints || [])
     .filter(Boolean)
     .slice(0, 2)
-    .map((point, index) => {
-      const lines = splitLines(shortenSummaryPoint(point), 22, 1);
-      if (!lines.length) return "";
-      lines[0] = `${index + 1}. ${lines[0]}`;
-      return lines.join("\\N");
-    })
+    .map((point) => shortenOverlayLine(point))
     .filter(Boolean);
-  if (points.length) return `KESIMPULAN\\N${points.join("\\N")}`;
-  return `KESIMPULAN\\N${splitLines(item.plan?.summary || "Simpan rasa penasaranmu.", 24, 2).join("\\N")}`;
+  if (points.length) return points.join("\\N");
+
+  return splitLines(shortenOverlayLine(item.plan?.summary || "Simpan rasa penasaranmu."), 22, 2).join("\\N");
 }
 
-function shortenSummaryPoint(value) {
-  const text = String(value || "").replace(/\s+/g, " ").trim();
-  if (text.length <= 38) return text;
-  const clipped = text.slice(0, 35);
+function shortenOverlayLine(value) {
+  const text = polishOverlayLine(normalizeSubtitleText(value));
+  if (text.length <= 34) return text;
+  const clipped = text.slice(0, 34);
   const atSpace = clipped.lastIndexOf(" ");
-  return `${clipped.slice(0, atSpace > 22 ? atSpace : clipped.length).trim()}...`;
+  return clipped.slice(0, atSpace > 20 ? atSpace : clipped.length).trim();
+}
+
+function polishOverlayLine(value) {
+  const text = String(value || "")
+    .replace(/\.$/, "")
+    .replace(/^Piramida dibangun dari\s+/i, "")
+    .replace(/\byang kuat dan tahan lama$/i, "kuat")
+    .replace(/^Blok batu disusun dengan presisi tinggi.*$/i, "Susunan batu sangat presisi")
+    .replace(/^Desain bentuk segitiga.*$/i, "Bentuk segitiga menahan tekanan")
+    .replace(/^Lingkungan gurun yang kering.*$/i, "Cuaca kering ikut mengawetkan")
+    .trim();
+  return text ? `${text[0].toUpperCase()}${text.slice(1)}` : "";
 }
 
 function timedCaptionSegments(item, timing) {
@@ -442,7 +451,8 @@ function timedCaptionSegments(item, timing) {
 }
 
 function captionSegments(text, start, end) {
-  const words = String(text || "").split(/\s+/).filter(Boolean);
+  const normalizedText = normalizeSubtitleText(text);
+  const words = normalizedText.split(/\s+/).filter(Boolean);
   const duration = Math.max(0.1, end - start);
   if (!words.length || duration <= 0.2) return [];
 
@@ -465,11 +475,24 @@ function captionSegments(text, start, end) {
     const segment = {
       start: cursor,
       end: Math.max(cursor + 0.35, next - 0.04),
-      text: splitLines(chunk, 28, 2).join("\\N")
+      text: splitLines(normalizeSubtitleText(chunk), 28, 2).join("\\N")
     };
     cursor = next;
     return segment;
   });
+}
+
+function normalizeSubtitleText(value) {
+  return String(value || "")
+    .replace(/\bKesimpulan\s+Singkat\b/gi, "Fakta Utama")
+    .replace(/\bkesimpulan\b/gi, "intinya")
+    .replace(/\bekstrim\b/gi, "ekstrem")
+    .replace(/\brapih\b/gi, "rapi")
+    .replace(/\blembab\b/gi, "lembap")
+    .replace(/\bnggak\b/gi, "tidak")
+    .replace(/\bkayak\b/gi, "seperti")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function dialogue(start, end, style, text) {
