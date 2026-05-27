@@ -6,7 +6,7 @@ import { clamp, safeFilename, splitLines } from "./util.js";
 
 const fps = 30;
 const introDuration = 3.0;
-const outroDuration = 1.6;
+const outroDuration = 4.8;
 
 export async function renderKnowledgeVideo(item) {
   const workDir = path.join(paths.workDir, item.id);
@@ -47,6 +47,9 @@ export async function renderKnowledgeVideo(item) {
   const subtitledPath = path.join(workDir, "visual-subtitled.mp4");
   await burnSubtitles({ inputPath: visualPath, assPath, outputPath: subtitledPath });
 
+  const brandedPath = path.join(workDir, "visual-branded.mp4");
+  await addLogoWatermark({ inputPath: subtitledPath, outputPath: brandedPath });
+
   const bedPath = path.join(workDir, "knowledge-bed.m4a");
   await makeKnowledgeBed({ outputPath: bedPath, duration: timing.totalDuration });
 
@@ -66,7 +69,7 @@ export async function renderKnowledgeVideo(item) {
   const provider = item.assets?.audio?.provider || "local";
   const filename = `${item.id}-${provider}-${safeFilename(item.title)}.mp4`;
   const outputPath = path.join(paths.videoDir, filename);
-  await muxVideoAudio({ videoPath: subtitledPath, audioPath, outputPath });
+  await muxVideoAudio({ videoPath: brandedPath, audioPath, outputPath });
 
   return {
     path: outputPath,
@@ -120,7 +123,7 @@ function buildOutroScene(item, lastScene) {
     kind: "outro",
     index: 999,
     durationSec: outroDuration,
-    screenText: item.plan.importantPoints?.[0] || "BanyakTau",
+    screenText: summaryHeadline(item),
     narration: "",
     imageSourceSceneIndex: lastScene?.index || 1
   };
@@ -213,6 +216,33 @@ async function burnSubtitles({ inputPath, assPath, outputPath }) {
     "-y",
     "-i", inputPath,
     "-vf", `ass=filename='${subtitlePath}'`,
+    "-c:v", "libx264",
+    "-preset", "veryfast",
+    "-crf", "21",
+    "-pix_fmt", "yuv420p",
+    outputPath
+  ]);
+}
+
+async function addLogoWatermark({ inputPath, outputPath }) {
+  const logoPath = path.join(paths.publicDir, "assets", "banyaktau-logo-watermark.png");
+  try {
+    await fs.access(logoPath);
+  } catch {
+    await fs.copyFile(inputPath, outputPath);
+    return;
+  }
+
+  await runFfmpeg([
+    "-y",
+    "-i", inputPath,
+    "-i", logoPath,
+    "-filter_complex",
+    [
+      "[1:v]scale=108:-1,format=rgba,colorchannelmixer=aa=0.58[wm]",
+      "[0:v][wm]overlay=W-w-40:40:format=auto[v]"
+    ].join(";"),
+    "-map", "[v]",
     "-c:v", "libx264",
     "-preset", "veryfast",
     "-crf", "21",
@@ -322,7 +352,6 @@ async function muxVideoAudio({ videoPath, audioPath, outputPath }) {
 
 async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, narrationTempo, totalDuration }) {
   const events = [];
-  events.push(dialogue(introDuration, totalDuration, "Brand", "BANYAKTAU"));
 
   let cursor = introDuration;
   for (const scene of scenes) {
@@ -340,8 +369,12 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
     events.push(dialogue(caption.start, caption.end, "Subtitle", `{\\fad(55,55)}${assEscape(caption.text)}`));
   }
 
-  const points = (item.plan.importantPoints || []).slice(0, 3).map((point) => `- ${point}`).join("\\N");
-  events.push(dialogue(Math.max(0, totalDuration - outroDuration), totalDuration, "Point", `{\\fad(140,120)}${assEscape(points || "Simpan rasa penasaranmu.")}`));
+  events.push(dialogue(
+    Math.max(0, totalDuration - outroDuration),
+    totalDuration,
+    "Point",
+    `{\\fad(260,260)}${assEscape(summaryText(item))}`
+  ));
 
   const ass = [
     "[Script Info]",
@@ -352,11 +385,10 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
     "",
     "[V4+ Styles]",
     "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-    `Style: Brand,${config.render.fontMono},32,&H00EAF2F0,&H000000FF,&H70121A1E,&H90121A1E,-1,0,0,0,100,100,2,0,1,2,0,7,54,54,54,1`,
     `Style: Hook,${config.render.fontTitle},74,&H00FFFFFF,&H000000FF,&H98232A32,&HBB11171C,-1,0,0,0,100,100,0,0,1,3.5,0,5,80,80,140,1`,
     `Style: SceneTitle,${config.render.fontTitle},46,&H00F7F2DC,&H000000FF,&H90222A2C,&HAA15191D,-1,0,0,0,100,100,0,0,1,2.5,0,8,80,80,116,1`,
     `Style: Subtitle,${config.render.fontBody},58,&H00FFFFFF,&H000000FF,&H9A11171B,&HBF11171B,-1,0,0,0,100,100,0,0,1,4,1,2,80,80,550,1`,
-    `Style: Point,${config.render.fontBody},39,&H00FFFFFF,&H000000FF,&H9021272D,&HBB11171B,-1,0,0,0,100,100,0,0,1,2.4,0,2,70,70,150,1`,
+    `Style: Point,${config.render.fontBody},38,&H00FFFFFF,&H000000FF,&H9A14191D,&HCC11171B,-1,0,0,0,100,100,0,0,1,2.8,1,2,72,72,310,1`,
     "",
     "[Events]",
     "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
@@ -364,6 +396,33 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
   ].join("\n");
 
   await fs.writeFile(outputPath, ass, "utf8");
+}
+
+function summaryHeadline(item) {
+  return splitLines(item.plan?.importantPoints?.[0] || item.plan?.summary || "Kesimpulan", 32, 2).join(" ");
+}
+
+function summaryText(item) {
+  const points = (item.plan?.importantPoints || [])
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((point, index) => {
+      const lines = splitLines(shortenSummaryPoint(point), 27, 2);
+      if (!lines.length) return "";
+      lines[0] = `${index + 1}. ${lines[0]}`;
+      return lines.join("\\N");
+    })
+    .filter(Boolean);
+  if (points.length) return `KESIMPULAN\\N${points.join("\\N")}`;
+  return `KESIMPULAN\\N${splitLines(item.plan?.summary || "Simpan rasa penasaranmu.", 31, 3).join("\\N")}`;
+}
+
+function shortenSummaryPoint(value) {
+  const text = String(value || "").replace(/\s+/g, " ").trim();
+  if (text.length <= 62) return text;
+  const clipped = text.slice(0, 59);
+  const atSpace = clipped.lastIndexOf(" ");
+  return `${clipped.slice(0, atSpace > 36 ? atSpace : clipped.length).trim()}...`;
 }
 
 function timedCaptionSegments(item, timing) {

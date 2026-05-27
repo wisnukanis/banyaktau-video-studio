@@ -31,7 +31,15 @@ export async function generateFullItem(input = {}, options = {}) {
   await ensureImages(item, { warnings, strict: true });
   await ensureAudio(item, { provider: item.input.ttsProvider, warnings, force: true });
   await ensureThumbnail(item, { warnings });
-  if (config.video.apiKey && options.withClip !== false) await ensureOptionalClip(item, { warnings });
+  if (config.video.apiKey && options.withClip !== false) {
+    if (options.requireClip) {
+      await ensureProviderClip(item, { sceneIndex: item.plan?.scenes?.[0]?.index });
+      item.updatedAt = nowIso();
+      await saveItem(item);
+    } else {
+      await ensureOptionalClip(item, { warnings });
+    }
+  }
   await renderAndPersist(item);
   return { item, warnings };
 }
@@ -51,7 +59,7 @@ export async function ensureProviderClip(item, options = {}) {
   const scenes = item.plan?.scenes || [];
   if (!scenes.length) throw new Error("Storyboard belum tersedia.");
   const requestedIndex = Number(options.sceneIndex);
-  const scene = scenes.find((entry) => Number(entry.index) === requestedIndex) || scenes[Math.min(1, scenes.length - 1)];
+  const scene = scenes.find((entry) => Number(entry.index) === requestedIndex) || scenes[0];
   const prompt = buildClipPrompt(item, scene);
   const clip = await generateVideoClip({ itemId: item.id, scene, prompt });
   clip.costUsd = estimateVideoUsd(clip.seconds, config.pricing);
@@ -67,7 +75,7 @@ export async function ensureOptionalClip(item, options = {}) {
   if (item.assets?.clips?.length) return;
   const warnings = options.warnings || [];
   try {
-    await ensureProviderClip(item, { sceneIndex: item.plan?.scenes?.[1]?.index || item.plan?.scenes?.[0]?.index });
+    await ensureProviderClip(item, { sceneIndex: item.plan?.scenes?.[0]?.index });
     item.updatedAt = nowIso();
     await saveItem(item);
   } catch (error) {

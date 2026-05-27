@@ -31,7 +31,7 @@ const withClip = boolValue(argValue("--with-clip", process.env.BANYAKTAU_WITH_CL
 console.log("BanyakTau run started.");
 console.log(`Category=${input.category}, duration=${input.durationSec}, scenes=${input.sceneCount}, withClip=${withClip}`);
 
-const result = await generateFullItem(input, { withClip });
+const result = await generateFullItem(input, { withClip, requireClip: withClip });
 if (remoteEnabled()) {
   result.item = absolutizeGeneratedUrls(result.item);
   await mergeRemoteState(result.item);

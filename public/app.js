@@ -789,14 +789,9 @@ function thumbnailUrl(item) {
 }
 
 function youtubeTitle(item) {
-  const raw = String(item?.title || item?.plan?.title || "Fakta Menarik yang Jarang Dibahas");
-  const cleaned = raw
-    .replace(/\b(gimana|sih|kok|dong)\b/gi, "")
+  return String(item?.title || item?.plan?.title || "Fakta Menarik yang Jarang Dibahas")
     .replace(/\s+/g, " ")
-    .trim()
-    .replace(/[?.!]+$/g, "");
-  if (/kenapa|rahasia|ternyata|cara|fakta/i.test(cleaned)) return `${cleaned}?`;
-  return `Kenapa ${cleaned.charAt(0).toLowerCase()}${cleaned.slice(1)}?`;
+    .trim();
 }
 
 function youtubeCaption(item) {
