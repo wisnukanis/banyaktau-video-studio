@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { spawn } from "node:child_process";
 import { config, paths } from "./config.js";
 import { safeFilename } from "./util.js";
 
@@ -69,17 +70,29 @@ export async function generateSceneImage({ itemId, scene, size, quality }) {
   const item = data.data?.[0];
   if (!item) throw new Error("OpenAI tidak mengembalikan gambar.");
 
-  const filename = `${itemId}-scene-${scene.index}-${safeFilename(scene.screenText)}.png`;
-  const outputPath = path.join(paths.imageDir, filename);
+  const rawFilename = `${itemId}-scene-${scene.index}-${safeFilename(scene.screenText)}-raw.png`;
+  const rawPath = path.join(paths.workDir, rawFilename);
+  let filename = `${itemId}-scene-${scene.index}-${safeFilename(scene.screenText)}.jpg`;
+  let outputPath = path.join(paths.imageDir, filename);
+  await fs.mkdir(paths.workDir, { recursive: true });
 
   if (item.b64_json) {
-    await fs.writeFile(outputPath, Buffer.from(item.b64_json, "base64"));
+    await fs.writeFile(rawPath, Buffer.from(item.b64_json, "base64"));
   } else if (item.url) {
     const image = await fetch(item.url);
     if (!image.ok) throw new Error(`Gagal download image: HTTP ${image.status}`);
-    await fs.writeFile(outputPath, Buffer.from(await image.arrayBuffer()));
+    await fs.writeFile(rawPath, Buffer.from(await image.arrayBuffer()));
   } else {
     throw new Error("Format response image tidak dikenali.");
+  }
+
+  try {
+    await optimizeImage(rawPath, outputPath);
+    await fs.rm(rawPath, { force: true });
+  } catch {
+    filename = `${itemId}-scene-${scene.index}-${safeFilename(scene.screenText)}.png`;
+    outputPath = path.join(paths.imageDir, filename);
+    await fs.rename(rawPath, outputPath);
   }
 
   return {
@@ -89,6 +102,26 @@ export async function generateSceneImage({ itemId, scene, size, quality }) {
     url: `/generated/images/${filename}`,
     prompt
   };
+}
+
+function optimizeImage(inputPath, outputPath) {
+  return new Promise((resolve, reject) => {
+    const child = spawn("ffmpeg", [
+      "-y",
+      "-i", inputPath,
+      "-vf", "scale=720:1280:force_original_aspect_ratio=increase,crop=720:1280",
+      "-frames:v", "1",
+      "-q:v", "7",
+      outputPath
+    ], { windowsHide: true, cwd: paths.rootDir });
+    let stderr = "";
+    child.stderr.on("data", (chunk) => { stderr += chunk.toString(); });
+    child.on("error", reject);
+    child.on("close", (code) => {
+      if (code === 0) resolve();
+      else reject(new Error(stderr || `Optimasi gambar gagal (${code})`));
+    });
+  });
 }
 
 export async function generateOpenAiSpeech({ itemId, text, voice, filenameSuffix = "openai" }) {

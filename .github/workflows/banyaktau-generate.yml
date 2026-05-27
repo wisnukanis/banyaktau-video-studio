@@ -45,19 +45,19 @@ jobs:
     timeout-minutes: 90
     env:
       PUBLIC_BASE_URL: ${{ secrets.PUBLIC_BASE_URL }}
-      UPLOAD_DRIVER: ${{ secrets.UPLOAD_DRIVER || 'sftp' }}
-      SFTP_HOST: ${{ secrets.SFTP_HOST || secrets.FTP_HOST }}
+      UPLOAD_DRIVER: ${{ secrets.UPLOAD_DRIVER || 'auto' }}
+      SFTP_HOST: ${{ secrets.SFTP_HOST }}
       SFTP_PORT: ${{ secrets.SFTP_PORT || '22' }}
-      SFTP_USER: ${{ secrets.SFTP_USER || secrets.FTP_USER }}
-      SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD || secrets.FTP_PASSWORD }}
-      SFTP_REMOTE_DIR: ${{ secrets.SFTP_REMOTE_DIR || secrets.FTP_REMOTE_DIR }}
-      SFTP_UPLOAD_TIMEOUT_SECONDS: ${{ secrets.SFTP_UPLOAD_TIMEOUT_SECONDS || secrets.FTP_UPLOAD_TIMEOUT_SECONDS || '1200' }}
+      SFTP_USER: ${{ secrets.SFTP_USER }}
+      SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+      SFTP_REMOTE_DIR: ${{ secrets.SFTP_REMOTE_DIR }}
+      SFTP_UPLOAD_TIMEOUT_SECONDS: ${{ secrets.SFTP_UPLOAD_TIMEOUT_SECONDS || '180' }}
       FTP_HOST: ${{ secrets.FTP_HOST }}
       FTP_PORT: ${{ secrets.FTP_PORT || '21' }}
       FTP_USER: ${{ secrets.FTP_USER }}
       FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
       FTP_REMOTE_DIR: ${{ secrets.FTP_REMOTE_DIR }}
-      FTP_UPLOAD_TIMEOUT_SECONDS: ${{ secrets.FTP_UPLOAD_TIMEOUT_SECONDS || '1200' }}
+      FTP_UPLOAD_TIMEOUT_SECONDS: ${{ secrets.FTP_UPLOAD_TIMEOUT_SECONDS || '180' }}
 
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL || 'https://api.openai.com/v1' }}

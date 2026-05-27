@@ -35,8 +35,15 @@ const result = await generateFullItem(input, { withClip });
 if (remoteEnabled()) {
   result.item = absolutizeGeneratedUrls(result.item);
   await saveItem(result.item);
-  await uploadGeneratedStateAndAssets();
-  console.log("Remote upload complete.");
+  try {
+    await uploadGeneratedStateAndAssets({ item: result.item });
+    console.log("Remote upload complete.");
+  } catch (error) {
+    const message = `Remote upload gagal: ${error.message}`;
+    result.warnings.push(message);
+    console.warn(message);
+    if (boolValue(process.env.BANYAKTAU_STRICT_REMOTE, false)) throw error;
+  }
 }
 
 console.log(JSON.stringify({

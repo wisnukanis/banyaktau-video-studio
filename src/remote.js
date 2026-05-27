@@ -14,10 +14,12 @@ export function remoteEnabled() {
 }
 
 export function remoteConfig() {
-  const driver = String(process.env.UPLOAD_DRIVER || "sftp").toLowerCase();
+  const requested = String(process.env.UPLOAD_DRIVER || "auto").toLowerCase();
+  const driver = requested === "auto"
+    ? process.env.SFTP_HOST ? "sftp" : process.env.FTP_HOST ? "ftp" : "none"
+    : requested;
   const prefix = driver === "ftp" ? "FTP" : "SFTP";
-  const fallbackPrefix = prefix === "SFTP" ? "FTP" : "SFTP";
-  const first = (name, fallback = "") => process.env[`${prefix}_${name}`] || process.env[`${fallbackPrefix}_${name}`] || fallback;
+  const first = (name, fallback = "") => process.env[`${prefix}_${name}`] || fallback;
   return {
     driver,
     prefix,
@@ -26,7 +28,7 @@ export function remoteConfig() {
     user: first("USER"),
     password: first("PASSWORD"),
     remoteDir: first("REMOTE_DIR"),
-    timeoutMs: Number(first("UPLOAD_TIMEOUT_SECONDS", "1200")) * 1000
+    timeoutMs: Number(first("UPLOAD_TIMEOUT_SECONDS", "180")) * 1000
   };
 }
 
@@ -41,13 +43,17 @@ export function assertRemoteConfig() {
   return cfg;
 }
 
-export async function uploadGeneratedStateAndAssets() {
+export async function uploadGeneratedStateAndAssets(options = {}) {
   const cfg = assertRemoteConfig();
   await withRemoteClient(cfg, async (client) => {
-    await uploadDir(client, paths.videoDir, "videos");
-    await uploadDir(client, paths.thumbnailDir, "thumbnails");
-    await uploadDir(client, paths.imageDir, "images");
-    await uploadDir(client, paths.audioDir, "audio");
+    if (options.item) {
+      await uploadItemAssets(client, options.item);
+    } else {
+      await uploadDir(client, paths.videoDir, "videos");
+      await uploadDir(client, paths.thumbnailDir, "thumbnails");
+      await uploadDir(client, paths.imageDir, "images");
+      await uploadDir(client, paths.audioDir, "audio");
+    }
     await uploadJsonFile(client, path.join(paths.dataDir, "items.json"), "state/items.json");
   });
 }
@@ -76,7 +82,7 @@ async function withRemoteClient(cfg, callback) {
   if (cfg.driver === "ftp") {
     const client = new FtpClient(cfg.timeoutMs);
     try {
-      await client.access({ host: cfg.host, port: cfg.port, user: cfg.user, password: cfg.password, secure: false });
+      await retryRemote(() => client.access({ host: cfg.host, port: cfg.port, user: cfg.user, password: cfg.password, secure: false }));
       await client.ensureDir(cfg.remoteDir);
       await callback(new FtpAdapter(client, cfg.remoteDir));
     } finally {
@@ -87,18 +93,49 @@ async function withRemoteClient(cfg, callback) {
 
   const client = new SftpClient();
   try {
-    await client.connect({
+    await retryRemote(() => client.connect({
       host: cfg.host,
       port: cfg.port,
       username: cfg.user,
       password: cfg.password,
       readyTimeout: cfg.timeoutMs
-    });
+    }));
     await client.mkdir(cfg.remoteDir, true);
     await callback(new SftpAdapter(client, cfg.remoteDir));
   } finally {
     await client.end().catch(() => {});
   }
+}
+
+async function uploadItemAssets(client, item) {
+  const assets = [
+    item.assets?.video,
+    item.assets?.thumbnail,
+    item.assets?.audio,
+    ...(item.assets?.images || []),
+    ...(item.assets?.clips || [])
+  ].filter((asset) => asset?.path && asset?.url);
+
+  for (const asset of assets) {
+    const remotePath = String(asset.url).replace(/^\/generated\//, "");
+    if (!remotePath || remotePath.startsWith("http")) continue;
+    await client.ensureDir(path.posix.dirname(remotePath));
+    await client.upload(asset.path, remotePath);
+  }
+}
+
+async function retryRemote(fn, attempts = 3) {
+  let lastError;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      return await fn();
+    } catch (error) {
+      lastError = error;
+      if (attempt === attempts) break;
+      await new Promise((resolve) => setTimeout(resolve, attempt * 3000));
+    }
+  }
+  throw lastError;
 }
 
 async function uploadDir(client, localDir, remoteSubdir) {
