@@ -322,7 +322,7 @@ async function muxVideoAudio({ videoPath, audioPath, outputPath }) {
 
 async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, narrationTempo, totalDuration }) {
   const events = [];
-  events.push(dialogue(0, totalDuration, "Brand", "BANYAKTAU"));
+  events.push(dialogue(introDuration, totalDuration, "Brand", "BANYAKTAU"));
 
   let cursor = introDuration;
   for (const scene of scenes) {

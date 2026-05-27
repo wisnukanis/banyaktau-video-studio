@@ -155,12 +155,18 @@ function sanitizeVideoPrompt(value) {
 }
 
 function videoHeaders(json = true) {
-  const headers = {
-    Authorization: `Bearer ${config.video.apiKey}`,
-    "x-goog-api-key": config.video.apiKey
-  };
+  const headers = isGoogleGeminiVideo()
+    ? { "x-goog-api-key": config.video.apiKey }
+    : {
+        Authorization: `Bearer ${config.video.apiKey}`,
+        "x-goog-api-key": config.video.apiKey
+      };
   if (json) headers["Content-Type"] = "application/json";
   return headers;
+}
+
+function isGoogleGeminiVideo() {
+  return /generativelanguage\.googleapis\.com/i.test(config.video.baseUrl);
 }
 
 async function fetchJson(url, options = {}) {

@@ -13,7 +13,7 @@ export default async function handler(req, res) {
       scenes: String(body.sceneCount || 7),
       tts_provider: clean(body.ttsProvider || "openai"),
       image_quality: clean(body.imageQuality || "low"),
-      with_clip: "false"
+      with_clip: "true"
     });
     sendJson(res, 200, {
       queued: true,

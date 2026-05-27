@@ -116,6 +116,8 @@ function findScholarFont() {
         "C:/Windows/Fonts/scholarb.ttf"
       ]
     : [
+        path.join(paths.publicDir, "assets", "fonts", "scholar-regular.otf").replace(/\\/g, "/"),
+        path.join(paths.publicDir, "assets", "fonts", "scholar-italic.otf").replace(/\\/g, "/"),
         "/usr/share/fonts/truetype/scholar/Scholar.ttf",
         "/usr/share/fonts/truetype/scholar/Scholar-Bold.ttf"
       ];

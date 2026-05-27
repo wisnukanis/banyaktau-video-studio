@@ -30,7 +30,7 @@ on:
       with_clip:
         description: Try video AI clip true/false
         required: false
-        default: "false"
+        default: "true"
 
 concurrency:
   group: banyaktau-generate
@@ -72,8 +72,8 @@ jobs:
       ELEVENLABS_MODEL: ${{ secrets.ELEVENLABS_MODEL || 'eleven_multilingual_v2' }}
       ELEVENLABS_VOICE_ID: ${{ secrets.ELEVENLABS_VOICE_ID }}
 
-      VIDEO_API_KEY: ${{ secrets.VIDEO_API_KEY || secrets.DINOIKI_API_KEY }}
-      VIDEO_BASE_URL: ${{ secrets.VIDEO_BASE_URL || 'https://ai.dinoiki.com' }}
+      VIDEO_API_KEY: ${{ secrets.VIDEO_API_KEY || secrets.GEMINI_API_KEY || secrets.DINOIKI_API_KEY }}
+      VIDEO_BASE_URL: ${{ secrets.VIDEO_BASE_URL || secrets.GEMINI_BASE_URL || 'https://generativelanguage.googleapis.com' }}
       VIDEO_ENDPOINT_MODE: ${{ secrets.VIDEO_ENDPOINT_MODE || 'gemini' }}
       VIDEO_MODEL: ${{ secrets.VIDEO_MODEL || 'veo-3.1-lite-generate-preview' }}
       VIDEO_SECONDS: ${{ secrets.VIDEO_SECONDS || '4' }}
