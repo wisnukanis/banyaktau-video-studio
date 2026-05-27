@@ -127,6 +127,9 @@ function buildOutroScene(item, lastScene) {
 }
 
 function resolveSceneMedia(item, scene) {
+  if (scene.kind === "intro" && item.assets?.thumbnail?.path) {
+    return { type: "image", path: item.assets.thumbnail.path };
+  }
   const sourceIndex = scene.imageSourceSceneIndex || scene.index;
   if (!scene.kind) {
     const clip = item.assets?.clips?.find((entry) => Number(entry.sceneIndex) === Number(sourceIndex));
@@ -319,9 +322,6 @@ async function muxVideoAudio({ videoPath, audioPath, outputPath }) {
 
 async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, narrationTempo, totalDuration }) {
   const events = [];
-  const introEnd = introDuration;
-  const hookLines = splitLines(item.plan.hook || item.title, 18, 3).join("\\N");
-  events.push(dialogue(0.15, introEnd - 0.08, "Hook", `{\\fad(160,160)}${assEscape(hookLines)}`));
   events.push(dialogue(0, totalDuration, "Brand", "BANYAKTAU"));
 
   let cursor = introDuration;

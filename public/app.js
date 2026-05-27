@@ -4,7 +4,8 @@ const state = {
   ideas: [],
   selectedIdea: null,
   config: null,
-  busy: false
+  busy: false,
+  pollTimer: 0
 };
 
 const YOUTUBE_UPLOAD_URL = "https://www.youtube.com/upload";
@@ -189,6 +190,7 @@ async function generateDraft() {
 }
 
 async function generateFull() {
+  const previousLatestId = state.items[0]?.id || "";
   setBusy(true, "Preflight dashboard sebelum generate...");
   try {
     await runPreflight({ quiet: true });
@@ -201,6 +203,7 @@ async function generateFull() {
     await refreshItems();
     if (data.queued) {
       setStatus(statusWithWarnings("Workflow GitHub Actions dimulai. Video akan muncul otomatis di Galeri setelah selesai.", data.warnings));
+      startResultPolling(previousLatestId);
     } else {
       const hasClip = data.item.assets?.clips?.length;
       setStatus(statusWithWarnings(
@@ -214,6 +217,34 @@ async function generateFull() {
     setBusy(false);
     render();
   }
+}
+
+function startResultPolling(previousLatestId) {
+  window.clearInterval(state.pollTimer);
+  let attempts = 0;
+  state.pollTimer = window.setInterval(async () => {
+    attempts += 1;
+    try {
+      await refreshItems();
+      const latest = state.items[0];
+      const hasNewVideo = latest?.id && latest.id !== previousLatestId && latest.assets?.video?.url;
+      if (hasNewVideo) {
+        state.current = latest;
+        window.clearInterval(state.pollTimer);
+        state.pollTimer = 0;
+        setStatus("Video baru sudah muncul di dashboard.");
+      } else if (attempts >= 60) {
+        window.clearInterval(state.pollTimer);
+        state.pollTimer = 0;
+        setStatus("Generate masih diproses atau upload belum masuk. Klik Preflight lalu refresh galeri sebentar lagi.");
+      } else {
+        setStatus(`Generate masih berjalan. Cek otomatis ${attempts}/60...`);
+      }
+      render();
+    } catch (error) {
+      setStatus(`Cek hasil generate gagal: ${error.message}`);
+    }
+  }, 15000);
 }
 
 async function runPreflight(options = {}) {

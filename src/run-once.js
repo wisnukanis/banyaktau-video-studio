@@ -1,6 +1,6 @@
 import { ensureProjectDirs } from "./config.js";
 import { generateFullItem } from "./pipeline.js";
-import { absolutizeGeneratedUrls, remoteEnabled, uploadGeneratedStateAndAssets } from "./remote.js";
+import { absolutizeGeneratedUrls, publicBaseUrl, remoteEnabled, uploadGeneratedStateAndAssets } from "./remote.js";
 import { saveItem } from "./storage.js";
 
 function argValue(name, fallback = "") {
@@ -34,6 +34,7 @@ console.log(`Category=${input.category}, duration=${input.durationSec}, scenes=$
 const result = await generateFullItem(input, { withClip });
 if (remoteEnabled()) {
   result.item = absolutizeGeneratedUrls(result.item);
+  await mergeRemoteState(result.item);
   await saveItem(result.item);
   try {
     await uploadGeneratedStateAndAssets({ item: result.item });
@@ -53,3 +54,19 @@ console.log(JSON.stringify({
   videoUrl: result.item.assets?.video?.url || "",
   warnings: result.warnings
 }, null, 2));
+
+async function mergeRemoteState(currentItem) {
+  const base = publicBaseUrl();
+  if (!base) return;
+  try {
+    const response = await fetch(`${base}/state/items.json?v=${Date.now()}`, { cache: "no-store" });
+    if (!response.ok) return;
+    const remoteItems = await response.json();
+    if (!Array.isArray(remoteItems)) return;
+    for (const item of remoteItems) {
+      if (item?.id && item.id !== currentItem.id) await saveItem(item);
+    }
+  } catch (error) {
+    result.warnings.push(`Remote state lama tidak bisa digabung: ${error.message}`);
+  }
+}

@@ -13,34 +13,33 @@ export async function generateThumbnail(item) {
   const filename = `${item.id}-thumbnail-${safeFilename(item.title)}.jpg`;
   const outputPath = path.join(paths.thumbnailDir, filename);
   const titleLines = fitLines(shortTitle(item.title || item.plan?.hook || "BanyakTau"), {
-    maxChars: 15,
+    maxChars: 14,
     maxLines: 4
   });
   const titleSize = titleFontSize(titleLines);
-  const titleY = titleLines.length > 3 ? 1060 : 1130;
-  const titleStep = titleSize + 12;
+  const titleY = titleLines.length > 3 ? 1140 : 1220;
+  const titleStep = titleSize + 14;
   const textFilters = [
     ...drawLineFilters(titleLines, {
-      x: 72,
+      x: 74,
       y: titleY,
       step: titleStep,
       fontsize: titleSize,
-      color: "white",
-      borderw: 5
+      color: "0xFFF6D7",
+      borderw: 6
     })
   ];
   const logoPath = path.join(paths.publicDir, "assets", "banyaktau-logo-watermark.png");
   const hasLogo = fsSync.existsSync(logoPath);
+  const finalInput = hasLogo ? "[marked]" : "[base]";
   const filter = [
-    "[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,eq=contrast=1.10:saturation=1.08:brightness=-0.012[hero]",
-    "[hero]drawbox=x=0:y=0:w=1080:h=1920:color=black@0.08:t=fill[shade]",
-    "[shade]drawbox=x=0:y=940:w=1080:h=980:color=black@0.54:t=fill[base]",
+    "[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,eq=contrast=1.12:saturation=1.10:brightness=-0.01[hero]",
+    "[hero]drawbox=x=0:y=980:w=1080:h=940:color=black@0.64:t=fill[panel]",
+    "[panel]drawbox=x=0:y=980:w=1080:h=10:color=0xF5C84C@1:t=fill[accent]",
+    "[accent]drawbox=x=74:y=1052:w=156:h=12:color=0xF5C84C@1:t=fill[base]",
     hasLogo ? "[1:v]scale=245:-1,format=rgba,colorchannelmixer=aa=0.78[wm]" : "",
     hasLogo ? "[base][wm]overlay=x=W-w-42:y=36[marked]" : "",
-    [
-      `${hasLogo ? "[marked]" : "[base]"}drawbox=x=72:y=${titleY - 36}:w=124:h=12:color=0xF5C84C@1:t=fill`,
-      ...textFilters
-    ].join(",")
+    `${finalInput}${textFilters.join(",")}`
   ].filter(Boolean).join(";");
 
   const args = [
