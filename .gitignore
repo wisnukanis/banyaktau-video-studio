@@ -1,0 +1,16 @@
+node_modules/
+npm-debug.log*
+*.log
+
+.env
+*.env
+!.env.example
+
+data/items.json
+generated/audio/
+generated/images/
+generated/videos/
+generated/work/
+
+.DS_Store
+Thumbs.db

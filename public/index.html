@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BanyakTau Studio</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span>BT</span>
+          <div>
+            <strong>BanyakTau</strong>
+            <small>Knowledge video studio</small>
+          </div>
+        </div>
+
+        <form id="generateForm" class="form-stack">
+          <label>
+            <span>Topik</span>
+            <textarea name="topic" rows="5">Kapal bisa mengambang karena prinsip Archimedes</textarea>
+          </label>
+
+          <div class="two-col">
+            <label>
+              <span>Kategori</span>
+              <select name="category">
+                <option value="random">Random</option>
+                <option value="sains">Sains</option>
+                <option value="penemuan">Penemuan</option>
+                <option value="sejarah">Sejarah</option>
+                <option value="tubuh manusia">Tubuh manusia</option>
+                <option value="alam semesta">Alam semesta</option>
+                <option value="teknologi">Teknologi</option>
+                <option value="benda sehari-hari">Benda sehari-hari</option>
+              </select>
+            </label>
+
+            <label>
+              <span>Durasi maks.</span>
+              <select name="durationSec">
+                <option value="75">75 detik</option>
+                <option value="90" selected>90 detik</option>
+                <option value="110">110 detik</option>
+                <option value="120">120 detik</option>
+              </select>
+            </label>
+          </div>
+
+          <label>
+            <span>Hook awal</span>
+            <select name="hookStyle">
+              <option>Ternyata ini yang disebut...</option>
+              <option>Penemu ini ternyata...</option>
+              <option>Kita bisa lahir di dunia karena...</option>
+              <option>Kapal bisa mengambang karena...</option>
+              <option>Anak kecil akan berjalan karena...</option>
+              <option>Penemu lampu ternyata...</option>
+              <option>Ternyata emas bisa...</option>
+              <option>Rahasia kandungan di dalam air putih...</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Gaya suara</span>
+            <input name="tone" value="natural, penasaran, hangat, seperti kreator pengetahuan yang enak didengar">
+          </label>
+
+          <fieldset>
+            <legend>Pilih TTS sebelum generate</legend>
+            <label class="radio-row">
+              <input type="radio" name="ttsProvider" value="openai" checked>
+              <span>OpenAI natural</span>
+            </label>
+            <label class="radio-row">
+              <input type="radio" name="ttsProvider" value="elevenlabs">
+              <span>ElevenLabs natural</span>
+            </label>
+          </fieldset>
+
+          <div class="two-col">
+            <label>
+              <span>Scene</span>
+              <select name="sceneCount">
+                <option value="6">6</option>
+                <option value="7" selected>7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+              </select>
+            </label>
+
+            <label>
+              <span>Kualitas gambar</span>
+              <select name="imageQuality">
+                <option value="low" selected>Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </label>
+          </div>
+
+          <button id="fullBtn" class="primary" type="submit">Generate Video</button>
+          <button id="draftBtn" class="secondary" type="button">Draft Saja</button>
+        </form>
+
+        <section class="history-block">
+          <div class="section-head">
+            <strong>Riwayat</strong>
+            <span id="itemCount">0</span>
+          </div>
+          <div id="itemList" class="item-list"></div>
+        </section>
+      </aside>
+
+      <section class="workspace">
+        <header class="topbar">
+          <div>
+            <p id="statusText">Siap membuat video pengetahuan.</p>
+            <h1 id="itemTitle">Belum ada video</h1>
+          </div>
+          <div class="toolbar">
+            <button id="imageBtn" class="ghost" type="button">Gambar</button>
+            <button id="ttsBtn" class="ghost" type="button">TTS</button>
+            <button id="renderBtn" class="ghost strong" type="button">Render</button>
+          </div>
+        </header>
+
+        <section class="metrics">
+          <div>
+            <span>Token</span>
+            <strong id="tokenMetric">0</strong>
+          </div>
+          <div>
+            <span>Gambar</span>
+            <strong id="imageMetric">$0.000</strong>
+          </div>
+          <div>
+            <span>TTS</span>
+            <strong id="ttsMetric">$0.000</strong>
+          </div>
+          <div>
+            <span>Total</span>
+            <strong id="totalMetric">$0.000</strong>
+          </div>
+        </section>
+
+        <section class="preview-grid">
+          <div class="video-panel">
+            <div id="videoSlot" class="video-slot">Video belum dirender</div>
+          </div>
+
+          <div class="summary-panel">
+            <div class="hook-box">
+              <span>Hook</span>
+              <strong id="hookText">-</strong>
+            </div>
+            <div>
+              <h2>Bagian Penting</h2>
+              <ul id="pointList"></ul>
+            </div>
+            <div>
+              <h2>Catatan</h2>
+              <p id="factNote">-</p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="section-head wide">
+            <strong>Storyboard</strong>
+            <span id="assetStatus">Belum ada aset</span>
+          </div>
+          <div id="sceneGrid" class="scene-grid"></div>
+        </section>
+      </section>
+    </main>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

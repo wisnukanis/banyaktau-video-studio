@@ -1,0 +1,16 @@
+{
+  "name": "banyaktau-video-studio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Local-first studio for Indonesian knowledge and encyclopedia short videos with AI scripts, images, TTS choices, and FFmpeg rendering.",
+  "scripts": {
+    "dev": "node src/server.js",
+    "start": "node src/server.js",
+    "check": "node --check src/server.js && node --check src/story-engine.js && node --check src/render.js && node --check src/openai.js && node --check src/elevenlabs.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^5.2.1"
+  }
+}
