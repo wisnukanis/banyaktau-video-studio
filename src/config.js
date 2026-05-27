@@ -20,7 +20,9 @@ function numberEnv(name, fallback) {
 }
 
 function bool(value) {
-  return Boolean(String(value || "").trim());
+  const cleaned = String(value || "").trim().toLowerCase();
+  if (!cleaned) return false;
+  return !["0", "false", "no", "off"].includes(cleaned);
 }
 
 function trimSlash(value) {
