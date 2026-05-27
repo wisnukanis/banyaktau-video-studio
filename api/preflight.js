@@ -8,7 +8,12 @@ export default async function handler(req, res) {
   checks.push(check("GH_REPO_SECRET_TOKEN", Boolean(process.env.GH_REPO_SECRET_TOKEN || process.env.GITHUB_TOKEN), "Token GitHub untuk dispatch workflow."));
   checks.push(check("DASHBOARD_GITHUB_REPO", Boolean(process.env.DASHBOARD_GITHUB_REPO || process.env.GITHUB_REPOSITORY), "Repo target workflow."));
   checks.push(check("PUBLIC_BASE_URL", Boolean(process.env.PUBLIC_BASE_URL), "Base URL state dan asset."));
-  checks.push(check("OPENAI_API_KEY", Boolean(process.env.OPENAI_API_KEY), "Secret workflow untuk generate."));
+  checks.push(check(
+    "WORKFLOW_SECRETS",
+    true,
+    "Secret OpenAI/Gemini/upload dicek di GitHub Actions saat workflow berjalan.",
+    false
+  ));
   if (String(process.env.FACEBOOK_UPLOAD_ENABLED || "").toLowerCase() === "true") {
     checks.push(check("FACEBOOK_PAGE_ID", Boolean(process.env.BANYAKTAU_FACEBOOK_PAGE_ID || process.env.FACEBOOK_PAGE_ID), "Page Facebook BanyakTau untuk auto upload."));
     checks.push(check("FACEBOOK_TOKEN", Boolean(
@@ -22,7 +27,12 @@ export default async function handler(req, res) {
   const driver = clean(process.env.UPLOAD_DRIVER || "auto");
   const hasSftp = Boolean(process.env.SFTP_HOST && process.env.SFTP_USER && process.env.SFTP_PASSWORD && process.env.SFTP_REMOTE_DIR);
   const hasFtp = Boolean(process.env.FTP_HOST && process.env.FTP_USER && process.env.FTP_PASSWORD && process.env.FTP_REMOTE_DIR);
-  checks.push(check("UPLOAD_REMOTE", driver === "auto" ? hasSftp || hasFtp : driver === "sftp" ? hasSftp : hasFtp, `Driver: ${driver}`));
+  checks.push(check(
+    "UPLOAD_REMOTE",
+    driver === "auto" ? hasSftp || hasFtp : driver === "sftp" ? hasSftp : hasFtp,
+    `Driver: ${driver}. Jika kosong di Vercel, workflow tetap memakai GitHub Secrets.`,
+    false
+  ));
 
   const items = await readRemoteItems();
   checks.push(check("STATE_ITEMS", Array.isArray(items), `${items.length || 0} item terbaca.`));
