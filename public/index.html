@@ -20,54 +20,47 @@
 
         <form id="generateForm" class="form-stack">
           <input name="topic" type="hidden" value="">
-          <button id="ideaBtn" class="secondary accent" type="button">Generate Ide</button>
-          <div id="selectedIdea" class="selected-idea">Belum ada ide terpilih.</div>
-          <ol class="flow-list">
-            <li data-step="ideas"><strong>1. Ide</strong><span>Pilih topik yang paling menarik.</span></li>
-            <li data-step="storyboard"><strong>2. Storyboard</strong><span>Cek naskah, scene, dan visual.</span></li>
-            <li data-step="video"><strong>3. Video</strong><span>Generate final: gambar, TTS, clip opsional, render.</span></li>
-          </ol>
-
-          <div class="two-col">
-            <label>
-              <span>Kategori</span>
-              <select name="category">
-                <option value="random">Random</option>
-                <option value="sains">Sains</option>
-                <option value="penemuan">Penemuan</option>
-                <option value="sejarah">Sejarah</option>
-                <option value="tubuh manusia">Tubuh manusia</option>
-                <option value="alam semesta">Alam semesta</option>
-                <option value="teknologi">Teknologi</option>
-                <option value="benda sehari-hari">Benda sehari-hari</option>
-              </select>
-            </label>
-
-            <label>
-              <span>Durasi maks.</span>
-              <select name="durationSec">
-                <option value="75">75 detik</option>
-                <option value="90" selected>90 detik</option>
-                <option value="110">110 detik</option>
-                <option value="120">120 detik</option>
-              </select>
-            </label>
-          </div>
-
-          <fieldset>
-            <legend>Pilih TTS sebelum generate</legend>
-            <label class="radio-row">
-              <input type="radio" name="ttsProvider" value="openai" checked>
-              <span>OpenAI natural</span>
-            </label>
-            <label class="radio-row">
-              <input type="radio" name="ttsProvider" value="elevenlabs">
-              <span>ElevenLabs natural</span>
-            </label>
-          </fieldset>
+          <button id="fullBtn" class="primary make-video-btn" type="submit">Buat Video</button>
+          <p class="one-click-copy">Sistem otomatis memilih ide, membuat storyboard, gambar, suara, subtitle, thumbnail, dan video final.</p>
 
           <details class="advanced-fields">
-            <summary>Setting storyboard</summary>
+            <summary>Opsi video</summary>
+            <div class="two-col">
+              <label>
+                <span>Kategori</span>
+                <select name="category">
+                  <option value="random">Random</option>
+                  <option value="sains">Sains</option>
+                  <option value="penemuan">Penemuan</option>
+                  <option value="sejarah">Sejarah</option>
+                  <option value="tubuh manusia">Tubuh manusia</option>
+                  <option value="alam semesta">Alam semesta</option>
+                  <option value="teknologi">Teknologi</option>
+                  <option value="benda sehari-hari">Benda sehari-hari</option>
+                </select>
+              </label>
+
+              <label>
+                <span>Durasi maks.</span>
+                <select name="durationSec">
+                  <option value="75">75 detik</option>
+                  <option value="90" selected>90 detik</option>
+                  <option value="110">110 detik</option>
+                  <option value="120">120 detik</option>
+                </select>
+              </label>
+            </div>
+            <fieldset>
+              <legend>TTS</legend>
+              <label class="radio-row">
+                <input type="radio" name="ttsProvider" value="openai" checked>
+                <span>OpenAI/Dinoiki natural</span>
+              </label>
+              <label class="radio-row">
+                <input type="radio" name="ttsProvider" value="elevenlabs">
+                <span>ElevenLabs natural</span>
+              </label>
+            </fieldset>
             <label>
               <span>Gaya suara</span>
               <input name="tone" value="natural, penasaran, hangat, seperti kreator pengetahuan yang enak didengar">
@@ -93,9 +86,6 @@
               </label>
             </div>
           </details>
-
-          <button id="draftBtn" class="secondary" type="button">Buat Storyboard</button>
-          <button id="fullBtn" class="primary" type="submit">Generate Video Final</button>
         </form>
 
         <section class="settings-block">
@@ -216,14 +206,14 @@
             <h1 id="itemTitle">Belum ada video</h1>
           </div>
           <div class="toolbar">
-            <button id="imageBtn" class="ghost" type="button" title="Manual: buat ulang gambar untuk storyboard ini">Buat Gambar</button>
-            <button id="ttsBtn" class="ghost" type="button" title="Manual: buat ulang suara dari naskah ini">Buat TTS</button>
-            <button id="clipBtn" class="ghost" type="button" title="Opsional: tambah satu B-roll video AI pendek ke scene yang dipilih">Tambah Clip Veo</button>
-            <button id="renderBtn" class="ghost strong" type="button" title="Manual: gabungkan aset yang sudah ada menjadi video final">Render Ulang</button>
+            <button id="imageBtn" class="ghost d-none" type="button">Buat Gambar</button>
+            <button id="ttsBtn" class="ghost d-none" type="button">Buat TTS</button>
+            <button id="clipBtn" class="ghost d-none" type="button">Tambah Clip Veo</button>
+            <button id="renderBtn" class="ghost strong d-none" type="button">Render Ulang</button>
           </div>
         </header>
 
-        <section id="ideaPanel" class="idea-panel">
+        <section id="ideaPanel" class="idea-panel d-none">
           <div class="section-head wide">
             <strong>Rekomendasi Ide</strong>
             <span id="ideaMeta">Pilih satu ide untuk storyboard</span>

@@ -62,12 +62,12 @@ function bindEvents() {
   els.settingsTabs.forEach((tab) => {
     tab.addEventListener("click", () => showSettingsTab(tab.dataset.settingsTab));
   });
-  els.ideaBtn.addEventListener("click", generateIdeas);
-  els.draftBtn.addEventListener("click", generateDraft);
-  els.imageBtn.addEventListener("click", generateImages);
-  els.ttsBtn.addEventListener("click", generateTts);
-  els.clipBtn.addEventListener("click", () => generateClip());
-  els.renderBtn.addEventListener("click", renderVideo);
+  els.ideaBtn?.addEventListener("click", generateIdeas);
+  els.draftBtn?.addEventListener("click", generateDraft);
+  els.imageBtn?.addEventListener("click", generateImages);
+  els.ttsBtn?.addEventListener("click", generateTts);
+  els.clipBtn?.addEventListener("click", () => generateClip());
+  els.renderBtn?.addEventListener("click", renderVideo);
 }
 
 async function saveSettings(event) {
@@ -174,8 +174,7 @@ async function generateDraft() {
 }
 
 async function generateFull() {
-  if (!(await ensureSelectedIdea())) return;
-  setBusy(true, "Generate lengkap: storyboard, gambar, TTS, clip opsional, dan render final...");
+  setBusy(true, "Membuat video otomatis dari ide sampai final...");
   try {
     const data = await api("/api/items/full", {
       method: "POST",
@@ -282,7 +281,7 @@ function formPayload() {
   return {
     topic: form.get("topic"),
     category: form.get("category"),
-    selectedIdea: state.selectedIdea,
+    selectedIdea: null,
     tone: form.get("tone"),
     ttsProvider: form.get("ttsProvider"),
     durationSec: Number(form.get("durationSec")),
@@ -372,12 +371,13 @@ function renderGallery() {
   }
   els.galleryGrid.innerHTML = videos.map((item) => `
     <article class="gallery-card">
-      <video controls playsinline preload="metadata" src="${item.assets.video.url}"></video>
+      <video controls playsinline preload="metadata" poster="${item.assets.thumbnail?.url || ""}" src="${item.assets.video.url}"></video>
       <div class="gallery-body">
         <strong>${escapeHtml(item.title)}</strong>
         <span>${formatDuration(item.assets.video.durationSec)} - ${new Date(item.updatedAt || item.createdAt).toLocaleString("id-ID")}</span>
         <div class="gallery-actions">
           <a class="mini-action" href="${item.assets.video.url}" download>Download</a>
+          ${item.assets.thumbnail?.url ? `<a class="mini-action" href="${item.assets.thumbnail.url}" download>Thumbnail</a>` : ""}
           <a class="mini-action" href="${item.assets.video.url}" target="_blank" rel="noreferrer">Buka</a>
           <button type="button" class="mini-action" data-copy-url="${item.assets.video.url}">Copy Link</button>
         </div>
@@ -499,14 +499,14 @@ function renderCurrent() {
 function renderButtons() {
   const hasItem = Boolean(state.current);
   const provider = new FormData(els.form).get("ttsProvider");
-  els.ideaBtn.disabled = state.busy;
+  if (els.ideaBtn) els.ideaBtn.disabled = state.busy;
   els.fullBtn.disabled = state.busy;
-  els.draftBtn.disabled = state.busy;
+  if (els.draftBtn) els.draftBtn.disabled = state.busy;
   els.settingsBtn.disabled = state.busy;
-  els.imageBtn.disabled = state.busy || !hasItem;
-  els.ttsBtn.disabled = state.busy || !hasItem || !providerReady(provider);
-  els.clipBtn.disabled = state.busy || !hasItem || !providerReady("video");
-  els.renderBtn.disabled = state.busy || !hasItem;
+  if (els.imageBtn) els.imageBtn.disabled = state.busy || !hasItem;
+  if (els.ttsBtn) els.ttsBtn.disabled = state.busy || !hasItem || !providerReady(provider);
+  if (els.clipBtn) els.clipBtn.disabled = state.busy || !hasItem || !providerReady("video");
+  if (els.renderBtn) els.renderBtn.disabled = state.busy || !hasItem;
 }
 
 function providerReady(provider) {

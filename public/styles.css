@@ -186,6 +186,18 @@ fieldset {
   color: #17201f;
 }
 
+.make-video-btn {
+  min-height: 58px;
+  font-size: 20px;
+  letter-spacing: 0;
+}
+
+.one-click-copy {
+  margin: -4px 0 0;
+  color: rgba(249, 243, 231, 0.72);
+  font-size: 13px;
+}
+
 .secondary {
   background: transparent;
   color: #fffaf0;

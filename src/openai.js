@@ -127,6 +127,47 @@ export async function generateOpenAiSpeech({ itemId, text, voice, filenameSuffix
   };
 }
 
+export async function transcribeSpeechSegments(audioPath) {
+  assertOpenAi();
+  try {
+    return await transcribeSpeechSegmentsWithModel(audioPath, config.openai.transcribeModel);
+  } catch (error) {
+    if (!/verbose_json|response_format|timestamp/i.test(error.message) || config.openai.transcribeModel === "whisper-1") {
+      throw error;
+    }
+    return transcribeSpeechSegmentsWithModel(audioPath, "whisper-1");
+  }
+}
+
+async function transcribeSpeechSegmentsWithModel(audioPath, model) {
+  const buffer = await fs.readFile(audioPath);
+  const form = new FormData();
+  form.append("file", new Blob([buffer]), path.basename(audioPath));
+  form.append("model", model);
+  form.append("language", "id");
+  form.append("response_format", "verbose_json");
+
+  const response = await fetch(`${config.openai.baseUrl}/audio/transcriptions`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${config.openai.apiKey}` },
+    body: form
+  });
+  const data = await parseOpenAiResponse(response);
+  const segments = Array.isArray(data.segments) ? data.segments : [];
+  if (segments.length) {
+    return segments
+      .map((segment) => ({
+        start: Number(segment.start || 0),
+        end: Number(segment.end || 0),
+        text: String(segment.text || "").replace(/\s+/g, " ").trim()
+      }))
+      .filter((segment) => segment.text && segment.end > segment.start);
+  }
+
+  const text = String(data.text || "").replace(/\s+/g, " ").trim();
+  return text ? [{ start: 0, end: 0, text }] : [];
+}
+
 function providerName() {
   return /dinoiki/i.test(config.openai.baseUrl) ? "dinoiki" : "openai";
 }

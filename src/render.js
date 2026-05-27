@@ -293,9 +293,10 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
     cursor = end;
   }
 
-  for (const caption of narrationCaptionSegments(item, {
+  for (const caption of timedCaptionSegments(item, {
     start: introDuration + 0.05,
-    duration: narrationDuration ? narrationDuration / Math.max(0.1, Number(narrationTempo || 1)) : totalDuration - introDuration - outroDuration
+    duration: narrationDuration ? narrationDuration / Math.max(0.1, Number(narrationTempo || 1)) : totalDuration - introDuration - outroDuration,
+    tempo: narrationTempo
   })) {
     events.push(dialogue(caption.start, caption.end, "Subtitle", `{\\fad(55,55)}${assEscape(caption.text)}`));
   }
@@ -326,7 +327,13 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
   await fs.writeFile(outputPath, ass, "utf8");
 }
 
-function narrationCaptionSegments(item, timing) {
+function timedCaptionSegments(item, timing) {
+  const transcript = Array.isArray(item.assets?.captions) ? item.assets.captions : [];
+  const transcriptEvents = transcript
+    .filter((entry) => entry.text && Number(entry.end) > Number(entry.start))
+    .flatMap((entry) => captionSegments(entry.text, timing.start + Number(entry.start) / timing.tempo, timing.start + Number(entry.end) / timing.tempo));
+  if (transcriptEvents.length) return transcriptEvents;
+
   const text = (item.plan?.scenes || [])
     .map((scene) => String(scene.narration || "").trim())
     .filter(Boolean)

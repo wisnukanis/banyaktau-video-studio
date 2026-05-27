@@ -34,6 +34,7 @@ export const paths = {
   imageDir: path.join(rootDir, "generated", "images"),
   audioDir: path.join(rootDir, "generated", "audio"),
   clipDir: path.join(rootDir, "generated", "clips"),
+  thumbnailDir: path.join(rootDir, "generated", "thumbnails"),
   videoDir: path.join(rootDir, "generated", "videos"),
   workDir: path.join(rootDir, "generated", "work"),
   publicDir: path.join(rootDir, "public")
@@ -56,7 +57,8 @@ export const config = {
     imageSize: clean(process.env.IMAGE_SIZE || "1024x1536"),
     imageQuality: clean(process.env.IMAGE_QUALITY || "low"),
     ttsModel: clean(process.env.OPENAI_TTS_MODEL || process.env.TTS_MODEL || "gpt-4o-mini-tts"),
-    ttsVoice: clean(process.env.OPENAI_TTS_VOICE || process.env.TTS_VOICE || "shimmer")
+    ttsVoice: clean(process.env.OPENAI_TTS_VOICE || process.env.TTS_VOICE || "shimmer"),
+    transcribeModel: clean(process.env.OPENAI_TRANSCRIBE_MODEL || "whisper-1")
   },
   video: {
     provider: clean(process.env.VIDEO_PROVIDER || "dinoiki-gemini"),
@@ -117,6 +119,7 @@ export function publicConfig() {
       openaiApiKeySet: bool(config.openai.apiKey),
       openaiTtsModel: config.openai.ttsModel,
       openaiTtsVoice: config.openai.ttsVoice,
+      openaiTranscribeModel: config.openai.transcribeModel,
       elevenlabsApiKeySet: bool(config.elevenlabs.apiKey),
       elevenlabsModel: config.elevenlabs.model,
       elevenlabsVoiceId: config.elevenlabs.voiceId
@@ -137,6 +140,7 @@ export async function updateRuntimeSettings(input = {}) {
   const elevenlabsKey = clean(input.elevenlabsApiKey);
   const openaiTtsVoice = clean(input.openaiTtsVoice);
   const openaiTtsModel = clean(input.openaiTtsModel);
+  const openaiTranscribeModel = clean(input.openaiTranscribeModel);
   const videoApiKey = clean(input.videoApiKey);
   const videoBaseUrl = trimSlash(input.videoBaseUrl);
   const videoEndpointMode = clean(input.videoEndpointMode);
@@ -156,6 +160,7 @@ export async function updateRuntimeSettings(input = {}) {
   if (elevenlabsKey) updates.ELEVENLABS_API_KEY = elevenlabsKey;
   if (openaiTtsVoice) updates.OPENAI_TTS_VOICE = openaiTtsVoice;
   if (openaiTtsModel) updates.OPENAI_TTS_MODEL = openaiTtsModel;
+  if (openaiTranscribeModel) updates.OPENAI_TRANSCRIBE_MODEL = openaiTranscribeModel;
   if (videoApiKey) updates.VIDEO_API_KEY = videoApiKey;
   if (videoBaseUrl) updates.VIDEO_BASE_URL = videoBaseUrl;
   if (["gemini", "openai-videos"].includes(videoEndpointMode)) updates.VIDEO_ENDPOINT_MODE = videoEndpointMode;
@@ -210,6 +215,7 @@ function applyConfigUpdates(updates) {
   if (updates.IMAGE_MODEL !== undefined) config.openai.imageModel = updates.IMAGE_MODEL;
   if (updates.OPENAI_TTS_MODEL !== undefined) config.openai.ttsModel = updates.OPENAI_TTS_MODEL;
   if (updates.OPENAI_TTS_VOICE !== undefined) config.openai.ttsVoice = updates.OPENAI_TTS_VOICE;
+  if (updates.OPENAI_TRANSCRIBE_MODEL !== undefined) config.openai.transcribeModel = updates.OPENAI_TRANSCRIBE_MODEL;
   if (updates.VIDEO_API_KEY !== undefined) config.video.apiKey = updates.VIDEO_API_KEY;
   if (updates.VIDEO_BASE_URL !== undefined) config.video.baseUrl = trimSlash(updates.VIDEO_BASE_URL);
   if (updates.VIDEO_ENDPOINT_MODE !== undefined) config.video.endpointMode = updates.VIDEO_ENDPOINT_MODE;

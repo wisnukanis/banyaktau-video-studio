@@ -2,8 +2,9 @@ import { spawnSync } from "node:child_process";
 import { config } from "./config.js";
 import { estimateTtsUsd, estimateVideoUsd } from "./cost.js";
 import { generateElevenLabsSpeech } from "./elevenlabs.js";
-import { generateOpenAiSpeech, generateSceneImage } from "./openai.js";
+import { generateOpenAiSpeech, generateSceneImage, transcribeSpeechSegments } from "./openai.js";
 import { renderKnowledgeVideo } from "./render.js";
+import { generateThumbnail } from "./thumbnail.js";
 import { getItem, listItems, saveItem } from "./storage.js";
 import { createIdeaRecommendations, createKnowledgeDraft } from "./story-engine.js";
 import { nowIso } from "./util.js";
@@ -29,6 +30,7 @@ export async function generateFullItem(input = {}, options = {}) {
   await saveItem(item);
   await ensureImages(item, { warnings, strict: true });
   await ensureAudio(item, { provider: item.input.ttsProvider, warnings, force: true });
+  await ensureThumbnail(item, { warnings });
   if (config.video.apiKey && options.withClip !== false) await ensureOptionalClip(item, { warnings });
   await renderAndPersist(item);
   return { item, warnings };
@@ -113,6 +115,12 @@ export async function ensureAudio(item, options = {}) {
       ? await generateElevenLabsSpeech({ itemId: item.id, text, filenameSuffix: "elevenlabs-natural" })
       : await generateOpenAiSpeech({ itemId: item.id, text, filenameSuffix: "openai-natural" });
     item.assets.audio.characters = text.length;
+    try {
+      item.assets.captions = await transcribeSpeechSegments(item.assets.audio.path);
+    } catch (error) {
+      warnings.push(`Transkripsi subtitle gagal: ${error.message}`);
+      item.assets.captions = [];
+    }
     item.input.ttsProvider = provider;
     item.cost.ttsUsd = estimateTtsUsd(text.length, provider, config.pricing);
     updateTotalCost(item);
@@ -122,6 +130,18 @@ export async function ensureAudio(item, options = {}) {
     if (options.strict) throw error;
     warnings.push(`TTS gagal: ${error.message}`);
     if (!hasWarningSink) throw error;
+  }
+}
+
+export async function ensureThumbnail(item, options = {}) {
+  if (item.assets.thumbnail?.path) return;
+  const warnings = options.warnings || [];
+  try {
+    item.assets.thumbnail = await generateThumbnail(item);
+    item.updatedAt = nowIso();
+    await saveItem(item);
+  } catch (error) {
+    warnings.push(`Thumbnail gagal: ${error.message}`);
   }
 }
 

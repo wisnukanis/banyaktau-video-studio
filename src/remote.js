@@ -45,6 +45,7 @@ export async function uploadGeneratedStateAndAssets() {
   const cfg = assertRemoteConfig();
   await withRemoteClient(cfg, async (client) => {
     await uploadDir(client, paths.videoDir, "videos");
+    await uploadDir(client, paths.thumbnailDir, "thumbnails");
     await uploadDir(client, paths.imageDir, "images");
     await uploadDir(client, paths.audioDir, "audio");
     await uploadJsonFile(client, path.join(paths.dataDir, "items.json"), "state/items.json");
@@ -64,6 +65,7 @@ export function absolutizeGeneratedUrls(item) {
       ...item.assets,
       video: withUrl(item.assets?.video),
       audio: withUrl(item.assets?.audio),
+      thumbnail: withUrl(item.assets?.thumbnail),
       images: (item.assets?.images || []).map(withUrl),
       clips: (item.assets?.clips || []).map(withUrl)
     }

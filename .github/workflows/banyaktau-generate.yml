@@ -67,6 +67,7 @@ jobs:
       IMAGE_QUALITY: ${{ github.event.inputs.image_quality || secrets.IMAGE_QUALITY || 'low' }}
       OPENAI_TTS_MODEL: ${{ secrets.OPENAI_TTS_MODEL || 'gpt-4o-mini-tts' }}
       OPENAI_TTS_VOICE: ${{ secrets.OPENAI_TTS_VOICE || 'shimmer' }}
+      OPENAI_TRANSCRIBE_MODEL: ${{ secrets.OPENAI_TRANSCRIBE_MODEL || 'whisper-1' }}
       ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
       ELEVENLABS_MODEL: ${{ secrets.ELEVENLABS_MODEL || 'eleven_multilingual_v2' }}
       ELEVENLABS_VOICE_ID: ${{ secrets.ELEVENLABS_VOICE_ID }}

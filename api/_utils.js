@@ -88,6 +88,7 @@ export function publicConfig() {
       openaiApiKeySet: Boolean(process.env.OPENAI_API_KEY),
       openaiTtsModel: clean(process.env.OPENAI_TTS_MODEL || "gpt-4o-mini-tts"),
       openaiTtsVoice: clean(process.env.OPENAI_TTS_VOICE || "shimmer"),
+      openaiTranscribeModel: clean(process.env.OPENAI_TRANSCRIBE_MODEL || "whisper-1"),
       elevenlabsApiKeySet: Boolean(process.env.ELEVENLABS_API_KEY),
       elevenlabsModel: clean(process.env.ELEVENLABS_MODEL || "eleven_multilingual_v2"),
       elevenlabsVoiceId: clean(process.env.ELEVENLABS_VOICE_ID || "")
