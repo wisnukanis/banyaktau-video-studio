@@ -590,25 +590,18 @@ async function copyVideoLink(item) {
 }
 
 async function downloadVideo(item) {
-  const url = item?.assets?.video?.url;
-  if (!url) return;
-  const resolvedUrl = absoluteUrl(url);
+  if (!item?.assets?.video?.url) return;
+  const resolvedUrl = downloadUrl(item);
   if (isIOS()) {
-    setStatus("iPhone: video dibuka di tab baru. Tekan tombol Share, lalu pilih Save Video atau Save to Files. Judul dan caption juga sudah disalin.");
-    const opened = window.open(resolvedUrl, "_blank", "noopener");
+    setStatus("iPhone: file video akan dibuka sebagai unduhan. Jika muncul preview, tekan Share lalu Save Video atau Save to Files. Judul dan caption juga disalin.");
+    const opened = openDownload(resolvedUrl, item);
     await copyText(youtubeCopy(item));
     if (!opened) window.location.href = resolvedUrl;
     return;
   }
 
-  const link = document.createElement("a");
-  link.href = resolvedUrl;
-  link.download = `${slugify(item.title || item.id || "banyaktau-video")}.mp4`;
-  link.rel = "noreferrer";
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  setStatus("Download video dimulai. Kalau browser hanya membuka video, klik kanan lalu Save video.");
+  openDownload(resolvedUrl, item);
+  setStatus("Download video dimulai.");
 }
 
 async function shareToYoutube(item) {
@@ -701,6 +694,25 @@ async function copyText(value) {
 
 function absoluteUrl(url) {
   return new URL(url, window.location.origin).href;
+}
+
+function downloadUrl(item) {
+  const params = new URLSearchParams({ id: item.id });
+  const pin = localStorage.getItem("banyaktau_pin") || "123456";
+  if (pin) params.set("pin", pin);
+  return `/api/download?${params.toString()}`;
+}
+
+function openDownload(url, item) {
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `${slugify(item?.title || item?.id || "banyaktau-video")}.mp4`;
+  link.target = "_blank";
+  link.rel = "noreferrer";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  return true;
 }
 
 function isIOS() {
