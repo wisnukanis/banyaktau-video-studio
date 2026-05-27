@@ -340,6 +340,10 @@ function showSettingsTab(name) {
 }
 
 function renderProviderStatus() {
+  if (state.config?.dashboard?.vercel) {
+    els.providerStatus.textContent = "GitHub Actions aktif";
+    return;
+  }
   const openai = state.config?.providers?.openai ? "OpenAI aktif" : "OpenAI kosong";
   const elevenlabs = state.config?.providers?.elevenlabs ? "Eleven aktif" : "Eleven kosong";
   const video = state.config?.providers?.videoApiKeySet ? "Video aktif" : "Video kosong";
