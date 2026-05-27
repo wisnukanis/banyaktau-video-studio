@@ -219,6 +219,12 @@ async function burnSubtitles({ inputPath, assPath, outputPath }) {
 }
 
 async function makeKnowledgeBed({ outputPath, duration }) {
+  const customMusic = await findBackgroundMusic();
+  if (customMusic) {
+    await makeCustomMusicBed({ inputPath: customMusic, outputPath, duration });
+    return;
+  }
+
   const fadeOutAt = Math.max(0.1, duration - 1.2).toFixed(2);
   await runFfmpeg([
     "-y",
@@ -230,6 +236,39 @@ async function makeKnowledgeBed({ outputPath, duration }) {
       `[1:a]volume=0.012,afade=t=in:st=0:d=2.2,afade=t=out:st=${fadeOutAt}:d=1.2[a1]`,
       "[a0][a1]amix=inputs=2:duration=longest:normalize=0,alimiter=limit=0.62[a]"
     ].join(";"),
+    "-map", "[a]",
+    "-c:a", "aac",
+    "-b:a", "128k",
+    outputPath
+  ]);
+}
+
+async function findBackgroundMusic() {
+  const candidates = [
+    process.env.BANYAKTAU_MUSIC_PATH,
+    path.join(paths.rootDir, "assets", "music", "eksplorasi-literasi.m4a"),
+    path.join(paths.rootDir, "assets", "music", "eksplorasi-literasi.mp3")
+  ].filter(Boolean);
+  for (const candidate of candidates) {
+    try {
+      await fs.access(candidate);
+      return candidate;
+    } catch {
+      // Try next candidate.
+    }
+  }
+  return "";
+}
+
+async function makeCustomMusicBed({ inputPath, outputPath, duration }) {
+  const fadeOutAt = Math.max(0.1, duration - 1.4).toFixed(2);
+  await runFfmpeg([
+    "-y",
+    "-stream_loop", "-1",
+    "-i", inputPath,
+    "-t", duration.toFixed(2),
+    "-filter_complex",
+    `aformat=sample_rates=44100:channel_layouts=stereo,volume=0.18,afade=t=in:st=0:d=1.4,afade=t=out:st=${fadeOutAt}:d=1.4,alimiter=limit=0.72[a]`,
     "-map", "[a]",
     "-c:a", "aac",
     "-b:a", "128k",

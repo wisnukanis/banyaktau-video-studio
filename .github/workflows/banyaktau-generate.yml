@@ -87,6 +87,7 @@ jobs:
         with:
           node-version: "22"
           cache: npm
+          cache-dependency-path: package-lock.json
 
       - name: Check FFmpeg
         id: ffmpeg
@@ -110,6 +111,9 @@ jobs:
 
       - name: Validate source
         run: npm run check
+
+      - name: Preflight
+        run: npm run preflight
 
       - name: Generate full video
         run: |

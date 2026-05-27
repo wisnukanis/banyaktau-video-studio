@@ -14,6 +14,7 @@ const els = {
   fullBtn: document.querySelector("#fullBtn"),
   draftBtn: document.querySelector("#draftBtn"),
   settingsBtn: document.querySelector("#settingsBtn"),
+  preflightBtn: document.querySelector("#preflightBtn"),
   imageBtn: document.querySelector("#imageBtn"),
   ttsBtn: document.querySelector("#ttsBtn"),
   clipBtn: document.querySelector("#clipBtn"),
@@ -67,6 +68,7 @@ function bindEvents() {
   });
   els.ideaBtn?.addEventListener("click", generateIdeas);
   els.draftBtn?.addEventListener("click", generateDraft);
+  els.preflightBtn?.addEventListener("click", runPreflight);
   els.imageBtn?.addEventListener("click", generateImages);
   els.ttsBtn?.addEventListener("click", generateTts);
   els.clipBtn?.addEventListener("click", () => generateClip());
@@ -178,8 +180,10 @@ async function generateDraft() {
 }
 
 async function generateFull() {
-  setBusy(true, "Membuat video otomatis dari ide sampai final...");
+  setBusy(true, "Preflight dashboard sebelum generate...");
   try {
+    await runPreflight({ quiet: true });
+    setStatus("Membuat video otomatis dari ide sampai final...");
     const data = await api("/api/items/full", {
       method: "POST",
       body: JSON.stringify(formPayload())
@@ -200,6 +204,24 @@ async function generateFull() {
   } finally {
     setBusy(false);
     render();
+  }
+}
+
+async function runPreflight(options = {}) {
+  if (!options.quiet) setBusy(true, "Menjalankan preflight...");
+  try {
+    const data = await api("/api/preflight");
+    const failed = (data.checks || []).filter((check) => !check.ok);
+    setStatus(failed.length ? `${data.summary} ${failed[0].name}: ${failed[0].detail}` : data.summary);
+    return data;
+  } catch (error) {
+    setStatus(`Preflight gagal: ${error.message}`);
+    throw error;
+  } finally {
+    if (!options.quiet) {
+      setBusy(false);
+      render();
+    }
   }
 }
 
@@ -533,6 +555,7 @@ function renderButtons() {
   const hasItem = Boolean(state.current);
   const provider = new FormData(els.form).get("ttsProvider");
   if (els.ideaBtn) els.ideaBtn.disabled = state.busy;
+  if (els.preflightBtn) els.preflightBtn.disabled = state.busy;
   els.fullBtn.disabled = state.busy;
   if (els.draftBtn) els.draftBtn.disabled = state.busy;
   els.settingsBtn.disabled = state.busy;

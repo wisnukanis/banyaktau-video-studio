@@ -117,10 +117,27 @@ async function uploadItemAssets(client, item) {
   ].filter((asset) => asset?.path && asset?.url);
 
   for (const asset of assets) {
-    const remotePath = String(asset.url).replace(/^\/generated\//, "");
+    const remotePath = remotePathFromAssetUrl(asset.url);
     if (!remotePath || remotePath.startsWith("http")) continue;
     await client.ensureDir(path.posix.dirname(remotePath));
     await client.upload(asset.path, remotePath);
+  }
+}
+
+function remotePathFromAssetUrl(value) {
+  const raw = String(value || "");
+  if (!raw) return "";
+  if (raw.startsWith("/generated/")) return raw.replace(/^\/generated\//, "");
+  if (raw.startsWith("/")) return raw.replace(/^\/+/, "");
+  try {
+    const url = new URL(raw);
+    const pathname = decodeURIComponent(url.pathname).replace(/^\/+/, "");
+    const generatedIndex = pathname.indexOf("generated/");
+    if (generatedIndex >= 0) return pathname.slice(generatedIndex + "generated/".length);
+    const known = pathname.match(/(?:^|\/)(videos|thumbnails|images|audio|clips)\/[^/]+$/);
+    return known ? known[0].replace(/^\/+/, "") : "";
+  } catch {
+    return "";
   }
 }
 
