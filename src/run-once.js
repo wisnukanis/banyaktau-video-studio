@@ -113,14 +113,32 @@ async function publishSocialsIfEnabled(result) {
 
 function socialDescription(item) {
   const points = (item.plan?.importantPoints || [])
-    .slice(0, 2)
+    .slice(0, 3)
     .map((point) => `- ${point}`)
     .join("\n");
+  const summary = cleanCaptionLine(item.plan?.summary);
+  const question = socialQuestion(item);
   return [
-    item.plan?.hook || item.title,
-    points,
-    "#BanyakTau #FaktaMenarik #Pengetahuan #Reels"
+    item.plan?.hook || `Ternyata ${item.title} punya fakta yang jarang dibahas.`,
+    summary,
+    points ? `Intinya:\n${points}` : "",
+    question,
+    "Simpan dulu biar tidak lupa, dan kirim ke teman yang suka fakta unik.",
+    "#BanyakTau #FaktaMenarik #TahukahKamu #Pengetahuan #Sains #Sejarah #EdukasiRingan #ReelsIndonesia"
   ].filter(Boolean).join("\n\n");
+}
+
+function cleanCaptionLine(value) {
+  return String(value || "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 420);
+}
+
+function socialQuestion(item) {
+  const topic = cleanCaptionLine(item.input?.topic || item.title).replace(/[?.!]+$/g, "");
+  if (!topic) return "Menurut kamu, fakta mana yang paling bikin kaget?";
+  return `Menurut kamu, bagian paling menarik dari ${topic} apa? Tulis di komentar.`;
 }
 
 function publishSummary(published) {
