@@ -26,6 +26,19 @@ export async function runPreflight() {
     checks.push(checkValue("FACEBOOK_TOKEN", Boolean(config.facebook.accessToken || config.facebook.userAccessToken), "Page token atau user token Facebook wajib diisi."));
   }
 
+  if (config.instagram.enabled) {
+    checks.push(checkValue(
+      "INSTAGRAM_TARGET",
+      Boolean(config.instagram.igUserId || config.facebook.pageId),
+      "Isi INSTAGRAM_IG_USER_ID, atau hubungkan Instagram Business ke Facebook Page target."
+    ));
+    checks.push(checkValue(
+      "INSTAGRAM_TOKEN",
+      Boolean(config.instagram.accessToken || config.facebook.userAccessToken || config.facebook.accessToken),
+      "Access token Instagram atau token Meta/Facebook yang punya izin instagram_content_publish."
+    ));
+  }
+
   checks.push(await checkFile("background_music", path.join(paths.rootDir, "assets", "music", "eksplorasi-literasi.m4a")));
 
   const failed = checks.filter((check) => !check.ok);

@@ -25,6 +25,11 @@ function bool(value) {
   return !["0", "false", "no", "off"].includes(cleaned);
 }
 
+function boolDefault(value, fallback) {
+  const cleaned = String(value ?? "").trim();
+  return cleaned ? bool(cleaned) : fallback;
+}
+
 function trimSlash(value) {
   return clean(value).replace(/\/+$/g, "");
 }
@@ -82,6 +87,15 @@ export const config = {
     videoState: clean(process.env.FACEBOOK_VIDEO_STATE || "PUBLISHED"),
     titlePrefix: clean(process.env.FACEBOOK_TITLE_PREFIX || "")
   },
+  instagram: {
+    enabled: bool(process.env.INSTAGRAM_UPLOAD_ENABLED || process.env.BANYAKTAU_INSTAGRAM_UPLOAD_ENABLED),
+    igUserId: clean(process.env.BANYAKTAU_INSTAGRAM_IG_USER_ID || process.env.INSTAGRAM_IG_USER_ID),
+    accessToken: process.env.BANYAKTAU_INSTAGRAM_ACCESS_TOKEN || process.env.INSTAGRAM_ACCESS_TOKEN || "",
+    shareToFeed: boolDefault(process.env.INSTAGRAM_SHARE_TO_FEED, true),
+    containerPollSeconds: Math.min(60, Math.max(2, numberEnv("INSTAGRAM_CONTAINER_POLL_SECONDS", 6))),
+    containerMaxAttempts: Math.min(180, Math.max(5, numberEnv("INSTAGRAM_CONTAINER_MAX_ATTEMPTS", 90))),
+    maxDurationSec: Math.max(1, numberEnv("INSTAGRAM_MAX_DURATION_SECONDS", 90))
+  },
   gemini: {
     apiKey: process.env.GEMINI_API_KEY || "",
     baseUrl: trimSlash(process.env.GEMINI_BASE_URL || "https://generativelanguage.googleapis.com")
@@ -129,6 +143,9 @@ export function publicConfig() {
       facebookUploadEnabled: config.facebook.enabled,
       facebookPageIdSet: bool(config.facebook.pageId),
       facebookPageTokenSet: bool(config.facebook.accessToken || config.facebook.userAccessToken),
+      instagramUploadEnabled: config.instagram.enabled,
+      instagramIgUserIdSet: bool(config.instagram.igUserId),
+      instagramAccessTokenSet: bool(config.instagram.accessToken),
       geminiApiKeySet: bool(config.gemini.apiKey),
       geminiBaseUrl: config.gemini.baseUrl,
       openaiApiKeySet: bool(config.openai.apiKey),

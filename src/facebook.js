@@ -4,6 +4,10 @@ function clean(value) {
   return String(value || "").trim();
 }
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 function graphUrl(apiPath) {
   return `https://graph.facebook.com/${config.facebook.graphApiVersion}/${apiPath}`;
 }
@@ -33,6 +37,21 @@ function assertFacebookConfig() {
     missing.push("BANYAKTAU_FACEBOOK_PAGE_ACCESS_TOKEN / FACEBOOK_PAGE_ACCESS_TOKEN atau USER token");
   }
   if (missing.length) throw new Error(`Config Facebook belum lengkap: ${missing.join(", ")}`);
+}
+
+function assertInstagramVideo({ videoUrl, durationSec }) {
+  const missing = [];
+  if (!config.instagram.enabled) missing.push("INSTAGRAM_UPLOAD_ENABLED=true");
+  if (!videoUrl) missing.push("public video URL");
+  if (missing.length) throw new Error(`Config Instagram belum lengkap: ${missing.join(", ")}`);
+
+  const duration = Number(durationSec || 0);
+  if (duration && duration > config.instagram.maxDurationSec) {
+    throw new Error(
+      `Durasi video ${duration.toFixed(1)} detik melebihi batas Instagram Reels ` +
+      `${config.instagram.maxDurationSec} detik. Turunkan durasi video atau ubah INSTAGRAM_MAX_DURATION_SECONDS jika akun mendukung.`
+    );
+  }
 }
 
 async function fetchJson(url, options = {}) {
@@ -65,6 +84,33 @@ async function resolvePageAccessToken() {
   const page = (data.data || []).find((entry) => String(entry.id) === String(config.facebook.pageId));
   if (!page?.access_token) throw new Error("User token Facebook tidak punya akses ke Page target.");
   return page.access_token;
+}
+
+async function resolveOptionalPageAccessToken() {
+  if (config.facebook.accessToken) return config.facebook.accessToken;
+  if (!config.facebook.userAccessToken || !config.facebook.pageId) return "";
+  return resolvePageAccessToken();
+}
+
+function resolveInstagramAccessToken(pageToken = "") {
+  return clean(config.instagram.accessToken || config.facebook.userAccessToken || pageToken || config.facebook.accessToken);
+}
+
+async function resolveInstagramUserId(token) {
+  if (config.instagram.igUserId) return config.instagram.igUserId;
+  if (!config.facebook.pageId) {
+    throw new Error("INSTAGRAM_IG_USER_ID belum diisi dan FACEBOOK_PAGE_ID tidak tersedia untuk auto-resolve.");
+  }
+
+  const url = new URL(graphUrl(config.facebook.pageId));
+  url.searchParams.set("fields", "instagram_business_account{id,username}");
+  url.searchParams.set("access_token", token);
+  const data = await fetchJson(url);
+  const igUserId = clean(data.instagram_business_account?.id);
+  if (!igUserId) {
+    throw new Error("Facebook Page belum terhubung ke Instagram Business/Creator account, atau token belum punya akses.");
+  }
+  return igUserId;
 }
 
 async function publishFacebookPageVideo({ token, videoUrl, title, description }) {
@@ -142,6 +188,100 @@ async function publishFacebookReel({ token, videoUrl, title, description }) {
   });
 }
 
+async function createInstagramReelContainer({ token, igUserId, videoUrl, caption, coverUrl }) {
+  const body = new URLSearchParams({
+    access_token: token,
+    media_type: "REELS",
+    video_url: videoUrl,
+    caption: normalizeDescription(caption),
+    share_to_feed: config.instagram.shareToFeed ? "true" : "false"
+  });
+  if (coverUrl) body.set("cover_url", coverUrl);
+
+  const data = await fetchJson(graphUrl(`${igUserId}/media`), {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body
+  });
+  const containerId = clean(data.id);
+  if (!containerId) throw new Error(`Instagram tidak mengembalikan container id: ${JSON.stringify(data).slice(0, 500)}`);
+  return containerId;
+}
+
+async function getInstagramContainerStatus({ token, containerId }) {
+  const url = new URL(graphUrl(containerId));
+  url.searchParams.set("fields", "id,status_code,status");
+  url.searchParams.set("access_token", token);
+  return fetchJson(url);
+}
+
+async function waitForInstagramContainer({ token, containerId }) {
+  const maxAttempts = config.instagram.containerMaxAttempts;
+  const delayMs = config.instagram.containerPollSeconds * 1000;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    const status = await getInstagramContainerStatus({ token, containerId });
+    const code = clean(status.status_code);
+    if (code === "FINISHED") return status;
+    if (code === "ERROR" || code === "EXPIRED") {
+      throw new Error(`Instagram container gagal diproses: ${containerId}, status=${code || status.status || "unknown"}`);
+    }
+    await sleep(delayMs);
+  }
+
+  const waitedMinutes = Math.round((maxAttempts * delayMs) / 60000);
+  throw new Error(`Instagram container belum siap setelah ${waitedMinutes} menit: ${containerId}`);
+}
+
+async function publishInstagramContainer({ token, igUserId, containerId }) {
+  const body = new URLSearchParams({
+    access_token: token,
+    creation_id: containerId
+  });
+  const data = await fetchJson(graphUrl(`${igUserId}/media_publish`), {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body
+  });
+  const mediaId = clean(data.id);
+  if (!mediaId) throw new Error(`Instagram tidak mengembalikan media id: ${JSON.stringify(data).slice(0, 500)}`);
+  return mediaId;
+}
+
+async function resolveInstagramPermalink({ token, mediaId }) {
+  try {
+    const url = new URL(graphUrl(mediaId));
+    url.searchParams.set("fields", "permalink");
+    url.searchParams.set("access_token", token);
+    const data = await fetchJson(url);
+    return clean(data.permalink);
+  } catch {
+    return "";
+  }
+}
+
+export async function publishToInstagram({ videoUrl, title, description, coverUrl, durationSec }) {
+  assertInstagramVideo({ videoUrl, durationSec });
+  const pageToken = await resolveOptionalPageAccessToken();
+  const token = resolveInstagramAccessToken(pageToken);
+  if (!token) throw new Error("INSTAGRAM_ACCESS_TOKEN belum diisi.");
+
+  const igUserId = await resolveInstagramUserId(token);
+  const caption = normalizeDescription(description || title);
+  const containerId = await createInstagramReelContainer({ token, igUserId, videoUrl, caption, coverUrl });
+  await waitForInstagramContainer({ token, containerId });
+  const mediaId = await publishInstagramContainer({ token, igUserId, containerId });
+  const url = await resolveInstagramPermalink({ token, mediaId });
+  return {
+    ok: Boolean(mediaId),
+    type: "instagram_reel",
+    mediaId,
+    containerId,
+    igUserId,
+    url
+  };
+}
+
 export async function publishToFacebook({ videoUrl, title, description }) {
   assertFacebookConfig();
   if (!videoUrl) throw new Error("Facebook butuh public video URL.");
@@ -160,3 +300,29 @@ export async function publishToFacebook({ videoUrl, title, description }) {
   }
 }
 
+export async function publishToSocials(options) {
+  const result = { ok: false, errors: {} };
+
+  if (config.facebook.enabled) {
+    try {
+      result.facebook = await publishToFacebook(options);
+    } catch (error) {
+      result.errors.facebook = error.message;
+    }
+  }
+
+  if (config.instagram.enabled) {
+    try {
+      result.instagram = await publishToInstagram(options);
+    } catch (error) {
+      result.errors.instagram = error.message;
+    }
+  }
+
+  result.ok = Boolean(result.facebook?.ok || result.instagram?.ok);
+  if (!result.ok && Object.keys(result.errors).length) {
+    throw new Error(Object.entries(result.errors).map(([platform, message]) => `${platform}: ${message}`).join("; "));
+  }
+
+  return result;
+}

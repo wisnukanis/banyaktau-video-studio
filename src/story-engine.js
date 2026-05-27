@@ -317,6 +317,8 @@ function buildPrompt(input, context) {
     idea ? "Pakai ide terpilih user sebagai sumber utama. Jangan mengganti topik atau angle utamanya." : "Jika user belum memilih ide, buat sendiri hook paling kuat dari topik yang tersedia.",
     idea ? `Ide terpilih:\n- Judul: ${idea.title}\n- Topik: ${idea.topic}\n- Hook: ${idea.hook}\n- Angle: ${idea.angle}\n- Alasan kuat: ${idea.whyGood}` : "",
     "Setelah hook, jelaskan isi video dengan alur: kejutan awal, penjelasan inti, analogi sederhana, bagian penting, lalu penutup yang membuat orang ingin tahu lebih banyak.",
+    "Field summary wajib meringkas inti video, bukan CTA. Tulis 2 kalimat pendek, 180-260 karakter, menyebut penyebab/proses utama dan alasan kenapa fakta ini penting diingat.",
+    "Field importantPoints wajib berisi 3-5 fakta inti dari video. Jangan isi dengan instruksi produksi seperti mulai dari contoh, gunakan analogi, atau akhiri dengan fakta.",
     "Jangan membuat scene atau screenText berjudul Kesimpulan, Kesimpulan Singkat, atau Summary. Pakai penutup natural tanpa label kesimpulan.",
     "Tulis narasi scene sebagai satu cerita utuh yang dibagi untuk visual, bukan potongan-potongan yang terasa terpisah.",
     "Setiap scene harus punya visualPrompt berbeda: variasikan objek close-up, diagram konseptual tanpa teks, manusia belajar/mengamati, timeline, eksperimen sederhana, alam, arsip sejarah, atau visual makro.",
@@ -352,7 +354,7 @@ function normalizePlan(plan, input) {
   return {
     title: cleanPublicTitle(plan?.title || input.selectedIdea?.title || fallback.title),
     hook: cleanText(plan?.hook || input.selectedIdea?.hook || fallback.hook, 180),
-    summary: cleanText(plan?.summary || fallback.summary, 320),
+    summary: normalizeSummary(plan?.summary, input, scenes, fallback.summary),
     importantPoints: normalizePoints(plan?.importantPoints || fallback.importantPoints),
     factCheckNote: cleanText(plan?.factCheckNote || "Disusun sebagai penjelasan populer; detail teknis dapat diperdalam lagi dari sumber ilmiah.", 220),
     scenes
@@ -392,14 +394,33 @@ function cleanSceneText(value) {
 function normalizePoints(points) {
   const normalized = (Array.isArray(points) ? points : [])
     .map((point) => cleanText(point, 140))
+    .filter((point) => !isProductionInstruction(point))
     .filter(Boolean)
     .slice(0, 5);
   if (normalized.length) return normalized;
   return [
-    "Mulai dari rasa penasaran yang sederhana.",
-    "Jelaskan inti konsep dengan analogi mudah.",
-    "Tutup dengan fakta penting yang layak diingat."
+    "Hal yang terlihat sederhana sering punya mekanisme tersembunyi.",
+    "Faktor kecil bisa saling bekerja sampai hasilnya terlihat alami.",
+    "Memahami prosesnya membuat fakta sehari-hari terasa lebih masuk akal."
   ];
+}
+
+function normalizeSummary(value, input, scenes, fallback) {
+  const text = cleanText(value, 480);
+  if (text && !isProductionInstruction(text) && !/^draft fallback dibuat karena/i.test(text)) {
+    return text;
+  }
+
+  const closingNarration = cleanText(scenes.at(-1)?.narration || "", 220);
+  if (closingNarration && !isProductionInstruction(closingNarration)) {
+    return cleanText(closingNarration, 320);
+  }
+
+  return cleanText(fallback || coreFallbackSummary(input), 320);
+}
+
+function isProductionInstruction(value) {
+  return /\b(mulai dari|jelaskan|akhiri|gunakan analogi|contoh yang dekat|target total|storyboard|draft fallback)\b/i.test(String(value || ""));
 }
 
 function distributeDurations(total, count) {
@@ -455,13 +476,15 @@ function fallbackPlan(input, reason = "") {
   return {
     title,
     hook,
-    summary: reason ? `Draft fallback dibuat karena: ${reason}` : `Penjelasan ringan tentang ${input.topic}.`,
+    summary: coreFallbackSummary(input),
     importantPoints: [
       "Mulai dari contoh yang dekat dengan penonton.",
       "Ubah konsep rumit menjadi analogi sederhana.",
       "Akhiri dengan fakta yang mudah diingat."
     ],
-    factCheckNote: "Fallback offline; verifikasi sumber tambahan sebelum dipublikasikan.",
+    factCheckNote: reason
+      ? `Fallback offline karena: ${reason}. Verifikasi sumber tambahan sebelum dipublikasikan.`
+      : "Fallback offline; verifikasi sumber tambahan sebelum dipublikasikan.",
     scenes: Array.from({ length: input.sceneCount }, (_, index) => ({
       index: index + 1,
       durationSec: input.durationSec / input.sceneCount,
@@ -471,6 +494,13 @@ function fallbackPlan(input, reason = "") {
       visualStyle: visualStyle(index)
     }))
   };
+}
+
+function coreFallbackSummary(input) {
+  return cleanText(
+    `Intinya, ${input.topic.toLowerCase()} menarik karena hal yang tampak sederhana biasanya terjadi dari beberapa faktor yang bekerja bersama. Saat bentuk, gaya, energi, dan waktu saling memengaruhi, hasil akhirnya bisa berbeda dari dugaan kita.`,
+    320
+  );
 }
 
 function fallbackNarration(index, input) {

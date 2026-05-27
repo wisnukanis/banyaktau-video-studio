@@ -37,6 +37,7 @@ const els = {
   shareYoutubeBtn: document.querySelector("#shareYoutubeBtn"),
   copyVideoLinkBtn: document.querySelector("#copyVideoLinkBtn"),
   hookText: document.querySelector("#hookText"),
+  summaryText: document.querySelector("#summaryText"),
   pointList: document.querySelector("#pointList"),
   factNote: document.querySelector("#factNote"),
   youtubeTitle: document.querySelector("#youtubeTitle"),
@@ -413,7 +414,9 @@ function renderProviderStatus() {
   const openai = state.config?.providers?.openai ? "OpenAI aktif" : "OpenAI kosong";
   const elevenlabs = state.config?.providers?.elevenlabs ? "Eleven aktif" : "Eleven kosong";
   const video = state.config?.providers?.videoApiKeySet ? "Video aktif" : "Video kosong";
-  els.providerStatus.textContent = `${openai} / ${elevenlabs} / ${video}`;
+  const facebook = state.config?.providers?.facebookUploadEnabled ? "FB auto" : "FB mati";
+  const instagram = state.config?.providers?.instagramUploadEnabled ? "IG auto" : "IG mati";
+  els.providerStatus.textContent = `${openai} / ${elevenlabs} / ${video} / ${facebook} / ${instagram}`;
 }
 
 function renderList() {
@@ -536,6 +539,7 @@ function renderCurrent() {
   if (!item) {
     els.itemTitle.textContent = "Belum ada video";
     els.hookText.textContent = "-";
+    if (els.summaryText) els.summaryText.textContent = "-";
     els.pointList.innerHTML = "";
     els.factNote.textContent = "-";
     els.sceneGrid.innerHTML = "";
@@ -549,6 +553,7 @@ function renderCurrent() {
 
   els.itemTitle.textContent = item.title;
   els.hookText.textContent = item.plan.hook;
+  if (els.summaryText) els.summaryText.textContent = item.plan.summary || "-";
   els.pointList.innerHTML = (item.plan.importantPoints || []).map((point) => `<li>${escapeHtml(point)}</li>`).join("");
   els.factNote.textContent = item.plan.factCheckNote || "-";
   renderYoutubeCopy(item);

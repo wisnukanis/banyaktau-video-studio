@@ -1,6 +1,6 @@
 import { ensureProjectDirs } from "./config.js";
 import { config } from "./config.js";
-import { publishToFacebook } from "./facebook.js";
+import { publishToSocials } from "./facebook.js";
 import { generateFullItem } from "./pipeline.js";
 import { absolutizeGeneratedUrls, publicBaseUrl, remoteEnabled, uploadGeneratedStateAndAssets } from "./remote.js";
 import { saveItem } from "./storage.js";
@@ -41,7 +41,7 @@ if (remoteEnabled()) {
   try {
     await uploadGeneratedStateAndAssets({ item: result.item });
     console.log("Remote upload complete.");
-    await publishFacebookIfEnabled(result);
+    await publishSocialsIfEnabled(result);
   } catch (error) {
     const message = `Remote upload gagal: ${error.message}`;
     result.warnings.push(message);
@@ -74,34 +74,44 @@ async function mergeRemoteState(currentItem) {
   }
 }
 
-async function publishFacebookIfEnabled(result) {
-  if (!config.facebook.enabled) return;
+async function publishSocialsIfEnabled(result) {
+  if (!config.facebook.enabled && !config.instagram.enabled) return;
   try {
     const item = result.item;
-    const published = await publishToFacebook({
+    const published = await publishToSocials({
       videoUrl: item.assets?.video?.url || "",
       title: item.title,
-      description: facebookDescription(item)
+      description: socialDescription(item),
+      coverUrl: item.assets?.thumbnail?.url || "",
+      durationSec: item.assets?.video?.durationSec || 0
     });
+    const publishedAt = new Date().toISOString();
     item.publish = {
-      ...(item.publish || {}),
-      facebook: {
-        ...published,
-        publishedAt: new Date().toISOString()
-      }
+      ...(item.publish || {})
     };
+    if (published.facebook) item.publish.facebook = { ...published.facebook, publishedAt };
+    if (published.instagram) item.publish.instagram = { ...published.instagram, publishedAt };
+    if (Object.keys(published.errors || {}).length) {
+      item.publish.errors = {
+        ...(item.publish.errors || {}),
+        ...published.errors
+      };
+      for (const [platform, message] of Object.entries(published.errors)) {
+        result.warnings.push(`${platform} publish gagal: ${message}`);
+      }
+    }
     await saveItem(item);
     await uploadGeneratedStateAndAssets({ item });
-    console.log(`Facebook publish complete: ${published.url || published.videoId || published.postId || "ok"}`);
+    console.log(`Social publish complete: ${publishSummary(published)}`);
   } catch (error) {
-    const message = `Facebook publish gagal: ${error.message}`;
+    const message = `Social publish gagal: ${error.message}`;
     result.warnings.push(message);
     console.warn(message);
     if (boolValue(process.env.FACEBOOK_STRICT_PUBLISH, false)) throw error;
   }
 }
 
-function facebookDescription(item) {
+function socialDescription(item) {
   const points = (item.plan?.importantPoints || [])
     .slice(0, 2)
     .map((point) => `- ${point}`)
@@ -111,4 +121,12 @@ function facebookDescription(item) {
     points,
     "#BanyakTau #FaktaMenarik #Pengetahuan #Reels"
   ].filter(Boolean).join("\n\n");
+}
+
+function publishSummary(published) {
+  const rows = [];
+  if (published.facebook) rows.push(`facebook=${published.facebook.url || published.facebook.videoId || "ok"}`);
+  if (published.instagram) rows.push(`instagram=${published.instagram.url || published.instagram.mediaId || "ok"}`);
+  if (Object.keys(published.errors || {}).length) rows.push(`errors=${Object.keys(published.errors).join(",")}`);
+  return rows.join(" ") || "skipped";
 }

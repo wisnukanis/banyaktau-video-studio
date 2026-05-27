@@ -6,7 +6,7 @@ import { clamp, safeFilename, splitLines } from "./util.js";
 
 const fps = 30;
 const introDuration = 3.0;
-const outroDuration = 3.0;
+const outroDuration = 6.0;
 
 export async function renderKnowledgeVideo(item) {
   const workDir = path.join(paths.workDir, item.id);
@@ -132,7 +132,7 @@ function buildOutroScene(item, lastScene) {
 }
 
 function resolveSceneMedia(item, scene) {
-  if (scene.kind === "intro" && item.assets?.thumbnail?.path) {
+  if ((scene.kind === "intro" || scene.kind === "outro") && item.assets?.thumbnail?.path) {
     return { type: "image", path: item.assets.thumbnail.path };
   }
   const sourceIndex = scene.imageSourceSceneIndex || scene.index;
@@ -376,12 +376,7 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
     }
   }
 
-  events.push(dialogue(
-    Math.max(0, totalDuration - outroDuration),
-    totalDuration,
-    "Point",
-    `{\\fad(120,180)}${assEscape(endOverlayText(item))}`
-  ));
+  events.push(...outroOverlayEvents(item, Math.max(0, totalDuration - outroDuration), totalDuration));
 
   const ass = [
     "[Script Info]",
@@ -396,6 +391,14 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
     `Style: SceneTitle,${config.render.fontTitle},42,&H00F7F2DC,&H000000FF,&H90222A2C,&HAA15191D,-1,0,0,0,100,100,0,0,1,2.5,0,7,54,340,78,1`,
     `Style: Subtitle,${config.render.fontBody},58,&H00FFFFFF,&H000000FF,&H9A11171B,&HBF11171B,-1,0,0,0,100,100,0,0,1,4,1,2,80,80,550,1`,
     `Style: Point,${config.render.fontBody},72,&H00FFFFFF,&H000000FF,&H8F11171B,&HCC11171B,-1,0,0,0,100,100,0,0,3,18,0,5,96,96,0,1`,
+    `Style: OutroDim,${config.render.fontBody},20,&H82000000,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,7,0,0,0,1`,
+    `Style: OutroCard,${config.render.fontBody},20,&H1811171B,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,7,0,0,0,1`,
+    `Style: OutroAccent,${config.render.fontBody},20,&H004CC8F5,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,7,0,0,0,1`,
+    `Style: OutroKicker,${config.render.fontMono},34,&H004CC8F5,&H000000FF,&H9011171B,&H0011171B,-1,0,0,0,100,100,0,0,1,2,0,7,104,104,800,1`,
+    `Style: OutroTitle,${config.render.fontTitle},52,&H00FFFFFF,&H000000FF,&H9011171B,&H0011171B,-1,0,0,0,100,100,0,0,1,2.5,0,7,104,104,870,1`,
+    `Style: OutroSummary,${config.render.fontBody},45,&H00FFFFFF,&H000000FF,&H9211171B,&H0011171B,-1,0,0,0,100,100,0,0,1,2.8,0,7,104,104,1104,1`,
+    `Style: OutroPoint,${config.render.fontBody},38,&H00F7F2DC,&H000000FF,&H9511171B,&H0011171B,-1,0,0,0,100,100,0,0,1,2.2,0,7,104,104,1380,1`,
+    `Style: OutroBrand,${config.render.fontMono},30,&H004CC8F5,&H000000FF,&H9011171B,&H0011171B,-1,0,0,0,100,100,0,0,1,2,0,2,90,90,170,1`,
     "",
     "[Events]",
     "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
@@ -414,6 +417,90 @@ function endOverlayText(item) {
   if (points.length) return points.join("\\N");
 
   return splitLines(shortenOverlayLine(item.plan?.summary || "Simpan rasa penasaranmu."), 22, 2).join("\\N");
+}
+
+function outroOverlayEvents(item, start, end) {
+  const fade = "{\\fad(180,220)}";
+  const title = wrapOutroLines(item.title || item.plan?.title || "BanyakTau", 25, 3).join("\\N");
+  const summary = outroSummaryText(item);
+  const points = outroPointText(item);
+  const events = [
+    dialogue(start, end, "OutroDim", `${fade}{\\an7\\pos(0,0)\\p1}m 0 0 l 1080 0 l 1080 1920 l 0 1920`),
+    dialogue(start + 0.04, end, "OutroCard", `${fade}{\\an7\\pos(0,0)\\p1}m 70 735 l 1010 735 l 1010 1695 l 70 1695`),
+    dialogue(start + 0.05, end, "OutroAccent", `${fade}{\\an7\\pos(0,0)\\p1}m 104 770 l 348 770 l 348 784 l 104 784`),
+    dialogue(start + 0.18, end, "OutroKicker", `${fade}${assEscape("RINGKASAN INTI")}`),
+    dialogue(start + 0.34, end, "OutroTitle", `${fade}${assEscape(title)}`),
+    dialogue(start + 0.62, end, "OutroSummary", `${fade}${assEscape(summary)}`)
+  ];
+
+  if (points) {
+    events.push(dialogue(start + 0.92, end, "OutroPoint", `${fade}${assEscape(points)}`));
+  }
+
+  events.push(dialogue(Math.max(start, end - 1.15), end, "OutroBrand", `{\\fad(120,220)}${assEscape("BanyakTau")}`));
+  return events;
+}
+
+function outroSummaryText(item) {
+  const summary = normalizeOutroText(item.plan?.summary);
+  const points = (item.plan?.importantPoints || []).map(normalizeOutroText).filter(Boolean);
+  const fallback = points.length
+    ? points.join(". ")
+    : normalizeOutroText(item.plan?.scenes?.at(-1)?.narration || item.plan?.hook || "Simpan inti faktanya dan lanjut cari tahu lebih banyak.");
+  const text = compactOutroSummary(summary.length >= 60 ? summary : fallback);
+  return wrapOutroLines(text.replace(/\.+$/g, "."), 36, 5).join("\\N");
+}
+
+function outroPointText(item) {
+  const points = (item.plan?.importantPoints || [])
+    .map(normalizeOutroText)
+    .filter(Boolean)
+    .filter((point) => point.length >= 18)
+    .slice(0, 2);
+  return points.map((point) => splitLines(`- ${point.replace(/[.]+$/g, "")}`, 38, 2).join("\\N  ")).join("\\N");
+}
+
+function normalizeOutroText(value) {
+  return normalizeSubtitleText(value)
+    .replace(/^intinya,\s*/i, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function compactOutroSummary(value) {
+  const text = normalizeOutroText(value);
+  const completeSentences = text.match(/[^.!?]+[.!?]+/g);
+  if (completeSentences?.length) {
+    const first = completeSentences[0].replace(/\s+/g, " ").trim();
+    const second = completeSentences[1]?.replace(/\s+/g, " ").trim() || "";
+    if (!second || first.length >= 150) return first;
+    return `${first} ${second}`.replace(/\s+/g, " ").trim();
+  }
+  return text;
+}
+
+function wrapOutroLines(value, maxChars, maxLines) {
+  const words = normalizeOutroText(value).split(" ").filter(Boolean);
+  const lines = [];
+  let line = "";
+  for (const word of words) {
+    const next = line ? `${line} ${word}` : word;
+    if (next.length > maxChars && line) {
+      lines.push(line);
+      line = word;
+    } else {
+      line = next;
+    }
+  }
+  if (line) lines.push(line);
+
+  const limited = lines.slice(0, maxLines);
+  if (lines.length > maxLines) {
+    const last = limited.at(-1) || "";
+    if (last.length < 12) limited.pop();
+    else limited[limited.length - 1] = last.replace(/[,:;]+$/g, "").trim();
+  }
+  return limited;
 }
 
 function shortenOverlayLine(value) {
