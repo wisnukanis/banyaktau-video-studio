@@ -1,6 +1,6 @@
 import express from "express";
 import { spawnSync } from "node:child_process";
-import { config, ensureProjectDirs, paths, publicConfig } from "./config.js";
+import { config, ensureProjectDirs, paths, publicConfig, updateRuntimeSettings } from "./config.js";
 import { estimateTtsUsd } from "./cost.js";
 import { generateElevenLabsSpeech } from "./elevenlabs.js";
 import { generateOpenAiSpeech, generateSceneImage } from "./openai.js";
@@ -30,6 +30,15 @@ app.get("/api/health", (_req, res) => {
 app.get("/api/items", async (_req, res, next) => {
   try {
     res.json({ items: await listItems() });
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post("/api/settings", async (req, res, next) => {
+  try {
+    const nextConfig = await updateRuntimeSettings(req.body || {});
+    res.json({ config: nextConfig });
   } catch (error) {
     next(error);
   }

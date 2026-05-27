@@ -84,7 +84,7 @@ export async function generateOpenAiSpeech({ itemId, text, voice, filenameSuffix
       model: config.openai.ttsModel,
       voice: selectedVoice,
       input: text,
-      instructions: "Bacakan sepenuhnya dalam Bahasa Indonesia natural. Gaya suara hangat, penasaran, jelas, seperti kreator pengetahuan sedang menjelaskan fakta menarik kepada teman. Jangan terdengar seperti robot, jangan terlalu cepat, beri jeda ringan setelah kalimat penting, dan tekankan bagian hook dengan rasa ingin tahu.",
+      instructions: "Bacakan sepenuhnya dalam Bahasa Indonesia natural. Gaya suara hangat, penasaran, jelas, seperti kreator pengetahuan sedang menjelaskan fakta menarik kepada teman. Tempo sedang-cepat dan tetap santai; jangan terlalu lambat, jangan terdengar seperti robot, beri jeda ringan setelah kalimat penting, dan tekankan bagian hook dengan rasa ingin tahu.",
       response_format: "mp3"
     })
   });

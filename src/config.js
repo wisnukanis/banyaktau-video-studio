@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import fs from "node:fs";
+import fsp from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -16,6 +17,10 @@ function clean(value) {
 function numberEnv(name, fallback) {
   const value = Number(process.env[name]);
   return Number.isFinite(value) ? value : fallback;
+}
+
+function bool(value) {
+  return Boolean(String(value || "").trim());
 }
 
 export const paths = {
@@ -61,7 +66,8 @@ export const config = {
   render: {
     fontTitle: clean(process.env.RENDER_TITLE_FONT || "Georgia"),
     fontBody: clean(process.env.RENDER_BODY_FONT || "Segoe UI Semibold"),
-    fontMono: clean(process.env.RENDER_MONO_FONT || "Cascadia Code")
+    fontMono: clean(process.env.RENDER_MONO_FONT || "Cascadia Code"),
+    speechTempo: Math.min(1.3, Math.max(0.9, numberEnv("SPEECH_TEMPO", 1.15)))
   }
 };
 
@@ -76,10 +82,76 @@ export function publicConfig() {
       imageModel: config.openai.imageModel,
       imageSize: config.openai.imageSize,
       imageQuality: config.openai.imageQuality,
+      openaiApiKeySet: bool(config.openai.apiKey),
       openaiTtsModel: config.openai.ttsModel,
       openaiTtsVoice: config.openai.ttsVoice,
-      elevenlabsModel: config.elevenlabs.model
+      elevenlabsApiKeySet: bool(config.elevenlabs.apiKey),
+      elevenlabsModel: config.elevenlabs.model,
+      elevenlabsVoiceId: config.elevenlabs.voiceId
     },
     render: config.render
   };
+}
+
+export async function updateRuntimeSettings(input = {}) {
+  const updates = {};
+  const openaiKey = clean(input.openaiApiKey);
+  const elevenlabsKey = clean(input.elevenlabsApiKey);
+  const openaiTtsVoice = clean(input.openaiTtsVoice);
+  const openaiTtsModel = clean(input.openaiTtsModel);
+  const elevenlabsModel = clean(input.elevenlabsModel);
+  const elevenlabsVoiceId = clean(input.elevenlabsVoiceId);
+  const speechTempo = Number(input.speechTempo);
+
+  if (openaiKey) updates.OPENAI_API_KEY = openaiKey;
+  if (elevenlabsKey) updates.ELEVENLABS_API_KEY = elevenlabsKey;
+  if (openaiTtsVoice) updates.OPENAI_TTS_VOICE = openaiTtsVoice;
+  if (openaiTtsModel) updates.OPENAI_TTS_MODEL = openaiTtsModel;
+  if (elevenlabsModel) updates.ELEVENLABS_MODEL = elevenlabsModel;
+  if (elevenlabsVoiceId) updates.ELEVENLABS_VOICE_ID = elevenlabsVoiceId;
+  if (Number.isFinite(speechTempo)) updates.SPEECH_TEMPO = String(Math.min(1.3, Math.max(0.9, speechTempo)));
+
+  if (Object.keys(updates).length) {
+    await writeEnvUpdates(updates);
+    applyConfigUpdates(updates);
+  }
+
+  return publicConfig();
+}
+
+async function writeEnvUpdates(updates) {
+  const envPath = path.join(rootDir, ".env");
+  let lines = [];
+  try {
+    lines = (await fsp.readFile(envPath, "utf8")).split(/\r?\n/);
+  } catch (error) {
+    if (error.code !== "ENOENT") throw error;
+  }
+
+  const seen = new Set();
+  const next = lines.map((line) => {
+    const match = line.match(/^([A-Z0-9_]+)=/);
+    if (!match) return line;
+    const name = match[1];
+    if (!(name in updates)) return line;
+    seen.add(name);
+    return `${name}=${updates[name]}`;
+  });
+
+  for (const [name, value] of Object.entries(updates)) {
+    if (!seen.has(name)) next.push(`${name}=${value}`);
+  }
+
+  await fsp.writeFile(envPath, `${next.filter((line, index, arr) => index < arr.length - 1 || line).join("\n")}\n`);
+}
+
+function applyConfigUpdates(updates) {
+  for (const [name, value] of Object.entries(updates)) process.env[name] = value;
+  if (updates.OPENAI_API_KEY !== undefined) config.openai.apiKey = updates.OPENAI_API_KEY;
+  if (updates.OPENAI_TTS_MODEL !== undefined) config.openai.ttsModel = updates.OPENAI_TTS_MODEL;
+  if (updates.OPENAI_TTS_VOICE !== undefined) config.openai.ttsVoice = updates.OPENAI_TTS_VOICE;
+  if (updates.ELEVENLABS_API_KEY !== undefined) config.elevenlabs.apiKey = updates.ELEVENLABS_API_KEY;
+  if (updates.ELEVENLABS_MODEL !== undefined) config.elevenlabs.model = updates.ELEVENLABS_MODEL;
+  if (updates.ELEVENLABS_VOICE_ID !== undefined) config.elevenlabs.voiceId = updates.ELEVENLABS_VOICE_ID;
+  if (updates.SPEECH_TEMPO !== undefined) config.render.speechTempo = Number(updates.SPEECH_TEMPO);
 }

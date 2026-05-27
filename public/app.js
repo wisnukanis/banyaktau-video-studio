@@ -7,8 +7,10 @@ const state = {
 
 const els = {
   form: document.querySelector("#generateForm"),
+  settingsForm: document.querySelector("#settingsForm"),
   fullBtn: document.querySelector("#fullBtn"),
   draftBtn: document.querySelector("#draftBtn"),
+  settingsBtn: document.querySelector("#settingsBtn"),
   imageBtn: document.querySelector("#imageBtn"),
   ttsBtn: document.querySelector("#ttsBtn"),
   renderBtn: document.querySelector("#renderBtn"),
@@ -25,7 +27,8 @@ const els = {
   pointList: document.querySelector("#pointList"),
   factNote: document.querySelector("#factNote"),
   sceneGrid: document.querySelector("#sceneGrid"),
-  assetStatus: document.querySelector("#assetStatus")
+  assetStatus: document.querySelector("#assetStatus"),
+  providerStatus: document.querySelector("#providerStatus")
 };
 
 init();
@@ -33,6 +36,7 @@ init();
 async function init() {
   bindEvents();
   state.config = (await api("/api/health")).config;
+  fillSettingsForm();
   await refreshItems();
   render();
 }
@@ -42,10 +46,39 @@ function bindEvents() {
     event.preventDefault();
     await generateFull();
   });
+  els.settingsForm.addEventListener("submit", saveSettings);
   els.draftBtn.addEventListener("click", generateDraft);
   els.imageBtn.addEventListener("click", generateImages);
   els.ttsBtn.addEventListener("click", generateTts);
   els.renderBtn.addEventListener("click", renderVideo);
+}
+
+async function saveSettings(event) {
+  event.preventDefault();
+  setBusy(true, "Menyimpan setting API dan suara...");
+  try {
+    const form = new FormData(els.settingsForm);
+    const data = await api("/api/settings", {
+      method: "POST",
+      body: JSON.stringify({
+        openaiApiKey: form.get("openaiApiKey"),
+        elevenlabsApiKey: form.get("elevenlabsApiKey"),
+        openaiTtsVoice: form.get("openaiTtsVoice"),
+        elevenlabsVoiceId: form.get("elevenlabsVoiceId"),
+        speechTempo: Number(form.get("speechTempo"))
+      })
+    });
+    state.config = data.config;
+    els.settingsForm.openaiApiKey.value = "";
+    els.settingsForm.elevenlabsApiKey.value = "";
+    fillSettingsForm();
+    setStatus("Setting tersimpan. Generate TTS berikutnya memakai setting baru.");
+  } catch (error) {
+    setStatus(error.message);
+  } finally {
+    setBusy(false);
+    render();
+  }
 }
 
 async function refreshItems() {
@@ -164,7 +197,21 @@ function formPayload() {
 function render() {
   renderList();
   renderCurrent();
+  renderProviderStatus();
   renderButtons();
+}
+
+function fillSettingsForm() {
+  if (!state.config) return;
+  els.settingsForm.openaiTtsVoice.value = state.config.providers?.openaiTtsVoice || "shimmer";
+  els.settingsForm.elevenlabsVoiceId.value = state.config.providers?.elevenlabsVoiceId || "";
+  els.settingsForm.speechTempo.value = state.config.render?.speechTempo || 1.15;
+}
+
+function renderProviderStatus() {
+  const openai = state.config?.providers?.openai ? "OpenAI aktif" : "OpenAI kosong";
+  const elevenlabs = state.config?.providers?.elevenlabs ? "Eleven aktif" : "Eleven kosong";
+  els.providerStatus.textContent = `${openai} / ${elevenlabs}`;
 }
 
 function renderList() {
@@ -235,6 +282,7 @@ function renderButtons() {
   const provider = new FormData(els.form).get("ttsProvider");
   els.fullBtn.disabled = state.busy;
   els.draftBtn.disabled = state.busy;
+  els.settingsBtn.disabled = state.busy;
   els.imageBtn.disabled = state.busy || !hasItem;
   els.ttsBtn.disabled = state.busy || !hasItem || !providerReady(provider);
   els.renderBtn.disabled = state.busy || !hasItem;
