@@ -419,8 +419,8 @@ function summaryText(item) {
 
 function shortenSummaryPoint(value) {
   const text = String(value || "").replace(/\s+/g, " ").trim();
-  if (text.length <= 62) return text;
-  const clipped = text.slice(0, 59);
+  if (text.length <= 52) return text;
+  const clipped = text.slice(0, 49);
   const atSpace = clipped.lastIndexOf(" ");
   return `${clipped.slice(0, atSpace > 36 ? atSpace : clipped.length).trim()}...`;
 }
