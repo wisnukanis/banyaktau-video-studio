@@ -7,6 +7,8 @@ const state = {
   busy: false
 };
 
+const YOUTUBE_UPLOAD_URL = "https://www.youtube.com/upload";
+
 const els = {
   form: document.querySelector("#generateForm"),
   settingsForm: document.querySelector("#settingsForm"),
@@ -30,6 +32,9 @@ const els = {
   totalMetric: document.querySelector("#totalMetric"),
   thumbnailSlot: document.querySelector("#thumbnailSlot"),
   videoSlot: document.querySelector("#videoSlot"),
+  downloadVideoBtn: document.querySelector("#downloadVideoBtn"),
+  shareYoutubeBtn: document.querySelector("#shareYoutubeBtn"),
+  copyVideoLinkBtn: document.querySelector("#copyVideoLinkBtn"),
   hookText: document.querySelector("#hookText"),
   pointList: document.querySelector("#pointList"),
   factNote: document.querySelector("#factNote"),
@@ -75,6 +80,9 @@ function bindEvents() {
   els.clipBtn?.addEventListener("click", () => generateClip());
   els.renderBtn?.addEventListener("click", renderVideo);
   els.copyYoutubeBtn?.addEventListener("click", copyCurrentYoutube);
+  els.downloadVideoBtn?.addEventListener("click", () => downloadVideo(state.current));
+  els.shareYoutubeBtn?.addEventListener("click", () => shareToYoutube(state.current));
+  els.copyVideoLinkBtn?.addEventListener("click", () => copyVideoLink(state.current));
 }
 
 async function saveSettings(event) {
@@ -408,26 +416,39 @@ function renderGallery() {
         <strong>${escapeHtml(item.title)}</strong>
         <span>${formatDuration(item.assets.video.durationSec)} - ${new Date(item.updatedAt || item.createdAt).toLocaleString("id-ID")}</span>
         <div class="gallery-actions">
-          <a class="mini-action" href="${item.assets.video.url}" download>Download</a>
+          <button type="button" class="mini-action" data-download-video="${item.id}">Download</button>
           ${item.assets.thumbnail?.url ? `<a class="mini-action" href="${item.assets.thumbnail.url}" download>Thumbnail</a>` : ""}
           <a class="mini-action" href="${item.assets.video.url}" target="_blank" rel="noreferrer">Buka</a>
           <button type="button" class="mini-action" data-copy-url="${item.assets.video.url}">Copy Link</button>
-          <button type="button" class="mini-action" data-copy-youtube="${item.id}">Copy YouTube</button>
+          <button type="button" class="mini-action accent" data-share-youtube="${item.id}">Share YouTube</button>
+          <button type="button" class="mini-action" data-copy-youtube="${item.id}">Copy Caption</button>
         </div>
       </div>
     </article>
   `).join("");
+  els.galleryGrid.querySelectorAll("[data-download-video]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const item = state.items.find((entry) => entry.id === button.dataset.downloadVideo);
+      downloadVideo(item);
+    });
+  });
+  els.galleryGrid.querySelectorAll("[data-share-youtube]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const item = state.items.find((entry) => entry.id === button.dataset.shareYoutube);
+      shareToYoutube(item);
+    });
+  });
   els.galleryGrid.querySelectorAll("[data-copy-url]").forEach((button) => {
     button.addEventListener("click", async () => {
       const url = new URL(button.dataset.copyUrl, window.location.origin).href;
-      await navigator.clipboard.writeText(url);
+      await copyText(url);
       setStatus("Link video disalin.");
     });
   });
   els.galleryGrid.querySelectorAll("[data-copy-youtube]").forEach((button) => {
     button.addEventListener("click", async () => {
       const item = state.items.find((entry) => entry.id === button.dataset.copyYoutube);
-      await navigator.clipboard.writeText(youtubeCopy(item));
+      await copyText(youtubeCopy(item));
       setStatus("Judul dan caption YouTube disalin.");
     });
   });
@@ -557,8 +578,45 @@ function renderYoutubeCopy(item) {
 
 async function copyCurrentYoutube() {
   if (!state.current) return;
-  await navigator.clipboard.writeText(youtubeCopy(state.current));
+  await copyText(youtubeCopy(state.current));
   setStatus("Judul dan caption YouTube siap ditempel.");
+}
+
+async function copyVideoLink(item) {
+  const url = item?.assets?.video?.url;
+  if (!url) return;
+  await copyText(absoluteUrl(url));
+  setStatus("Link video disalin.");
+}
+
+async function downloadVideo(item) {
+  const url = item?.assets?.video?.url;
+  if (!url) return;
+  const resolvedUrl = absoluteUrl(url);
+  if (isIOS()) {
+    setStatus("iPhone: video dibuka di tab baru. Tekan tombol Share, lalu pilih Save Video atau Save to Files. Judul dan caption juga sudah disalin.");
+    const opened = window.open(resolvedUrl, "_blank", "noopener");
+    await copyText(youtubeCopy(item));
+    if (!opened) window.location.href = resolvedUrl;
+    return;
+  }
+
+  const link = document.createElement("a");
+  link.href = resolvedUrl;
+  link.download = `${slugify(item.title || item.id || "banyaktau-video")}.mp4`;
+  link.rel = "noreferrer";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setStatus("Download video dimulai. Kalau browser hanya membuka video, klik kanan lalu Save video.");
+}
+
+async function shareToYoutube(item) {
+  if (!item?.assets?.video?.url) return;
+  setStatus("Judul dan caption YouTube disalin. Halaman YouTube Upload dibuka, lalu pilih video hasil download.");
+  const opened = window.open(YOUTUBE_UPLOAD_URL, "_blank", "noopener");
+  await copyText(youtubeCopy(item));
+  if (!opened) window.location.href = YOUTUBE_UPLOAD_URL;
 }
 
 function renderButtons() {
@@ -573,6 +631,10 @@ function renderButtons() {
   if (els.ttsBtn) els.ttsBtn.disabled = state.busy || !hasItem || !providerReady(provider);
   if (els.clipBtn) els.clipBtn.disabled = state.busy || !hasItem || !providerReady("video");
   if (els.renderBtn) els.renderBtn.disabled = state.busy || !hasItem;
+  const hasVideo = Boolean(state.current?.assets?.video?.url);
+  if (els.downloadVideoBtn) els.downloadVideoBtn.disabled = state.busy || !hasVideo;
+  if (els.shareYoutubeBtn) els.shareYoutubeBtn.disabled = state.busy || !hasVideo;
+  if (els.copyVideoLinkBtn) els.copyVideoLinkBtn.disabled = state.busy || !hasVideo;
 }
 
 function providerReady(provider) {
@@ -616,6 +678,42 @@ async function api(url, options = {}) {
   }
   if (!response.ok) throw new Error(data.error || `HTTP ${response.status}`);
   return data;
+}
+
+async function copyText(value) {
+  const text = String(value || "");
+  if (navigator.clipboard && window.isSecureContext) {
+    await navigator.clipboard.writeText(text);
+    return true;
+  }
+
+  const temp = document.createElement("textarea");
+  temp.value = text;
+  temp.setAttribute("readonly", "");
+  temp.style.position = "fixed";
+  temp.style.left = "-9999px";
+  document.body.appendChild(temp);
+  temp.select();
+  const ok = document.execCommand("copy");
+  temp.remove();
+  return ok;
+}
+
+function absoluteUrl(url) {
+  return new URL(url, window.location.origin).href;
+}
+
+function isIOS() {
+  const platform = navigator.platform || "";
+  return /iPad|iPhone|iPod/.test(platform) || (platform === "MacIntel" && navigator.maxTouchPoints > 1);
+}
+
+function slugify(value) {
+  return String(value || "banyaktau-video")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80) || "banyaktau-video";
 }
 
 function formatUsd(value) {
