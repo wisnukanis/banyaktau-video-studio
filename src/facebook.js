@@ -34,7 +34,7 @@ function assertFacebookConfig() {
   if (!config.facebook.enabled) missing.push("FACEBOOK_UPLOAD_ENABLED=true");
   if (!config.facebook.pageId) missing.push("BANYAKTAU_FACEBOOK_PAGE_ID atau FACEBOOK_PAGE_ID");
   if (!config.facebook.accessToken && !config.facebook.userAccessToken) {
-    missing.push("BANYAKTAU_FACEBOOK_PAGE_ACCESS_TOKEN / FACEBOOK_PAGE_ACCESS_TOKEN atau USER token");
+    missing.push("BANYAKTAU_FACEBOOK_PAGE_ACCESS_TOKEN / FACEBOOK_PAGE_ACCESS_TOKEN atau long-lived USER token");
   }
   if (missing.length) throw new Error(`Config Facebook belum lengkap: ${missing.join(", ")}`);
 }
@@ -74,22 +74,48 @@ async function fetchJson(url, options = {}) {
   return data;
 }
 
-async function resolvePageAccessToken() {
-  if (config.facebook.accessToken) return config.facebook.accessToken;
+async function tokenIdentity(token) {
+  const url = new URL(graphUrl("me"));
+  url.searchParams.set("fields", "id,name");
+  url.searchParams.set("access_token", token);
+  return fetchJson(url);
+}
 
+async function derivePageAccessToken(userToken) {
   const url = new URL(graphUrl("me/accounts"));
   url.searchParams.set("fields", "id,name,access_token");
-  url.searchParams.set("access_token", config.facebook.userAccessToken);
+  url.searchParams.set("access_token", userToken);
   const data = await fetchJson(url);
   const page = (data.data || []).find((entry) => String(entry.id) === String(config.facebook.pageId));
   if (!page?.access_token) throw new Error("User token Facebook tidak punya akses ke Page target.");
   return page.access_token;
 }
 
+async function resolvePageAccessToken() {
+  const directToken = clean(config.facebook.accessToken);
+  const userToken = clean(config.facebook.userAccessToken);
+
+  if (directToken) {
+    try {
+      const identity = await tokenIdentity(directToken);
+      if (String(identity.id) === String(config.facebook.pageId)) return directToken;
+      return derivePageAccessToken(directToken);
+    } catch (error) {
+      if (!userToken) throw error;
+    }
+  }
+
+  if (userToken) return derivePageAccessToken(userToken);
+  throw new Error("Token Facebook belum diisi.");
+}
+
 async function resolveOptionalPageAccessToken() {
-  if (config.facebook.accessToken) return config.facebook.accessToken;
-  if (!config.facebook.userAccessToken || !config.facebook.pageId) return "";
-  return resolvePageAccessToken();
+  if (!config.facebook.pageId || (!config.facebook.accessToken && !config.facebook.userAccessToken)) return "";
+  try {
+    return await resolvePageAccessToken();
+  } catch {
+    return "";
+  }
 }
 
 function resolveInstagramAccessToken(pageToken = "") {
