@@ -23,12 +23,17 @@ function bool(value) {
   return Boolean(String(value || "").trim());
 }
 
+function trimSlash(value) {
+  return clean(value).replace(/\/+$/g, "");
+}
+
 export const paths = {
   rootDir,
   dataDir: path.join(rootDir, "data"),
   generatedDir: path.join(rootDir, "generated"),
   imageDir: path.join(rootDir, "generated", "images"),
   audioDir: path.join(rootDir, "generated", "audio"),
+  clipDir: path.join(rootDir, "generated", "clips"),
   videoDir: path.join(rootDir, "generated", "videos"),
   workDir: path.join(rootDir, "generated", "work"),
   publicDir: path.join(rootDir, "public")
@@ -52,6 +57,16 @@ export const config = {
     ttsModel: clean(process.env.OPENAI_TTS_MODEL || process.env.TTS_MODEL || "gpt-4o-mini-tts"),
     ttsVoice: clean(process.env.OPENAI_TTS_VOICE || process.env.TTS_VOICE || "shimmer")
   },
+  video: {
+    provider: clean(process.env.VIDEO_PROVIDER || "dinoiki-gemini"),
+    apiKey: process.env.VIDEO_API_KEY || process.env.DINOIKI_API_KEY || "",
+    baseUrl: trimSlash(process.env.VIDEO_BASE_URL || process.env.DINOIKI_BASE_URL || "https://ai.dinoiki.com"),
+    endpointMode: clean(process.env.VIDEO_ENDPOINT_MODE || "gemini"),
+    model: clean(process.env.VIDEO_MODEL || process.env.DINOIKI_VIDEO_MODEL || "veo-3.1-lite-generate-preview"),
+    aspectRatio: clean(process.env.VIDEO_ASPECT_RATIO || "9:16"),
+    resolution: clean(process.env.VIDEO_RESOLUTION || "720p"),
+    seconds: Math.min(8, Math.max(2, numberEnv("VIDEO_SECONDS", 4)))
+  },
   elevenlabs: {
     apiKey: process.env.ELEVENLABS_API_KEY || "",
     model: clean(process.env.ELEVENLABS_MODEL || "eleven_multilingual_v2"),
@@ -61,7 +76,8 @@ export const config = {
     storyInputUsdPer1MTokens: numberEnv("STORY_INPUT_USD_PER_1M_TOKENS", 0.4),
     storyOutputUsdPer1MTokens: numberEnv("STORY_OUTPUT_USD_PER_1M_TOKENS", 1.6),
     openaiTtsUsdPer1MChars: numberEnv("OPENAI_TTS_USD_PER_1M_CHARS", numberEnv("TTS_USD_PER_1M_CHARS", 15)),
-    elevenlabsTtsUsdPer1KChars: numberEnv("ELEVENLABS_TTS_USD_PER_1K_CHARS", 0.1)
+    elevenlabsTtsUsdPer1KChars: numberEnv("ELEVENLABS_TTS_USD_PER_1K_CHARS", 0.1),
+    videoUsdPerSecond: numberEnv("VIDEO_USD_PER_SECOND", 0.03)
   },
   render: {
     fontTitle: clean(process.env.RENDER_TITLE_FONT || "Georgia"),
@@ -82,6 +98,14 @@ export function publicConfig() {
       imageModel: config.openai.imageModel,
       imageSize: config.openai.imageSize,
       imageQuality: config.openai.imageQuality,
+      videoProvider: config.video.provider,
+      videoBaseUrl: config.video.baseUrl,
+      videoEndpointMode: config.video.endpointMode,
+      videoModel: config.video.model,
+      videoAspectRatio: config.video.aspectRatio,
+      videoResolution: config.video.resolution,
+      videoSeconds: config.video.seconds,
+      videoApiKeySet: bool(config.video.apiKey),
       openaiApiKeySet: bool(config.openai.apiKey),
       openaiTtsModel: config.openai.ttsModel,
       openaiTtsVoice: config.openai.ttsVoice,
@@ -89,7 +113,10 @@ export function publicConfig() {
       elevenlabsModel: config.elevenlabs.model,
       elevenlabsVoiceId: config.elevenlabs.voiceId
     },
-    render: config.render
+    render: config.render,
+    pricing: {
+      videoUsdPerSecond: config.pricing.videoUsdPerSecond
+    }
   };
 }
 
@@ -99,6 +126,11 @@ export async function updateRuntimeSettings(input = {}) {
   const elevenlabsKey = clean(input.elevenlabsApiKey);
   const openaiTtsVoice = clean(input.openaiTtsVoice);
   const openaiTtsModel = clean(input.openaiTtsModel);
+  const videoApiKey = clean(input.videoApiKey);
+  const videoBaseUrl = trimSlash(input.videoBaseUrl);
+  const videoModel = clean(input.videoModel);
+  const videoSeconds = Number(input.videoSeconds);
+  const videoUsdPerSecond = Number(input.videoUsdPerSecond);
   const elevenlabsModel = clean(input.elevenlabsModel);
   const elevenlabsVoiceId = clean(input.elevenlabsVoiceId);
   const speechTempo = Number(input.speechTempo);
@@ -107,6 +139,11 @@ export async function updateRuntimeSettings(input = {}) {
   if (elevenlabsKey) updates.ELEVENLABS_API_KEY = elevenlabsKey;
   if (openaiTtsVoice) updates.OPENAI_TTS_VOICE = openaiTtsVoice;
   if (openaiTtsModel) updates.OPENAI_TTS_MODEL = openaiTtsModel;
+  if (videoApiKey) updates.VIDEO_API_KEY = videoApiKey;
+  if (videoBaseUrl) updates.VIDEO_BASE_URL = videoBaseUrl;
+  if (videoModel) updates.VIDEO_MODEL = videoModel;
+  if (Number.isFinite(videoSeconds)) updates.VIDEO_SECONDS = String(Math.min(8, Math.max(2, videoSeconds)));
+  if (Number.isFinite(videoUsdPerSecond)) updates.VIDEO_USD_PER_SECOND = String(Math.max(0, videoUsdPerSecond));
   if (elevenlabsModel) updates.ELEVENLABS_MODEL = elevenlabsModel;
   if (elevenlabsVoiceId) updates.ELEVENLABS_VOICE_ID = elevenlabsVoiceId;
   if (Number.isFinite(speechTempo)) updates.SPEECH_TEMPO = String(Math.min(1.3, Math.max(0.9, speechTempo)));
@@ -150,6 +187,11 @@ function applyConfigUpdates(updates) {
   if (updates.OPENAI_API_KEY !== undefined) config.openai.apiKey = updates.OPENAI_API_KEY;
   if (updates.OPENAI_TTS_MODEL !== undefined) config.openai.ttsModel = updates.OPENAI_TTS_MODEL;
   if (updates.OPENAI_TTS_VOICE !== undefined) config.openai.ttsVoice = updates.OPENAI_TTS_VOICE;
+  if (updates.VIDEO_API_KEY !== undefined) config.video.apiKey = updates.VIDEO_API_KEY;
+  if (updates.VIDEO_BASE_URL !== undefined) config.video.baseUrl = trimSlash(updates.VIDEO_BASE_URL);
+  if (updates.VIDEO_MODEL !== undefined) config.video.model = updates.VIDEO_MODEL;
+  if (updates.VIDEO_SECONDS !== undefined) config.video.seconds = Number(updates.VIDEO_SECONDS);
+  if (updates.VIDEO_USD_PER_SECOND !== undefined) config.pricing.videoUsdPerSecond = Number(updates.VIDEO_USD_PER_SECOND);
   if (updates.ELEVENLABS_API_KEY !== undefined) config.elevenlabs.apiKey = updates.ELEVENLABS_API_KEY;
   if (updates.ELEVENLABS_MODEL !== undefined) config.elevenlabs.model = updates.ELEVENLABS_MODEL;
   if (updates.ELEVENLABS_VOICE_ID !== undefined) config.elevenlabs.voiceId = updates.ELEVENLABS_VOICE_ID;

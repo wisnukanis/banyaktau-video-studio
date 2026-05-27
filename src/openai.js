@@ -28,6 +28,29 @@ export async function requestKnowledgeJson(promptText) {
   return JSON.parse(content);
 }
 
+export async function requestIdeaJson(promptText) {
+  assertOpenAi();
+  const response = await fetch(`${apiBase}/chat/completions`, {
+    method: "POST",
+    headers: headersJson(),
+    body: JSON.stringify({
+      model: config.openai.storyModel,
+      response_format: { type: "json_object" },
+      messages: [
+        {
+          role: "system",
+          content: "You are an Indonesian short-video ideation producer for a factual knowledge channel. Recommend scroll-stopping, factual, low-cost visual ideas. Return valid JSON only."
+        },
+        { role: "user", content: promptText }
+      ],
+      temperature: 0.92
+    })
+  });
+  const data = await parseOpenAiResponse(response);
+  const content = data.choices?.[0]?.message?.content || "";
+  return JSON.parse(content);
+}
+
 export async function generateSceneImage({ itemId, scene, size, quality }) {
   assertOpenAi();
   await fs.mkdir(paths.imageDir, { recursive: true });

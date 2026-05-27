@@ -1,13 +1,14 @@
 import express from "express";
 import { spawnSync } from "node:child_process";
 import { config, ensureProjectDirs, paths, publicConfig, updateRuntimeSettings } from "./config.js";
-import { estimateTtsUsd } from "./cost.js";
+import { estimateTtsUsd, estimateVideoUsd } from "./cost.js";
 import { generateElevenLabsSpeech } from "./elevenlabs.js";
 import { generateOpenAiSpeech, generateSceneImage } from "./openai.js";
 import { renderKnowledgeVideo } from "./render.js";
 import { getItem, listItems, saveItem } from "./storage.js";
-import { createKnowledgeDraft } from "./story-engine.js";
+import { createIdeaRecommendations, createKnowledgeDraft } from "./story-engine.js";
 import { nowIso } from "./util.js";
+import { generateVideoClip } from "./video-provider.js";
 
 ensureProjectDirs();
 
@@ -30,6 +31,15 @@ app.get("/api/health", (_req, res) => {
 app.get("/api/items", async (_req, res, next) => {
   try {
     res.json({ items: await listItems() });
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post("/api/ideas", async (req, res, next) => {
+  try {
+    const ideas = await createIdeaRecommendations(req.body || {}, { existingItems: await listItems() });
+    res.json(ideas);
   } catch (error) {
     next(error);
   }
@@ -102,6 +112,18 @@ app.post("/api/items/:id/tts", async (req, res, next) => {
   }
 });
 
+app.post("/api/items/:id/clip", async (req, res, next) => {
+  try {
+    const item = await requireItem(req.params.id);
+    await ensureProviderClip(item, { sceneIndex: req.body?.sceneIndex });
+    item.updatedAt = nowIso();
+    await saveItem(item);
+    res.json({ item });
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.post("/api/items/:id/render", async (req, res, next) => {
   try {
     const item = await requireItem(req.params.id);
@@ -134,6 +156,43 @@ async function requireItem(id) {
     throw error;
   }
   return item;
+}
+
+async function ensureProviderClip(item, options = {}) {
+  if (!config.video.apiKey) throw new Error("VIDEO_API_KEY / DINOIKI_API_KEY wajib diisi untuk generate cuplikan video.");
+  const scenes = item.plan?.scenes || [];
+  if (!scenes.length) throw new Error("Storyboard belum tersedia.");
+  const requestedIndex = Number(options.sceneIndex);
+  const scene = scenes.find((entry) => Number(entry.index) === requestedIndex) || scenes[Math.min(1, scenes.length - 1)];
+  const prompt = buildClipPrompt(item, scene);
+  const clip = await generateVideoClip({
+    itemId: item.id,
+    scene,
+    prompt
+  });
+  clip.costUsd = estimateVideoUsd(clip.seconds, config.pricing);
+
+  const clips = (item.assets.clips || []).filter((entry) => Number(entry.sceneIndex) !== Number(scene.index));
+  clips.push(clip);
+  item.assets.clips = sortClips(clips);
+  item.cost.videoUsd = item.assets.clips.reduce((sum, entry) => sum + Number(entry.costUsd || 0), 0);
+  item.cost.totalUsd = Number((
+    Number(item.cost.storyUsd || 0)
+    + Number(item.cost.imageUsd || 0)
+    + Number(item.cost.ttsUsd || 0)
+    + Number(item.cost.videoUsd || 0)
+  ).toFixed(5));
+}
+
+function buildClipPrompt(item, scene) {
+  return [
+    `Topic: ${item.input?.topic || item.title}.`,
+    `Scene: ${scene.screenText}.`,
+    `Narration meaning: ${scene.narration}.`,
+    "Create a short vertical educational B-roll clip that directly supports this scene.",
+    "Use realistic, clean, bright documentary style with one clear subject and smooth motion.",
+    "Do not include written text, subtitles, logos, watermarks, gore, injuries, or a recognizable public figure."
+  ].join(" ");
 }
 
 async function ensureImages(item, options = {}) {
@@ -196,7 +255,12 @@ async function ensureAudio(item, options = {}) {
     item.assets.audio.characters = text.length;
     item.input.ttsProvider = provider;
     item.cost.ttsUsd = estimateTtsUsd(text.length, provider, config.pricing);
-    item.cost.totalUsd = Number((Number(item.cost.storyUsd || 0) + Number(item.cost.imageUsd || 0) + Number(item.cost.ttsUsd || 0)).toFixed(5));
+    item.cost.totalUsd = Number((
+      Number(item.cost.storyUsd || 0)
+      + Number(item.cost.imageUsd || 0)
+      + Number(item.cost.ttsUsd || 0)
+      + Number(item.cost.videoUsd || 0)
+    ).toFixed(5));
     item.updatedAt = nowIso();
     await saveItem(item);
   } catch (error) {
@@ -240,4 +304,8 @@ function narrationText(item) {
 
 function sortImages(images) {
   return [...images].sort((a, b) => Number(a.sceneIndex || 0) - Number(b.sceneIndex || 0));
+}
+
+function sortClips(clips) {
+  return [...clips].sort((a, b) => Number(a.sceneIndex || 0) - Number(b.sceneIndex || 0));
 }

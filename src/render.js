@@ -21,9 +21,13 @@ export async function renderKnowledgeVideo(item) {
   const segmentPaths = [];
   for (let index = 0; index < allScenes.length; index += 1) {
     const scene = allScenes[index];
-    const imagePath = resolveImagePath(item, scene);
+    const media = resolveSceneMedia(item, scene);
     const segmentPath = path.join(workDir, `segment-${String(index).padStart(2, "0")}.mp4`);
-    await makeImageSegment({ imagePath, outputPath: segmentPath, duration: scene.durationSec, zoomDirection: index % 2 ? "out" : "in" });
+    if (media.type === "clip") {
+      await makeClipSegment({ clipPath: media.path, outputPath: segmentPath, duration: scene.durationSec });
+    } else {
+      await makeImageSegment({ imagePath: media.path, outputPath: segmentPath, duration: scene.durationSec, zoomDirection: index % 2 ? "out" : "in" });
+    }
     segmentPaths.push(segmentPath);
   }
 
@@ -120,11 +124,15 @@ function buildOutroScene(item, lastScene) {
   };
 }
 
-function resolveImagePath(item, scene) {
+function resolveSceneMedia(item, scene) {
   const sourceIndex = scene.imageSourceSceneIndex || scene.index;
+  if (!scene.kind) {
+    const clip = item.assets?.clips?.find((entry) => Number(entry.sceneIndex) === Number(sourceIndex));
+    if (clip?.path) return { type: "clip", path: clip.path };
+  }
   const image = item.assets?.images?.find((entry) => Number(entry.sceneIndex) === Number(sourceIndex));
   if (!image?.path) throw new Error(`Gambar untuk scene ${sourceIndex} belum tersedia.`);
-  return image.path;
+  return { type: "image", path: image.path };
 }
 
 async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection }) {
@@ -146,6 +154,31 @@ async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection
     "-i", imagePath,
     "-vf", vf,
     "-frames:v", String(frames),
+    "-r", String(fps),
+    "-c:v", "libx264",
+    "-preset", "veryfast",
+    "-crf", "22",
+    "-pix_fmt", "yuv420p",
+    outputPath
+  ]);
+}
+
+async function makeClipSegment({ clipPath, outputPath, duration }) {
+  const vf = [
+    "scale=1080:1920:force_original_aspect_ratio=increase",
+    "crop=1080:1920",
+    `fps=${fps}`,
+    "eq=contrast=1.035:saturation=1.04:brightness=0.01",
+    "format=yuv420p"
+  ].join(",");
+
+  await runFfmpeg([
+    "-y",
+    "-stream_loop", "-1",
+    "-i", clipPath,
+    "-t", Number(duration || 4).toFixed(2),
+    "-an",
+    "-vf", vf,
     "-r", String(fps),
     "-c:v", "libx264",
     "-preset", "veryfast",

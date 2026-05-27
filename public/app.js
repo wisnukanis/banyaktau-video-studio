@@ -1,6 +1,8 @@
 const state = {
   items: [],
   current: null,
+  ideas: [],
+  selectedIdea: null,
   config: null,
   busy: false
 };
@@ -8,11 +10,13 @@ const state = {
 const els = {
   form: document.querySelector("#generateForm"),
   settingsForm: document.querySelector("#settingsForm"),
+  ideaBtn: document.querySelector("#ideaBtn"),
   fullBtn: document.querySelector("#fullBtn"),
   draftBtn: document.querySelector("#draftBtn"),
   settingsBtn: document.querySelector("#settingsBtn"),
   imageBtn: document.querySelector("#imageBtn"),
   ttsBtn: document.querySelector("#ttsBtn"),
+  clipBtn: document.querySelector("#clipBtn"),
   renderBtn: document.querySelector("#renderBtn"),
   statusText: document.querySelector("#statusText"),
   itemTitle: document.querySelector("#itemTitle"),
@@ -21,6 +25,7 @@ const els = {
   tokenMetric: document.querySelector("#tokenMetric"),
   imageMetric: document.querySelector("#imageMetric"),
   ttsMetric: document.querySelector("#ttsMetric"),
+  videoMetric: document.querySelector("#videoMetric"),
   totalMetric: document.querySelector("#totalMetric"),
   videoSlot: document.querySelector("#videoSlot"),
   hookText: document.querySelector("#hookText"),
@@ -28,7 +33,10 @@ const els = {
   factNote: document.querySelector("#factNote"),
   sceneGrid: document.querySelector("#sceneGrid"),
   assetStatus: document.querySelector("#assetStatus"),
-  providerStatus: document.querySelector("#providerStatus")
+  providerStatus: document.querySelector("#providerStatus"),
+  selectedIdea: document.querySelector("#selectedIdea"),
+  ideaMeta: document.querySelector("#ideaMeta"),
+  ideaList: document.querySelector("#ideaList")
 };
 
 init();
@@ -47,9 +55,11 @@ function bindEvents() {
     await generateFull();
   });
   els.settingsForm.addEventListener("submit", saveSettings);
+  els.ideaBtn.addEventListener("click", generateIdeas);
   els.draftBtn.addEventListener("click", generateDraft);
   els.imageBtn.addEventListener("click", generateImages);
   els.ttsBtn.addEventListener("click", generateTts);
+  els.clipBtn.addEventListener("click", () => generateClip());
   els.renderBtn.addEventListener("click", renderVideo);
 }
 
@@ -63,6 +73,11 @@ async function saveSettings(event) {
       body: JSON.stringify({
         openaiApiKey: form.get("openaiApiKey"),
         elevenlabsApiKey: form.get("elevenlabsApiKey"),
+        videoApiKey: form.get("videoApiKey"),
+        videoBaseUrl: form.get("videoBaseUrl"),
+        videoModel: form.get("videoModel"),
+        videoSeconds: Number(form.get("videoSeconds")),
+        videoUsdPerSecond: Number(form.get("videoUsdPerSecond")),
         openaiTtsVoice: form.get("openaiTtsVoice"),
         elevenlabsVoiceId: form.get("elevenlabsVoiceId"),
         speechTempo: Number(form.get("speechTempo"))
@@ -71,8 +86,9 @@ async function saveSettings(event) {
     state.config = data.config;
     els.settingsForm.openaiApiKey.value = "";
     els.settingsForm.elevenlabsApiKey.value = "";
+    els.settingsForm.videoApiKey.value = "";
     fillSettingsForm();
-    setStatus("Setting tersimpan. Generate TTS berikutnya memakai setting baru.");
+    setStatus("Setting tersimpan. Generate berikutnya memakai setting baru.");
   } catch (error) {
     setStatus(error.message);
   } finally {
@@ -87,7 +103,45 @@ async function refreshItems() {
   if (!state.current && state.items.length) state.current = state.items[0];
 }
 
+async function generateIdeas() {
+  const form = new FormData(els.form);
+  setBusy(true, "Mencari ide dan hook terbaik...");
+  try {
+    const data = await api("/api/ideas", {
+      method: "POST",
+      body: JSON.stringify({
+        seed: form.get("topic"),
+        category: form.get("category"),
+        durationSec: Number(form.get("durationSec"))
+      })
+    });
+    state.ideas = data.ideas || [];
+    state.selectedIdea = null;
+    setStatus(`Dapat ${state.ideas.length} ide. Pilih satu untuk dibuat storyboard.`);
+    return state.ideas.length > 0;
+  } catch (error) {
+    setStatus(error.message);
+    return false;
+  } finally {
+    setBusy(false);
+    render();
+  }
+}
+
+async function ensureSelectedIdea() {
+  if (state.selectedIdea) return true;
+  if (!state.ideas.length) {
+    const hasIdeas = await generateIdeas();
+    if (!hasIdeas) return false;
+  }
+  const first = state.ideas[0];
+  if (!first) return false;
+  selectIdea(first.id, { quiet: true });
+  return true;
+}
+
 async function generateDraft() {
+  if (!(await ensureSelectedIdea())) return;
   setBusy(true, "Membuat draft naskah dan storyboard...");
   try {
     const data = await api("/api/items", {
@@ -106,6 +160,7 @@ async function generateDraft() {
 }
 
 async function generateFull() {
+  if (!(await ensureSelectedIdea())) return;
   setBusy(true, "Generate lengkap: naskah, gambar, TTS, dan video...");
   try {
     const data = await api("/api/items/full", {
@@ -159,6 +214,27 @@ async function generateTts() {
   }
 }
 
+async function generateClip(sceneIndex) {
+  if (!state.current) return;
+  const cost = estimateClipCost();
+  const sceneText = sceneIndex ? `scene ${sceneIndex}` : "scene paling cocok";
+  setBusy(true, `Membuat clip Veo Lite ${sceneText} sekitar ${formatUsd(cost)}...`);
+  try {
+    const data = await api(`/api/items/${state.current.id}/clip`, {
+      method: "POST",
+      body: JSON.stringify({ sceneIndex })
+    });
+    state.current = data.item;
+    await refreshItems();
+    setStatus("Clip Veo Lite siap. Render ulang video untuk memasukkan cuplikan.");
+  } catch (error) {
+    setStatus(error.message);
+  } finally {
+    setBusy(false);
+    render();
+  }
+}
+
 async function renderVideo() {
   if (!state.current) return;
   const provider = new FormData(els.form).get("ttsProvider");
@@ -184,7 +260,7 @@ function formPayload() {
   return {
     topic: form.get("topic"),
     category: form.get("category"),
-    hookStyle: form.get("hookStyle"),
+    selectedIdea: state.selectedIdea,
     tone: form.get("tone"),
     ttsProvider: form.get("ttsProvider"),
     durationSec: Number(form.get("durationSec")),
@@ -196,6 +272,8 @@ function formPayload() {
 
 function render() {
   renderList();
+  renderIdeas();
+  renderSelectedIdea();
   renderCurrent();
   renderProviderStatus();
   renderButtons();
@@ -205,13 +283,18 @@ function fillSettingsForm() {
   if (!state.config) return;
   els.settingsForm.openaiTtsVoice.value = state.config.providers?.openaiTtsVoice || "shimmer";
   els.settingsForm.elevenlabsVoiceId.value = state.config.providers?.elevenlabsVoiceId || "";
+  els.settingsForm.videoBaseUrl.value = state.config.providers?.videoBaseUrl || "https://ai.dinoiki.com";
+  els.settingsForm.videoModel.value = state.config.providers?.videoModel || "veo-3.1-lite-generate-preview";
+  els.settingsForm.videoSeconds.value = state.config.providers?.videoSeconds || 4;
+  els.settingsForm.videoUsdPerSecond.value = state.config.pricing?.videoUsdPerSecond ?? 0.03;
   els.settingsForm.speechTempo.value = state.config.render?.speechTempo || 1.15;
 }
 
 function renderProviderStatus() {
   const openai = state.config?.providers?.openai ? "OpenAI aktif" : "OpenAI kosong";
   const elevenlabs = state.config?.providers?.elevenlabs ? "Eleven aktif" : "Eleven kosong";
-  els.providerStatus.textContent = `${openai} / ${elevenlabs}`;
+  const video = state.config?.providers?.videoApiKeySet ? "Video aktif" : "Video kosong";
+  els.providerStatus.textContent = `${openai} / ${elevenlabs} / ${video}`;
 }
 
 function renderList() {
@@ -230,6 +313,51 @@ function renderList() {
   });
 }
 
+function renderIdeas() {
+  if (!state.ideas.length) {
+    els.ideaList.innerHTML = "";
+    els.ideaMeta.textContent = `Clip Veo Lite opsional: ${state.config?.providers?.videoSeconds || 4} detik kira-kira ${formatUsd(estimateClipCost())}`;
+    return;
+  }
+  els.ideaMeta.textContent = "Pilih satu ide untuk storyboard";
+  els.ideaList.innerHTML = state.ideas.map((idea) => `
+    <article class="idea-card ${state.selectedIdea?.id === idea.id ? "selected" : ""}">
+      <button type="button" data-idea-id="${idea.id}">
+        <span>${escapeHtml(idea.category || "ide")}</span>
+        <strong>${escapeHtml(idea.title)}</strong>
+        <em>${escapeHtml(idea.hook)}</em>
+        <small>${escapeHtml(idea.whyGood || idea.angle || "")}</small>
+      </button>
+    </article>
+  `).join("");
+  els.ideaList.querySelectorAll("[data-idea-id]").forEach((button) => {
+    button.addEventListener("click", () => selectIdea(button.dataset.ideaId));
+  });
+}
+
+function selectIdea(id, options = {}) {
+  const idea = state.ideas.find((entry) => entry.id === id);
+  if (!idea) return;
+  state.selectedIdea = idea;
+  els.form.topic.value = idea.topic;
+  if (idea.category && [...els.form.category.options].some((option) => option.value === idea.category)) {
+    els.form.category.value = idea.category;
+  }
+  if (!options.quiet) setStatus("Ide dipilih. Sekarang bisa Buat Storyboard atau Generate Video.");
+  render();
+}
+
+function renderSelectedIdea() {
+  if (!state.selectedIdea) {
+    els.selectedIdea.textContent = "Belum ada ide terpilih.";
+    return;
+  }
+  els.selectedIdea.innerHTML = `
+    <strong>${escapeHtml(state.selectedIdea.title)}</strong>
+    <span>${escapeHtml(state.selectedIdea.hook)}</span>
+  `;
+}
+
 function renderCurrent() {
   const item = state.current;
   if (!item) {
@@ -240,6 +368,7 @@ function renderCurrent() {
     els.sceneGrid.innerHTML = "";
     els.videoSlot.textContent = "Video belum dirender";
     els.assetStatus.textContent = "Belum ada aset";
+    els.videoMetric.textContent = "$0.000";
     return;
   }
 
@@ -250,11 +379,13 @@ function renderCurrent() {
   els.tokenMetric.textContent = formatNumber(item.cost.totalTokens);
   els.imageMetric.textContent = formatUsd(item.cost.imageUsd);
   els.ttsMetric.textContent = formatUsd(item.cost.ttsUsd);
+  els.videoMetric.textContent = formatUsd(item.cost.videoUsd);
   els.totalMetric.textContent = formatUsd(item.cost.totalUsd);
 
   const imageCount = item.assets.images?.length || 0;
+  const clipCount = item.assets.clips?.length || 0;
   const audio = item.assets.audio?.provider ? `Audio: ${item.assets.audio.provider}` : "Audio: belum";
-  els.assetStatus.textContent = `Gambar: ${imageCount}/${item.plan.scenes.length} - ${audio}`;
+  els.assetStatus.textContent = `Gambar: ${imageCount}/${item.plan.scenes.length} - Clip: ${clipCount} - ${audio}`;
 
   if (item.assets.video?.url) {
     els.videoSlot.innerHTML = `<video controls playsinline src="${item.assets.video.url}"></video>`;
@@ -264,32 +395,42 @@ function renderCurrent() {
 
   els.sceneGrid.innerHTML = item.plan.scenes.map((scene) => {
     const image = item.assets.images?.find((entry) => Number(entry.sceneIndex) === Number(scene.index));
+    const clip = item.assets.clips?.find((entry) => Number(entry.sceneIndex) === Number(scene.index));
     return `
       <article class="scene-card">
-        ${image?.url ? `<img src="${image.url}" alt="">` : ""}
+        ${clip?.url ? `<video muted loop playsinline controls src="${clip.url}"></video>` : image?.url ? `<img src="${image.url}" alt="">` : ""}
         <div class="scene-body">
           <small>Scene ${scene.index}</small>
           <strong>${escapeHtml(scene.screenText)}</strong>
           <p>${escapeHtml(scene.narration)}</p>
+          <button type="button" class="mini-action" data-clip-scene="${scene.index}">
+            ${clip?.url ? "Buat ulang clip" : `Clip ${formatUsd(estimateClipCost())}`}
+          </button>
         </div>
       </article>
     `;
   }).join("");
+  els.sceneGrid.querySelectorAll("[data-clip-scene]").forEach((button) => {
+    button.addEventListener("click", () => generateClip(Number(button.dataset.clipScene)));
+  });
 }
 
 function renderButtons() {
   const hasItem = Boolean(state.current);
   const provider = new FormData(els.form).get("ttsProvider");
+  els.ideaBtn.disabled = state.busy;
   els.fullBtn.disabled = state.busy;
   els.draftBtn.disabled = state.busy;
   els.settingsBtn.disabled = state.busy;
   els.imageBtn.disabled = state.busy || !hasItem;
   els.ttsBtn.disabled = state.busy || !hasItem || !providerReady(provider);
+  els.clipBtn.disabled = state.busy || !hasItem || !providerReady("video");
   els.renderBtn.disabled = state.busy || !hasItem;
 }
 
 function providerReady(provider) {
   if (provider === "elevenlabs") return Boolean(state.config?.providers?.elevenlabs);
+  if (provider === "video") return Boolean(state.config?.providers?.videoApiKeySet);
   return Boolean(state.config?.providers?.openai);
 }
 
@@ -316,6 +457,12 @@ async function api(url, options = {}) {
 
 function formatUsd(value) {
   return `$${Number(value || 0).toFixed(3)}`;
+}
+
+function estimateClipCost() {
+  const seconds = Number(state.config?.providers?.videoSeconds || 4);
+  const perSecond = Number(state.config?.pricing?.videoUsdPerSecond || 0.03);
+  return seconds * perSecond;
 }
 
 function formatNumber(value) {

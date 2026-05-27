@@ -18,10 +18,9 @@
         </div>
 
         <form id="generateForm" class="form-stack">
-          <label>
-            <span>Topik</span>
-            <textarea name="topic" rows="5">Kapal bisa mengambang karena prinsip Archimedes</textarea>
-          </label>
+          <input name="topic" type="hidden" value="">
+          <button id="ideaBtn" class="secondary accent" type="button">Generate Ide</button>
+          <div id="selectedIdea" class="selected-idea">Belum ada ide terpilih.</div>
 
           <div class="two-col">
             <label>
@@ -49,25 +48,6 @@
             </label>
           </div>
 
-          <label>
-            <span>Hook awal</span>
-            <select name="hookStyle">
-              <option>Ternyata ini yang disebut...</option>
-              <option>Penemu ini ternyata...</option>
-              <option>Kita bisa lahir di dunia karena...</option>
-              <option>Kapal bisa mengambang karena...</option>
-              <option>Anak kecil akan berjalan karena...</option>
-              <option>Penemu lampu ternyata...</option>
-              <option>Ternyata emas bisa...</option>
-              <option>Rahasia kandungan di dalam air putih...</option>
-            </select>
-          </label>
-
-          <label>
-            <span>Gaya suara</span>
-            <input name="tone" value="natural, penasaran, hangat, seperti kreator pengetahuan yang enak didengar">
-          </label>
-
           <fieldset>
             <legend>Pilih TTS sebelum generate</legend>
             <label class="radio-row">
@@ -80,29 +60,36 @@
             </label>
           </fieldset>
 
-          <div class="two-col">
+          <details class="advanced-fields">
+            <summary>Setting storyboard</summary>
             <label>
-              <span>Scene</span>
-              <select name="sceneCount">
-                <option value="6">6</option>
-                <option value="7" selected>7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-              </select>
+              <span>Gaya suara</span>
+              <input name="tone" value="natural, penasaran, hangat, seperti kreator pengetahuan yang enak didengar">
             </label>
+            <div class="two-col">
+              <label>
+                <span>Scene</span>
+                <select name="sceneCount">
+                  <option value="6">6</option>
+                  <option value="7" selected>7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                </select>
+              </label>
 
-            <label>
-              <span>Kualitas gambar</span>
-              <select name="imageQuality">
-                <option value="low" selected>Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-              </select>
-            </label>
-          </div>
+              <label>
+                <span>Kualitas gambar</span>
+                <select name="imageQuality">
+                  <option value="low" selected>Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                </select>
+              </label>
+            </div>
+          </details>
 
           <button id="fullBtn" class="primary" type="submit">Generate Video</button>
-          <button id="draftBtn" class="secondary" type="button">Draft Saja</button>
+          <button id="draftBtn" class="secondary" type="button">Buat Storyboard</button>
         </form>
 
         <section class="settings-block">
@@ -119,6 +106,14 @@
               <span>ElevenLabs API Key</span>
               <input name="elevenlabsApiKey" type="password" autocomplete="off" placeholder="Kosongkan jika tidak diubah">
             </label>
+            <label>
+              <span>Dinoiki / Video API Key</span>
+              <input name="videoApiKey" type="password" autocomplete="off" placeholder="Kosongkan jika tidak diubah">
+            </label>
+            <label>
+              <span>Video Base URL</span>
+              <input name="videoBaseUrl" placeholder="https://ai.dinoiki.com">
+            </label>
             <div class="two-col">
               <label>
                 <span>OpenAI voice</span>
@@ -127,6 +122,20 @@
               <label>
                 <span>Tempo</span>
                 <input name="speechTempo" type="number" min="0.9" max="1.3" step="0.01" value="1.15">
+              </label>
+            </div>
+            <label>
+              <span>Model video</span>
+              <input name="videoModel" placeholder="veo-3.1-lite-generate-preview">
+            </label>
+            <div class="two-col">
+              <label>
+                <span>Durasi clip</span>
+                <input name="videoSeconds" type="number" min="2" max="8" step="1" value="4">
+              </label>
+              <label>
+                <span>Estimasi $/detik</span>
+                <input name="videoUsdPerSecond" type="number" min="0" step="0.001" value="0.03">
               </label>
             </div>
             <label>
@@ -155,9 +164,18 @@
           <div class="toolbar">
             <button id="imageBtn" class="ghost" type="button">Gambar</button>
             <button id="ttsBtn" class="ghost" type="button">TTS</button>
+            <button id="clipBtn" class="ghost" type="button">Clip Veo Lite</button>
             <button id="renderBtn" class="ghost strong" type="button">Render</button>
           </div>
         </header>
+
+        <section id="ideaPanel" class="idea-panel">
+          <div class="section-head wide">
+            <strong>Rekomendasi Ide</strong>
+            <span id="ideaMeta">Pilih satu ide untuk storyboard</span>
+          </div>
+          <div id="ideaList" class="idea-list"></div>
+        </section>
 
         <section class="metrics">
           <div>
@@ -171,6 +189,10 @@
           <div>
             <span>TTS</span>
             <strong id="ttsMetric">$0.000</strong>
+          </div>
+          <div>
+            <span>Clip</span>
+            <strong id="videoMetric">$0.000</strong>
           </div>
           <div>
             <span>Total</span>

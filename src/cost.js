@@ -18,6 +18,10 @@ export function estimateTtsUsd(chars, provider, pricing) {
   return roundUsd((count / 1_000_000) * pricing.openaiTtsUsdPer1MChars);
 }
 
+export function estimateVideoUsd(seconds, pricing) {
+  return roundUsd(Math.max(0, Number(seconds || 0)) * pricing.videoUsdPerSecond);
+}
+
 export function estimateTotalCost({ promptText, outputText, sceneCount, imageSize, imageQuality, narrationChars, ttsProvider, pricing }) {
   const inputTokens = estimateTokens(promptText);
   const outputTokens = estimateTokens(outputText);

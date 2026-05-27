@@ -8,6 +8,7 @@ npm-debug.log*
 
 data/items.json
 generated/audio/
+generated/clips/
 generated/images/
 generated/videos/
 generated/work/

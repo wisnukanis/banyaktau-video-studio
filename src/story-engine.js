@@ -1,18 +1,7 @@
 import { config } from "./config.js";
 import { estimateTotalCost } from "./cost.js";
-import { requestKnowledgeJson } from "./openai.js";
+import { requestIdeaJson, requestKnowledgeJson } from "./openai.js";
 import { clamp, cleanText, createId, nowIso } from "./util.js";
-
-const hookExamples = [
-  "Ternyata ini yang disebut...",
-  "Penemu ini ternyata tidak bekerja sendirian.",
-  "Kita bisa lahir di dunia karena proses kecil yang luar biasa.",
-  "Kapal bisa mengambang karena satu prinsip sederhana.",
-  "Anak kecil akan berjalan setelah otaknya belajar keseimbangan.",
-  "Penemu lampu ternyata bukan cerita sesederhana yang sering kita dengar.",
-  "Ternyata emas bisa terbentuk dari peristiwa kosmik.",
-  "Rahasia kandungan di dalam air putih ternyata lebih menarik dari kelihatannya."
-];
 
 const categories = [
   "sains",
@@ -24,6 +13,218 @@ const categories = [
   "benda sehari-hari",
   "tokoh dunia"
 ];
+
+function normalizeIdeaInput(input) {
+  const category = cleanText(input.category || "random", 80);
+  const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+  return {
+    seed: cleanText(input.seed || input.topic || "", 260),
+    category: category === "random" ? randomCategory : category,
+    durationSec: clamp(Number(input.durationSec || 90), 45, 120)
+  };
+}
+
+function buildIdeaPrompt(input, context) {
+  const recent = Array.isArray(context.existingItems)
+    ? context.existingItems.slice(0, 30).map((item) => `- ${item.title}: ${item.plan?.hook || item.input?.topic || ""}`)
+    : [];
+
+  return [
+    "Buat 8 rekomendasi ide video pendek untuk channel BanyakTau.",
+    "Channel ini berisi pengetahuan ringan: sains, sejarah, penemuan, tubuh manusia, alam semesta, teknologi, benda sehari-hari, dan tokoh dunia.",
+    "Kamu yang menentukan hook dan judul; jangan beri template kosong dan jangan meminta user mengisi hook sendiri.",
+    "Setiap ide harus punya rasa penasaran kuat, mudah divisualkan dengan gambar AI, dan bisa dijelaskan faktual dalam maksimal 2 menit.",
+    "Pilih ide yang hemat produksi: cukup gambar AI + TTS; jika memakai cuplikan video AI, cukup satu clip pendek sebagai sisipan.",
+    "Jangan pilih klaim medis/keuangan/hukum yang berisiko, teori konspirasi, atau topik yang butuh wajah figur publik modern.",
+    "Bahasa hook harus natural seperti kreator Indonesia, bukan judul artikel kaku. Hindari kata yang terlalu lebay seperti ajaib, tergila-gila, dan klaim bombastis tanpa dasar.",
+    "Kembalikan JSON valid saja dengan shape:",
+    "{ ideas:[{ title, topic, hook, category, angle, whyGood, visualPotential:[string], riskLevel, estimatedDurationSec }] }",
+    input.seed ? `Arah topik dari user: ${input.seed}` : "Arah topik dari user: bebas, cari ide paling menarik.",
+    `Kategori prioritas: ${input.category}`,
+    `Durasi target: ${input.durationSec} detik`,
+    recent.length ? `Hindari duplikasi dari riwayat ini:\n${recent.join("\n")}` : ""
+  ].filter(Boolean).join("\n");
+}
+
+function normalizeIdeas(ideas, input) {
+  const rows = Array.isArray(ideas) && ideas.length ? ideas : fallbackIdeas(input);
+  const seen = new Set();
+  const normalized = [];
+
+  for (const idea of rows) {
+    const title = titleCase(cleanText(idea?.title || idea?.topic || input.seed || "Fakta yang Jarang Dibahas", 90));
+    const hook = cleanText(idea?.hook || `Ternyata ${title.toLowerCase()} punya cerita yang jarang dibahas.`, 180);
+    const key = `${title}|${hook}`.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    normalized.push({
+      id: createId("idea"),
+      title,
+      topic: cleanText(idea?.topic || title, 220),
+      hook,
+      category: cleanText(idea?.category || input.category, 80),
+      angle: cleanText(idea?.angle || "Dibuka dari rasa penasaran, lalu dijelaskan dengan analogi sederhana.", 220),
+      whyGood: cleanText(idea?.whyGood || "Topik dekat dengan penonton dan mudah divisualkan.", 220),
+      visualPotential: normalizeStringList(idea?.visualPotential, 4),
+      riskLevel: cleanText(idea?.riskLevel || "rendah", 40),
+      estimatedDurationSec: clamp(Number(idea?.estimatedDurationSec || input.durationSec), 45, 120)
+    });
+    if (normalized.length >= 8) break;
+  }
+
+  while (normalized.length < 8) {
+    const fallback = fallbackIdeas(input)[normalized.length % 8];
+    normalized.push({
+      ...fallback,
+      id: createId("idea")
+    });
+  }
+
+  return normalized;
+}
+
+function normalizeStringList(value, limit) {
+  return (Array.isArray(value) ? value : [])
+    .map((item) => cleanText(item, 100))
+    .filter(Boolean)
+    .slice(0, limit);
+}
+
+function fallbackIdeas(input, reason = "") {
+  const seed = input.seed || input.category;
+  const rows = [
+    {
+      title: "Kenapa Kapal Besi Tidak Tenggelam",
+      topic: "kapal besar bisa mengambang meski terbuat dari besi",
+      hook: "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?",
+      category: "sains",
+      angle: "Mulai dari benda berat yang terlihat mustahil mengambang, lalu masuk ke prinsip daya apung.",
+      visualPotential: ["kapal di laut", "air terdorong oleh lambung", "eksperimen gelas air"],
+      whyGood: "Dekat dengan pengalaman sehari-hari dan visualnya jelas.",
+      riskLevel: "rendah"
+    },
+    {
+      title: "Rahasia Air Putih yang Sering Diremehkan",
+      topic: "kenapa air putih penting untuk tubuh",
+      hook: "Air putih kelihatannya biasa, tapi tubuh kita bekerja kacau kalau kekurangan ini.",
+      category: "tubuh manusia",
+      angle: "Jelaskan peran air tanpa klaim kesehatan berlebihan.",
+      visualPotential: ["gelas air", "sel tubuh ilustratif", "aktivitas harian"],
+      whyGood: "Topik universal dan mudah dipahami.",
+      riskLevel: "rendah"
+    },
+    {
+      title: "Emas Ternyata Lahir dari Ledakan Kosmik",
+      topic: "asal-usul emas di alam semesta",
+      hook: "Cincin emas yang kecil itu, asalnya bisa dari peristiwa raksasa di luar angkasa.",
+      category: "alam semesta",
+      angle: "Hubungkan benda sehari-hari dengan asal kosmik yang mengejutkan.",
+      visualPotential: ["perhiasan emas", "bintang bertabrakan", "partikel kosmik"],
+      whyGood: "Ada kontras besar antara benda kecil dan skala semesta.",
+      riskLevel: "rendah"
+    },
+    {
+      title: "Kenapa Anak Kecil Akhirnya Bisa Berjalan",
+      topic: "proses tubuh dan otak belajar berjalan",
+      hook: "Langkah pertama anak kecil itu bukan sekadar kaki kuat. Otaknya juga sedang belajar besar-besaran.",
+      category: "tubuh manusia",
+      angle: "Buka dari momen familiar, lalu jelaskan koordinasi otak, otot, dan keseimbangan.",
+      visualPotential: ["bayi belajar berdiri", "ilustrasi otak", "keseimbangan tubuh"],
+      whyGood: "Emosional, dekat, dan edukatif.",
+      riskLevel: "rendah"
+    },
+    {
+      title: "Lampu Tidak Sesederhana Nama Satu Penemu",
+      topic: "sejarah pengembangan lampu listrik",
+      hook: "Kita sering dengar satu nama soal lampu, padahal ceritanya jauh lebih ramai.",
+      category: "penemuan",
+      angle: "Rapikan sejarah penemuan tanpa menjatuhkan satu tokoh.",
+      visualPotential: ["lampu menyala", "laboratorium lama", "kota malam"],
+      whyGood: "Meluruskan miskonsepsi populer.",
+      riskLevel: "rendah"
+    },
+    {
+      title: "Kenapa Es Mengapung di Air",
+      topic: "alasan es mengapung dan dampaknya untuk kehidupan",
+      hook: "Kalau es tidak mengapung, kehidupan di Bumi bisa beda jauh.",
+      category: "sains",
+      angle: "Jelaskan kepadatan air dengan dampak besar pada alam.",
+      visualPotential: ["es dalam gelas", "danau membeku", "molekul air"],
+      whyGood: "Fenomena sederhana dengan konsekuensi besar.",
+      riskLevel: "rendah"
+    },
+    {
+      title: "Kenapa Langit Bisa Berwarna Biru",
+      topic: "hamburan cahaya yang membuat langit tampak biru",
+      hook: "Langit biru bukan karena ada warna biru di atas sana.",
+      category: "sains",
+      angle: "Pakai analogi cahaya dan partikel udara.",
+      visualPotential: ["langit cerah", "sinar matahari", "partikel udara"],
+      whyGood: "Pertanyaan klasik yang tetap kuat untuk short.",
+      riskLevel: "rendah"
+    },
+    {
+      title: "Kenapa Roda Koper Baru Terasa Normal Belakangan",
+      topic: "sejarah sederhana roda pada koper",
+      hook: "Aneh tapi nyata, koper beroda baru terasa umum setelah manusia lama sekali menyeret barang berat.",
+      category: "benda sehari-hari",
+      angle: "Bahas inovasi kecil yang terlambat jadi kebiasaan.",
+      visualPotential: ["koper klasik", "bandara", "roda kecil close-up"],
+      whyGood: "Unik, ringan, dan mudah dibuat visualnya.",
+      riskLevel: "rendah"
+    }
+  ];
+
+  return rows.map((row) => ({
+    id: createId("idea"),
+    ...row,
+    topic: seed && seed !== input.category ? `${row.topic} (${seed})` : row.topic,
+    estimatedDurationSec: input.durationSec,
+    whyGood: reason ? `${row.whyGood} Catatan: ${reason}` : row.whyGood
+  }));
+}
+
+function normalizeSelectedIdea(value) {
+  if (!value || typeof value !== "object") return null;
+  const title = cleanText(value.title, 90);
+  const topic = cleanText(value.topic || title, 220);
+  const hook = cleanText(value.hook, 180);
+  if (!title && !topic && !hook) return null;
+  return {
+    id: cleanText(value.id, 80),
+    title,
+    topic,
+    hook,
+    category: cleanText(value.category, 80),
+    angle: cleanText(value.angle, 220),
+    whyGood: cleanText(value.whyGood, 220)
+  };
+}
+
+export async function createIdeaRecommendations(rawInput = {}, context = {}) {
+  const input = normalizeIdeaInput(rawInput);
+  const promptText = buildIdeaPrompt(input, context);
+  let result;
+  let source = "offline";
+
+  if (config.openai.apiKey) {
+    try {
+      result = await requestIdeaJson(promptText);
+      source = "openai";
+    } catch (error) {
+      result = { ideas: fallbackIdeas(input, error.message) };
+    }
+  } else {
+    result = { ideas: fallbackIdeas(input, "OPENAI_API_KEY belum aktif.") };
+  }
+
+  return {
+    source,
+    generatedAt: nowIso(),
+    input,
+    ideas: normalizeIdeas(result?.ideas, input)
+  };
+}
 
 export async function createKnowledgeDraft(rawInput, context = {}) {
   const input = normalizeInput(rawInput);
@@ -67,6 +268,7 @@ export async function createKnowledgeDraft(rawInput, context = {}) {
     plan: normalized,
     assets: {
       images: [],
+      clips: [],
       audio: null,
       video: null
     },
@@ -75,16 +277,18 @@ export async function createKnowledgeDraft(rawInput, context = {}) {
 }
 
 function normalizeInput(input) {
+  const selectedIdea = normalizeSelectedIdea(input.selectedIdea || input.idea);
   const category = cleanText(input.category || "random", 80);
   const randomCategory = categories[Math.floor(Math.random() * categories.length)];
-  const chosenCategory = category === "random" ? randomCategory : category;
+  const chosenCategory = selectedIdea?.category || (category === "random" ? randomCategory : category);
   const durationSec = clamp(Number(input.durationSec || 90), 45, 120);
   const sceneCount = clamp(Number(input.sceneCount || Math.round(durationSec / 12)), 5, 10);
 
   return {
-    topic: cleanText(input.topic || "Kapal bisa mengambang karena prinsip Archimedes", 260),
+    topic: cleanText(selectedIdea?.topic || input.topic || "Kapal bisa mengambang karena prinsip Archimedes", 260),
     category: chosenCategory,
-    hookStyle: cleanText(input.hookStyle || "Ternyata ini yang disebut...", 120),
+    hookStyle: cleanText(selectedIdea?.hook || input.hookStyle || "", 180),
+    selectedIdea,
     tone: cleanText(input.tone || "natural, penasaran, hangat, seperti konten pengetahuan yang enak didengar", 180),
     durationSec,
     sceneCount,
@@ -98,6 +302,7 @@ function buildPrompt(input, context) {
   const recent = Array.isArray(context.existingItems)
     ? context.existingItems.slice(0, 20).map((item) => `- ${item.title}: ${item.plan?.hook || item.input?.topic || ""}`)
     : [];
+  const idea = input.selectedIdea;
 
   return [
     "Buat naskah video vertikal channel pengetahuan Bahasa Indonesia bernama BanyakTau.",
@@ -105,8 +310,10 @@ function buildPrompt(input, context) {
     "Tujuan: penonton merasa 'oh ternyata begitu', bukan seperti kelas formal.",
     "Wajib faktual dan hati-hati. Jangan membuat klaim palsu, jangan menyebut angka spesifik jika tidak yakin, dan jangan memakai figur publik modern secara kontroversial.",
     "Bahasa harus natural, menyambung, dan enak dibacakan TTS. Jangan kaku seperti artikel Wikipedia. Jangan bertele-tele.",
-    "Awali dengan hook kuat seperti contoh berikut, tetapi sesuaikan dengan topik:",
-    ...hookExamples.map((hook) => `- ${hook}`),
+    "Kamu yang membuat hook, judul, dan alur narasi. Jangan terasa seperti template.",
+    "Awali dengan satu kalimat hook yang membuat orang berhenti scroll, lalu langsung masuk ke penjelasan.",
+    idea ? "Pakai ide terpilih user sebagai sumber utama. Jangan mengganti topik atau angle utamanya." : "Jika user belum memilih ide, buat sendiri hook paling kuat dari topik yang tersedia.",
+    idea ? `Ide terpilih:\n- Judul: ${idea.title}\n- Topik: ${idea.topic}\n- Hook: ${idea.hook}\n- Angle: ${idea.angle}\n- Alasan kuat: ${idea.whyGood}` : "",
     "Setelah hook, jelaskan isi video dengan alur: kejutan awal, penjelasan inti, analogi sederhana, bagian penting, lalu penutup yang membuat orang ingin tahu lebih banyak.",
     "Tulis narasi scene sebagai satu cerita utuh yang dibagi untuk visual, bukan potongan-potongan yang terasa terpisah.",
     "Setiap scene harus punya visualPrompt berbeda: variasikan objek close-up, diagram konseptual tanpa teks, manusia belajar/mengamati, timeline, eksperimen sederhana, alam, arsip sejarah, atau visual makro.",
@@ -115,7 +322,7 @@ function buildPrompt(input, context) {
     "{ title, hook, summary, importantPoints:[string], factCheckNote, scenes:[{ index, durationSec, narration, screenText, imagePrompt, visualStyle }] }",
     `Topik: ${input.topic}`,
     `Kategori: ${input.category}`,
-    `Hook style pilihan user: ${input.hookStyle}`,
+    input.hookStyle ? `Hook yang harus dipakai atau dijadikan dasar: ${input.hookStyle}` : "",
     `Tone suara: ${input.tone}`,
     `Durasi maksimal: ${input.durationSec} detik`,
     `Jumlah scene: ${input.sceneCount}`,
@@ -140,8 +347,8 @@ function normalizePlan(plan, input) {
   }
 
   return {
-    title: titleCase(cleanText(plan?.title || fallback.title, 90)),
-    hook: cleanText(plan?.hook || fallback.hook, 180),
+    title: titleCase(cleanText(plan?.title || input.selectedIdea?.title || fallback.title, 90)),
+    hook: cleanText(plan?.hook || input.selectedIdea?.hook || fallback.hook, 180),
     summary: cleanText(plan?.summary || fallback.summary, 320),
     importantPoints: normalizePoints(plan?.importantPoints || fallback.importantPoints),
     factCheckNote: cleanText(plan?.factCheckNote || "Disusun sebagai penjelasan populer; detail teknis dapat diperdalam lagi dari sumber ilmiah.", 220),
@@ -213,8 +420,11 @@ function visualStyle(index) {
 }
 
 function fallbackPlan(input, reason = "") {
-  const title = titleCase(input.topic.replace(/[?.!]+$/g, ""));
-  const hook = `${input.hookStyle.replace(/[. ]+$/g, "")} ${input.topic}`;
+  const title = titleCase((input.selectedIdea?.title || input.topic).replace(/[?.!]+$/g, ""));
+  const hookBase = input.selectedIdea?.hook || input.hookStyle || `Ternyata ${input.topic.toLowerCase()} punya sisi yang jarang dibahas`;
+  const hook = hookBase.toLowerCase().includes(input.topic.toLowerCase())
+    ? hookBase
+    : `${hookBase.replace(/[. ]+$/g, "")}: ${input.topic}`;
   const beats = [
     `${hook}. Kelihatannya sederhana, tapi di balik hal ini ada prinsip yang membuat dunia bekerja dengan cara yang rapi.`,
     `Intinya, ${input.topic.toLowerCase()} bisa dipahami kalau kita melihat hubungan antara bentuk, gaya, energi, dan waktu.`,
