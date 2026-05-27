@@ -28,6 +28,7 @@ const els = {
   ttsMetric: document.querySelector("#ttsMetric"),
   videoMetric: document.querySelector("#videoMetric"),
   totalMetric: document.querySelector("#totalMetric"),
+  thumbnailSlot: document.querySelector("#thumbnailSlot"),
   videoSlot: document.querySelector("#videoSlot"),
   hookText: document.querySelector("#hookText"),
   pointList: document.querySelector("#pointList"),
@@ -401,7 +402,8 @@ function renderGallery() {
   }
   els.galleryGrid.innerHTML = videos.map((item) => `
     <article class="gallery-card">
-      <video controls playsinline preload="metadata" poster="${item.assets.thumbnail?.url || ""}" src="${item.assets.video.url}"></video>
+      ${thumbnailUrl(item) ? `<img class="gallery-thumbnail" src="${thumbnailUrl(item)}" alt="Thumbnail ${escapeHtml(item.title)}" loading="lazy">` : ""}
+      <video controls playsinline preload="metadata" poster="${thumbnailUrl(item)}" src="${item.assets.video.url}"></video>
       <div class="gallery-body">
         <strong>${escapeHtml(item.title)}</strong>
         <span>${formatDuration(item.assets.video.durationSec)} - ${new Date(item.updatedAt || item.createdAt).toLocaleString("id-ID")}</span>
@@ -487,6 +489,7 @@ function renderCurrent() {
     els.factNote.textContent = "-";
     els.sceneGrid.innerHTML = "";
     els.videoSlot.textContent = "Video belum dirender";
+    if (els.thumbnailSlot) els.thumbnailSlot.textContent = "Thumbnail belum tersedia";
     els.assetStatus.textContent = "Alur: Generate Ide -> Buat Storyboard -> Generate Video Final";
     els.videoMetric.textContent = "$0.000";
     renderYoutubeCopy(null);
@@ -510,8 +513,15 @@ function renderCurrent() {
   const final = item.assets.video?.url ? "Final: siap" : "Final: belum";
   els.assetStatus.textContent = `Gambar: ${imageCount}/${item.plan.scenes.length} - Clip Veo: ${clipCount || "opsional"} - ${audio} - ${final}`;
 
+  const thumb = thumbnailUrl(item);
+  if (els.thumbnailSlot) {
+    els.thumbnailSlot.innerHTML = thumb
+      ? `<img src="${thumb}" alt="Thumbnail ${escapeHtml(item.title)}">`
+      : "Thumbnail belum tersedia";
+  }
+
   if (item.assets.video?.url) {
-    els.videoSlot.innerHTML = `<video controls playsinline src="${item.assets.video.url}"></video>`;
+    els.videoSlot.innerHTML = `<video controls playsinline poster="${thumb}" src="${item.assets.video.url}"></video>`;
   } else {
     els.videoSlot.textContent = "Video belum dirender";
   }
@@ -631,6 +641,10 @@ function formatDuration(seconds) {
 
 function youtubeCopy(item) {
   return `JUDUL:\n${youtubeTitle(item)}\n\nCAPTION:\n${youtubeCaption(item)}`;
+}
+
+function thumbnailUrl(item) {
+  return item?.assets?.thumbnail?.url || item?.assets?.images?.[0]?.url || "";
 }
 
 function youtubeTitle(item) {

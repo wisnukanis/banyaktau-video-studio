@@ -35,8 +35,8 @@ export async function generateThumbnail(item) {
     "[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,eq=contrast=1.10:saturation=1.08:brightness=-0.012[hero]",
     "[hero]drawbox=x=0:y=0:w=1080:h=1920:color=black@0.08:t=fill[shade]",
     "[shade]drawbox=x=0:y=940:w=1080:h=980:color=black@0.54:t=fill[base]",
-    hasLogo ? "[1:v]scale=170:-1,format=rgba,colorchannelmixer=aa=0.34[wm]" : "",
-    hasLogo ? "[base][wm]overlay=x=W-w-54:y=48[marked]" : "",
+    hasLogo ? "[1:v]scale=245:-1,format=rgba,colorchannelmixer=aa=0.78[wm]" : "",
+    hasLogo ? "[base][wm]overlay=x=W-w-42:y=36[marked]" : "",
     [
       `${hasLogo ? "[marked]" : "[base]"}drawbox=x=72:y=${titleY - 36}:w=124:h=12:color=0xF5C84C@1:t=fill`,
       ...textFilters
