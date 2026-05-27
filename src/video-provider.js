@@ -21,9 +21,7 @@ async function generateGeminiClip({ itemId, scene, prompt }) {
     instances: [{ prompt: clipPrompt }],
     parameters: {
       aspectRatio: config.video.aspectRatio,
-      durationSeconds: Math.round(config.video.seconds),
-      resolution: config.video.resolution,
-      negativePrompt: "text overlay, subtitles, watermark, logo, gore, injury, distorted hands, low quality"
+      durationSeconds: Math.round(config.video.seconds)
     }
   };
 
