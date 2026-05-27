@@ -29,23 +29,17 @@ export async function generateThumbnail(item) {
       borderw: 6
     })
   ];
-  const logoPath = path.join(paths.publicDir, "assets", "banyaktau-logo-watermark.png");
-  const hasLogo = fsSync.existsSync(logoPath);
-  const finalInput = hasLogo ? "[marked]" : "[base]";
   const filter = [
     "[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,eq=contrast=1.12:saturation=1.10:brightness=-0.01[hero]",
     "[hero]drawbox=x=0:y=980:w=1080:h=940:color=black@0.64:t=fill[panel]",
     "[panel]drawbox=x=0:y=980:w=1080:h=10:color=0xF5C84C@1:t=fill[accent]",
     "[accent]drawbox=x=74:y=1052:w=156:h=12:color=0xF5C84C@1:t=fill[base]",
-    hasLogo ? "[1:v]scale=245:-1,format=rgba,colorchannelmixer=aa=0.78[wm]" : "",
-    hasLogo ? "[base][wm]overlay=x=W-w-42:y=36[marked]" : "",
-    `${finalInput}${textFilters.join(",")}`
+    `[base]${textFilters.join(",")}`
   ].filter(Boolean).join(";");
 
   const args = [
     "-y",
     "-i", images[0].path,
-    ...(hasLogo ? ["-i", logoPath] : []),
     "-filter_complex", filter,
     "-frames:v", "1",
     "-q:v", "2",

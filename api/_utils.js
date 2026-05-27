@@ -83,6 +83,14 @@ export function publicConfig() {
       videoResolution: clean(process.env.VIDEO_RESOLUTION || "720p"),
       videoSeconds: Number(process.env.VIDEO_SECONDS || 4),
       videoApiKeySet: Boolean(process.env.VIDEO_API_KEY || process.env.GEMINI_API_KEY || process.env.DINOIKI_API_KEY),
+      facebookUploadEnabled: String(process.env.FACEBOOK_UPLOAD_ENABLED || "").toLowerCase() === "true",
+      facebookPageIdSet: Boolean(process.env.BANYAKTAU_FACEBOOK_PAGE_ID || process.env.FACEBOOK_PAGE_ID),
+      facebookPageTokenSet: Boolean(
+        process.env.BANYAKTAU_FACEBOOK_PAGE_ACCESS_TOKEN
+        || process.env.FACEBOOK_PAGE_ACCESS_TOKEN
+        || process.env.BANYAKTAU_FACEBOOK_USER_ACCESS_TOKEN
+        || process.env.FACEBOOK_USER_ACCESS_TOKEN
+      ),
       geminiApiKeySet: Boolean(process.env.GEMINI_API_KEY),
       geminiBaseUrl: cleanBaseUrl(process.env.GEMINI_BASE_URL || "https://generativelanguage.googleapis.com"),
       openaiApiKeySet: Boolean(process.env.OPENAI_API_KEY),

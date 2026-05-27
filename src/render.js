@@ -6,7 +6,7 @@ import { clamp, safeFilename, splitLines } from "./util.js";
 
 const fps = 30;
 const introDuration = 3.0;
-const outroDuration = 3.6;
+const outroDuration = 2.0;
 
 export async function renderKnowledgeVideo(item) {
   const workDir = path.join(paths.workDir, item.id);
@@ -375,7 +375,7 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
     Math.max(0, totalDuration - outroDuration),
     totalDuration,
     "Point",
-    `{\\fad(260,260)}${assEscape(summaryText(item))}`
+    `{\\fad(100,100)}${assEscape(summaryText(item))}`
   ));
 
   const ass = [
@@ -390,7 +390,7 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
     `Style: Hook,${config.render.fontTitle},74,&H00FFFFFF,&H000000FF,&H98232A32,&HBB11171C,-1,0,0,0,100,100,0,0,1,3.5,0,5,80,80,140,1`,
     `Style: SceneTitle,${config.render.fontTitle},42,&H00F7F2DC,&H000000FF,&H90222A2C,&HAA15191D,-1,0,0,0,100,100,0,0,1,2.5,0,7,54,340,78,1`,
     `Style: Subtitle,${config.render.fontBody},58,&H00FFFFFF,&H000000FF,&H9A11171B,&HBF11171B,-1,0,0,0,100,100,0,0,1,4,1,2,80,80,550,1`,
-    `Style: Point,${config.render.fontBody},38,&H00FFFFFF,&H000000FF,&H9A14191D,&HCC11171B,-1,0,0,0,100,100,0,0,1,2.8,1,2,72,72,310,1`,
+    `Style: Point,${config.render.fontBody},56,&H00FFFFFF,&H000000FF,&H9614191D,&HCC11171B,-1,0,0,0,100,100,0,0,1,3.6,1.2,2,64,64,350,1`,
     "",
     "[Events]",
     "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
@@ -409,22 +409,22 @@ function summaryText(item) {
     .filter(Boolean)
     .slice(0, 2)
     .map((point, index) => {
-      const lines = splitLines(shortenSummaryPoint(point), 27, 2);
+      const lines = splitLines(shortenSummaryPoint(point), 22, 1);
       if (!lines.length) return "";
       lines[0] = `${index + 1}. ${lines[0]}`;
       return lines.join("\\N");
     })
     .filter(Boolean);
   if (points.length) return `KESIMPULAN\\N${points.join("\\N")}`;
-  return `KESIMPULAN\\N${splitLines(item.plan?.summary || "Simpan rasa penasaranmu.", 31, 3).join("\\N")}`;
+  return `KESIMPULAN\\N${splitLines(item.plan?.summary || "Simpan rasa penasaranmu.", 24, 2).join("\\N")}`;
 }
 
 function shortenSummaryPoint(value) {
   const text = String(value || "").replace(/\s+/g, " ").trim();
-  if (text.length <= 52) return text;
-  const clipped = text.slice(0, 49);
+  if (text.length <= 38) return text;
+  const clipped = text.slice(0, 35);
   const atSpace = clipped.lastIndexOf(" ");
-  return `${clipped.slice(0, atSpace > 36 ? atSpace : clipped.length).trim()}...`;
+  return `${clipped.slice(0, atSpace > 22 ? atSpace : clipped.length).trim()}...`;
 }
 
 function timedCaptionSegments(item, timing) {

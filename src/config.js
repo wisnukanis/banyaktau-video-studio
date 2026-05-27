@@ -70,6 +70,16 @@ export const config = {
     resolution: clean(process.env.VIDEO_RESOLUTION || "720p"),
     seconds: Math.min(8, Math.max(2, numberEnv("VIDEO_SECONDS", 4)))
   },
+  facebook: {
+    enabled: bool(process.env.FACEBOOK_UPLOAD_ENABLED || process.env.BANYAKTAU_FACEBOOK_UPLOAD_ENABLED),
+    graphApiVersion: clean(process.env.GRAPH_API_VERSION || "v25.0"),
+    pageId: clean(process.env.BANYAKTAU_FACEBOOK_PAGE_ID || process.env.FACEBOOK_PAGE_ID),
+    accessToken: process.env.BANYAKTAU_FACEBOOK_PAGE_ACCESS_TOKEN || process.env.FACEBOOK_PAGE_ACCESS_TOKEN || "",
+    userAccessToken: process.env.BANYAKTAU_FACEBOOK_USER_ACCESS_TOKEN || process.env.FACEBOOK_USER_ACCESS_TOKEN || "",
+    mediaType: clean(process.env.FACEBOOK_MEDIA_TYPE || "reel").toLowerCase(),
+    videoState: clean(process.env.FACEBOOK_VIDEO_STATE || "PUBLISHED"),
+    titlePrefix: clean(process.env.FACEBOOK_TITLE_PREFIX || "")
+  },
   gemini: {
     apiKey: process.env.GEMINI_API_KEY || "",
     baseUrl: trimSlash(process.env.GEMINI_BASE_URL || "https://generativelanguage.googleapis.com")
@@ -114,6 +124,9 @@ export function publicConfig() {
       videoResolution: config.video.resolution,
       videoSeconds: config.video.seconds,
       videoApiKeySet: bool(config.video.apiKey),
+      facebookUploadEnabled: config.facebook.enabled,
+      facebookPageIdSet: bool(config.facebook.pageId),
+      facebookPageTokenSet: bool(config.facebook.accessToken || config.facebook.userAccessToken),
       geminiApiKeySet: bool(config.gemini.apiKey),
       geminiBaseUrl: config.gemini.baseUrl,
       openaiApiKeySet: bool(config.openai.apiKey),

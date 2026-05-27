@@ -21,6 +21,11 @@ export async function runPreflight() {
     checks.push(checkValue(`${remote.prefix}_REMOTE_DIR`, Boolean(remote.remoteDir), "Folder remote wajib ada."));
   }
 
+  if (config.facebook.enabled) {
+    checks.push(checkValue("FACEBOOK_PAGE_ID", Boolean(config.facebook.pageId), "Page Facebook BanyakTau wajib diisi untuk auto upload."));
+    checks.push(checkValue("FACEBOOK_TOKEN", Boolean(config.facebook.accessToken || config.facebook.userAccessToken), "Page token atau user token Facebook wajib diisi."));
+  }
+
   checks.push(await checkFile("background_music", path.join(paths.rootDir, "assets", "music", "eksplorasi-literasi.m4a")));
 
   const failed = checks.filter((check) => !check.ok);

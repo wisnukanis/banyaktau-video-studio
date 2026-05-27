@@ -9,6 +9,15 @@ export default async function handler(req, res) {
   checks.push(check("DASHBOARD_GITHUB_REPO", Boolean(process.env.DASHBOARD_GITHUB_REPO || process.env.GITHUB_REPOSITORY), "Repo target workflow."));
   checks.push(check("PUBLIC_BASE_URL", Boolean(process.env.PUBLIC_BASE_URL), "Base URL state dan asset."));
   checks.push(check("OPENAI_API_KEY", Boolean(process.env.OPENAI_API_KEY), "Secret workflow untuk generate."));
+  if (String(process.env.FACEBOOK_UPLOAD_ENABLED || "").toLowerCase() === "true") {
+    checks.push(check("FACEBOOK_PAGE_ID", Boolean(process.env.BANYAKTAU_FACEBOOK_PAGE_ID || process.env.FACEBOOK_PAGE_ID), "Page Facebook BanyakTau untuk auto upload."));
+    checks.push(check("FACEBOOK_TOKEN", Boolean(
+      process.env.BANYAKTAU_FACEBOOK_PAGE_ACCESS_TOKEN
+      || process.env.FACEBOOK_PAGE_ACCESS_TOKEN
+      || process.env.BANYAKTAU_FACEBOOK_USER_ACCESS_TOKEN
+      || process.env.FACEBOOK_USER_ACCESS_TOKEN
+    ), "Page token atau user token Facebook."));
+  }
 
   const driver = clean(process.env.UPLOAD_DRIVER || "auto");
   const hasSftp = Boolean(process.env.SFTP_HOST && process.env.SFTP_USER && process.env.SFTP_PASSWORD && process.env.SFTP_REMOTE_DIR);
