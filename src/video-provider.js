@@ -18,7 +18,6 @@ async function generateGeminiClip({ itemId, scene, prompt }) {
   const baseUrl = joinUrl(config.video.baseUrl, "v1beta");
   const createUrl = `${baseUrl}/models/${encodeURIComponent(model)}:predictLongRunning`;
   const payload = {
-    prompt: clipPrompt,
     instances: [{ prompt: clipPrompt }],
     parameters: {
       aspectRatio: config.video.aspectRatio,
