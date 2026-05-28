@@ -7,6 +7,8 @@ import { clamp, safeFilename, splitLines } from "./util.js";
 const fps = 30;
 const introDuration = 3.0;
 const outroDuration = 6.0;
+const outroSummaryMaxChars = 36;
+const outroSummaryMaxLines = 5;
 
 export async function renderKnowledgeVideo(item) {
   const workDir = path.join(paths.workDir, item.id);
@@ -447,8 +449,8 @@ function outroSummaryText(item) {
   const fallback = points.length
     ? points.join(". ")
     : normalizeOutroText(item.plan?.scenes?.at(-1)?.narration || item.plan?.hook || "Simpan inti faktanya dan lanjut cari tahu lebih banyak.");
-  const text = compactOutroSummary(summary.length >= 60 ? summary : fallback);
-  return wrapOutroLines(text.replace(/\.+$/g, "."), 36, 5).join("\\N");
+  const text = compactOutroSummary(summary.length >= 60 ? summary : fallback, points);
+  return wrapOutroLines(text, outroSummaryMaxChars, outroSummaryMaxLines, { truncate: false }).join("\\N");
 }
 
 function outroPointText(item) {
@@ -467,19 +469,71 @@ function normalizeOutroText(value) {
     .trim();
 }
 
-function compactOutroSummary(value) {
+function compactOutroSummary(value, points = []) {
   const text = normalizeOutroText(value);
-  const completeSentences = text.match(/[^.!?]+[.!?]+/g);
-  if (completeSentences?.length) {
-    const first = completeSentences[0].replace(/\s+/g, " ").trim();
-    const second = completeSentences[1]?.replace(/\s+/g, " ").trim() || "";
-    if (!second || first.length >= 150) return first;
-    return `${first} ${second}`.replace(/\s+/g, " ").trim();
+  const completeSentences = sentenceList(text);
+  const pointSentences = points
+    .map((point) => ensureSentence(point.replace(/[.]+$/g, "")))
+    .filter(Boolean);
+  const candidates = [
+    completeSentences.length >= 2 ? `${completeSentences[0]} ${completeSentences[1]}` : "",
+    completeSentences[0] || "",
+    ...pointSentences,
+    text ? ensureSentence(text.replace(/[.]+$/g, "")) : ""
+  ].filter(Boolean);
+
+  for (const candidate of uniqueStrings(candidates)) {
+    if (fitsOutroSummary(candidate)) return candidate;
   }
-  return text;
+
+  return shortenOutroSentence(candidates[0] || "Simpan inti faktanya dan lanjut cari tahu lebih banyak.");
 }
 
-function wrapOutroLines(value, maxChars, maxLines) {
+function sentenceList(value) {
+  return (normalizeOutroText(value).match(/[^.!?]+[.!?]+/g) || [])
+    .map((sentence) => sentence.replace(/\s+/g, " ").trim())
+    .filter(Boolean);
+}
+
+function ensureSentence(value) {
+  const text = normalizeOutroText(value).replace(/[,:;]+$/g, "").trim();
+  if (!text) return "";
+  return /[.!?]$/.test(text) ? text : `${text}.`;
+}
+
+function uniqueStrings(values) {
+  const seen = new Set();
+  return values.filter((value) => {
+    const key = normalizeOutroText(value).toLowerCase();
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function fitsOutroSummary(value) {
+  return wrapOutroLines(value, outroSummaryMaxChars, Number.POSITIVE_INFINITY, { truncate: false }).length <= outroSummaryMaxLines;
+}
+
+function shortenOutroSentence(value) {
+  const words = normalizeOutroText(value).replace(/[.]+$/g, "").split(" ").filter(Boolean);
+  const lines = [];
+  let line = "";
+  for (const word of words) {
+    const next = line ? `${line} ${word}` : word;
+    if (next.length > outroSummaryMaxChars && line) {
+      lines.push(line);
+      if (lines.length >= outroSummaryMaxLines) break;
+      line = word;
+    } else {
+      line = next;
+    }
+  }
+  if (lines.length < outroSummaryMaxLines && line) lines.push(line);
+  return ensureSentence(lines.join(" "));
+}
+
+function wrapOutroLines(value, maxChars, maxLines, options = {}) {
   const words = normalizeOutroText(value).split(" ").filter(Boolean);
   const lines = [];
   let line = "";
@@ -494,6 +548,7 @@ function wrapOutroLines(value, maxChars, maxLines) {
   }
   if (line) lines.push(line);
 
+  if (options.truncate === false) return lines;
   const limited = lines.slice(0, maxLines);
   if (lines.length > maxLines) {
     const last = limited.at(-1) || "";

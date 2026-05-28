@@ -482,7 +482,7 @@ function renderGallery() {
     button.addEventListener("click", async () => {
       const item = state.items.find((entry) => entry.id === button.dataset.copyYoutube);
       await copyText(youtubeCopy(item));
-      setStatus("Judul dan caption YouTube disalin.");
+      setStatus("Caption YouTube disalin.");
     });
   });
 }
@@ -614,7 +614,7 @@ function renderYoutubeCopy(item) {
 async function copyCurrentYoutube() {
   if (!state.current) return;
   await copyText(youtubeCopy(state.current));
-  setStatus("Judul dan caption YouTube siap ditempel.");
+  setStatus("Caption YouTube siap ditempel.");
 }
 
 async function copyVideoLink(item) {
@@ -628,7 +628,7 @@ async function downloadVideo(item) {
   if (!item?.assets?.video?.url) return;
   const resolvedUrl = downloadUrl(item);
   if (isIOS()) {
-    setStatus("iPhone: file video akan dibuka sebagai unduhan. Jika muncul preview, tekan Share lalu Save Video atau Save to Files. Judul dan caption juga disalin.");
+    setStatus("iPhone: file video akan dibuka sebagai unduhan. Jika muncul preview, tekan Share lalu Save Video atau Save to Files. Caption juga disalin.");
     const opened = openDownload(resolvedUrl, item);
     await copyText(youtubeCopy(item));
     if (!opened) window.location.href = resolvedUrl;
@@ -641,7 +641,7 @@ async function downloadVideo(item) {
 
 async function shareToYoutube(item) {
   if (!item?.assets?.video?.url) return;
-  setStatus("Judul dan caption YouTube disalin. Halaman YouTube Upload dibuka, lalu pilih video hasil download.");
+  setStatus("Caption YouTube disalin. Halaman YouTube Upload dibuka, lalu pilih video hasil download.");
   const opened = window.open(YOUTUBE_UPLOAD_URL, "_blank", "noopener");
   await copyText(youtubeCopy(item));
   if (!opened) window.location.href = YOUTUBE_UPLOAD_URL;
@@ -785,7 +785,7 @@ function formatDuration(seconds) {
 }
 
 function youtubeCopy(item) {
-  return `JUDUL:\n${youtubeTitle(item)}\n\nCAPTION:\n${youtubeCaption(item)}`;
+  return youtubeCaption(item);
 }
 
 function thumbnailUrl(item) {
