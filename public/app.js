@@ -5,7 +5,12 @@ const state = {
   selectedIdea: null,
   config: null,
   busy: false,
-  pollTimer: 0
+  pollTimer: 0,
+  processStartedAt: 0,
+  processLabel: "",
+  historyExpanded: false,
+  galleryExpanded: false,
+  logs: []
 };
 
 const YOUTUBE_UPLOAD_URL = "https://www.youtube.com/upload";
@@ -22,10 +27,14 @@ const els = {
   ttsBtn: document.querySelector("#ttsBtn"),
   clipBtn: document.querySelector("#clipBtn"),
   renderBtn: document.querySelector("#renderBtn"),
+  menuBtn: document.querySelector("#menuBtn"),
+  closeSettingsBtn: document.querySelector("#closeSettingsBtn"),
+  settingsDrawer: document.querySelector("#settingsDrawer"),
   statusText: document.querySelector("#statusText"),
   itemTitle: document.querySelector("#itemTitle"),
   itemCount: document.querySelector("#itemCount"),
   itemList: document.querySelector("#itemList"),
+  historyMoreBtn: document.querySelector("#historyMoreBtn"),
   tokenMetric: document.querySelector("#tokenMetric"),
   imageMetric: document.querySelector("#imageMetric"),
   ttsMetric: document.querySelector("#ttsMetric"),
@@ -50,6 +59,13 @@ const els = {
   ideaMeta: document.querySelector("#ideaMeta"),
   ideaList: document.querySelector("#ideaList"),
   galleryGrid: document.querySelector("#galleryGrid"),
+  galleryMoreBtn: document.querySelector("#galleryMoreBtn"),
+  processDurationMetric: document.querySelector("#processDurationMetric"),
+  avgProcessMetric: document.querySelector("#avgProcessMetric"),
+  uploadedTodayMetric: document.querySelector("#uploadedTodayMetric"),
+  uploadStatusMetric: document.querySelector("#uploadStatusMetric"),
+  processLog: document.querySelector("#processLog"),
+  dailyUploadList: document.querySelector("#dailyUploadList"),
   workspaceTabs: document.querySelectorAll("[data-workspace-tab]"),
   workspaceViews: document.querySelectorAll("[data-workspace-view]"),
   settingsTabs: document.querySelectorAll("[data-settings-tab]"),
@@ -64,6 +80,10 @@ async function init() {
   state.config = (await api("/api/health")).config;
   fillSettingsForm();
   await refreshItems();
+  pushLog("Dashboard siap.");
+  window.setInterval(() => {
+    if (state.processStartedAt) renderAnalytics();
+  }, 1000);
   render();
 }
 
@@ -78,6 +98,16 @@ function bindEvents() {
   });
   els.workspaceTabs.forEach((tab) => {
     tab.addEventListener("click", () => showWorkspaceTab(tab.dataset.workspaceTab));
+  });
+  els.menuBtn?.addEventListener("click", () => toggleSettingsDrawer(true));
+  els.closeSettingsBtn?.addEventListener("click", () => toggleSettingsDrawer(false));
+  els.historyMoreBtn?.addEventListener("click", () => {
+    state.historyExpanded = !state.historyExpanded;
+    renderList();
+  });
+  els.galleryMoreBtn?.addEventListener("click", () => {
+    state.galleryExpanded = !state.galleryExpanded;
+    renderGallery();
   });
   els.ideaBtn?.addEventListener("click", generateIdeas);
   els.draftBtn?.addEventListener("click", generateDraft);
@@ -197,6 +227,7 @@ async function generateDraft() {
 
 async function generateFull() {
   const previousLatestId = state.items[0]?.id || "";
+  startProcess("Generate video otomatis");
   setBusy(true, "Preflight dashboard sebelum generate...");
   try {
     await runPreflight({ quiet: true });
@@ -216,9 +247,11 @@ async function generateFull() {
         hasClip ? "Video final selesai dibuat dengan clip Veo." : "Video final selesai dibuat tanpa clip Veo.",
         data.warnings
       ));
+      finishProcess("Video final selesai.");
     }
   } catch (error) {
     setStatus(error.message);
+    finishProcess("Generate gagal.");
   } finally {
     setBusy(false);
     render();
@@ -239,12 +272,14 @@ function startResultPolling(previousLatestId) {
         window.clearInterval(state.pollTimer);
         state.pollTimer = 0;
         setStatus("Video baru sudah muncul di dashboard.");
+        finishProcess("Video selesai dan state upload terbaca.");
       } else if (attempts >= 60) {
         window.clearInterval(state.pollTimer);
         state.pollTimer = 0;
         setStatus("Generate masih diproses atau upload belum masuk. Klik Preflight lalu refresh galeri sebentar lagi.");
+        finishProcess("Polling selesai, hasil belum terbaca.");
       } else {
-        setStatus(`Generate masih berjalan. Cek otomatis ${attempts}/60...`);
+        updateCurrentStatus(`Generate masih berjalan. Cek otomatis ${attempts}/60...`);
       }
       render();
     } catch (error) {
@@ -367,6 +402,7 @@ function render() {
   renderList();
   renderIdeas();
   renderGallery();
+  renderAnalytics();
   renderSelectedIdea();
   renderCurrent();
   renderProviderStatus();
@@ -416,6 +452,12 @@ function showWorkspaceTab(name) {
   els.workspaceViews.forEach((view) => view.classList.toggle("active", view.dataset.workspaceView === name));
 }
 
+function toggleSettingsDrawer(open) {
+  if (!els.settingsDrawer) return;
+  els.settingsDrawer.classList.toggle("open", open);
+  els.settingsDrawer.setAttribute("aria-hidden", open ? "false" : "true");
+}
+
 function renderProviderStatus() {
   if (state.config?.dashboard?.vercel) {
     els.providerStatus.textContent = "GitHub Actions aktif";
@@ -431,7 +473,8 @@ function renderProviderStatus() {
 
 function renderList() {
   els.itemCount.textContent = String(state.items.length);
-  els.itemList.innerHTML = state.items.map((item) => `
+  const visibleItems = state.historyExpanded ? state.items : state.items.slice(0, 3);
+  els.itemList.innerHTML = visibleItems.map((item) => `
     <button type="button" data-id="${item.id}">
       <strong>${escapeHtml(item.title)}</strong>
       <span>${escapeHtml(item.assets?.audio?.provider || item.input?.ttsProvider || "-")} - ${new Date(item.updatedAt || item.createdAt).toLocaleString("id-ID")}</span>
@@ -443,6 +486,10 @@ function renderList() {
       render();
     });
   });
+  if (els.historyMoreBtn) {
+    els.historyMoreBtn.hidden = state.items.length <= 3;
+    els.historyMoreBtn.textContent = state.historyExpanded ? "Show Less" : `Show More (${state.items.length - 3})`;
+  }
 }
 
 function renderGallery() {
@@ -450,9 +497,11 @@ function renderGallery() {
   if (!els.galleryGrid) return;
   if (!videos.length) {
     els.galleryGrid.innerHTML = `<div class="empty-gallery">Belum ada video final. Generate video dulu, nanti muncul di sini.</div>`;
+    if (els.galleryMoreBtn) els.galleryMoreBtn.hidden = true;
     return;
   }
-  els.galleryGrid.innerHTML = videos.map((item) => `
+  const visibleVideos = state.galleryExpanded ? videos : videos.slice(0, 6);
+  els.galleryGrid.innerHTML = visibleVideos.map((item) => `
     <article class="gallery-card">
       <video controls playsinline preload="metadata" src="${item.assets.video.url}"></video>
       <div class="gallery-body">
@@ -478,6 +527,41 @@ function renderGallery() {
       setStatus("Caption YouTube disalin.");
     });
   });
+  if (els.galleryMoreBtn) {
+    els.galleryMoreBtn.hidden = videos.length <= 6;
+    els.galleryMoreBtn.textContent = state.galleryExpanded ? "Show Less" : `Show More (${videos.length - 6})`;
+  }
+}
+
+function renderAnalytics() {
+  if (!els.processDurationMetric) return;
+  const videos = state.items.filter((item) => item.assets?.video?.url);
+  const uploaded = videos.filter((item) => publishSuccess(item));
+  const failed = videos.filter((item) => item.publish?.errors && Object.keys(item.publish.errors).length);
+  const todayKey = dayKey(new Date());
+  const uploadedToday = uploaded.filter((item) => dayKey(publishedDate(item) || item.updatedAt || item.createdAt) === todayKey);
+  const durations = videos
+    .map(processDurationMs)
+    .filter((value) => value > 0);
+  const avgMs = durations.length ? durations.reduce((sum, value) => sum + value, 0) / durations.length : 0;
+  els.processDurationMetric.textContent = state.processStartedAt ? formatElapsed(Date.now() - state.processStartedAt) : "00:00";
+  els.avgProcessMetric.textContent = avgMs ? formatElapsed(avgMs) : "-";
+  els.uploadedTodayMetric.textContent = String(uploadedToday.length);
+  els.uploadStatusMetric.textContent = `${uploaded.length} OK / ${failed.length} gagal`;
+
+  if (els.dailyUploadList) {
+    els.dailyUploadList.innerHTML = dailyUploadRows(uploaded)
+      .map((row) => `<div><span>${row.label}</span><strong>${row.count}</strong></div>`)
+      .join("");
+  }
+  if (els.processLog) {
+    const rows = state.logs.length ? state.logs : [{ time: new Date().toISOString(), message: "Belum ada proses berjalan." }];
+    els.processLog.innerHTML = rows
+      .slice(-8)
+      .reverse()
+      .map((entry) => `<div><span>${new Date(entry.time).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}</span><p>${escapeHtml(entry.message)}</p></div>`)
+      .join("");
+  }
 }
 
 function renderIdeas() {
@@ -560,7 +644,7 @@ function renderCurrent() {
   const clipCount = item.assets.clips?.length || 0;
   const audio = item.assets.audio?.provider ? `Audio: ${item.assets.audio.provider}` : "Audio: belum";
   const final = item.assets.video?.url ? "Final: siap" : "Final: belum";
-  els.assetStatus.textContent = `Gambar: ${imageCount}/${item.plan.scenes.length} - Clip Veo: ${clipCount || "opsional"} - ${audio} - ${final}`;
+  els.assetStatus.textContent = `Img ${imageCount}/${item.plan.scenes.length} - Clip ${clipCount || 0} - ${audio} - ${final}`;
 
   const thumb = thumbnailUrl(item);
   if (els.thumbnailSlot) {
@@ -585,7 +669,7 @@ function renderCurrent() {
           <small>Scene ${scene.index}</small>
           <strong>${escapeHtml(scene.screenText)}</strong>
           <p>${escapeHtml(scene.narration)}</p>
-          <button type="button" class="mini-action" data-clip-scene="${scene.index}">
+          <button type="button" class="mini-action d-none" data-clip-scene="${scene.index}">
             ${clip?.url ? "Buat ulang clip" : `Tambah clip ${formatUsd(estimateClipCost())}`}
           </button>
         </div>
@@ -671,7 +755,39 @@ function setBusy(value, message = "") {
 }
 
 function setStatus(message) {
-  els.statusText.textContent = message;
+  pushLog(message);
+  updateCurrentStatus(message);
+}
+
+function updateCurrentStatus(message) {
+  if (els.statusText) els.statusText.textContent = message;
+}
+
+function pushLog(message) {
+  const text = String(message || "").trim();
+  if (!text) return;
+  const latest = state.logs.at(-1);
+  if (latest?.message === text) return;
+  state.logs.push({ time: new Date().toISOString(), message: text });
+  state.logs = state.logs.slice(-40);
+  renderAnalytics();
+}
+
+function startProcess(label) {
+  state.processStartedAt = Date.now();
+  state.processLabel = label;
+  pushLog(`${label} dimulai.`);
+}
+
+function finishProcess(message) {
+  if (state.processStartedAt) {
+    pushLog(`${message} Durasi ${formatElapsed(Date.now() - state.processStartedAt)}.`);
+  } else {
+    pushLog(message);
+  }
+  state.processStartedAt = 0;
+  state.processLabel = "";
+  renderAnalytics();
 }
 
 function statusWithWarnings(message, warnings = []) {
@@ -775,6 +891,63 @@ function formatDuration(seconds) {
   const minute = Math.floor(value / 60);
   const second = value % 60;
   return `${minute}:${String(second).padStart(2, "0")}`;
+}
+
+function formatElapsed(ms) {
+  const totalSeconds = Math.max(0, Math.round(Number(ms || 0) / 1000));
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  if (hours > 0) return `${hours}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+}
+
+function publishSuccess(item) {
+  return Boolean(item?.publish?.facebook?.url || item?.publish?.instagram?.url);
+}
+
+function publishedDate(item) {
+  const dates = [
+    item?.publish?.facebook?.publishedAt,
+    item?.publish?.instagram?.publishedAt
+  ].filter(Boolean).map((value) => new Date(value)).filter((date) => Number.isFinite(date.getTime()));
+  if (!dates.length) return null;
+  return new Date(Math.max(...dates.map((date) => date.getTime())));
+}
+
+function processDurationMs(item) {
+  const start = new Date(item?.createdAt || "").getTime();
+  const published = publishedDate(item)?.getTime();
+  const updated = new Date(item?.updatedAt || "").getTime();
+  const end = Number.isFinite(published) ? published : updated;
+  if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start) return 0;
+  return end - start;
+}
+
+function dayKey(value) {
+  const date = value instanceof Date ? value : new Date(value || "");
+  if (!Number.isFinite(date.getTime())) return "";
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function dailyUploadRows(items) {
+  const counts = new Map();
+  for (let offset = 0; offset < 7; offset += 1) {
+    const date = new Date();
+    date.setDate(date.getDate() - offset);
+    counts.set(dayKey(date), 0);
+  }
+  for (const item of items) {
+    const key = dayKey(publishedDate(item) || item.updatedAt || item.createdAt);
+    if (counts.has(key)) counts.set(key, counts.get(key) + 1);
+  }
+  return [...counts.entries()].map(([key, count]) => ({
+    label: new Date(`${key}T00:00:00`).toLocaleDateString("id-ID", { weekday: "short", day: "2-digit", month: "short" }),
+    count
+  }));
 }
 
 function youtubeCopy(item) {
