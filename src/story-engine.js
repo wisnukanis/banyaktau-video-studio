@@ -26,7 +26,7 @@ function normalizeIdeaInput(input) {
 
 function buildIdeaPrompt(input, context) {
   const recent = Array.isArray(context.existingItems)
-    ? context.existingItems.slice(0, 30).map((item) => `- ${item.title}: ${item.plan?.hook || item.input?.topic || ""}`)
+    ? context.existingItems.slice(0, 40).map((item) => `- ${item.title}: ${item.plan?.hook || item.hook || item.input?.topic || item.topic || ""}`)
     : [];
 
   return [
@@ -301,7 +301,7 @@ function normalizeInput(input) {
 
 function buildPrompt(input, context) {
   const recent = Array.isArray(context.existingItems)
-    ? context.existingItems.slice(0, 20).map((item) => `- ${item.title}: ${item.plan?.hook || item.input?.topic || ""}`)
+    ? context.existingItems.slice(0, 40).map((item) => `- ${item.title}: ${item.plan?.hook || item.hook || item.input?.topic || item.topic || ""}`)
     : [];
   const idea = input.selectedIdea;
 

@@ -86,7 +86,9 @@ button {
 
 .sidebar,
 .workspace > section,
+.workspace-view > section,
 .topbar,
+.workspace-tabs,
 .metrics > div,
 .summary-panel,
 .video-panel,
@@ -419,6 +421,38 @@ fieldset,
   gap: 14px;
 }
 
+.workspace-view {
+  display: none;
+  gap: 14px;
+}
+
+.workspace-view.active {
+  display: grid;
+}
+
+.workspace-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  padding: 5px;
+}
+
+.workspace-tab {
+  min-height: 34px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.workspace-tab.active {
+  border-color: rgba(196, 164, 111, 0.42);
+  background: rgba(196, 164, 111, 0.12);
+  color: var(--amber);
+}
+
 .topbar {
   position: sticky;
   top: 14px;
@@ -642,7 +676,8 @@ p {
 
 .idea-panel,
 .gallery-panel,
-.workspace > section:not(.preview-grid):not(.metrics) {
+.workspace > section:not(.preview-grid):not(.metrics),
+.workspace-view > section:not(.preview-grid):not(.metrics) {
   padding: 14px;
 }
 
@@ -801,9 +836,48 @@ button:disabled {
   .two-col,
   .settings-tabs,
   .idea-list,
-  .scene-grid,
   .gallery-grid {
     grid-template-columns: 1fr;
+  }
+
+  .scene-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .scene-card img,
+  .scene-card video {
+    aspect-ratio: 1 / 1;
+  }
+
+  .scene-body {
+    padding: 8px;
+  }
+
+  .scene-card strong {
+    display: -webkit-box;
+    overflow: hidden;
+    font-size: 12px;
+    line-height: 1.2;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .scene-card p {
+    display: -webkit-box;
+    overflow: hidden;
+    margin-top: 5px;
+    font-size: 10.5px;
+    line-height: 1.35;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+
+  .scene-card .mini-action {
+    min-height: 30px;
+    width: 100%;
+    padding: 0 6px;
+    font-size: 10px;
   }
 }
 

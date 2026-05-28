@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { Readable } from "node:stream";
+import { Readable, Writable } from "node:stream";
 import { Client as FtpClient } from "basic-ftp";
 import SftpClient from "ssh2-sftp-client";
 import { paths } from "./config.js";
@@ -55,6 +55,10 @@ export async function uploadGeneratedStateAndAssets(options = {}) {
       await uploadDir(client, paths.audioDir, "audio");
     }
     await uploadJsonFile(client, path.join(paths.dataDir, "items.json"), "state/items.json");
+    const memoryPath = path.join(paths.dataDir, "memory.json");
+    if (await fileExists(memoryPath)) {
+      await uploadJsonFile(client, memoryPath, "state/memory.json");
+    }
   });
 }
 
@@ -78,7 +82,7 @@ export function absolutizeGeneratedUrls(item) {
   };
 }
 
-async function withRemoteClient(cfg, callback) {
+export async function withRemoteClient(cfg, callback) {
   if (cfg.driver === "ftp") {
     const client = new FtpClient(cfg.timeoutMs);
     try {
@@ -175,6 +179,15 @@ async function uploadJsonFile(client, localPath, remotePath) {
   await client.uploadStream(Readable.from([Buffer.from(raw, "utf8")]), remotePath);
 }
 
+async function fileExists(filePath) {
+  try {
+    await fs.access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 class FtpAdapter {
   constructor(client, root) {
     this.client = client;
@@ -191,6 +204,32 @@ class FtpAdapter {
 
   async uploadStream(stream, remotePath) {
     await this.client.uploadFrom(stream, path.posix.join(this.root, remotePath));
+  }
+
+  async list(remotePath) {
+    const items = await this.client.list(path.posix.join(this.root, remotePath));
+    return items.map((item) => ({
+      name: item.name,
+      isFile: item.isFile,
+      size: item.size || 0,
+      modifiedAt: item.modifiedAt || null
+    }));
+  }
+
+  async remove(remotePath) {
+    await this.client.remove(path.posix.join(this.root, remotePath));
+  }
+
+  async readFile(remotePath) {
+    const chunks = [];
+    const sink = new Writable({
+      write(chunk, _encoding, callback) {
+        chunks.push(Buffer.from(chunk));
+        callback();
+      }
+    });
+    await this.client.downloadTo(sink, path.posix.join(this.root, remotePath));
+    return Buffer.concat(chunks).toString("utf8");
   }
 }
 
@@ -214,5 +253,28 @@ class SftpAdapter {
 
   async uploadStream(stream, remotePath) {
     await this.client.put(stream, this.resolve(remotePath));
+  }
+
+  async list(remotePath) {
+    const items = await this.client.list(this.resolve(remotePath));
+    return items.map((item) => ({
+      name: item.name,
+      isFile: item.type === "-",
+      size: item.size || 0,
+      modifiedAt: item.modifyTime ? new Date(item.modifyTime) : null
+    }));
+  }
+
+  async remove(remotePath) {
+    await this.client.delete(this.resolve(remotePath));
+  }
+
+  async readFile(remotePath) {
+    const data = await this.client.get(this.resolve(remotePath));
+    if (Buffer.isBuffer(data)) return data.toString("utf8");
+    if (typeof data === "string") return data;
+    const chunks = [];
+    for await (const chunk of data) chunks.push(Buffer.from(chunk));
+    return Buffer.concat(chunks).toString("utf8");
   }
 }

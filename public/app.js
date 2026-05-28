@@ -50,6 +50,8 @@ const els = {
   ideaMeta: document.querySelector("#ideaMeta"),
   ideaList: document.querySelector("#ideaList"),
   galleryGrid: document.querySelector("#galleryGrid"),
+  workspaceTabs: document.querySelectorAll("[data-workspace-tab]"),
+  workspaceViews: document.querySelectorAll("[data-workspace-view]"),
   settingsTabs: document.querySelectorAll("[data-settings-tab]"),
   settingsPanels: document.querySelectorAll("[data-settings-panel]"),
   flowSteps: document.querySelectorAll("[data-step]")
@@ -73,6 +75,9 @@ function bindEvents() {
   els.settingsForm.addEventListener("submit", saveSettings);
   els.settingsTabs.forEach((tab) => {
     tab.addEventListener("click", () => showSettingsTab(tab.dataset.settingsTab));
+  });
+  els.workspaceTabs.forEach((tab) => {
+    tab.addEventListener("click", () => showWorkspaceTab(tab.dataset.workspaceTab));
   });
   els.ideaBtn?.addEventListener("click", generateIdeas);
   els.draftBtn?.addEventListener("click", generateDraft);
@@ -406,6 +411,11 @@ function showSettingsTab(name) {
   els.settingsPanels.forEach((panel) => panel.classList.toggle("active", panel.dataset.settingsPanel === name));
 }
 
+function showWorkspaceTab(name) {
+  els.workspaceTabs.forEach((tab) => tab.classList.toggle("active", tab.dataset.workspaceTab === name));
+  els.workspaceViews.forEach((view) => view.classList.toggle("active", view.dataset.workspaceView === name));
+}
+
 function renderProviderStatus() {
   if (state.config?.dashboard?.vercel) {
     els.providerStatus.textContent = "GitHub Actions aktif";
@@ -444,16 +454,12 @@ function renderGallery() {
   }
   els.galleryGrid.innerHTML = videos.map((item) => `
     <article class="gallery-card">
-      <video controls playsinline preload="metadata" poster="${thumbnailUrl(item)}" src="${item.assets.video.url}"></video>
+      <video controls playsinline preload="metadata" src="${item.assets.video.url}"></video>
       <div class="gallery-body">
         <strong>${escapeHtml(item.title)}</strong>
         <span>${formatDuration(item.assets.video.durationSec)} - ${new Date(item.updatedAt || item.createdAt).toLocaleString("id-ID")}</span>
         <div class="gallery-actions">
           <button type="button" class="mini-action" data-download-video="${item.id}">Download</button>
-          ${item.assets.thumbnail?.url ? `<a class="mini-action" href="${item.assets.thumbnail.url}" download>Thumbnail</a>` : ""}
-          <a class="mini-action" href="${item.assets.video.url}" target="_blank" rel="noreferrer">Buka</a>
-          <button type="button" class="mini-action" data-copy-url="${item.assets.video.url}">Copy Link</button>
-          <button type="button" class="mini-action accent" data-share-youtube="${item.id}">Share YouTube</button>
           <button type="button" class="mini-action" data-copy-youtube="${item.id}">Copy Caption</button>
         </div>
       </div>
@@ -463,19 +469,6 @@ function renderGallery() {
     button.addEventListener("click", () => {
       const item = state.items.find((entry) => entry.id === button.dataset.downloadVideo);
       downloadVideo(item);
-    });
-  });
-  els.galleryGrid.querySelectorAll("[data-share-youtube]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const item = state.items.find((entry) => entry.id === button.dataset.shareYoutube);
-      shareToYoutube(item);
-    });
-  });
-  els.galleryGrid.querySelectorAll("[data-copy-url]").forEach((button) => {
-    button.addEventListener("click", async () => {
-      const url = new URL(button.dataset.copyUrl, window.location.origin).href;
-      await copyText(url);
-      setStatus("Link video disalin.");
     });
   });
   els.galleryGrid.querySelectorAll("[data-copy-youtube]").forEach((button) => {

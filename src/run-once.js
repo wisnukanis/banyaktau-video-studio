@@ -3,7 +3,7 @@ import { config } from "./config.js";
 import { publishToSocials } from "./facebook.js";
 import { generateFullItem } from "./pipeline.js";
 import { absolutizeGeneratedUrls, publicBaseUrl, remoteEnabled, uploadGeneratedStateAndAssets } from "./remote.js";
-import { saveItem } from "./storage.js";
+import { mergeMemoryItems, saveItem } from "./storage.js";
 
 function argValue(name, fallback = "") {
   const index = process.argv.indexOf(name);
@@ -33,10 +33,14 @@ const withClip = boolValue(argValue("--with-clip", process.env.BANYAKTAU_WITH_CL
 console.log("BanyakTau run started.");
 console.log(`Category=${input.category}, duration=${input.durationSec}, scenes=${input.sceneCount}, withClip=${withClip}`);
 
+if (remoteEnabled()) {
+  await importRemoteState();
+}
+
 const result = await generateFullItem(input, { withClip, requireClip: withClip });
 if (remoteEnabled()) {
   result.item = absolutizeGeneratedUrls(result.item);
-  await mergeRemoteState(result.item);
+  await mergeMemoryItems([result.item]);
   await saveItem(result.item);
   try {
     await uploadGeneratedStateAndAssets({ item: result.item });
@@ -58,20 +62,34 @@ console.log(JSON.stringify({
   warnings: result.warnings
 }, null, 2));
 
-async function mergeRemoteState(currentItem) {
+async function importRemoteState() {
   const base = publicBaseUrl();
   if (!base) return;
   try {
-    const response = await fetch(`${base}/state/items.json?v=${Date.now()}`, { cache: "no-store" });
-    if (!response.ok) return;
-    const remoteItems = await response.json();
-    if (!Array.isArray(remoteItems)) return;
+    const remoteItems = await fetchRemoteJson(`${base}/state/items.json?v=${Date.now()}`, []);
+    const remoteMemory = await fetchRemoteJson(`${base}/state/memory.json?v=${Date.now()}`, { items: [] });
     for (const item of remoteItems) {
-      if (item?.id && item.id !== currentItem.id) await saveItem(item);
+      if (item?.id) await saveItem(item);
     }
+    await mergeMemoryItems([
+      ...remoteItems,
+      ...normalizeMemoryPayload(remoteMemory)
+    ]);
   } catch (error) {
-    result.warnings.push(`Remote state lama tidak bisa digabung: ${error.message}`);
+    console.warn(`Remote memory lama tidak bisa digabung: ${error.message}`);
   }
+}
+
+async function fetchRemoteJson(url, fallback) {
+  const response = await fetch(url, { cache: "no-store" });
+  if (!response.ok) return fallback;
+  return response.json();
+}
+
+function normalizeMemoryPayload(value) {
+  if (Array.isArray(value)) return value;
+  if (Array.isArray(value?.items)) return value.items;
+  return [];
 }
 
 async function publishSocialsIfEnabled(result) {
@@ -101,6 +119,7 @@ async function publishSocialsIfEnabled(result) {
       }
     }
     await saveItem(item);
+    await mergeMemoryItems([item]);
     await uploadGeneratedStateAndAssets({ item });
     console.log(`Social publish complete: ${publishSummary(published)}`);
   } catch (error) {

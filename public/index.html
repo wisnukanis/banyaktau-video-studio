@@ -21,7 +21,7 @@
         <form id="generateForm" class="form-stack">
           <input name="topic" type="hidden" value="">
           <button id="fullBtn" class="primary make-video-btn" type="submit">Buat Video</button>
-          <p class="one-click-copy">Auto storyboard, gambar, suara, subtitle, thumbnail, dan video final. PIN: 123456.</p>
+          <p class="one-click-copy">Auto storyboard, gambar, suara, subtitle, dan video final. PIN: 123456.</p>
           <div id="selectedIdea" class="selected-idea">Belum ada ide terpilih.</div>
 
           <details class="advanced-fields">
@@ -215,94 +215,100 @@
           </div>
         </header>
 
-        <section id="ideaPanel" class="idea-panel d-none">
-          <div class="section-head wide">
-            <strong>Rekomendasi Ide</strong>
-            <span id="ideaMeta">Pilih satu ide untuk storyboard</span>
-          </div>
-          <div id="ideaList" class="idea-list"></div>
-        </section>
+        <nav class="workspace-tabs" role="tablist" aria-label="Navigasi dashboard">
+          <button class="workspace-tab active" type="button" data-workspace-tab="studio">Studio</button>
+          <button class="workspace-tab" type="button" data-workspace-tab="gallery">Galeri</button>
+        </nav>
 
-        <section class="metrics">
-          <div>
-            <span>Token</span>
-            <strong id="tokenMetric">0</strong>
-          </div>
-          <div>
-            <span>Gambar</span>
-            <strong id="imageMetric">$0.000</strong>
-          </div>
-          <div>
-            <span>TTS</span>
-            <strong id="ttsMetric">$0.000</strong>
-          </div>
-          <div>
-            <span>Clip</span>
-            <strong id="videoMetric">$0.000</strong>
-          </div>
-          <div>
-            <span>Total</span>
-            <strong id="totalMetric">$0.000</strong>
-          </div>
-        </section>
-
-        <section class="preview-grid">
-          <div class="video-panel">
-            <div id="thumbnailSlot" class="thumbnail-slot">Thumbnail belum tersedia</div>
-            <div id="videoSlot" class="video-slot">Video belum dirender</div>
-            <div class="preview-actions" aria-label="Aksi video">
-              <button id="downloadVideoBtn" class="mini-action" type="button">Download Video</button>
-              <button id="shareYoutubeBtn" class="mini-action accent" type="button">Share YouTube</button>
-              <button id="copyVideoLinkBtn" class="mini-action" type="button">Copy Link</button>
+        <div id="studioView" class="workspace-view active" data-workspace-view="studio">
+          <section id="ideaPanel" class="idea-panel d-none">
+            <div class="section-head wide">
+              <strong>Rekomendasi Ide</strong>
+              <span id="ideaMeta">Pilih satu ide untuk storyboard</span>
             </div>
-          </div>
+            <div id="ideaList" class="idea-list"></div>
+          </section>
 
-          <div class="summary-panel">
-            <div class="hook-box">
-              <span>Hook</span>
-              <strong id="hookText">-</strong>
-            </div>
-            <div class="summary-box">
-              <h2>Ringkasan</h2>
-              <p id="summaryText">-</p>
+          <section class="metrics">
+            <div>
+              <span>Token</span>
+              <strong id="tokenMetric">0</strong>
             </div>
             <div>
-              <h2>Bagian Penting</h2>
-              <ul id="pointList"></ul>
+              <span>Gambar</span>
+              <strong id="imageMetric">$0.000</strong>
             </div>
             <div>
-              <h2>Catatan</h2>
-              <p id="factNote">-</p>
+              <span>TTS</span>
+              <strong id="ttsMetric">$0.000</strong>
             </div>
-            <div class="youtube-box">
-              <div class="section-head compact-head">
-                <h2>Copy YouTube</h2>
-                <button id="copyYoutubeBtn" class="mini-action" type="button">Copy Semua</button>
+            <div>
+              <span>Clip</span>
+              <strong id="videoMetric">$0.000</strong>
+            </div>
+            <div>
+              <span>Total</span>
+              <strong id="totalMetric">$0.000</strong>
+            </div>
+          </section>
+
+          <section class="preview-grid">
+            <div class="video-panel">
+              <div id="videoSlot" class="video-slot">Video belum dirender</div>
+              <div class="preview-actions" aria-label="Aksi video">
+                <button id="downloadVideoBtn" class="mini-action" type="button">Download Video</button>
+                <button id="shareYoutubeBtn" class="mini-action accent" type="button">Share YouTube</button>
+                <button id="copyVideoLinkBtn" class="mini-action" type="button">Copy Link</button>
               </div>
-              <label>
-                <span>Judul</span>
-                <textarea id="youtubeTitle" rows="2" readonly></textarea>
-              </label>
-              <label>
-                <span>Caption</span>
-                <textarea id="youtubeCaption" rows="6" readonly></textarea>
-              </label>
             </div>
-          </div>
-        </section>
 
-        <section>
-          <div class="section-head wide">
-            <strong>Storyboard</strong>
-            <span id="assetStatus">Belum ada aset</span>
-          </div>
-          <div id="sceneGrid" class="scene-grid"></div>
-        </section>
+            <div class="summary-panel">
+              <div class="hook-box">
+                <span>Hook</span>
+                <strong id="hookText">-</strong>
+              </div>
+              <div class="summary-box">
+                <h2>Ringkasan</h2>
+                <p id="summaryText">-</p>
+              </div>
+              <div>
+                <h2>Bagian Penting</h2>
+                <ul id="pointList"></ul>
+              </div>
+              <div>
+                <h2>Catatan</h2>
+                <p id="factNote">-</p>
+              </div>
+              <div class="youtube-box">
+                <div class="section-head compact-head">
+                  <h2>Copy YouTube</h2>
+                  <button id="copyYoutubeBtn" class="mini-action" type="button">Copy Semua</button>
+                </div>
+                <label>
+                  <span>Judul</span>
+                  <textarea id="youtubeTitle" rows="2" readonly></textarea>
+                </label>
+                <label>
+                  <span>Caption</span>
+                  <textarea id="youtubeCaption" rows="6" readonly></textarea>
+                </label>
+              </div>
+            </div>
+          </section>
 
-        <section id="galleryPanel" class="gallery-panel">
+          <section>
+            <div class="section-head wide">
+              <strong>Storyboard</strong>
+              <span id="assetStatus">Belum ada aset</span>
+            </div>
+            <div id="sceneGrid" class="scene-grid"></div>
+          </section>
+        </div>
+
+        <section id="galleryPanel" class="gallery-panel workspace-view" data-workspace-view="gallery">
           <div class="section-head wide">
             <strong>Galeri Video</strong>
-            <span>Download dan share ke YouTube</span>
+            <span>Video final siap unduh</span>
           </div>
           <div id="galleryGrid" class="gallery-grid"></div>
         </section>

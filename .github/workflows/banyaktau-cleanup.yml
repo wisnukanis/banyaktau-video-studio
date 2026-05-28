@@ -1,0 +1,73 @@
+name: BanyakTau Remote Cleanup
+
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Retention hari untuk file media lama"
+        required: false
+        default: "7"
+      dry_run:
+        description: "true = hanya log, tidak menghapus"
+        required: false
+        default: "false"
+      delete_all:
+        description: "true = hapus semua file media pada subfolder target"
+        required: false
+        default: "false"
+      subdirs:
+        description: "CSV subfolder media"
+        required: false
+        default: ""
+  schedule:
+    # Minggu 23:20 WIB/Asia-Bangkok. GitHub cron memakai UTC.
+    - cron: "20 16 * * 0"
+
+concurrency:
+  group: banyaktau-remote-cleanup
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      PUBLIC_BASE_URL: ${{ secrets.PUBLIC_BASE_URL }}
+      UPLOAD_DRIVER: ${{ secrets.UPLOAD_DRIVER || 'auto' }}
+      SFTP_HOST: ${{ secrets.SFTP_HOST }}
+      SFTP_PORT: ${{ secrets.SFTP_PORT || '22' }}
+      SFTP_USER: ${{ secrets.SFTP_USER }}
+      SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+      SFTP_REMOTE_DIR: ${{ secrets.SFTP_REMOTE_DIR }}
+      SFTP_UPLOAD_TIMEOUT_SECONDS: ${{ secrets.SFTP_UPLOAD_TIMEOUT_SECONDS || '180' }}
+      FTP_HOST: ${{ secrets.FTP_HOST }}
+      FTP_PORT: ${{ secrets.FTP_PORT || '21' }}
+      FTP_USER: ${{ secrets.FTP_USER }}
+      FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+      FTP_REMOTE_DIR: ${{ secrets.FTP_REMOTE_DIR }}
+      FTP_UPLOAD_TIMEOUT_SECONDS: ${{ secrets.FTP_UPLOAD_TIMEOUT_SECONDS || '180' }}
+      BANYAKTAU_CLEANUP_DAYS: ${{ github.event.inputs.days || secrets.BANYAKTAU_CLEANUP_DAYS || '7' }}
+      BANYAKTAU_CLEANUP_DELETE_ALL: ${{ github.event.inputs.delete_all || 'false' }}
+      BANYAKTAU_CLEANUP_DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+      BANYAKTAU_CLEANUP_SUBDIRS: ${{ github.event.inputs.subdirs || secrets.BANYAKTAU_CLEANUP_SUBDIRS || 'videos,thumbnails,images,audio,clips' }}
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --no-audit --fund=false
+
+      - name: Validate cleanup source
+        run: npm run check
+
+      - name: Cleanup remote media
+        run: npm run remote:cleanup

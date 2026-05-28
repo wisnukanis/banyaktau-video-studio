@@ -134,7 +134,7 @@ function buildOutroScene(item, lastScene) {
 }
 
 function resolveSceneMedia(item, scene) {
-  if ((scene.kind === "intro" || scene.kind === "outro") && item.assets?.thumbnail?.path) {
+  if (scene.kind === "intro" && item.assets?.thumbnail?.path) {
     return { type: "image", path: item.assets.thumbnail.path };
   }
   const sourceIndex = scene.imageSourceSceneIndex || scene.index;
@@ -423,20 +423,16 @@ function endOverlayText(item) {
 
 function outroOverlayEvents(item, start, end) {
   const fade = "{\\fad(180,220)}";
-  const title = wrapOutroLines(item.title || item.plan?.title || "BanyakTau", 25, 3).join("\\N");
   const summary = outroSummaryText(item);
   const points = outroPointText(item);
   const events = [
     dialogue(start, end, "OutroDim", `${fade}{\\an7\\pos(0,0)\\p1}m 0 0 l 1080 0 l 1080 1920 l 0 1920`),
-    dialogue(start + 0.04, end, "OutroCard", `${fade}{\\an7\\pos(0,0)\\p1}m 70 735 l 1010 735 l 1010 1695 l 70 1695`),
-    dialogue(start + 0.05, end, "OutroAccent", `${fade}{\\an7\\pos(0,0)\\p1}m 104 770 l 348 770 l 348 784 l 104 784`),
-    dialogue(start + 0.18, end, "OutroKicker", `${fade}${assEscape("RINGKASAN INTI")}`),
-    dialogue(start + 0.34, end, "OutroTitle", `${fade}${assEscape(title)}`),
-    dialogue(start + 0.62, end, "OutroSummary", `${fade}${assEscape(summary)}`)
+    dialogue(start + 0.16, end, "OutroKicker", `${fade}{\\an5\\pos(540,520)}${assEscape("RINGKASAN INTI")}`),
+    dialogue(start + 0.38, end, "OutroSummary", `${fade}{\\an5\\pos(540,850)}${assEscape(summary)}`)
   ];
 
   if (points) {
-    events.push(dialogue(start + 0.92, end, "OutroPoint", `${fade}${assEscape(points)}`));
+    events.push(dialogue(start + 0.78, end, "OutroPoint", `${fade}{\\an5\\pos(540,1240)}${assEscape(points)}`));
   }
 
   events.push(dialogue(Math.max(start, end - 1.15), end, "OutroBrand", `{\\fad(120,220)}${assEscape("BanyakTau")}`));

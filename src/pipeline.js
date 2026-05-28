@@ -5,7 +5,7 @@ import { generateElevenLabsSpeech } from "./elevenlabs.js";
 import { generateOpenAiSpeech, generateSceneImage, transcribeSpeechSegments } from "./openai.js";
 import { renderKnowledgeVideo } from "./render.js";
 import { generateThumbnail } from "./thumbnail.js";
-import { getItem, listItems, saveItem } from "./storage.js";
+import { getItem, listContextItems, saveItem } from "./storage.js";
 import { createIdeaRecommendations, createKnowledgeDraft } from "./story-engine.js";
 import { nowIso } from "./util.js";
 import { generateVideoClip } from "./video-provider.js";
@@ -13,12 +13,13 @@ import { generateVideoClip } from "./video-provider.js";
 export async function generateFullItem(input = {}, options = {}) {
   const warnings = [];
   let payload = { ...input };
+  const existingItems = await listContextItems();
   if (!payload.selectedIdea) {
     const ideas = await createIdeaRecommendations({
       seed: payload.topic || "",
       category: payload.category || "random",
       durationSec: payload.durationSec || 90
-    }, { existingItems: await listItems() });
+    }, { existingItems });
     payload = {
       ...payload,
       selectedIdea: ideas.ideas?.[0] || null,
@@ -26,7 +27,7 @@ export async function generateFullItem(input = {}, options = {}) {
     };
   }
 
-  const item = await createKnowledgeDraft(payload, { existingItems: await listItems() });
+  const item = await createKnowledgeDraft(payload, { existingItems });
   await saveItem(item);
   await ensureImages(item, { warnings, strict: true });
   await ensureAudio(item, { provider: item.input.ttsProvider, warnings, force: true });
