@@ -88,9 +88,9 @@ export const config = {
     titlePrefix: clean(process.env.FACEBOOK_TITLE_PREFIX || "")
   },
   instagram: {
-    enabled: bool(process.env.INSTAGRAM_UPLOAD_ENABLED || process.env.DUNIALUAS_INSTAGRAM_UPLOAD_ENABLED || process.env.BANYAKTAU_INSTAGRAM_UPLOAD_ENABLED),
-    igUserId: clean(process.env.DUNIALUAS_INSTAGRAM_IG_USER_ID || process.env.BANYAKTAU_INSTAGRAM_IG_USER_ID || process.env.INSTAGRAM_IG_USER_ID),
-    accessToken: process.env.DUNIALUAS_INSTAGRAM_ACCESS_TOKEN || process.env.BANYAKTAU_INSTAGRAM_ACCESS_TOKEN || process.env.INSTAGRAM_ACCESS_TOKEN || "",
+    enabled: bool(process.env.INSTAGRAM_UPLOAD_ENABLED || process.env.BHANYAKTAU_INSTAGRAM_UPLOAD_ENABLED || process.env.DUNIALUAS_INSTAGRAM_UPLOAD_ENABLED || process.env.BANYAKTAU_INSTAGRAM_UPLOAD_ENABLED),
+    igUserId: clean(process.env.BHANYAKTAU_INSTAGRAM_IG_USER_ID || process.env.DUNIALUAS_INSTAGRAM_IG_USER_ID || process.env.BANYAKTAU_INSTAGRAM_IG_USER_ID || process.env.INSTAGRAM_IG_USER_ID),
+    accessToken: process.env.BHANYAKTAU_INSTAGRAM_ACCESS_TOKEN || process.env.DUNIALUAS_INSTAGRAM_ACCESS_TOKEN || process.env.BANYAKTAU_INSTAGRAM_ACCESS_TOKEN || process.env.INSTAGRAM_ACCESS_TOKEN || "",
     shareToFeed: boolDefault(process.env.INSTAGRAM_SHARE_TO_FEED, true),
     containerPollSeconds: Math.min(60, Math.max(2, numberEnv("INSTAGRAM_CONTAINER_POLL_SECONDS", 6))),
     containerMaxAttempts: Math.min(180, Math.max(5, numberEnv("INSTAGRAM_CONTAINER_MAX_ATTEMPTS", 90))),

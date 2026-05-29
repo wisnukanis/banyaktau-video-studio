@@ -93,9 +93,9 @@ export function publicConfig() {
         || process.env.BANYAKTAU_FACEBOOK_USER_ACCESS_TOKEN
         || process.env.FACEBOOK_USER_ACCESS_TOKEN
       ),
-      instagramUploadEnabled: String(process.env.INSTAGRAM_UPLOAD_ENABLED || process.env.DUNIALUAS_INSTAGRAM_UPLOAD_ENABLED || process.env.BANYAKTAU_INSTAGRAM_UPLOAD_ENABLED || "").toLowerCase() === "true",
-      instagramIgUserIdSet: Boolean(process.env.DUNIALUAS_INSTAGRAM_IG_USER_ID || process.env.BANYAKTAU_INSTAGRAM_IG_USER_ID || process.env.INSTAGRAM_IG_USER_ID),
-      instagramAccessTokenSet: Boolean(process.env.DUNIALUAS_INSTAGRAM_ACCESS_TOKEN || process.env.BANYAKTAU_INSTAGRAM_ACCESS_TOKEN || process.env.INSTAGRAM_ACCESS_TOKEN),
+      instagramUploadEnabled: String(process.env.INSTAGRAM_UPLOAD_ENABLED || process.env.BHANYAKTAU_INSTAGRAM_UPLOAD_ENABLED || process.env.DUNIALUAS_INSTAGRAM_UPLOAD_ENABLED || process.env.BANYAKTAU_INSTAGRAM_UPLOAD_ENABLED || "").toLowerCase() === "true",
+      instagramIgUserIdSet: Boolean(process.env.BHANYAKTAU_INSTAGRAM_IG_USER_ID || process.env.DUNIALUAS_INSTAGRAM_IG_USER_ID || process.env.BANYAKTAU_INSTAGRAM_IG_USER_ID || process.env.INSTAGRAM_IG_USER_ID),
+      instagramAccessTokenSet: Boolean(process.env.BHANYAKTAU_INSTAGRAM_ACCESS_TOKEN || process.env.DUNIALUAS_INSTAGRAM_ACCESS_TOKEN || process.env.BANYAKTAU_INSTAGRAM_ACCESS_TOKEN || process.env.INSTAGRAM_ACCESS_TOKEN),
       geminiApiKeySet: Boolean(process.env.GEMINI_API_KEY),
       geminiBaseUrl: cleanBaseUrl(process.env.GEMINI_BASE_URL || "https://generativelanguage.googleapis.com"),
       openaiApiKeySet: Boolean(process.env.OPENAI_API_KEY),
