@@ -22,7 +22,7 @@ function normalizeTitle(value) {
     .join(" ")
     .replace(/\s+/g, " ")
     .trim()
-    .slice(0, 100) || "BanyakTau";
+    .slice(0, 100) || "Dunialuas";
 }
 
 function normalizeDescription(value) {
@@ -32,9 +32,9 @@ function normalizeDescription(value) {
 function assertFacebookConfig() {
   const missing = [];
   if (!config.facebook.enabled) missing.push("FACEBOOK_UPLOAD_ENABLED=true");
-  if (!config.facebook.pageId) missing.push("BANYAKTAU_FACEBOOK_PAGE_ID atau FACEBOOK_PAGE_ID");
+  if (!config.facebook.pageId) missing.push("DUNIALUAS_FACEBOOK_PAGE_ID atau FACEBOOK_PAGE_ID");
   if (!config.facebook.accessToken && !config.facebook.userAccessToken) {
-    missing.push("BANYAKTAU_FACEBOOK_PAGE_ACCESS_TOKEN / FACEBOOK_PAGE_ACCESS_TOKEN atau long-lived USER token");
+    missing.push("DUNIALUAS_FACEBOOK_PAGE_ACCESS_TOKEN / FACEBOOK_PAGE_ACCESS_TOKEN atau long-lived USER token");
   }
   if (missing.length) throw new Error(`Config Facebook belum lengkap: ${missing.join(", ")}`);
 }

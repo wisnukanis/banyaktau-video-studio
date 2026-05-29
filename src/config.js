@@ -78,19 +78,19 @@ export const config = {
     seconds: Math.min(8, Math.max(2, numberEnv("VIDEO_SECONDS", 4)))
   },
   facebook: {
-    enabled: bool(process.env.FACEBOOK_UPLOAD_ENABLED || process.env.BANYAKTAU_FACEBOOK_UPLOAD_ENABLED),
+    enabled: bool(process.env.FACEBOOK_UPLOAD_ENABLED || process.env.DUNIALUAS_FACEBOOK_UPLOAD_ENABLED || process.env.BANYAKTAU_FACEBOOK_UPLOAD_ENABLED),
     graphApiVersion: clean(process.env.GRAPH_API_VERSION || "v25.0"),
-    pageId: clean(process.env.BANYAKTAU_FACEBOOK_PAGE_ID || process.env.FACEBOOK_PAGE_ID),
-    accessToken: process.env.BANYAKTAU_FACEBOOK_PAGE_ACCESS_TOKEN || process.env.FACEBOOK_PAGE_ACCESS_TOKEN || "",
-    userAccessToken: process.env.BANYAKTAU_FACEBOOK_USER_ACCESS_TOKEN || process.env.FACEBOOK_USER_ACCESS_TOKEN || "",
+    pageId: clean(process.env.DUNIALUAS_FACEBOOK_PAGE_ID || process.env.BANYAKTAU_FACEBOOK_PAGE_ID || process.env.FACEBOOK_PAGE_ID),
+    accessToken: process.env.DUNIALUAS_FACEBOOK_PAGE_ACCESS_TOKEN || process.env.BANYAKTAU_FACEBOOK_PAGE_ACCESS_TOKEN || process.env.FACEBOOK_PAGE_ACCESS_TOKEN || "",
+    userAccessToken: process.env.DUNIALUAS_FACEBOOK_USER_ACCESS_TOKEN || process.env.BANYAKTAU_FACEBOOK_USER_ACCESS_TOKEN || process.env.FACEBOOK_USER_ACCESS_TOKEN || "",
     mediaType: clean(process.env.FACEBOOK_MEDIA_TYPE || "reel").toLowerCase(),
     videoState: clean(process.env.FACEBOOK_VIDEO_STATE || "PUBLISHED"),
     titlePrefix: clean(process.env.FACEBOOK_TITLE_PREFIX || "")
   },
   instagram: {
-    enabled: bool(process.env.INSTAGRAM_UPLOAD_ENABLED || process.env.BANYAKTAU_INSTAGRAM_UPLOAD_ENABLED),
-    igUserId: clean(process.env.BANYAKTAU_INSTAGRAM_IG_USER_ID || process.env.INSTAGRAM_IG_USER_ID),
-    accessToken: process.env.BANYAKTAU_INSTAGRAM_ACCESS_TOKEN || process.env.INSTAGRAM_ACCESS_TOKEN || "",
+    enabled: bool(process.env.INSTAGRAM_UPLOAD_ENABLED || process.env.DUNIALUAS_INSTAGRAM_UPLOAD_ENABLED || process.env.BANYAKTAU_INSTAGRAM_UPLOAD_ENABLED),
+    igUserId: clean(process.env.DUNIALUAS_INSTAGRAM_IG_USER_ID || process.env.BANYAKTAU_INSTAGRAM_IG_USER_ID || process.env.INSTAGRAM_IG_USER_ID),
+    accessToken: process.env.DUNIALUAS_INSTAGRAM_ACCESS_TOKEN || process.env.BANYAKTAU_INSTAGRAM_ACCESS_TOKEN || process.env.INSTAGRAM_ACCESS_TOKEN || "",
     shareToFeed: boolDefault(process.env.INSTAGRAM_SHARE_TO_FEED, true),
     containerPollSeconds: Math.min(60, Math.max(2, numberEnv("INSTAGRAM_CONTAINER_POLL_SECONDS", 6))),
     containerMaxAttempts: Math.min(180, Math.max(5, numberEnv("INSTAGRAM_CONTAINER_MAX_ATTEMPTS", 90))),

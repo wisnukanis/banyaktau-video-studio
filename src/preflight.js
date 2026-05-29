@@ -22,7 +22,7 @@ export async function runPreflight() {
   }
 
   if (config.facebook.enabled) {
-    checks.push(checkValue("FACEBOOK_PAGE_ID", Boolean(config.facebook.pageId), "Page Facebook BanyakTau wajib diisi untuk auto upload."));
+    checks.push(checkValue("FACEBOOK_PAGE_ID", Boolean(config.facebook.pageId), "Page Facebook Dunialuas wajib diisi untuk auto upload."));
     checks.push(checkValue("FACEBOOK_TOKEN", Boolean(config.facebook.accessToken || config.facebook.userAccessToken), "Page token atau user token Facebook wajib diisi."));
   }
 

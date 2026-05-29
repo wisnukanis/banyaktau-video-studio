@@ -15,26 +15,33 @@ export default async function handler(req, res) {
     false
   ));
   if (String(process.env.FACEBOOK_UPLOAD_ENABLED || "").toLowerCase() === "true") {
-    checks.push(check("FACEBOOK_PAGE_ID", Boolean(process.env.BANYAKTAU_FACEBOOK_PAGE_ID || process.env.FACEBOOK_PAGE_ID), "Page Facebook BanyakTau untuk auto upload."));
+    checks.push(check("FACEBOOK_PAGE_ID", Boolean(process.env.DUNIALUAS_FACEBOOK_PAGE_ID || process.env.BANYAKTAU_FACEBOOK_PAGE_ID || process.env.FACEBOOK_PAGE_ID), "Page Facebook Dunialuas untuk auto upload."));
     checks.push(check("FACEBOOK_TOKEN", Boolean(
-      process.env.BANYAKTAU_FACEBOOK_PAGE_ACCESS_TOKEN
+      process.env.DUNIALUAS_FACEBOOK_PAGE_ACCESS_TOKEN
+      || process.env.BANYAKTAU_FACEBOOK_PAGE_ACCESS_TOKEN
       || process.env.FACEBOOK_PAGE_ACCESS_TOKEN
+      || process.env.DUNIALUAS_FACEBOOK_USER_ACCESS_TOKEN
       || process.env.BANYAKTAU_FACEBOOK_USER_ACCESS_TOKEN
       || process.env.FACEBOOK_USER_ACCESS_TOKEN
     ), "Page token atau user token Facebook."));
   }
-  if (String(process.env.INSTAGRAM_UPLOAD_ENABLED || process.env.BANYAKTAU_INSTAGRAM_UPLOAD_ENABLED || "").toLowerCase() === "true") {
+  if (String(process.env.INSTAGRAM_UPLOAD_ENABLED || process.env.DUNIALUAS_INSTAGRAM_UPLOAD_ENABLED || process.env.BANYAKTAU_INSTAGRAM_UPLOAD_ENABLED || "").toLowerCase() === "true") {
     checks.push(check("INSTAGRAM_TARGET", Boolean(
-      process.env.BANYAKTAU_INSTAGRAM_IG_USER_ID
+      process.env.DUNIALUAS_INSTAGRAM_IG_USER_ID
+      || process.env.BANYAKTAU_INSTAGRAM_IG_USER_ID
       || process.env.INSTAGRAM_IG_USER_ID
+      || process.env.DUNIALUAS_FACEBOOK_PAGE_ID
       || process.env.BANYAKTAU_FACEBOOK_PAGE_ID
       || process.env.FACEBOOK_PAGE_ID
     ), "IG User ID atau Facebook Page yang terhubung ke Instagram."));
     checks.push(check("INSTAGRAM_TOKEN", Boolean(
-      process.env.BANYAKTAU_INSTAGRAM_ACCESS_TOKEN
+      process.env.DUNIALUAS_INSTAGRAM_ACCESS_TOKEN
+      || process.env.BANYAKTAU_INSTAGRAM_ACCESS_TOKEN
       || process.env.INSTAGRAM_ACCESS_TOKEN
+      || process.env.DUNIALUAS_FACEBOOK_USER_ACCESS_TOKEN
       || process.env.BANYAKTAU_FACEBOOK_USER_ACCESS_TOKEN
       || process.env.FACEBOOK_USER_ACCESS_TOKEN
+      || process.env.DUNIALUAS_FACEBOOK_PAGE_ACCESS_TOKEN
       || process.env.BANYAKTAU_FACEBOOK_PAGE_ACCESS_TOKEN
       || process.env.FACEBOOK_PAGE_ACCESS_TOKEN
     ), "Token Instagram atau token Meta/Facebook dengan izin publish Instagram."));
