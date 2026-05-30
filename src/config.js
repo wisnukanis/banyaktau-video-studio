@@ -14,6 +14,10 @@ function clean(value) {
   return String(value || "").trim();
 }
 
+function sanitizeEnvValue(value) {
+  return String(value ?? "").replace(/[\r\n\0]/g, "").trim();
+}
+
 function numberEnv(name, fallback) {
   const value = Number(process.env[name]);
   return Number.isFinite(value) ? value : fallback;
@@ -168,24 +172,24 @@ export function publicConfig() {
 
 export async function updateRuntimeSettings(input = {}) {
   const updates = {};
-  const openaiKey = clean(input.openaiApiKey);
-  const openaiBaseUrl = trimSlash(input.openaiBaseUrl);
-  const storyModel = clean(input.storyModel);
-  const imageModel = clean(input.imageModel);
-  const elevenlabsKey = clean(input.elevenlabsApiKey);
-  const openaiTtsVoice = clean(input.openaiTtsVoice);
-  const openaiTtsModel = clean(input.openaiTtsModel);
-  const openaiTranscribeModel = clean(input.openaiTranscribeModel);
-  const videoApiKey = clean(input.videoApiKey);
-  const videoBaseUrl = trimSlash(input.videoBaseUrl);
-  const videoEndpointMode = clean(input.videoEndpointMode);
-  const videoModel = clean(input.videoModel);
+  const openaiKey = sanitizeEnvValue(input.openaiApiKey);
+  const openaiBaseUrl = trimSlash(sanitizeEnvValue(input.openaiBaseUrl));
+  const storyModel = sanitizeEnvValue(input.storyModel);
+  const imageModel = sanitizeEnvValue(input.imageModel);
+  const elevenlabsKey = sanitizeEnvValue(input.elevenlabsApiKey);
+  const openaiTtsVoice = sanitizeEnvValue(input.openaiTtsVoice);
+  const openaiTtsModel = sanitizeEnvValue(input.openaiTtsModel);
+  const openaiTranscribeModel = sanitizeEnvValue(input.openaiTranscribeModel);
+  const videoApiKey = sanitizeEnvValue(input.videoApiKey);
+  const videoBaseUrl = trimSlash(sanitizeEnvValue(input.videoBaseUrl));
+  const videoEndpointMode = sanitizeEnvValue(input.videoEndpointMode);
+  const videoModel = sanitizeEnvValue(input.videoModel);
   const videoSeconds = Number(input.videoSeconds);
   const videoUsdPerSecond = Number(input.videoUsdPerSecond);
-  const elevenlabsModel = clean(input.elevenlabsModel);
-  const elevenlabsVoiceId = clean(input.elevenlabsVoiceId);
-  const geminiKey = clean(input.geminiApiKey);
-  const geminiBaseUrl = trimSlash(input.geminiBaseUrl);
+  const elevenlabsModel = sanitizeEnvValue(input.elevenlabsModel);
+  const elevenlabsVoiceId = sanitizeEnvValue(input.elevenlabsVoiceId);
+  const geminiKey = sanitizeEnvValue(input.geminiApiKey);
+  const geminiBaseUrl = trimSlash(sanitizeEnvValue(input.geminiBaseUrl));
   const speechTempo = Number(input.speechTempo);
 
   if (openaiKey) updates.OPENAI_API_KEY = openaiKey;
