@@ -13,6 +13,7 @@ import {
 import { listItems, saveItem } from "./storage.js";
 import { createIdeaRecommendations, createKnowledgeDraft } from "./story-engine.js";
 import { nowIso } from "./util.js";
+import { runPreflight } from "./preflight.js";
 
 ensureProjectDirs();
 
@@ -50,6 +51,15 @@ app.post("/api/ideas", async (req, res, next) => {
 app.post("/api/settings", async (req, res, next) => {
   try {
     res.json({ config: await updateRuntimeSettings(req.body || {}) });
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.get("/api/preflight", async (_req, res, next) => {
+  try {
+    const result = await runPreflight();
+    res.status(result.ok ? 200 : 409).json(result);
   } catch (error) {
     next(error);
   }

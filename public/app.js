@@ -805,7 +805,13 @@ async function api(url, options = {}) {
     ...options
   });
   const text = await response.text();
-  const data = text ? JSON.parse(text) : {};
+  let data = {};
+  try {
+    data = text ? JSON.parse(text) : {};
+  } catch {
+    const detail = text.replace(/\s+/g, " ").trim().slice(0, 160);
+    throw new Error(`Server mengembalikan respons non-JSON (${response.status}). ${detail || response.statusText}`);
+  }
   if (response.status === 401) {
     const nextPin = window.prompt("Masukkan PIN dashboard BanyakTau");
     if (nextPin) {
