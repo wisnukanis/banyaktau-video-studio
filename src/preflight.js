@@ -10,10 +10,27 @@ export async function runPreflight() {
   checks.push(checkCommand("ffmpeg"));
   checks.push(checkCommand("ffprobe"));
   checks.push(checkValue("OPENAI_API_KEY", Boolean(config.openai.apiKey), "Story, image, TTS, dan transkripsi butuh key ini."));
-  checks.push(checkValue("PUBLIC_BASE_URL", Boolean(config.publicBaseUrl || process.env.PUBLIC_BASE_URL), "Dashboard butuh base URL publik untuk preview asset."));
 
   const remote = remoteConfig();
-  checks.push(checkValue("UPLOAD_DRIVER", remoteEnabled(), `Driver aktif: ${remote.driver}`));
+  const hasSocialPublish = config.facebook.enabled || config.instagram.enabled;
+  const needsPublicBaseUrl = remoteEnabled() || hasSocialPublish;
+  checks.push(checkValue(
+    "PUBLIC_BASE_URL",
+    Boolean(config.publicBaseUrl || process.env.PUBLIC_BASE_URL),
+    needsPublicBaseUrl
+      ? "Wajib untuk URL asset publik saat upload remote atau publish sosial aktif."
+      : "Belum diisi. Aman jika hanya generate lokal tanpa upload/publish.",
+    needsPublicBaseUrl
+  ));
+
+  checks.push(checkValue(
+    "UPLOAD_DRIVER",
+    remoteEnabled(),
+    remoteEnabled()
+      ? `Driver aktif: ${remote.driver}`
+      : "Tidak ada FTP/SFTP. Video tetap bisa dibuat, tapi tidak diupload sebagai asset publik.",
+    false
+  ));
   if (remoteEnabled()) {
     checks.push(checkValue(`${remote.prefix}_HOST`, Boolean(remote.host), "Host upload remote wajib ada."));
     checks.push(checkValue(`${remote.prefix}_USER`, Boolean(remote.user), "User upload remote wajib ada."));
@@ -41,12 +58,15 @@ export async function runPreflight() {
 
   checks.push(await checkFile("background_music", path.join(paths.rootDir, "assets", "music", "eksplorasi-literasi.m4a")));
 
-  const failed = checks.filter((check) => !check.ok);
+  const failed = checks.filter((check) => !check.ok && check.required !== false);
+  const warnings = checks.filter((check) => !check.ok && check.required === false);
   return {
     ok: failed.length === 0,
     generatedAt: new Date().toISOString(),
     checks,
-    summary: failed.length ? `${failed.length} preflight check gagal.` : "Preflight aman."
+    summary: failed.length
+      ? `${failed.length} preflight check gagal.`
+      : warnings.length ? `Preflight aman, ${warnings.length} warning.` : "Preflight aman."
   };
 }
 
@@ -59,8 +79,8 @@ function checkCommand(name) {
   };
 }
 
-function checkValue(name, ok, detail) {
-  return { name, ok: Boolean(ok), detail };
+function checkValue(name, ok, detail, required = true) {
+  return { name, ok: Boolean(ok), detail, required };
 }
 
 async function checkFile(name, filePath) {
