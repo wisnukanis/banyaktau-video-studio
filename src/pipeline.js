@@ -154,8 +154,8 @@ export async function ensureThumbnail(item, options = {}) {
   }
 }
 
-export async function renderAndPersist(item, options = {}) {
-  assertReadyToRender(item, options);
+export async function renderAndPersist(item) {
+  assertReadyToRender(item);
   item.assets.video = await renderKnowledgeVideo(item);
   item.status = "rendered";
   item.updatedAt = nowIso();
@@ -163,14 +163,14 @@ export async function renderAndPersist(item, options = {}) {
   return item;
 }
 
-export function assertReadyToRender(item, options = {}) {
+export function assertReadyToRender(item) {
   const imageCount = item.assets.images?.length || 0;
   if (imageCount < item.plan.scenes.length) {
     const error = new Error("Gambar belum lengkap. Generate gambar dulu sampai semua scene siap.");
     error.status = 409;
     throw error;
   }
-  if (!item.assets.audio?.path && !options.allowNoAudio) {
+  if (!item.assets.audio?.path) {
     const error = new Error("Audio TTS belum tersedia. Pilih provider TTS lalu generate suara.");
     error.status = 409;
     throw error;
