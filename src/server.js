@@ -135,8 +135,12 @@ app.post("/api/items/:id/render", async (req, res, next) => {
       await ensureImages(item, { warnings, strict: true });
       await ensureAudio(item, { provider: req.body?.provider || item.input.ttsProvider, warnings });
     }
-    assertReadyToRender(item);
-    await renderAndPersist(item);
+    const allowNoAudio = !item.assets.audio?.path;
+    if (allowNoAudio) {
+      warnings.push("Audio TTS belum tersedia, jadi video dirender sebagai preview dengan musik latar dan subtitle.");
+    }
+    assertReadyToRender(item, { allowNoAudio });
+    await renderAndPersist(item, { allowNoAudio });
     res.json({ item, warnings });
   } catch (error) {
     next(error);
