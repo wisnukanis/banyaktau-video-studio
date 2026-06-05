@@ -7,7 +7,10 @@ import { mergeMemoryItems, saveItem } from "./storage.js";
 
 function argValue(name, fallback = "") {
   const index = process.argv.indexOf(name);
-  return index >= 0 ? process.argv[index + 1] || fallback : fallback;
+  if (index < 0) return fallback;
+  const value = process.argv[index + 1];
+  if (!value || value.startsWith("--")) return fallback;
+  return value;
 }
 
 function boolValue(value, fallback = false) {
@@ -81,9 +84,14 @@ async function importRemoteState() {
 }
 
 async function fetchRemoteJson(url, fallback) {
-  const response = await fetch(url, { cache: "no-store" });
-  if (!response.ok) return fallback;
-  return response.json();
+  try {
+    const response = await fetch(url, { cache: "no-store" });
+    if (!response.ok) return fallback;
+    const text = await response.text();
+    return text ? JSON.parse(text) : fallback;
+  } catch {
+    return fallback;
+  }
 }
 
 function normalizeMemoryPayload(value) {

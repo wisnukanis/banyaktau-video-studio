@@ -30,7 +30,7 @@ export async function generateFullItem(input = {}, options = {}) {
   const item = await createKnowledgeDraft(payload, { existingItems });
   await saveItem(item);
   await ensureImages(item, { warnings, strict: true });
-  await ensureAudio(item, { provider: item.input.ttsProvider, warnings, force: true });
+  await ensureAudio(item, { provider: item.input.ttsProvider, warnings, force: true, strict: true });
   await ensureThumbnail(item, { warnings });
   if (config.video.apiKey && options.withClip !== false) {
     if (options.requireClip) {

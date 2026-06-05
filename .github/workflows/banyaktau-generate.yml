@@ -140,10 +140,10 @@ jobs:
       - name: Generate full video
         run: |
           npm run run:once -- \
-            --topic "${{ github.event.inputs.topic }}" \
-            --category "${{ github.event.inputs.category }}" \
-            --duration "${{ github.event.inputs.duration }}" \
-            --scenes "${{ github.event.inputs.scenes }}" \
-            --tts-provider "${{ github.event.inputs.tts_provider }}" \
-            --image-quality "${{ github.event.inputs.image_quality }}" \
+            --topic "${{ github.event.inputs.topic || '' }}" \
+            --category "${{ github.event.inputs.category || 'random' }}" \
+            --duration "${{ github.event.inputs.duration || '90' }}" \
+            --scenes "${{ github.event.inputs.scenes || '7' }}" \
+            --tts-provider "${{ github.event.inputs.tts_provider || 'openai' }}" \
+            --image-quality "${{ github.event.inputs.image_quality || secrets.IMAGE_QUALITY || 'low' }}" \
             --with-clip "${{ github.event.inputs.with_clip || 'true' }}"
