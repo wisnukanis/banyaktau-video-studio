@@ -1380,7 +1380,7 @@ async function makeOutroSegment({ outputPath, duration, avatarVideo, avatarImage
   }
 
   filters.push(`${currentOutput}fade=t=out:st=${(duration - 0.4).toFixed(2)}:d=0.4[out]`);
-  filterComplex = filters.join(";");
+  const filterComplex = filters.join(";");
 
   await runFfmpeg([
     "-y",
