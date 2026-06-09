@@ -1,7 +1,10 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { Readable, Writable } from "node:stream";
-import { execSync } from "node:child_process";
+import { execSync, exec } from "node:child_process";
+import { promisify } from "node:util";
+
+const execPromise = promisify(exec);
 import { Client as FtpClient } from "basic-ftp";
 import SftpClient from "ssh2-sftp-client";
 import { paths } from "./config.js";
@@ -51,12 +54,41 @@ export async function uploadGeneratedStateAndAssets(options = {}) {
   if (cfg.driver === "github") {
     try {
       console.log("Staging generated assets to Git...");
-      execSync("git add -f generated/ data/items.json", { cwd: paths.rootDir });
-      const status = execSync("git status --porcelain", { cwd: paths.rootDir }).toString().trim();
-      if (status) {
-        execSync('git commit -m "auto: upload generated video and state"', { cwd: paths.rootDir });
+      
+      let filesToAdd = ["data/items.json"];
+      if (options.item) {
+        const item = options.item;
+        const assets = [
+          item.assets?.video,
+          item.assets?.thumbnail,
+          item.assets?.audio,
+          ...(item.assets?.images || []),
+          ...(item.assets?.clips || [])
+        ].filter((asset) => asset?.path);
+        
+        for (const asset of assets) {
+          filesToAdd.push(asset.path);
+        }
+      } else {
+        filesToAdd.push("generated/");
+      }
+      
+      // Map to relative paths and filter duplicates
+      const relPaths = Array.from(new Set(
+        filesToAdd.map(p => {
+          if (p.startsWith("data/") || p.startsWith("generated/")) return p;
+          return path.relative(paths.rootDir, p).replace(/\\/g, "/");
+        })
+      ));
+      
+      console.log("Staging specific files to Git:", relPaths);
+      await execPromise(`git add -f ${relPaths.map(p => `"${p}"`).join(" ")}`, { cwd: paths.rootDir });
+      
+      const { stdout: status } = await execPromise("git status --porcelain", { cwd: paths.rootDir });
+      if (status.trim()) {
+        await execPromise('git commit -m "auto: upload generated video and state"', { cwd: paths.rootDir });
         console.log("Pushing changes to GitHub...");
-        execSync("git push origin main", { cwd: paths.rootDir });
+        await execPromise("git push origin main", { cwd: paths.rootDir });
         console.log("GitHub auto-push successful!");
       } else {
         console.log("No changes to push to GitHub.");
