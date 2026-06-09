@@ -31,7 +31,7 @@ export async function runPreflight() {
       : "Tidak ada FTP/SFTP. Video tetap bisa dibuat, tapi tidak diupload sebagai asset publik.",
     false
   ));
-  if (remoteEnabled()) {
+  if (remoteEnabled() && remote.driver !== "github") {
     checks.push(checkValue(`${remote.prefix}_HOST`, Boolean(remote.host), "Host upload remote wajib ada."));
     checks.push(checkValue(`${remote.prefix}_USER`, Boolean(remote.user), "User upload remote wajib ada."));
     checks.push(checkValue(`${remote.prefix}_PASSWORD`, Boolean(remote.password), "Password upload remote wajib ada."));
