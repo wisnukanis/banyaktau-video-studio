@@ -19,6 +19,7 @@ const els = {
   form: document.querySelector("#generateForm"),
   settingsForm: document.querySelector("#settingsForm"),
   ideaBtn: document.querySelector("#ideaBtn"),
+
   fullBtn: document.querySelector("#fullBtn"),
   draftBtn: document.querySelector("#draftBtn"),
   settingsBtn: document.querySelector("#settingsBtn"),
@@ -27,6 +28,8 @@ const els = {
   ttsBtn: document.querySelector("#ttsBtn"),
   clipBtn: document.querySelector("#clipBtn"),
   renderBtn: document.querySelector("#renderBtn"),
+  publishFacebookBtn: document.querySelector("#publishFacebookBtn"),
+  publishInstagramBtn: document.querySelector("#publishInstagramBtn"),
   menuBtn: document.querySelector("#menuBtn"),
   closeSettingsBtn: document.querySelector("#closeSettingsBtn"),
   settingsDrawer: document.querySelector("#settingsDrawer"),
@@ -79,12 +82,40 @@ async function init() {
   bindEvents();
   state.config = (await api("/api/health")).config;
   fillSettingsForm();
+  await loadAvatars();
   await refreshItems();
   pushLog("Dashboard siap.");
   window.setInterval(() => {
     if (state.processStartedAt) renderAnalytics();
   }, 1000);
   render();
+}
+
+async function loadAvatars() {
+  try {
+    const data = await api("/api/avatars");
+    const select = document.querySelector("#avatarModeSelect");
+    if (!select || !data.avatars) return;
+    
+    // Clear existing dynamic options (keep static flapping capybara)
+    select.innerHTML = '<option value="image" selected>Capybara Static (Flapping)</option>';
+    
+    data.avatars.forEach(file => {
+      // Use clean names for labels (e.g. "avatar video 1.mp4" -> "Avatar Video 1")
+      let cleanName = file.replace(/\.[^/.]+$/, ""); // remove extension
+      cleanName = cleanName
+        .split(/[_\-\s]+/)
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+      
+      const option = document.createElement("option");
+      option.value = file;
+      option.textContent = cleanName;
+      select.appendChild(option);
+    });
+  } catch (error) {
+    console.error("Gagal memuat avatar:", error);
+  }
 }
 
 function bindEvents() {
@@ -116,10 +147,30 @@ function bindEvents() {
   els.ttsBtn?.addEventListener("click", generateTts);
   els.clipBtn?.addEventListener("click", () => generateClip());
   els.renderBtn?.addEventListener("click", renderVideo);
+  els.publishFacebookBtn?.addEventListener("click", () => publishToSocialsUI("facebook"));
+  els.publishInstagramBtn?.addEventListener("click", () => publishToSocialsUI("instagram"));
   els.copyYoutubeBtn?.addEventListener("click", copyCurrentYoutube);
   els.downloadVideoBtn?.addEventListener("click", () => downloadVideo(state.current));
   els.shareYoutubeBtn?.addEventListener("click", () => shareToYoutube(state.current));
   els.copyVideoLinkBtn?.addEventListener("click", () => copyVideoLink(state.current));
+
+  // Voice preset selection handler
+  const presetSelect = document.querySelector("#elevenlabsVoicePreset");
+  if (presetSelect) {
+    presetSelect.addEventListener("change", () => {
+      if (presetSelect.value !== "custom") {
+        els.settingsForm.elevenlabsVoiceId.value = presetSelect.value;
+      }
+    });
+  }
+
+  // Category selection default mapping handler
+  const categorySelect = els.form.querySelector("[name='category']");
+  if (categorySelect) {
+    categorySelect.addEventListener("change", () => {
+      applyCategoryDefaults(categorySelect.value);
+    });
+  }
 }
 
 async function saveSettings(event) {
@@ -143,9 +194,25 @@ async function saveSettings(event) {
         videoUsdPerSecond: Number(form.get("videoUsdPerSecond")),
         openaiTtsVoice: form.get("openaiTtsVoice"),
         elevenlabsVoiceId: form.get("elevenlabsVoiceId"),
+        elevenlabsModel: form.get("elevenlabsModel"),
         geminiApiKey: form.get("geminiApiKey"),
         geminiBaseUrl: form.get("geminiBaseUrl"),
-        speechTempo: Number(form.get("speechTempo"))
+        speechTempo: Number(form.get("speechTempo")),
+        ffmpegEncoder: form.get("ffmpegEncoder"),
+        pexelsApiKey: form.get("pexelsApiKey"),
+        pixabayApiKey: form.get("pixabayApiKey"),
+        uploadDriver: form.get("uploadDriver"),
+        publicBaseUrl: form.get("publicBaseUrl"),
+        sftpHost: form.get("sftpHost"),
+        sftpPort: Number(form.get("sftpPort")),
+        sftpUser: form.get("sftpUser"),
+        sftpPassword: form.get("sftpPassword"),
+        sftpRemoteDir: form.get("sftpRemoteDir"),
+        ftpHost: form.get("ftpHost"),
+        ftpPort: Number(form.get("ftpPort")),
+        ftpUser: form.get("ftpUser"),
+        ftpPassword: form.get("ftpPassword"),
+        ftpRemoteDir: form.get("ftpRemoteDir")
       })
     });
     state.config = data.config;
@@ -153,6 +220,10 @@ async function saveSettings(event) {
     els.settingsForm.elevenlabsApiKey.value = "";
     els.settingsForm.videoApiKey.value = "";
     els.settingsForm.geminiApiKey.value = "";
+    els.settingsForm.pexelsApiKey.value = "";
+    els.settingsForm.pixabayApiKey.value = "";
+    els.settingsForm.sftpPassword.value = "";
+    els.settingsForm.ftpPassword.value = "";
     fillSettingsForm();
     setStatus("Setting tersimpan. Generate berikutnya memakai setting baru.");
   } catch (error) {
@@ -232,6 +303,7 @@ async function generateFull() {
   try {
     await runPreflight({ quiet: true });
     setStatus("Membuat video otomatis dari ide sampai final...");
+    startProgressPolling();
     const data = await api("/api/items/full", {
       method: "POST",
       body: JSON.stringify(formPayload())
@@ -248,11 +320,14 @@ async function generateFull() {
         data.warnings
       ));
       finishProcess("Video final selesai.");
+      showToast("Video final selesai dibuat!", "success");
     }
   } catch (error) {
     setStatus(error.message);
     finishProcess("Generate gagal.");
+    showToast("Pembuatan video gagal: " + error.message, "error");
   } finally {
+    stopProgressPolling();
     setBusy(false);
     render();
   }
@@ -365,19 +440,28 @@ async function generateClip(sceneIndex) {
 
 async function renderVideo() {
   if (!state.current) return;
-  const provider = new FormData(els.form).get("ttsProvider");
-  setBusy(true, "Merender video vertikal...");
+  const form = new FormData(els.form);
+  const provider = form.get("ttsProvider");
+  const avatarMode = form.get("avatarMode") || "image";
+  const videoFormat = form.get("videoFormat") || "vertical";
+  const visualSource = form.get("visualSource") || "stock";
+  const formatLabel = videoFormat === "horizontal" ? "horizontal" : "vertikal";
+  setBusy(true, `Merender video ${formatLabel}...`);
   try {
+    startProgressPolling();
     const data = await api(`/api/items/${state.current.id}/render`, {
       method: "POST",
-      body: JSON.stringify({ provider, ensureAssets: true })
+      body: JSON.stringify({ provider, ensureAssets: true, avatarMode, videoFormat, visualSource })
     });
     state.current = data.item;
     await refreshItems();
     setStatus(statusWithWarnings("Render selesai.", data.warnings));
+    showToast("Video berhasil dirender ulang!", "success");
   } catch (error) {
     setStatus(error.message);
+    showToast("Gagal merender video: " + error.message, "error");
   } finally {
+    stopProgressPolling();
     setBusy(false);
     render();
   }
@@ -385,6 +469,7 @@ async function renderVideo() {
 
 function formPayload() {
   const form = new FormData(els.form);
+  const settingsForm = new FormData(els.settingsForm);
   return {
     topic: form.get("topic"),
     category: form.get("category"),
@@ -394,7 +479,13 @@ function formPayload() {
     durationSec: Number(form.get("durationSec")),
     sceneCount: Number(form.get("sceneCount")),
     imageQuality: form.get("imageQuality"),
-    imageSize: "1024x1536"
+    imageSize: "1024x1536",
+    avatarMode: form.get("avatarMode") || "image",
+    videoFormat: form.get("videoFormat") || "vertical",
+    visualSource: form.get("visualSource") || "stock",
+    openaiTtsVoice: settingsForm.get("openaiTtsVoice"),
+    elevenlabsVoiceId: settingsForm.get("elevenlabsVoiceId"),
+    elevenlabsModel: settingsForm.get("elevenlabsModel")
   };
 }
 
@@ -433,6 +524,7 @@ function fillSettingsForm() {
   els.settingsForm.imageModel.value = state.config.providers?.imageModel || "gpt-image-1-mini";
   els.settingsForm.openaiTtsVoice.value = state.config.providers?.openaiTtsVoice || "shimmer";
   els.settingsForm.elevenlabsVoiceId.value = state.config.providers?.elevenlabsVoiceId || "";
+  els.settingsForm.elevenlabsModel.value = state.config.providers?.elevenlabsModel || "eleven_turbo_v2_5";
   els.settingsForm.videoBaseUrl.value = state.config.providers?.videoBaseUrl || "https://ai.dinoiki.com";
   els.settingsForm.videoEndpointMode.value = state.config.providers?.videoEndpointMode || "gemini";
   els.settingsForm.videoModel.value = state.config.providers?.videoModel || "veo-3.1-lite-generate-preview";
@@ -440,6 +532,29 @@ function fillSettingsForm() {
   els.settingsForm.videoUsdPerSecond.value = state.config.pricing?.videoUsdPerSecond ?? 0.03;
   els.settingsForm.geminiBaseUrl.value = state.config.providers?.geminiBaseUrl || "https://generativelanguage.googleapis.com";
   els.settingsForm.speechTempo.value = state.config.render?.speechTempo || 1.15;
+  els.settingsForm.ffmpegEncoder.value = state.config.render?.ffmpegEncoder || "libx264";
+  els.settingsForm.uploadDriver.value = state.config.remote?.uploadDriver || "none";
+  els.settingsForm.publicBaseUrl.value = state.config.remote?.publicBaseUrl || "";
+  els.settingsForm.sftpHost.value = state.config.remote?.sftpHost || "";
+  els.settingsForm.sftpPort.value = state.config.remote?.sftpPort || "22";
+  els.settingsForm.sftpUser.value = state.config.remote?.sftpUser || "";
+  els.settingsForm.sftpRemoteDir.value = state.config.remote?.sftpRemoteDir || "";
+  els.settingsForm.ftpHost.value = state.config.remote?.ftpHost || "";
+  els.settingsForm.ftpPort.value = state.config.remote?.ftpPort || "21";
+  els.settingsForm.ftpUser.value = state.config.remote?.ftpUser || "";
+  els.settingsForm.ftpRemoteDir.value = state.config.remote?.ftpRemoteDir || "";
+
+  // Set the voice preset select value
+  const presetSelect = document.querySelector("#elevenlabsVoicePreset");
+  if (presetSelect) {
+    const currentVoiceId = state.config.providers?.elevenlabsVoiceId || "";
+    const isPreset = [...presetSelect.options].some(opt => opt.value === currentVoiceId && opt.value !== "custom");
+    if (isPreset) {
+      presetSelect.value = currentVoiceId;
+    } else {
+      presetSelect.value = "custom";
+    }
+  }
 }
 
 function showSettingsTab(name) {
@@ -593,6 +708,7 @@ function selectIdea(id, options = {}) {
   els.form.topic.value = idea.topic;
   if (idea.category && [...els.form.category.options].some((option) => option.value === idea.category)) {
     els.form.category.value = idea.category;
+    applyCategoryDefaults(idea.category);
   }
   if (!options.quiet) setStatus("Ide dipilih. Sekarang bisa Buat Storyboard atau Generate Video.");
   render();
@@ -631,6 +747,24 @@ function renderCurrent() {
   els.itemTitle.textContent = item.title;
   els.hookText.textContent = item.plan.hook;
   if (els.summaryText) els.summaryText.textContent = item.plan.summary || "-";
+  
+  // Set the avatar select dropdown value
+  const select = document.querySelector("#avatarModeSelect");
+  if (select && item.input?.avatarMode) {
+    select.value = item.input.avatarMode;
+  }
+  
+  // Set the format and visual source select dropdown values
+  const formatSelect = els.form.querySelector("[name='videoFormat']");
+  if (formatSelect && item.input?.videoFormat) {
+    formatSelect.value = item.input.videoFormat;
+  }
+  
+  const sourceSelect = els.form.querySelector("[name='visualSource']");
+  if (sourceSelect && item.input?.visualSource) {
+    sourceSelect.value = item.input.visualSource;
+  }
+  
   els.pointList.innerHTML = (item.plan.importantPoints || []).map((point) => `<li>${escapeHtml(point)}</li>`).join("");
   els.factNote.textContent = item.plan.factCheckNote || "-";
   renderYoutubeCopy(item);
@@ -740,6 +874,28 @@ function renderButtons() {
   if (els.downloadVideoBtn) els.downloadVideoBtn.disabled = state.busy || !hasVideo;
   if (els.shareYoutubeBtn) els.shareYoutubeBtn.disabled = state.busy || !hasVideo;
   if (els.copyVideoLinkBtn) els.copyVideoLinkBtn.disabled = state.busy || !hasVideo;
+  if (els.publishFacebookBtn) {
+    els.publishFacebookBtn.disabled = state.busy || !hasVideo;
+    const fbUrl = state.current?.publish?.facebook?.url;
+    if (fbUrl) {
+      els.publishFacebookBtn.textContent = "Buka FB Reel ↗";
+      els.publishFacebookBtn.classList.remove("accent");
+    } else {
+      els.publishFacebookBtn.textContent = "Publish FB";
+      els.publishFacebookBtn.classList.add("accent");
+    }
+  }
+  if (els.publishInstagramBtn) {
+    els.publishInstagramBtn.disabled = state.busy || !hasVideo;
+    const igUrl = state.current?.publish?.instagram?.url;
+    if (igUrl) {
+      els.publishInstagramBtn.textContent = "Buka IG Reel ↗";
+      els.publishInstagramBtn.classList.remove("accent");
+    } else {
+      els.publishInstagramBtn.textContent = "Publish IG";
+      els.publishInstagramBtn.classList.add("accent");
+    }
+  }
 }
 
 function providerReady(provider) {
@@ -761,6 +917,77 @@ function setStatus(message) {
 
 function updateCurrentStatus(message) {
   if (els.statusText) els.statusText.textContent = message;
+}
+
+let progressPollInterval = null;
+
+function showToast(message, type = "info") {
+  const container = document.querySelector("#toastContainer");
+  if (!container) return;
+  
+  const toast = document.createElement("div");
+  toast.className = `toast ${type}`;
+  
+  let symbol = "ℹ️";
+  if (type === "success") symbol = "✅";
+  if (type === "error") symbol = "❌";
+  if (type === "warning") symbol = "⚠️";
+  
+  toast.innerHTML = `<span>${symbol}</span><p>${escapeHtml(message)}</p>`;
+  container.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.style.animation = "toastFadeOut 0.3s ease forwards";
+    toast.addEventListener("animationend", () => {
+      toast.remove();
+    });
+  }, 5000);
+}
+
+function startProgressPolling() {
+  if (progressPollInterval) clearInterval(progressPollInterval);
+  
+  const wrapper = document.querySelector("#progressBarWrapper");
+  const bar = document.querySelector("#progressBar");
+  if (wrapper && bar) {
+    wrapper.classList.remove("d-none");
+    bar.style.width = "0%";
+  }
+  
+  progressPollInterval = setInterval(async () => {
+    try {
+      const pin = localStorage.getItem("banyaktau_pin") || "";
+      const response = await fetch("/api/progress", {
+        headers: {
+          ...(pin ? { "x-dashboard-pin": pin } : {})
+        }
+      });
+      if (!response.ok) return;
+      const progress = await response.json();
+      if (progress && progress.active) {
+        const percent = Math.min(100, Math.max(0, Number(progress.percent || 0)));
+        if (bar) bar.style.width = `${percent}%`;
+        if (progress.message) {
+          updateCurrentStatus(`${progress.message} (${percent}%)`);
+        }
+      }
+    } catch (err) {
+      // ignore
+    }
+  }, 1000);
+}
+
+function stopProgressPolling() {
+  if (progressPollInterval) {
+    clearInterval(progressPollInterval);
+    progressPollInterval = null;
+  }
+  const wrapper = document.querySelector("#progressBarWrapper");
+  if (wrapper) {
+    setTimeout(() => {
+      wrapper.classList.add("d-none");
+    }, 1500);
+  }
 }
 
 function pushLog(message) {
@@ -993,4 +1220,116 @@ function escapeHtml(value) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+async function publishToSocialsUI(platform) {
+  if (!state.current) return;
+
+  const enabled = platform === "facebook"
+    ? state.config?.providers?.facebookUploadEnabled
+    : state.config?.providers?.instagramUploadEnabled;
+
+  if (!enabled) {
+    const label = platform === "facebook" ? "Facebook" : "Instagram";
+    const envVar = platform === "facebook" ? "FACEBOOK_UPLOAD_ENABLED=true" : "INSTAGRAM_UPLOAD_ENABLED=true";
+    const msg = `Integrasi ${label} belum aktif atau belum dikonfigurasi di file .env.\n\nHarap atur:\n1. ${envVar} di file .env\n2. Isi API Key / Access Token dan Page ID\n3. Konfigurasi FTP/SFTP Remote Upload (karena API sosial media membutuhkan URL video publik agar bisa didownload).`;
+    alert(msg);
+    setStatus(`Gagal: Integrasi ${label} belum diaktifkan di file .env.`);
+    return;
+  }
+
+  const existingUrl = platform === "facebook"
+    ? state.current?.publish?.facebook?.url
+    : state.current?.publish?.instagram?.url;
+
+  if (existingUrl) {
+    window.open(existingUrl, "_blank", "noopener");
+    setStatus(`Membuka link ${platform} Reels.`);
+    return;
+  }
+
+  const label = platform === "facebook" ? "Facebook" : "Instagram";
+  startProcess(`Publish ke ${label}`);
+  setBusy(true, `Mengunggah video ke server dan mengirim ke ${label}...`);
+  try {
+    startProgressPolling();
+    const data = await api(`/api/items/${state.current.id}/publish`, {
+      method: "POST",
+      body: JSON.stringify({ platform })
+    });
+    state.current = data.item;
+    await refreshItems();
+    if (data.success) {
+      setStatus(statusWithWarnings(`Publish ke ${label} berhasil!`, data.warnings));
+      finishProcess(`Publish ke ${label} berhasil.`);
+      showToast(`Publish ke ${label} berhasil!`, "success");
+      const postUrl = platform === "facebook"
+        ? data.item.publish?.facebook?.url
+        : data.item.publish?.instagram?.url;
+      if (postUrl) {
+        window.open(postUrl, "_blank", "noopener");
+      }
+    } else {
+      setStatus(statusWithWarnings(`Publish ke ${label} selesai dengan beberapa error.`, data.warnings));
+      finishProcess(`Publish ke ${label} gagal.`);
+      showToast(`Publish ke ${label} selesai dengan error.`, "warning");
+    }
+  } catch (error) {
+    setStatus(`Publish ke ${label} gagal: ${error.message}`);
+    finishProcess(`Publish ke ${label} gagal.`);
+    showToast(`Gagal publish ke ${label}: ${error.message}`, "error");
+  } finally {
+    stopProgressPolling();
+    setBusy(false);
+    render();
+  }
+}
+
+function applyCategoryDefaults(cat) {
+  if (!cat) return;
+  const mapping = {
+    sains: {
+      voice: "ErXwobaYiN019PkySvjV", // Antoni (Energetic Male)
+      tone: "antusias, penuh energi, ilmiah tapi mudah dipahami"
+    },
+    sejarah: {
+      voice: "pNInz6obpgfrhhF21cjL", // Adam (Deep Male - Rekomendasi)
+      tone: "dramatis, mendalam, misterius, seperti narator dokumenter sejarah"
+    },
+    penemuan: {
+      voice: "VR6A4UBqFncf015A2w4H", // Arnold (Rich Male)
+      tone: "penasaran, edukatif, inspiratif"
+    },
+    "tubuh manusia": {
+      voice: "piTKgcLEGmPEe242CwPv", // Nicole (Friendly Female)
+      tone: "bersahabat, informatif, seru"
+    },
+    "alam semesta": {
+      voice: "pNInz6obpgfrhhF21cjL", // Adam (Deep Male - Rekomendasi)
+      tone: "takjub, dramatis, puitis, memikirkan skala kosmis"
+    },
+    teknologi: {
+      voice: "ErXwobaYiN019PkySvjV", // Antoni (Energetic Male)
+      tone: "modern, futuristik, cepat, penuh rasa ingin tahu"
+    },
+    "benda sehari-hari": {
+      voice: "piTKgcLEGmPEe242CwPv", // Nicole (Friendly Female)
+      tone: "santai, dekat keseharian, unik, menghibur"
+    }
+  };
+
+  const defaults = mapping[String(cat).toLowerCase()];
+  if (defaults) {
+    if (els.form.tone) {
+      els.form.tone.value = defaults.tone;
+    }
+    const presetSelect = document.querySelector("#elevenlabsVoicePreset");
+    if (presetSelect) {
+      presetSelect.value = defaults.voice;
+    }
+    if (els.settingsForm && els.settingsForm.elevenlabsVoiceId) {
+      els.settingsForm.elevenlabsVoiceId.value = defaults.voice;
+    }
+    pushLog(`Kategori diubah ke '${cat}': default gaya suara & preset diatur otomatis.`);
+  }
 }

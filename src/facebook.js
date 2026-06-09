@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import { config } from "./config.js";
 
 function clean(value) {
@@ -185,6 +186,25 @@ async function uploadFacebookReelFromUrl({ token, uploadUrl, videoUrl }) {
   });
 }
 
+async function uploadFacebookReelBinary({ token, uploadUrl, videoPath }) {
+  const buffer = await fs.promises.readFile(videoPath);
+  const response = await fetch(uploadUrl, {
+    method: "POST",
+    headers: {
+      "Authorization": `OAuth ${token}`,
+      "offset": "0",
+      "file_size": String(buffer.length),
+      "Content-Type": "application/octet-stream"
+    },
+    body: buffer
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`Gagal mengunggah file biner FB Reel: ${text}`);
+  }
+}
+
 async function finishFacebookReel({ token, videoId, title, description }) {
   const url = new URL(graphUrl(`${config.facebook.pageId}/video_reels`));
   url.searchParams.set("access_token", token);
@@ -203,9 +223,19 @@ async function finishFacebookReel({ token, videoId, title, description }) {
   };
 }
 
-async function publishFacebookReel({ token, videoUrl, title, description }) {
+async function publishFacebookReel({ token, videoUrl, videoPath, title, description }) {
   const started = await startFacebookReel(token);
-  await uploadFacebookReelFromUrl({ token, uploadUrl: started.uploadUrl, videoUrl });
+  if (videoPath) {
+    try {
+      await uploadFacebookReelBinary({ token, uploadUrl: started.uploadUrl, videoPath });
+    } catch (binaryError) {
+      console.warn(`Gagal upload biner FB Reel, coba fallback URL: ${binaryError.message}`);
+      if (!videoUrl) throw binaryError;
+      await uploadFacebookReelFromUrl({ token, uploadUrl: started.uploadUrl, videoUrl });
+    }
+  } else {
+    await uploadFacebookReelFromUrl({ token, uploadUrl: started.uploadUrl, videoUrl });
+  }
   return finishFacebookReel({
     token,
     videoId: started.videoId,
@@ -308,19 +338,23 @@ export async function publishToInstagram({ videoUrl, title, description, coverUr
   };
 }
 
-export async function publishToFacebook({ videoUrl, title, description }) {
+export async function publishToFacebook({ videoUrl, videoPath, title, description }) {
   assertFacebookConfig();
-  if (!videoUrl) throw new Error("Facebook butuh public video URL.");
+  if (!videoUrl && !videoPath) throw new Error("Facebook butuh public video URL atau path file lokal.");
 
   const token = await resolvePageAccessToken();
   if (config.facebook.mediaType === "video") {
+    if (!videoUrl) {
+      throw new Error("Facebook Page Video membutuhkan public URL. Silakan gunakan tipe media Reel untuk upload langsung tanpa URL.");
+    }
     return publishFacebookPageVideo({ token, videoUrl, title, description });
   }
 
   try {
-    return await publishFacebookReel({ token, videoUrl, title, description });
+    return await publishFacebookReel({ token, videoUrl, videoPath, title, description });
   } catch (error) {
     console.warn(`Facebook Reel gagal, coba fallback Page video: ${error.message}`);
+    if (!videoUrl) throw error;
     const fallback = await publishFacebookPageVideo({ token, videoUrl, title, description });
     return { ...fallback, fallbackFrom: "facebook_reel" };
   }
@@ -351,4 +385,34 @@ export async function publishToSocials(options) {
   }
 
   return result;
+}
+
+export function cleanCaptionLine(value) {
+  return String(value || "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 420);
+}
+
+export function socialQuestion(item) {
+  const topic = cleanCaptionLine(item.input?.topic || item.title).replace(/[?.!]+$/g, "");
+  if (!topic) return "Menurut kamu, fakta mana yang paling bikin kaget?";
+  return `Menurut kamu, bagian paling menarik dari ${topic} apa? Tulis di komentar.`;
+}
+
+export function socialDescription(item) {
+  const points = (item.plan?.importantPoints || [])
+    .slice(0, 3)
+    .map((point) => `- ${point}`)
+    .join("\n");
+  const summary = cleanCaptionLine(item.plan?.summary);
+  const question = socialQuestion(item);
+  return [
+    item.plan?.hook || `Ternyata ${item.title} punya fakta yang jarang dibahas.`,
+    summary,
+    points ? `Intinya:\n${points}` : "",
+    question,
+    "Simpan dulu biar tidak lupa, dan kirim ke teman yang suka fakta unik.",
+    "#BanyakTau #FaktaMenarik #TahukahKamu #Pengetahuan #Sains #Sejarah #EdukasiRingan #ReelsIndonesia"
+  ].filter(Boolean).join("\n\n");
 }

@@ -295,7 +295,13 @@ function normalizeInput(input) {
     sceneCount,
     ttsProvider: String(input.ttsProvider || "openai").toLowerCase() === "elevenlabs" ? "elevenlabs" : "openai",
     imageSize: cleanText(input.imageSize || config.openai.imageSize, 40),
-    imageQuality: cleanText(input.imageQuality || config.openai.imageQuality, 20)
+    imageQuality: cleanText(input.imageQuality || config.openai.imageQuality, 20),
+    elevenlabsVoiceId: cleanText(input.elevenlabsVoiceId || "", 80),
+    elevenlabsModel: cleanText(input.elevenlabsModel || "", 80),
+    openaiTtsVoice: cleanText(input.openaiTtsVoice || "", 80),
+    avatarMode: cleanText(input.avatarMode || "image", 40),
+    videoFormat: cleanText(input.videoFormat || config.stock?.defaultVideoFormat || "vertical", 40),
+    visualSource: cleanText(input.visualSource || config.stock?.defaultVisualSource || "stock", 40)
   };
 }
 
@@ -323,8 +329,9 @@ function buildPrompt(input, context) {
     "Tulis narasi scene sebagai satu cerita utuh yang dibagi untuk visual, bukan potongan-potongan yang terasa terpisah.",
     "Setiap scene harus punya visualPrompt berbeda: variasikan objek close-up, diagram konseptual tanpa teks, manusia belajar/mengamati, timeline, eksperimen sederhana, alam, arsip sejarah, atau visual makro.",
     "Jangan minta gambar berisi teks, logo, watermark, atau wajah tokoh nyata yang masih hidup.",
+    "Untuk setiap scene, tentukan emosi/pose avatar di field 'avatarPose'. Pilihan yang valid hanya: 'thinking' (jika bertanya/misteri), 'surprised' (jika ada fakta unik/kejutan), 'pointing' (jika menekankan fakta penting), 'clipboard' (jika penjelas biasa), atau 'thumbs_up' (khusus scene penutup).",
     "Kembalikan JSON valid saja dengan shape:",
-    "{ title, hook, summary, importantPoints:[string], factCheckNote, scenes:[{ index, durationSec, narration, screenText, imagePrompt, visualStyle }] }",
+    "{ title, hook, summary, importantPoints:[string], factCheckNote, scenes:[{ index, durationSec, narration, screenText, imagePrompt, visualStyle, avatarPose }] }",
     `Topik: ${input.topic}`,
     `Kategori: ${input.category}`,
     input.hookStyle ? `Hook yang harus dipakai atau dijadikan dasar: ${input.hookStyle}` : "",
@@ -372,13 +379,16 @@ function cleanPublicTitle(value) {
 function normalizeScene(scene, index, input, durationSec) {
   const screenText = cleanSceneText(scene?.screenText || sceneTitle(index, input));
   const narration = cleanText(scene?.narration || fallbackNarration(index, input), 520);
+  const rawPose = cleanText(scene?.avatarPose || "clipboard", 20).toLowerCase();
+  const avatarPose = ["thinking", "surprised", "pointing", "clipboard", "thumbs_up"].includes(rawPose) ? rawPose : "clipboard";
   return {
     index: index + 1,
     durationSec,
     narration,
     screenText,
     imagePrompt: enhanceImagePrompt(scene?.imagePrompt || `${screenText}. ${narration}`, input, index),
-    visualStyle: cleanText(scene?.visualStyle || visualStyle(index), 120)
+    visualStyle: cleanText(scene?.visualStyle || visualStyle(index), 120),
+    avatarPose
   };
 }
 
@@ -485,14 +495,19 @@ function fallbackPlan(input, reason = "") {
     factCheckNote: reason
       ? `Fallback offline karena: ${reason}. Verifikasi sumber tambahan sebelum dipublikasikan.`
       : "Fallback offline; verifikasi sumber tambahan sebelum dipublikasikan.",
-    scenes: Array.from({ length: input.sceneCount }, (_, index) => ({
-      index: index + 1,
-      durationSec: input.durationSec / input.sceneCount,
-      narration: beats[index % beats.length],
-      screenText: sceneTitle(index, input),
-      imagePrompt: `${sceneTitle(index, input)}, educational visual about ${input.topic}, bright editorial illustration`,
-      visualStyle: visualStyle(index)
-    }))
+    scenes: Array.from({ length: input.sceneCount }, (_, index) => {
+      const isLast = index === input.sceneCount - 1;
+      const avatarPose = isLast ? "thumbs_up" : index === 0 ? "thinking" : ["clipboard", "pointing", "thinking", "surprised"][index % 4];
+      return {
+        index: index + 1,
+        durationSec: input.durationSec / input.sceneCount,
+        narration: beats[index % beats.length],
+        screenText: sceneTitle(index, input),
+        imagePrompt: `${sceneTitle(index, input)}, educational visual about ${input.topic}, bright editorial illustration`,
+        visualStyle: visualStyle(index),
+        avatarPose
+      };
+    })
   };
 }
 

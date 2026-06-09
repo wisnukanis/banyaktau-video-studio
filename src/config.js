@@ -120,7 +120,15 @@ export const config = {
     fontTitle: clean(process.env.RENDER_TITLE_FONT || "Georgia"),
     fontBody: clean(process.env.RENDER_BODY_FONT || "Segoe UI Semibold"),
     fontMono: clean(process.env.RENDER_MONO_FONT || "Cascadia Code"),
-    speechTempo: Math.min(1.3, Math.max(0.9, numberEnv("SPEECH_TEMPO", 1.15)))
+    speechTempo: Math.min(1.3, Math.max(0.9, numberEnv("SPEECH_TEMPO", 1.15))),
+    concurrencyLimit: Math.max(1, Math.min(10, numberEnv("RENDER_CONCURRENCY_LIMIT", 3))),
+    ffmpegEncoder: clean(process.env.FFMPEG_ENCODER || "libx264")
+  },
+  stock: {
+    pexelsApiKey: process.env.PEXELS_API_KEY || "",
+    pixabayApiKey: process.env.PIXABAY_API_KEY || "",
+    defaultVisualSource: clean(process.env.DEFAULT_VISUAL_SOURCE || "stock"),
+    defaultVideoFormat: clean(process.env.DEFAULT_VIDEO_FORMAT || "vertical")
   }
 };
 
@@ -161,11 +169,29 @@ export function publicConfig() {
       elevenlabsVoiceId: config.elevenlabs.voiceId
     },
     render: config.render,
+    stock: {
+      pexelsApiKeySet: Boolean(config.stock.pexelsApiKey),
+      pixabayApiKeySet: Boolean(config.stock.pixabayApiKey),
+      defaultVisualSource: config.stock.defaultVisualSource,
+      defaultVideoFormat: config.stock.defaultVideoFormat
+    },
     pricing: {
       videoUsdPerSecond: config.pricing.videoUsdPerSecond
     },
     dashboard: {
       pinRequired: true
+    },
+    remote: {
+      uploadDriver: process.env.UPLOAD_DRIVER || "none",
+      publicBaseUrl: process.env.PUBLIC_BASE_URL || "",
+      sftpHost: process.env.SFTP_HOST || "",
+      sftpPort: process.env.SFTP_PORT || "22",
+      sftpUser: process.env.SFTP_USER || "",
+      sftpRemoteDir: process.env.SFTP_REMOTE_DIR || "",
+      ftpHost: process.env.FTP_HOST || "",
+      ftpPort: process.env.FTP_PORT || "21",
+      ftpUser: process.env.FTP_USER || "",
+      ftpRemoteDir: process.env.FTP_REMOTE_DIR || ""
     }
   };
 }
@@ -185,12 +211,26 @@ export async function updateRuntimeSettings(input = {}) {
   const videoEndpointMode = sanitizeEnvValue(input.videoEndpointMode);
   const videoModel = sanitizeEnvValue(input.videoModel);
   const videoSeconds = Number(input.videoSeconds);
+  const pexelsApiKey = sanitizeEnvValue(input.pexelsApiKey);
+  const pixabayApiKey = sanitizeEnvValue(input.pixabayApiKey);
   const videoUsdPerSecond = Number(input.videoUsdPerSecond);
   const elevenlabsModel = sanitizeEnvValue(input.elevenlabsModel);
   const elevenlabsVoiceId = sanitizeEnvValue(input.elevenlabsVoiceId);
   const geminiKey = sanitizeEnvValue(input.geminiApiKey);
   const geminiBaseUrl = trimSlash(sanitizeEnvValue(input.geminiBaseUrl));
   const speechTempo = Number(input.speechTempo);
+  const uploadDriver = sanitizeEnvValue(input.uploadDriver);
+  const publicBaseUrl = sanitizeEnvValue(input.publicBaseUrl);
+  const sftpHost = sanitizeEnvValue(input.sftpHost);
+  const sftpPort = sanitizeEnvValue(input.sftpPort);
+  const sftpUser = sanitizeEnvValue(input.sftpUser);
+  const sftpPassword = sanitizeEnvValue(input.sftpPassword);
+  const sftpRemoteDir = sanitizeEnvValue(input.sftpRemoteDir);
+  const ftpHost = sanitizeEnvValue(input.ftpHost);
+  const ftpPort = sanitizeEnvValue(input.ftpPort);
+  const ftpUser = sanitizeEnvValue(input.ftpUser);
+  const ftpPassword = sanitizeEnvValue(input.ftpPassword);
+  const ftpRemoteDir = sanitizeEnvValue(input.ftpRemoteDir);
 
   if (openaiKey) updates.OPENAI_API_KEY = openaiKey;
   if (openaiBaseUrl) updates.OPENAI_BASE_URL = openaiBaseUrl;
@@ -211,6 +251,21 @@ export async function updateRuntimeSettings(input = {}) {
   if (geminiKey) updates.GEMINI_API_KEY = geminiKey;
   if (geminiBaseUrl) updates.GEMINI_BASE_URL = geminiBaseUrl;
   if (Number.isFinite(speechTempo)) updates.SPEECH_TEMPO = String(Math.min(1.3, Math.max(0.9, speechTempo)));
+  if (input.ffmpegEncoder !== undefined) updates.FFMPEG_ENCODER = sanitizeEnvValue(input.ffmpegEncoder);
+  if (pexelsApiKey !== undefined) updates.PEXELS_API_KEY = pexelsApiKey;
+  if (pixabayApiKey !== undefined) updates.PIXABAY_API_KEY = pixabayApiKey;
+  if (uploadDriver) updates.UPLOAD_DRIVER = uploadDriver;
+  if (publicBaseUrl !== undefined) updates.PUBLIC_BASE_URL = publicBaseUrl;
+  if (sftpHost !== undefined) updates.SFTP_HOST = sftpHost;
+  if (sftpPort !== undefined) updates.SFTP_PORT = sftpPort;
+  if (sftpUser !== undefined) updates.SFTP_USER = sftpUser;
+  if (sftpPassword) updates.SFTP_PASSWORD = sftpPassword;
+  if (sftpRemoteDir !== undefined) updates.SFTP_REMOTE_DIR = sftpRemoteDir;
+  if (ftpHost !== undefined) updates.FTP_HOST = ftpHost;
+  if (ftpPort !== undefined) updates.FTP_PORT = ftpPort;
+  if (ftpUser !== undefined) updates.FTP_USER = ftpUser;
+  if (ftpPassword) updates.FTP_PASSWORD = ftpPassword;
+  if (ftpRemoteDir !== undefined) updates.FTP_REMOTE_DIR = ftpRemoteDir;
 
   if (Object.keys(updates).length) {
     await writeEnvUpdates(updates);
@@ -267,4 +322,7 @@ function applyConfigUpdates(updates) {
   if (updates.GEMINI_API_KEY !== undefined) config.gemini.apiKey = updates.GEMINI_API_KEY;
   if (updates.GEMINI_BASE_URL !== undefined) config.gemini.baseUrl = trimSlash(updates.GEMINI_BASE_URL);
   if (updates.SPEECH_TEMPO !== undefined) config.render.speechTempo = Number(updates.SPEECH_TEMPO);
+  if (updates.FFMPEG_ENCODER !== undefined) config.render.ffmpegEncoder = updates.FFMPEG_ENCODER;
+  if (updates.PEXELS_API_KEY !== undefined) config.stock.pexelsApiKey = updates.PEXELS_API_KEY;
+  if (updates.PIXABAY_API_KEY !== undefined) config.stock.pixabayApiKey = updates.PIXABAY_API_KEY;
 }

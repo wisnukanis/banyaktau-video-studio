@@ -162,23 +162,31 @@ export async function generateOpenAiSpeech({ itemId, text, voice, filenameSuffix
 
 export async function transcribeSpeechSegments(audioPath) {
   assertOpenAi();
+  const model = config.openai.transcribeModel;
   try {
-    return await transcribeSpeechSegmentsWithModel(audioPath, config.openai.transcribeModel);
+    // verbose_json gives per-segment timestamps for word-synced captions.
+    return await transcribeSpeechSegmentsWithModel(audioPath, model, "verbose_json");
   } catch (error) {
-    if (!/verbose_json|response_format|timestamp/i.test(error.message) || config.openai.transcribeModel === "whisper-1") {
-      throw error;
+    // Some models/proxies (e.g. gpt-4o-transcribe, gpt-4o-mini-transcribe) reject
+    // verbose_json and only accept plain "json". Fall back so captions still render,
+    // even though timestamps will not be available from the API in that case.
+    if (/verbose_json|response_format|unsupported_value|timestamp/i.test(error.message)) {
+      return transcribeSpeechSegmentsWithModel(audioPath, model, "json");
     }
-    return transcribeSpeechSegmentsWithModel(audioPath, "whisper-1");
+    throw error;
   }
 }
 
-async function transcribeSpeechSegmentsWithModel(audioPath, model) {
+async function transcribeSpeechSegmentsWithModel(audioPath, model, responseFormat = "verbose_json") {
   const buffer = await fs.readFile(audioPath);
   const form = new FormData();
   form.append("file", new Blob([buffer]), path.basename(audioPath));
   form.append("model", model);
   form.append("language", "id");
-  form.append("response_format", "verbose_json");
+  form.append("response_format", responseFormat);
+  if (responseFormat === "verbose_json") {
+    form.append("timestamp_granularities[]", "word");
+  }
 
   const response = await fetch(`${config.openai.baseUrl}/audio/transcriptions`, {
     method: "POST",
@@ -192,13 +200,38 @@ async function transcribeSpeechSegmentsWithModel(audioPath, model) {
       .map((segment) => ({
         start: Number(segment.start || 0),
         end: Number(segment.end || 0),
-        text: String(segment.text || "").replace(/\s+/g, " ").trim()
+        text: String(segment.text || "").replace(/\s+/g, " ").trim(),
+        words: Array.isArray(segment.words)
+          ? segment.words.map((w) => ({
+              word: String(w.word || "").trim(),
+              start: Number(w.start || 0),
+              end: Number(w.end || 0)
+            }))
+          : []
       }))
       .filter((segment) => segment.text && segment.end > segment.start);
   }
 
   const text = String(data.text || "").replace(/\s+/g, " ").trim();
   return text ? [{ start: 0, end: 0, text }] : [];
+}
+
+export async function requestTextCompletion(systemPrompt, userPrompt) {
+  assertOpenAi();
+  const response = await fetch(`${config.openai.baseUrl}/chat/completions`, {
+    method: "POST",
+    headers: headersJson(),
+    body: JSON.stringify({
+      model: config.openai.storyModel,
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt }
+      ],
+      temperature: 0.3
+    })
+  });
+  const data = await parseOpenAiResponse(response);
+  return data.choices?.[0]?.message?.content?.trim() || "";
 }
 
 function providerName() {

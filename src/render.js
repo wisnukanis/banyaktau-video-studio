@@ -3,37 +3,131 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 import { config, paths } from "./config.js";
 import { clamp, safeFilename, splitLines } from "./util.js";
+import { saveItem } from "./storage.js";
+import { setProgress, resetProgress } from "./progress.js";
 
 const fps = 30;
 const introDuration = 3.0;
-const outroDuration = 6.0;
+const outroDuration = 1.5;
 const outroSummaryMaxChars = 36;
 const outroSummaryMaxLines = 5;
+
+function getVideoEncodingArgs(customCrf = "22") {
+  const encoder = config.render?.ffmpegEncoder || "libx264";
+  if (encoder === "h264_nvenc") {
+    const cq = customCrf || "22";
+    return [
+      "-c:v", "h264_nvenc",
+      "-preset", "p4",
+      "-cq", cq,
+      "-pix_fmt", "yuv420p"
+    ];
+  }
+  return [
+    "-c:v", "libx264",
+    "-preset", "veryfast",
+    "-crf", customCrf || "22",
+    "-pix_fmt", "yuv420p"
+  ];
+}
 
 export async function renderKnowledgeVideo(item) {
   const workDir = path.join(paths.workDir, item.id);
   await fs.mkdir(workDir, { recursive: true });
   await fs.mkdir(paths.videoDir, { recursive: true });
 
+  item.status = "rendering";
+  item.progress = { percent: 5, stage: "starting", message: "Memulai rendering video..." };
+  await saveItem(item);
+  setProgress({ active: true, itemId: item.id, percent: 5, stage: "starting", message: "Memulai rendering video..." });
+
+  await ensureSfxAssets();
+
   const narrationDuration = item.assets?.audio?.path ? await probeDuration(item.assets.audio.path) : 0;
   const timing = buildTiming(item, narrationDuration);
   const renderScenes = buildRenderScenes(item, timing.contentDuration);
   const allScenes = [buildIntroScene(item, renderScenes[0]), ...renderScenes, buildOutroScene(item, renderScenes.at(-1))];
 
-  const segmentPaths = [];
-  for (let index = 0; index < allScenes.length; index += 1) {
+  const format = item.input?.videoFormat || "vertical";
+  const concurrencyLimit = config.render.concurrencyLimit || 3;
+  const segmentPaths = new Array(allScenes.length);
+
+  const avatarMode = item.input?.avatarMode || "image";
+  let avatarVideo = "";
+  if (avatarMode !== "image") {
+    let avatarFilename = avatarMode;
+    if (avatarMode === "video1") {
+      avatarFilename = "avatar video 1.mp4";
+    } else if (avatarMode === "video2") {
+      avatarFilename = "avatar video 2.mp4";
+    }
+    avatarVideo = path.join(paths.rootDir, "assets", "avatar", avatarFilename);
+  }
+
+  let completedSegments = 0;
+
+  const renderSegment = async (index) => {
     const scene = allScenes[index];
     const media = resolveSceneMedia(item, scene);
     const segmentPath = path.join(workDir, `segment-${String(index).padStart(2, "0")}.mp4`);
-    if (media.type === "clip") {
-      await makeClipSegment({ clipPath: media.path, outputPath: segmentPath, duration: scene.durationSec });
+    const poses = getSceneAvatarPoses(scene, index, allScenes.length);
+
+    if (scene.kind === "outro") {
+      await makeOutroSegment({
+        outputPath: segmentPath,
+        duration: scene.durationSec,
+        avatarVideo,
+        avatarMode,
+        format
+      });
+    } else if (media.type === "clip") {
+      await makeClipSegment({ 
+        clipPath: media.path, 
+        outputPath: segmentPath, 
+        duration: scene.durationSec,
+        avatarClosed: poses.closed,
+        avatarOpen: poses.open,
+        avatarVideo,
+        avatarMode,
+        format
+      });
     } else {
-      await makeImageSegment({ imagePath: media.path, outputPath: segmentPath, duration: scene.durationSec, zoomDirection: index % 2 ? "out" : "in" });
+      await makeImageSegment({ 
+        imagePath: media.path, 
+        outputPath: segmentPath, 
+        duration: scene.durationSec, 
+        zoomDirection: index % 2 ? "out" : "in", 
+        index,
+        avatarClosed: poses.closed,
+        avatarOpen: poses.open,
+        avatarVideo,
+        avatarMode,
+        format
+      });
     }
-    segmentPaths.push(segmentPath);
-  }
+    segmentPaths[index] = segmentPath;
+
+    completedSegments++;
+    const segmentPercent = Math.round(5 + (completedSegments / allScenes.length) * 60);
+    const progressMsg = `Merender segmen ${completedSegments} dari ${allScenes.length}...`;
+    item.progress = { percent: segmentPercent, stage: "rendering_segments", message: progressMsg };
+    await saveItem(item);
+    setProgress({ itemId: item.id, percent: segmentPercent, stage: "rendering_segments", message: progressMsg });
+  };
+
+  const queue = [...allScenes.keys()];
+  const workers = Array.from({ length: concurrencyLimit }, async () => {
+    while (queue.length > 0) {
+      const index = queue.shift();
+      await renderSegment(index);
+    }
+  });
+  await Promise.all(workers);
 
   const visualPath = path.join(workDir, "visual.mp4");
+  item.progress = { percent: 65, stage: "combining", message: "Menggabungkan segmen video..." };
+  await saveItem(item);
+  setProgress({ itemId: item.id, percent: 65, stage: "combining", message: "Menggabungkan segmen video..." });
   await concatSegments(segmentPaths, visualPath);
 
   const assPath = path.join(workDir, "captions.ass");
@@ -47,31 +141,52 @@ export async function renderKnowledgeVideo(item) {
   });
 
   const subtitledPath = path.join(workDir, "visual-subtitled.mp4");
+  item.progress = { percent: 75, stage: "subtitling", message: "Membakar subtitle karaoke..." };
+  await saveItem(item);
+  setProgress({ itemId: item.id, percent: 75, stage: "subtitling", message: "Membakar subtitle karaoke..." });
   await burnSubtitles({ inputPath: visualPath, assPath, outputPath: subtitledPath });
 
   const brandedPath = path.join(workDir, "visual-branded.mp4");
-  await addLogoWatermark({ inputPath: subtitledPath, outputPath: brandedPath });
+  item.progress = { percent: 80, stage: "branding", message: "Menambahkan watermark logo..." };
+  await saveItem(item);
+  setProgress({ itemId: item.id, percent: 80, stage: "branding", message: "Menambahkan watermark logo..." });
+  await addLogoWatermark({ inputPath: subtitledPath, outputPath: brandedPath, format });
 
   const bedPath = path.join(workDir, "knowledge-bed.m4a");
-  await makeKnowledgeBed({ outputPath: bedPath, duration: timing.totalDuration });
+  await makeKnowledgeBed({ outputPath: bedPath, duration: timing.totalDuration, item });
 
   const audioPath = item.assets?.audio?.path
     ? path.join(workDir, "final-audio.m4a")
     : bedPath;
   if (item.assets?.audio?.path) {
+    item.progress = { percent: 85, stage: "audio_mixing", message: "Mencampur audio dan efek suara..." };
+    await saveItem(item);
+    setProgress({ itemId: item.id, percent: 85, stage: "audio_mixing", message: "Mencampur audio dan efek suara..." });
     await mixNarrationWithBed({
       narrationPath: item.assets.audio.path,
       bedPath,
       outputPath: audioPath,
       delaySec: introDuration,
-      tempo: timing.narrationTempo
+      tempo: timing.narrationTempo,
+      scenes: renderScenes,
+      totalDuration: timing.totalDuration
     });
   }
 
   const provider = item.assets?.audio?.provider || "local";
   const filename = `${item.id}-${provider}-${safeFilename(item.title)}.mp4`;
   const outputPath = path.join(paths.videoDir, filename);
+
+  item.progress = { percent: 95, stage: "muxing", message: "Menyatukan video dan audio..." };
+  await saveItem(item);
+  setProgress({ itemId: item.id, percent: 95, stage: "muxing", message: "Menyatukan video dan audio..." });
   await muxVideoAudio({ videoPath: brandedPath, audioPath, outputPath });
+
+  item.status = "ready";
+  item.progress = { percent: 100, stage: "completed", message: "Video final selesai dibuat!" };
+  await saveItem(item);
+  setProgress({ itemId: item.id, percent: 100, stage: "completed", message: "Video final selesai dibuat!" });
+  setTimeout(resetProgress, 5000);
 
   return {
     path: outputPath,
@@ -147,57 +262,166 @@ function resolveSceneMedia(item, scene) {
   return { type: "image", path: image.path };
 }
 
-async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection }) {
+async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection, index = 0, avatarClosed, avatarOpen, avatarVideo, avatarMode, format = "vertical" }) {
   const frames = Math.max(1, Math.round(duration * fps));
-  const zoomExpr = zoomDirection === "out"
-    ? `if(eq(on,0),1.055,max(1.0,zoom-0.00035))`
-    : `min(1.0+on*0.00035,1.055)`;
-  const vf = [
-    "scale=1080:1920:force_original_aspect_ratio=increase",
-    "crop=1080:1920",
-    `zoompan=z='${zoomExpr}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${frames}:s=1080x1920:fps=${fps}`,
-    "eq=contrast=1.04:saturation=1.06:brightness=0.01",
-    "format=yuv420p"
-  ].join(",");
+  const isHorizontal = format === "horizontal";
+  const width = isHorizontal ? 1920 : 1080;
+  const height = isHorizontal ? 1080 : 1920;
+  const bottomMargin = isHorizontal ? 60 : 120;
+  
+  // Dynamic camera motions to avoid AI looking flat zoom
+  const motions = ["zoom_in", "zoom_out", "pan_right", "pan_left", "pan_down", "pan_up"];
+  const motion = motions[index % motions.length];
+  
+  let zoomExpr = "1.12";
+  let xExpr = "iw/2-(iw/zoom/2)";
+  let yExpr = "ih/2-(ih/zoom/2)";
+  
+  if (motion === "zoom_in") {
+    zoomExpr = `min(1.0+on*0.00035,1.055)`;
+  } else if (motion === "zoom_out") {
+    zoomExpr = `if(eq(on,0),1.055,max(1.0,zoom-0.00035))`;
+  } else if (motion === "pan_right") {
+    xExpr = `(iw-iw/zoom)*(on/${frames})`;
+  } else if (motion === "pan_left") {
+    xExpr = `(iw-iw/zoom)*(1.0-on/${frames})`;
+  } else if (motion === "pan_down") {
+    yExpr = `(ih-ih/zoom)*(on/${frames})`;
+  } else if (motion === "pan_up") {
+    yExpr = `(ih-ih/zoom)*(1.0-on/${frames})`;
+  }
 
-  await runFfmpeg([
-    "-y",
-    "-loop", "1",
-    "-i", imagePath,
-    "-vf", vf,
-    "-frames:v", String(frames),
-    "-r", String(fps),
-    "-c:v", "libx264",
-    "-preset", "veryfast",
-    "-crf", "22",
-    "-pix_fmt", "yuv420p",
-    outputPath
-  ]);
+  if (avatarVideo) {
+    const filterComplex = [
+      `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},zoompan=z='${zoomExpr}':x='${xExpr}':y='${yExpr}':d=${frames}:s=${width}x${height}:fps=${fps},eq=contrast=1.04:saturation=1.06:brightness=0.01[bg]`,
+      `[1:v]crop=1080:1080,scale=360:360,format=rgba,geq=r='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,r(X,Y))':g='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,g(X,Y))':b='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,b(X,Y))':a='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),180*180),0,255)',rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'[av]`,
+      `[bg][av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[out]`
+    ].join(";");
+
+    await runFfmpeg([
+      "-y",
+      "-loop", "1", "-t", duration.toFixed(2), "-i", imagePath,
+      "-stream_loop", "-1", "-t", duration.toFixed(2), "-i", avatarVideo,
+      "-filter_complex", filterComplex,
+      "-map", "[out]",
+      "-frames:v", String(frames),
+      "-r", String(fps),
+      ...getVideoEncodingArgs("22"),
+      outputPath
+    ]);
+  } else if (avatarClosed && avatarOpen) {
+    const filterComplex = [
+      `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},zoompan=z='${zoomExpr}':x='${xExpr}':y='${yExpr}':d=${frames}:s=${width}x${height}:fps=${fps},eq=contrast=1.04:saturation=1.06:brightness=0.01[bg]`,
+      `color=c=0x00000000:s=1024x1024:d=${duration.toFixed(2)}[canvas]`,
+      `[canvas][1:v]overlay=enable='lt(mod(t,0.24),0.14)'[tmp_av]`,
+      `[tmp_av][2:v]overlay=enable='gte(mod(t,0.24),0.14)'[raw_av]`,
+      `[raw_av]chromakey=0x07f506:0.12:0.2,scale=360:-1,rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'[av]`,
+      `[bg][av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[out]`
+    ].join(";");
+
+    await runFfmpeg([
+      "-y",
+      "-loop", "1", "-t", duration.toFixed(2), "-i", imagePath,
+      "-loop", "1", "-t", duration.toFixed(2), "-i", avatarClosed,
+      "-loop", "1", "-t", duration.toFixed(2), "-i", avatarOpen,
+      "-filter_complex", filterComplex,
+      "-map", "[out]",
+      "-frames:v", String(frames),
+      "-r", String(fps),
+      ...getVideoEncodingArgs("22"),
+      outputPath
+    ]);
+  } else {
+    const vf = [
+      `scale=${width}:${height}:force_original_aspect_ratio=increase`,
+      `crop=${width}:${height}`,
+      `zoompan=z='${zoomExpr}':x='${xExpr}':y='${yExpr}':d=${frames}:s=${width}x${height}:fps=${fps}`,
+      "eq=contrast=1.04:saturation=1.06:brightness=0.01",
+      "format=yuv420p"
+    ].join(",");
+
+    await runFfmpeg([
+      "-y",
+      "-loop", "1",
+      "-i", imagePath,
+      "-vf", vf,
+      "-frames:v", String(frames),
+      "-r", String(fps),
+      ...getVideoEncodingArgs("22"),
+      outputPath
+    ]);
+  }
 }
 
-async function makeClipSegment({ clipPath, outputPath, duration }) {
-  const vf = [
-    "scale=1080:1920:force_original_aspect_ratio=increase",
-    "crop=1080:1920",
-    `fps=${fps}`,
-    "eq=contrast=1.035:saturation=1.04:brightness=0.01",
-    "format=yuv420p"
-  ].join(",");
+async function makeClipSegment({ clipPath, outputPath, duration, avatarClosed, avatarOpen, avatarVideo, avatarMode, format = "vertical" }) {
+  const isHorizontal = format === "horizontal";
+  const width = isHorizontal ? 1920 : 1080;
+  const height = isHorizontal ? 1080 : 1920;
+  const bottomMargin = isHorizontal ? 60 : 120;
 
-  await runFfmpeg([
-    "-y",
-    "-stream_loop", "-1",
-    "-i", clipPath,
-    "-t", Number(duration || 4).toFixed(2),
-    "-an",
-    "-vf", vf,
-    "-r", String(fps),
-    "-c:v", "libx264",
-    "-preset", "veryfast",
-    "-crf", "22",
-    "-pix_fmt", "yuv420p",
-    outputPath
-  ]);
+  if (avatarVideo) {
+    const filterComplex = [
+      `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},fps=${fps},eq=contrast=1.035:saturation=1.04:brightness=0.01[bg]`,
+      `[1:v]crop=1080:1080,scale=360:360,format=rgba,geq=r='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,r(X,Y))':g='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,g(X,Y))':b='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,b(X,Y))':a='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),180*180),0,255)',rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'[av]`,
+      `[bg][av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[out]`
+    ].join(";");
+
+    await runFfmpeg([
+      "-y",
+      "-stream_loop", "-1", "-i", clipPath,
+      "-stream_loop", "-1", "-t", Number(duration || 4).toFixed(2), "-i", avatarVideo,
+      "-filter_complex", filterComplex,
+      "-map", "[out]",
+      "-t", Number(duration || 4).toFixed(2),
+      "-an",
+      "-r", String(fps),
+      ...getVideoEncodingArgs("22"),
+      outputPath
+    ]);
+  } else if (avatarClosed && avatarOpen) {
+    const filterComplex = [
+      `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},fps=${fps},eq=contrast=1.035:saturation=1.04:brightness=0.01[bg]`,
+      `color=c=0x00000000:s=1024x1024:d=${Number(duration || 4).toFixed(2)}[canvas]`,
+      `[canvas][1:v]overlay=enable='lt(mod(t,0.24),0.14)'[tmp_av]`,
+      `[tmp_av][2:v]overlay=enable='gte(mod(t,0.24),0.14)'[raw_av]`,
+      `[raw_av]chromakey=0x07f506:0.12:0.2,scale=360:-1,rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'[av]`,
+      `[bg][av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[out]`
+    ].join(";");
+
+    await runFfmpeg([
+      "-y",
+      "-stream_loop", "-1", "-i", clipPath,
+      "-loop", "1", "-t", Number(duration || 4).toFixed(2), "-i", avatarClosed,
+      "-loop", "1", "-t", Number(duration || 4).toFixed(2), "-i", avatarOpen,
+      "-filter_complex", filterComplex,
+      "-map", "[out]",
+      "-t", Number(duration || 4).toFixed(2),
+      "-an",
+      "-r", String(fps),
+      ...getVideoEncodingArgs("22"),
+      outputPath
+    ]);
+  } else {
+    const vf = [
+      `scale=${width}:${height}:force_original_aspect_ratio=increase`,
+      `crop=${width}:${height}`,
+      `fps=${fps}`,
+      "eq=contrast=1.035:saturation=1.04:brightness=0.01",
+      "format=yuv420p"
+    ].join(",");
+
+    await runFfmpeg([
+      "-y",
+      "-stream_loop", "-1",
+      "-i", clipPath,
+      "-t", Number(duration || 4).toFixed(2),
+      "-an",
+      "-vf", vf,
+      "-r", String(fps),
+      ...getVideoEncodingArgs("22"),
+      outputPath
+    ]);
+  }
 }
 
 async function concatSegments(segmentPaths, outputPath) {
@@ -220,15 +444,12 @@ async function burnSubtitles({ inputPath, assPath, outputPath }) {
     "-y",
     "-i", inputPath,
     "-vf", `ass=filename='${subtitlePath}'`,
-    "-c:v", "libx264",
-    "-preset", "veryfast",
-    "-crf", "21",
-    "-pix_fmt", "yuv420p",
+    ...getVideoEncodingArgs("21"),
     outputPath
   ]);
 }
 
-async function addLogoWatermark({ inputPath, outputPath }) {
+async function addLogoWatermark({ inputPath, outputPath, format = "vertical" }) {
   const logoPath = path.join(paths.publicDir, "assets", "banyaktau-logo-watermark.png");
   try {
     await fs.access(logoPath);
@@ -237,6 +458,9 @@ async function addLogoWatermark({ inputPath, outputPath }) {
     return;
   }
 
+  const isHorizontal = format === "horizontal";
+  const overlayPos = isHorizontal ? "40:40" : "W-w-40:40";
+
   await runFfmpeg([
     "-y",
     "-i", inputPath,
@@ -244,19 +468,17 @@ async function addLogoWatermark({ inputPath, outputPath }) {
     "-filter_complex",
     [
       "[1:v]scale=245:-1,format=rgba,colorchannelmixer=aa=0.78[wm]",
-      "[0:v][wm]overlay=W-w-40:40:format=auto[v]"
+      `[0:v][wm]overlay=${overlayPos}:format=auto[v]`
     ].join(";"),
     "-map", "[v]",
-    "-c:v", "libx264",
-    "-preset", "veryfast",
-    "-crf", "21",
-    "-pix_fmt", "yuv420p",
+    ...getVideoEncodingArgs("21"),
     outputPath
   ]);
 }
 
-async function makeKnowledgeBed({ outputPath, duration }) {
-  const customMusic = await findBackgroundMusic();
+async function makeKnowledgeBed({ outputPath, duration, item }) {
+  const category = item?.input?.category || item?.category || "";
+  const customMusic = await findBackgroundMusic(category);
   if (customMusic) {
     await makeCustomMusicBed({ inputPath: customMusic, outputPath, duration });
     return;
@@ -280,13 +502,23 @@ async function makeKnowledgeBed({ outputPath, duration }) {
   ]);
 }
 
-async function findBackgroundMusic() {
-  const candidates = [
+async function findBackgroundMusic(category = "") {
+  const normCategory = String(category || "").toLowerCase().trim().replace(/\s+/g, "_");
+  const candidates = [];
+  
+  if (normCategory) {
+    candidates.push(path.join(paths.rootDir, "assets", "music", `${normCategory}.m4a`));
+    candidates.push(path.join(paths.rootDir, "assets", "music", `${normCategory}.mp3`));
+  }
+  
+  candidates.push(
     process.env.BANYAKTAU_MUSIC_PATH,
     path.join(paths.rootDir, "assets", "music", "eksplorasi-literasi.m4a"),
     path.join(paths.rootDir, "assets", "music", "eksplorasi-literasi.mp3")
-  ].filter(Boolean);
-  for (const candidate of candidates) {
+  );
+
+  const cleanCandidates = candidates.filter(Boolean);
+  for (const candidate of cleanCandidates) {
     try {
       await fs.access(candidate);
       return candidate;
@@ -313,8 +545,30 @@ async function makeCustomMusicBed({ inputPath, outputPath, duration }) {
   ]);
 }
 
-async function mixNarrationWithBed({ narrationPath, bedPath, outputPath, delaySec, tempo }) {
+async function mixNarrationWithBed({ narrationPath, bedPath, outputPath, delaySec, tempo, scenes = [], totalDuration = 0 }) {
   const delayMs = Math.max(0, Math.round(delaySec * 1000));
+  const swooshPath = path.join(paths.rootDir, "assets", "sfx", "swoosh.mp3");
+  const popPath = path.join(paths.rootDir, "assets", "sfx", "pop.mp3");
+
+  const swooshOffsetsMs = [delayMs];
+  const popOffsetsMs = [];
+
+  let currentOffsetSec = delaySec;
+  for (let i = 0; i < scenes.length; i++) {
+    const scene = scenes[i];
+    popOffsetsMs.push(Math.round((currentOffsetSec + 0.2) * 1000));
+    currentOffsetSec += scene.durationSec;
+    if (i < scenes.length - 1) {
+      swooshOffsetsMs.push(Math.round(currentOffsetSec * 1000));
+    }
+  }
+  swooshOffsetsMs.push(Math.round(currentOffsetSec * 1000));
+
+  const swooshCount = swooshOffsetsMs.length;
+  const popCount = popOffsetsMs.length;
+
+  const filterParts = [];
+  
   const narrationFilters = [
     "aformat=sample_rates=44100:channel_layouts=mono",
     ...atempoFilters(tempo),
@@ -322,16 +576,36 @@ async function mixNarrationWithBed({ narrationPath, bedPath, outputPath, delaySe
     "volume=1.08",
     `adelay=${delayMs}:all=1`
   ].join(",");
+  filterParts.push(`[0:a]${narrationFilters}[n]`);
+
+  filterParts.push("[1:a]volume=0.62[bed]");
+
+  filterParts.push(`[2:a]asplit=${swooshCount}${Array.from({ length: swooshCount }, (_, i) => `[sw_${i}]`).join("")}`);
+  for (let i = 0; i < swooshCount; i++) {
+    filterParts.push(`[sw_${i}]adelay=${swooshOffsetsMs[i]}:all=1[delayed_sw_${i}]`);
+  }
+
+  filterParts.push(`[3:a]asplit=${popCount}${Array.from({ length: popCount }, (_, i) => `[pop_${i}]`).join("")}`);
+  for (let i = 0; i < popCount; i++) {
+    filterParts.push(`[pop_${i}]adelay=${popOffsetsMs[i]}:all=1[delayed_pop_${i}]`);
+  }
+
+  const amixInputs = [
+    "[n]",
+    "[bed]",
+    ...Array.from({ length: swooshCount }, (_, i) => `[delayed_sw_${i}]`),
+    ...Array.from({ length: popCount }, (_, i) => `[delayed_pop_${i}]`)
+  ];
+  const totalInputs = amixInputs.length;
+  filterParts.push(`${amixInputs.join("")}amix=inputs=${totalInputs}:duration=longest:normalize=0,alimiter=limit=0.96[a]`);
+
   await runFfmpeg([
     "-y",
     "-i", narrationPath,
     "-i", bedPath,
-    "-filter_complex",
-    [
-      `[0:a]${narrationFilters}[n]`,
-      "[1:a]volume=0.62[bed]",
-      "[n][bed]amix=inputs=2:duration=longest:normalize=0,alimiter=limit=0.96[a]"
-    ].join(";"),
+    "-i", swooshPath,
+    "-i", popPath,
+    "-filter_complex", filterParts.join(";"),
     "-map", "[a]",
     "-c:a", "aac",
     "-b:a", "192k",
@@ -356,7 +630,8 @@ async function muxVideoAudio({ videoPath, audioPath, outputPath }) {
 
 async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, narrationTempo, totalDuration }) {
   const events = [];
-  const titleText = splitLines(item.title || item.plan?.title || "BanyakTau", 24, 3).join("\\N");
+  const isHorizontal = item.input?.videoFormat === "horizontal";
+  const titleText = splitLines(item.title || item.plan?.title || "BanyakTau", isHorizontal ? 40 : 24, 3).join("\\N");
   events.push(dialogue(introDuration + 0.05, Math.max(introDuration + 0.1, totalDuration - outroDuration), "SceneTitle", `{\\fad(140,160)}${assEscape(titleText)}`));
 
   let cursor = introDuration;
@@ -366,41 +641,56 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
   }
 
   const subtitleEnd = Math.max(introDuration + 0.2, totalDuration - outroDuration - 0.08);
-  for (const caption of timedCaptionSegments(item, {
+  const timing = {
     start: introDuration + 0.05,
     duration: narrationDuration ? narrationDuration / Math.max(0.1, Number(narrationTempo || 1)) : totalDuration - introDuration - outroDuration,
     tempo: narrationTempo
-  })) {
-    const start = Math.min(caption.start, subtitleEnd);
-    const end = Math.min(caption.end, subtitleEnd);
-    if (end - start >= 0.25) {
-      events.push(dialogue(start, end, "Subtitle", `{\\fad(55,55)}${assEscape(caption.text)}`));
-    }
-  }
+  };
+  
+  // Call the new karaoke active-word caption generator
+  events.push(...generateKaraokeCaptionEvents(item, timing, subtitleEnd));
 
   events.push(...outroOverlayEvents(item, Math.max(0, totalDuration - outroDuration), totalDuration));
+
+  const playResX = isHorizontal ? 1920 : 1080;
+  const playResY = isHorizontal ? 1080 : 1920;
+
+  const hookFontsize = isHorizontal ? 54 : 74;
+  const hookMarginV = isHorizontal ? 80 : 140;
+  
+  const titleFontsize = isHorizontal ? 36 : 42;
+  const titleMarginL = isHorizontal ? 80 : 54;
+  const titleMarginR = isHorizontal ? 600 : 340;
+  const titleMarginV = isHorizontal ? 60 : 78;
+
+  const subFontsize = isHorizontal ? 56 : 76;
+  const subMarginV = isHorizontal ? 120 : 850;
+
+  const kickerFontsize = isHorizontal ? 28 : 34;
+  const summaryFontsize = isHorizontal ? 36 : 44;
+  const brandFontsize = isHorizontal ? 24 : 30;
 
   const ass = [
     "[Script Info]",
     "ScriptType: v4.00+",
-    "PlayResX: 1080",
-    "PlayResY: 1920",
+    `PlayResX: ${playResX}`,
+    `PlayResY: ${playResY}`,
     "ScaledBorderAndShadow: yes",
     "",
     "[V4+ Styles]",
     "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-    `Style: Hook,${config.render.fontTitle},74,&H00FFFFFF,&H000000FF,&H98232A32,&HBB11171C,-1,0,0,0,100,100,0,0,1,3.5,0,5,80,80,140,1`,
-    `Style: SceneTitle,${config.render.fontTitle},42,&H00F7F2DC,&H000000FF,&H90222A2C,&HAA15191D,-1,0,0,0,100,100,0,0,1,2.5,0,7,54,340,78,1`,
-    `Style: Subtitle,${config.render.fontBody},58,&H00FFFFFF,&H000000FF,&H9A11171B,&HBF11171B,-1,0,0,0,100,100,0,0,1,4,1,2,80,80,550,1`,
+    `Style: Hook,${config.render.fontTitle},${hookFontsize},&H00FFFFFF,&H000000FF,&H98232A32,&HBB11171C,-1,0,0,0,100,100,0,0,1,3.5,0,5,80,80,${hookMarginV},1`,
+    `Style: SceneTitle,${config.render.fontTitle},${titleFontsize},&H00F7F2DC,&H000000FF,&H90222A2C,&HAA15191D,-1,0,0,0,100,100,0,0,1,2.5,0,7,${titleMarginL},${titleMarginR},${titleMarginV},1`,
+    `Style: Subtitle,${config.render.fontBody},${subFontsize},&H00FFFFFF,&H000000FF,&H9A11171B,&HBF11171B,-1,0,0,0,100,100,0,0,1,5,0,2,80,80,${subMarginV},1`,
     `Style: Point,${config.render.fontBody},72,&H00FFFFFF,&H000000FF,&H8F11171B,&HCC11171B,-1,0,0,0,100,100,0,0,3,18,0,5,96,96,0,1`,
     `Style: OutroDim,${config.render.fontBody},20,&H82000000,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,7,0,0,0,1`,
     `Style: OutroCard,${config.render.fontBody},20,&H1811171B,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,7,0,0,0,1`,
     `Style: OutroAccent,${config.render.fontBody},20,&H004CC8F5,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,7,0,0,0,1`,
-    `Style: OutroKicker,${config.render.fontMono},34,&H004CC8F5,&H000000FF,&H9011171B,&H0011171B,-1,0,0,0,100,100,0,0,1,2,0,7,104,104,800,1`,
+    `Style: OutroKicker,${config.render.fontMono},${kickerFontsize},&H004CC8F5,&H000000FF,&H9011171B,&H0011171B,-1,0,0,0,100,100,0,0,1,2,0,5,104,104,0,1`,
     `Style: OutroTitle,${config.render.fontTitle},52,&H00FFFFFF,&H000000FF,&H9011171B,&H0011171B,-1,0,0,0,100,100,0,0,1,2.5,0,7,104,104,870,1`,
-    `Style: OutroSummary,${config.render.fontBody},45,&H00FFFFFF,&H000000FF,&H9211171B,&H0011171B,-1,0,0,0,100,100,0,0,1,2.8,0,7,104,104,1104,1`,
+    `Style: OutroSummary,${config.render.fontMono},${summaryFontsize},&H00FFFFFF,&H000000FF,&H9211171B,&H0011171B,-1,0,0,0,100,100,0,0,1,2.8,0,5,104,104,0,1`,
     `Style: OutroPoint,${config.render.fontBody},38,&H00F7F2DC,&H000000FF,&H9511171B,&H0011171B,-1,0,0,0,100,100,0,0,1,2.2,0,7,104,104,1380,1`,
-    `Style: OutroBrand,${config.render.fontMono},30,&H004CC8F5,&H000000FF,&H9011171B,&H0011171B,-1,0,0,0,100,100,0,0,1,2,0,2,90,90,170,1`,
+    `Style: OutroBrand,${config.render.fontMono},${brandFontsize},&H004CC8F5,&H000000FF,&H9011171B,&H0011171B,-1,0,0,0,100,100,0,0,1,2,0,5,90,90,0,1`,
     "",
     "[Events]",
     "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
@@ -408,6 +698,114 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
   ].join("\n");
 
   await fs.writeFile(outputPath, ass, "utf8");
+}
+
+function generateKaraokeCaptionEvents(item, timing, subtitleEnd) {
+  const events = [];
+  const transcript = Array.isArray(item.assets?.captions) ? item.assets.captions : [];
+  
+  let allWords = [];
+  for (const segment of transcript) {
+    const words = Array.isArray(segment.words) && segment.words.length
+      ? segment.words
+      : estimateWordTimings(segment);
+    allWords.push(...words);
+  }
+  
+  // If no transcript, estimate words from scene narration
+  if (!allWords.length) {
+    const scenes = item.plan?.scenes || [];
+    let segmentStart = 0;
+    for (const scene of scenes) {
+      const duration = scene.durationSec || 6;
+      const segmentEnd = segmentStart + duration;
+      const text = String(scene.narration || "").trim();
+      if (text) {
+        const estSegment = { start: segmentStart, end: segmentEnd, text };
+        allWords.push(...estimateWordTimings(estSegment));
+      }
+      segmentStart = segmentEnd;
+    }
+  }
+  
+  if (!allWords.length) return [];
+  
+  const toTimelineTime = (t) => {
+    return timing.start + Number(t) / timing.tempo;
+  };
+  
+  const chunks = [];
+  let currentChunk = [];
+  
+  for (let i = 0; i < allWords.length; i++) {
+    const word = allWords[i];
+    const prevWord = allWords[i - 1];
+    
+    let startNew = false;
+    if (currentChunk.length >= 3) {
+      startNew = true;
+    } else if (prevWord) {
+      const gap = word.start - prevWord.end;
+      if (gap > 0.4) {
+        startNew = true;
+      }
+    }
+    
+    if (startNew && currentChunk.length > 0) {
+      chunks.push(currentChunk);
+      currentChunk = [];
+    }
+    currentChunk.push(word);
+  }
+  if (currentChunk.length > 0) {
+    chunks.push(currentChunk);
+  }
+  
+  for (const chunk of chunks) {
+    const chunkStart = toTimelineTime(chunk[0].start);
+    const chunkEnd = toTimelineTime(chunk[chunk.length - 1].end);
+    const wordsText = chunk.map(w => normalizeSubtitleText(w.word).toUpperCase());
+    
+    for (let i = 0; i < chunk.length; i++) {
+      const activeWord = chunk[i];
+      const eventStart = toTimelineTime(activeWord.start);
+      let eventEnd = (i === chunk.length - 1)
+        ? chunkEnd
+        : toTimelineTime(chunk[i + 1].start);
+        
+      if (eventEnd - eventStart < 0.05) {
+        eventEnd = eventStart + 0.1;
+      }
+      
+      const startTimeline = Math.min(eventStart, subtitleEnd);
+      const endTimeline = Math.min(eventEnd, subtitleEnd);
+      
+      if (endTimeline - startTimeline >= 0.05) {
+        const textParts = wordsText.map((word, idx) => {
+          if (idx === i) {
+            return `{\\c&H003AF4FF&}${word}{\\c&HFFFFFF&}`;
+          }
+          return word;
+        });
+        const captionText = textParts.join(" ");
+        events.push(dialogue(startTimeline, endTimeline, "Subtitle", captionText));
+      }
+    }
+  }
+  
+  return events;
+}
+
+function estimateWordTimings(segment) {
+  const words = String(segment.text || "").replace(/\s+/g, " ").trim().split(" ").filter(Boolean);
+  if (!words.length) return [];
+  const duration = segment.end - segment.start;
+  const wordDuration = duration / words.length;
+  return words.map((word, index) => ({
+    word,
+    start: segment.start + index * wordDuration,
+    end: segment.start + (index + 1) * wordDuration
+  }));
 }
 
 function endOverlayText(item) {
@@ -422,21 +820,21 @@ function endOverlayText(item) {
 }
 
 function outroOverlayEvents(item, start, end) {
-  const fade = "{\\fad(180,220)}";
-  const summary = outroSummaryText(item);
-  const points = outroPointText(item);
-  const events = [
-    dialogue(start, end, "OutroDim", `${fade}{\\an7\\pos(0,0)\\p1}m 0 0 l 1080 0 l 1080 1920 l 0 1920`),
-    dialogue(start + 0.16, end, "OutroKicker", `${fade}{\\an5\\pos(540,520)}${assEscape("RINGKASAN INTI")}`),
-    dialogue(start + 0.38, end, "OutroSummary", `${fade}{\\an5\\pos(540,850)}${assEscape(summary)}`)
+  const isHorizontal = item.input?.videoFormat === "horizontal";
+  const centerX = isHorizontal ? 960 : 540;
+  const kickerY = isHorizontal ? 320 : 630;
+  const summaryY = isHorizontal ? 510 : 840;
+  const brandY = isHorizontal ? 780 : 1160;
+
+  const fade = "{\\fad(200,300)}";
+  const kicker = assEscape("KESIMPULAN FAKTA");
+  const summary = assEscape(outroSummaryText(item));
+  const prompt = assEscape("Ikuti BanyakTau untuk fakta unik lainnya!");
+  return [
+    dialogue(start + 0.1, end, "OutroKicker", `${fade}{\\an5\\pos(${centerX},${kickerY})}${kicker}`),
+    dialogue(start + 0.35, end, "OutroSummary", `${fade}{\\an5\\pos(${centerX},${summaryY})}${summary}`),
+    dialogue(start + 0.6, end, "OutroBrand", `${fade}{\\an5\\pos(${centerX},${brandY})}${prompt}`)
   ];
-
-  if (points) {
-    events.push(dialogue(start + 0.78, end, "OutroPoint", `${fade}{\\an5\\pos(540,1240)}${assEscape(points)}`));
-  }
-
-  events.push(dialogue(Math.max(start, end - 1.15), end, "OutroBrand", `{\\fad(120,220)}${assEscape("BanyakTau")}`));
-  return events;
 }
 
 function outroSummaryText(item) {
@@ -693,4 +1091,149 @@ function runCommand(command, args) {
       else reject(new Error(stderr || `${command} gagal (${code})`));
     });
   });
+}
+
+function getSceneAvatarPoses(scene, index, totalScenes) {
+  const avatarDir = path.join(paths.rootDir, "assets", "avatar");
+  const thumbsUp = path.join(avatarDir, "thumbs_up.jpg");
+  const pointing = path.join(avatarDir, "pointing.jpg");
+  const clipboard = path.join(avatarDir, "clipboard.jpg");
+  const surprised = path.join(avatarDir, "surprised.jpg");
+  const thinking = path.join(avatarDir, "thinking.jpg");
+
+  const poseMap = {
+    thumbs_up: thumbsUp,
+    pointing: pointing,
+    clipboard: clipboard,
+    surprised: surprised,
+    thinking: thinking
+  };
+
+  if (scene.avatarPose && poseMap[scene.avatarPose]) {
+    if (scene.avatarPose === "surprised") {
+      return { closed: clipboard, open: surprised };
+    }
+    return { closed: poseMap[scene.avatarPose], open: surprised };
+  }
+
+  // Jika adegan pertama (intro) atau terakhir (outro), gunakan pose jempol
+  if (scene.kind === "intro" || scene.kind === "outro") {
+    return { closed: thumbsUp, open: surprised };
+  }
+
+  const narration = String(scene.narration || "").toLowerCase();
+  const screenText = String(scene.screenText || "").toLowerCase();
+
+  // Jika ada tanda tanya, gunakan pose berpikir
+  if (narration.includes("?") || screenText.includes("?")) {
+    return { closed: thinking, open: surprised };
+  }
+
+  // Jika ada kata kunci menunjuk/fakta
+  const pointingKeywords = ["pertama", "kedua", "ketiga", "ini dia", "berikut", "tahukah", "yaitu", "misalnya", "point"];
+  const hasPointingCue = pointingKeywords.some(kw => narration.includes(kw) || screenText.includes(kw));
+  
+  if (hasPointingCue || index % 3 === 2) {
+    return { closed: pointing, open: surprised };
+  }
+
+  // Pose default: memegang clipboard
+  return { closed: clipboard, open: surprised };
+}
+
+async function ensureSfxAssets() {
+  const sfxDir = path.join(paths.rootDir, "assets", "sfx");
+  await fs.mkdir(sfxDir, { recursive: true });
+
+  const swooshPath = path.join(sfxDir, "swoosh.mp3");
+  const popPath = path.join(sfxDir, "pop.mp3");
+
+  try {
+    await fs.access(swooshPath);
+  } catch {
+    console.log("Mempersiapkan efek suara transition swoosh...");
+    await runFfmpeg([
+      "-y",
+      "-f", "lavfi",
+      "-i", "anoisesrc=d=0.3:c=white:amplitude=0.25",
+      "-af", "afade=t=in:ss=0:d=0.12,afade=t=out:st=0.12:d=0.18",
+      swooshPath
+    ]);
+  }
+
+  try {
+    await fs.access(popPath);
+  } catch {
+    console.log("Mempersiapkan efek suara pop...");
+    await runFfmpeg([
+      "-y",
+      "-f", "lavfi",
+      "-i", "sine=frequency=850:duration=0.1",
+      "-af", "afade=t=out:st=0:d=0.1,volume=1.8",
+      popPath
+    ]);
+  }
+}
+
+async function makeOutroSegment({ outputPath, duration, avatarVideo, avatarMode, format = "vertical" }) {
+  const frames = Math.max(1, Math.round(duration * fps));
+  const logoPath = path.join(paths.publicDir, "assets", "banyaktau-logo-watermark.png");
+  const isHorizontal = format === "horizontal";
+  const width = isHorizontal ? 1920 : 1080;
+  const height = isHorizontal ? 1080 : 1920;
+  const bottomMargin = isHorizontal ? 60 : 120;
+
+  let inputs = [
+    "-f", "lavfi", "-i", `color=c=0x0d0f12:s=${width}x${height}:d=${duration.toFixed(2)}`
+  ];
+  let filterComplex = "";
+
+  let hasLogo = false;
+  try {
+    await fs.access(logoPath);
+    hasLogo = true;
+    inputs.push("-i", logoPath);
+  } catch (error) {
+    // logo not found
+  }
+
+  if (avatarVideo) {
+    inputs.push("-stream_loop", "-1", "-t", duration.toFixed(2), "-i", avatarVideo);
+  }
+
+  const logoIndex = hasLogo ? 1 : -1;
+  const avatarIndex = avatarVideo ? (hasLogo ? 2 : 1) : -1;
+
+  const filters = [];
+  let currentOutput = "[0:v]";
+
+  if (hasLogo) {
+    filters.push(`[${logoIndex}:v]scale=${isHorizontal ? 320 : 420}:-1,format=rgba,fade=t=in:st=0:d=0.5[logo]`);
+    const logoY = isHorizontal ? (avatarVideo ? 120 : 200) : (avatarVideo ? "(H-h)/2-350" : "(H-h)/2-120");
+    filters.push(`${currentOutput}[logo]overlay=(W-w)/2:${logoY}:format=auto[tmp_logo]`);
+    currentOutput = "[tmp_logo]";
+  }
+
+  if (avatarVideo) {
+    // Process and overlay avatar video: crop to square, scale to circle, rotate/wobble, slide up
+    filters.push(`[${avatarIndex}:v]crop=1080:1080,scale=360:360,format=rgba,geq=r='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,r(X,Y))':g='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,g(X,Y))':b='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,b(X,Y))':a='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),180*180),0,255)',rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'[av]`);
+    
+    // Position avatar in bottom-right corner with slide-in
+    filters.push(`${currentOutput}[av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[tmp_av]`);
+    currentOutput = "[tmp_av]";
+  }
+
+  filters.push(`${currentOutput}fade=t=out:st=${(duration - 0.4).toFixed(2)}:d=0.4[out]`);
+  filterComplex = filters.join(";");
+
+  await runFfmpeg([
+    "-y",
+    ...inputs,
+    "-filter_complex", filterComplex,
+    "-map", "[out]",
+    "-frames:v", String(frames),
+    "-r", String(fps),
+    ...getVideoEncodingArgs("22"),
+    outputPath
+  ]);
 }

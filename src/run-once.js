@@ -1,6 +1,6 @@
 import { ensureProjectDirs } from "./config.js";
 import { config } from "./config.js";
-import { publishToSocials } from "./facebook.js";
+import { publishToSocials, socialDescription } from "./facebook.js";
 import { generateFullItem } from "./pipeline.js";
 import { absolutizeGeneratedUrls, publicBaseUrl, remoteEnabled, uploadGeneratedStateAndAssets } from "./remote.js";
 import { mergeMemoryItems, saveItem } from "./storage.js";
@@ -94,6 +94,7 @@ async function fetchRemoteJson(url, fallback) {
   }
 }
 
+
 function normalizeMemoryPayload(value) {
   if (Array.isArray(value)) return value;
   if (Array.isArray(value?.items)) return value.items;
@@ -136,36 +137,6 @@ async function publishSocialsIfEnabled(result) {
     console.warn(message);
     if (boolValue(process.env.FACEBOOK_STRICT_PUBLISH, false)) throw error;
   }
-}
-
-function socialDescription(item) {
-  const points = (item.plan?.importantPoints || [])
-    .slice(0, 3)
-    .map((point) => `- ${point}`)
-    .join("\n");
-  const summary = cleanCaptionLine(item.plan?.summary);
-  const question = socialQuestion(item);
-  return [
-    item.plan?.hook || `Ternyata ${item.title} punya fakta yang jarang dibahas.`,
-    summary,
-    points ? `Intinya:\n${points}` : "",
-    question,
-    "Simpan dulu biar tidak lupa, dan kirim ke teman yang suka fakta unik.",
-    "#BanyakTau #FaktaMenarik #TahukahKamu #Pengetahuan #Sains #Sejarah #EdukasiRingan #ReelsIndonesia"
-  ].filter(Boolean).join("\n\n");
-}
-
-function cleanCaptionLine(value) {
-  return String(value || "")
-    .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, 420);
-}
-
-function socialQuestion(item) {
-  const topic = cleanCaptionLine(item.input?.topic || item.title).replace(/[?.!]+$/g, "");
-  if (!topic) return "Menurut kamu, fakta mana yang paling bikin kaget?";
-  return `Menurut kamu, bagian paling menarik dari ${topic} apa? Tulis di komentar.`;
 }
 
 function publishSummary(published) {

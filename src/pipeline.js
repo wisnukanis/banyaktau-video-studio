@@ -9,6 +9,8 @@ import { getItem, listContextItems, saveItem } from "./storage.js";
 import { createIdeaRecommendations, createKnowledgeDraft } from "./story-engine.js";
 import { nowIso } from "./util.js";
 import { generateVideoClip } from "./video-provider.js";
+import { fetchStockClip, extractSearchQuery } from "./stock.js";
+
 
 export async function generateFullItem(input = {}, options = {}) {
   const warnings = [];
@@ -32,14 +34,8 @@ export async function generateFullItem(input = {}, options = {}) {
   await ensureImages(item, { warnings, strict: true });
   await ensureAudio(item, { provider: item.input.ttsProvider, warnings, force: true, strict: true });
   await ensureThumbnail(item, { warnings });
-  if (config.video.apiKey && options.withClip !== false) {
-    if (options.requireClip) {
-      await ensureProviderClip(item, { sceneIndex: item.plan?.scenes?.[0]?.index });
-      item.updatedAt = nowIso();
-      await saveItem(item);
-    } else {
-      await ensureOptionalClip(item, { warnings });
-    }
+  if (options.withClip !== false) {
+    await ensureVisualClips(item, { warnings, strict: options.requireClip });
   }
   await renderAndPersist(item);
   return { item, warnings };
@@ -84,6 +80,75 @@ export async function ensureOptionalClip(item, options = {}) {
   }
 }
 
+export async function ensureVisualClips(item, options = {}) {
+  const warnings = options.warnings || [];
+  const visualSource = item.input.visualSource || "stock";
+  const format = item.input.videoFormat || "vertical";
+  
+  if (visualSource === "ai") {
+    for (const scene of item.plan.scenes) {
+      const existing = item.assets.clips?.find(c => Number(c.sceneIndex) === Number(scene.index));
+      if (existing?.path) continue;
+      
+      try {
+        console.log(`Generating AI Video clip for scene ${scene.index}...`);
+        await ensureProviderClip(item, { sceneIndex: scene.index });
+        item.updatedAt = nowIso();
+        await saveItem(item);
+      } catch (error) {
+        const msg = `AI Video gagal untuk scene ${scene.index}: ${error.message}`;
+        warnings.push(msg);
+        if (options.strict) throw new Error(msg);
+      }
+    }
+    return;
+  }
+  
+  const clips = [...(item.assets.clips || [])];
+  
+  for (const scene of item.plan.scenes) {
+    const existing = clips.find(c => Number(c.sceneIndex) === Number(scene.index));
+    if (existing?.path) continue;
+    
+    try {
+      const query = await extractSearchQuery(scene);
+      const clip = await fetchStockClip({ scene, query, format, itemId: item.id });
+      
+      const idx = clips.findIndex(c => Number(c.sceneIndex) === Number(scene.index));
+      if (idx >= 0) clips.splice(idx, 1, clip);
+      else clips.push(clip);
+      
+      item.assets.clips = sortByScene(clips);
+      item.updatedAt = nowIso();
+      await saveItem(item);
+    } catch (error) {
+      console.error(`Stock clip scene ${scene.index} failed:`, error.message);
+      
+      if (visualSource === "hybrid") {
+        try {
+          console.log(`Falling back to AI Video for scene ${scene.index}...`);
+          await ensureProviderClip(item, { sceneIndex: scene.index });
+          clips.length = 0;
+          clips.push(...(item.assets.clips || []));
+        } catch (aiError) {
+          const msg = `AI Video fallback gagal untuk scene ${scene.index}: ${aiError.message}`;
+          warnings.push(msg);
+          if (options.strict) throw new Error(msg);
+        }
+      } else {
+        const msg = `Stock clip gagal untuk scene ${scene.index}: ${error.message}`;
+        warnings.push(msg);
+        if (options.strict) throw new Error(msg);
+      }
+    }
+  }
+  
+  item.assets.clips = sortByScene(clips);
+  item.updatedAt = nowIso();
+  await saveItem(item);
+  item.cost.videoUsd = item.assets.clips.reduce((sum, entry) => sum + Number(entry.costUsd || 0), 0);
+}
+
 export async function ensureImages(item, options = {}) {
   if (!config.openai.apiKey) throw new Error("OPENAI_API_KEY wajib diisi untuk generate gambar.");
   const warnings = options.warnings || [];
@@ -121,8 +186,19 @@ export async function ensureAudio(item, options = {}) {
   try {
     const text = narrationText(item);
     item.assets.audio = provider === "elevenlabs"
-      ? await generateElevenLabsSpeech({ itemId: item.id, text, filenameSuffix: "elevenlabs-natural" })
-      : await generateOpenAiSpeech({ itemId: item.id, text, filenameSuffix: "openai-natural" });
+      ? await generateElevenLabsSpeech({
+          itemId: item.id,
+          text,
+          voiceId: item.input.elevenlabsVoiceId,
+          modelId: item.input.elevenlabsModel,
+          filenameSuffix: "elevenlabs-natural"
+        })
+      : await generateOpenAiSpeech({
+          itemId: item.id,
+          text,
+          voice: item.input.openaiTtsVoice,
+          filenameSuffix: "openai-natural"
+        });
     item.assets.audio.characters = text.length;
     try {
       item.assets.captions = await transcribeSpeechSegments(item.assets.audio.path);
