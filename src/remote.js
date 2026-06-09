@@ -51,7 +51,7 @@ export async function uploadGeneratedStateAndAssets(options = {}) {
   if (cfg.driver === "github") {
     try {
       console.log("Staging generated assets to Git...");
-      execSync("git add generated/ data/items.json", { cwd: paths.rootDir });
+      execSync("git add -f generated/ data/items.json", { cwd: paths.rootDir });
       const status = execSync("git status --porcelain", { cwd: paths.rootDir }).toString().trim();
       if (status) {
         execSync('git commit -m "auto: upload generated video and state"', { cwd: paths.rootDir });
