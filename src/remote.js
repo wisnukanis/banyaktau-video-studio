@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { Readable, Writable } from "node:stream";
+import { execSync } from "node:child_process";
 import { Client as FtpClient } from "basic-ftp";
 import SftpClient from "ssh2-sftp-client";
 import { paths } from "./config.js";
@@ -10,7 +11,7 @@ export function publicBaseUrl() {
 }
 
 export function remoteEnabled() {
-  return ["ftp", "sftp"].includes(remoteConfig().driver);
+  return ["ftp", "sftp", "github"].includes(remoteConfig().driver);
 }
 
 export function remoteConfig() {
@@ -34,6 +35,8 @@ export function remoteConfig() {
 
 export function assertRemoteConfig() {
   const cfg = remoteConfig();
+  if (cfg.driver === "github") return cfg;
+
   const missing = [];
   if (!cfg.host) missing.push(`${cfg.prefix}_HOST`);
   if (!cfg.user) missing.push(`${cfg.prefix}_USER`);
@@ -44,8 +47,29 @@ export function assertRemoteConfig() {
 }
 
 export async function uploadGeneratedStateAndAssets(options = {}) {
-  const cfg = assertRemoteConfig();
-  await withRemoteClient(cfg, async (client) => {
+  const cfg = remoteConfig();
+  if (cfg.driver === "github") {
+    try {
+      console.log("Staging generated assets to Git...");
+      execSync("git add generated/ data/items.json", { cwd: paths.rootDir });
+      const status = execSync("git status --porcelain", { cwd: paths.rootDir }).toString().trim();
+      if (status) {
+        execSync('git commit -m "auto: upload generated video and state"', { cwd: paths.rootDir });
+        console.log("Pushing changes to GitHub...");
+        execSync("git push origin main", { cwd: paths.rootDir });
+        console.log("GitHub auto-push successful!");
+      } else {
+        console.log("No changes to push to GitHub.");
+      }
+    } catch (err) {
+      console.error("GitHub auto-push failed:", err.message);
+      throw new Error(`Auto push ke GitHub gagal: ${err.message}`);
+    }
+    return;
+  }
+
+  const srvCfg = assertRemoteConfig();
+  await withRemoteClient(srvCfg, async (client) => {
     if (options.item) {
       await uploadItemAssets(client, options.item);
     } else {
