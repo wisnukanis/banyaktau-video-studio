@@ -788,8 +788,14 @@ function renderCurrent() {
   }
 
   if (item.assets.video?.url) {
+    if (item.input?.videoFormat === "horizontal") {
+      els.videoSlot.classList.add("horizontal");
+    } else {
+      els.videoSlot.classList.remove("horizontal");
+    }
     els.videoSlot.innerHTML = `<video controls playsinline poster="${thumb}" src="${item.assets.video.url}"></video>`;
   } else {
+    els.videoSlot.classList.remove("horizontal");
     els.videoSlot.textContent = "Video belum dirender";
   }
 
