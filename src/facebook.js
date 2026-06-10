@@ -225,16 +225,20 @@ async function finishFacebookReel({ token, videoId, title, description }) {
 
 async function publishFacebookReel({ token, videoUrl, videoPath, title, description }) {
   const started = await startFacebookReel(token);
-  if (videoPath) {
+  if (videoUrl && videoUrl.startsWith("http")) {
     try {
-      await uploadFacebookReelBinary({ token, uploadUrl: started.uploadUrl, videoPath });
-    } catch (binaryError) {
-      console.warn(`Gagal upload biner FB Reel, coba fallback URL: ${binaryError.message}`);
-      if (!videoUrl) throw binaryError;
+      console.log(`Mengunggah FB Reel dari URL publik: ${videoUrl}`);
       await uploadFacebookReelFromUrl({ token, uploadUrl: started.uploadUrl, videoUrl });
+    } catch (urlError) {
+      console.warn(`Gagal upload FB Reel dari URL, coba fallback biner: ${urlError.message}`);
+      if (!videoPath) throw urlError;
+      await uploadFacebookReelBinary({ token, uploadUrl: started.uploadUrl, videoPath });
     }
+  } else if (videoPath) {
+    console.log(`Mengunggah biner FB Reel dari path lokal: ${videoPath}`);
+    await uploadFacebookReelBinary({ token, uploadUrl: started.uploadUrl, videoPath });
   } else {
-    await uploadFacebookReelFromUrl({ token, uploadUrl: started.uploadUrl, videoUrl });
+    throw new Error("Facebook Reel membutuhkan videoUrl publik atau videoPath lokal.");
   }
   return finishFacebookReel({
     token,
