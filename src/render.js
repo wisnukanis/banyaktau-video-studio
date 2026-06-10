@@ -325,14 +325,8 @@ async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection
     yExpr = `(ih-ih/zoom)*(1.0-on/${frames})`;
   }
 
-  const smokePath = path.join(paths.rootDir, "assets", "fx", "smoke_puff.png");
-  const boardPath = path.join(paths.rootDir, "assets", "fx", "mini_board.png");
+  // Papan tulis & asap dinonaktifkan atas permintaan user
   let hasFx = false;
-  try {
-    await fs.access(smokePath);
-    await fs.access(boardPath);
-    hasFx = true;
-  } catch {}
 
   if (avatarVideo) {
     let filterComplex = "";
@@ -479,14 +473,8 @@ async function makeClipSegment({ clipPath, outputPath, duration, avatarClosed, a
     avatarFilter = `${avatarCrop}chromakey=${chromaColor}:${chromaSim}:${chromaBlend},scale=360:360,rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'`;
   }
 
-  const smokePath = path.join(paths.rootDir, "assets", "fx", "smoke_puff.png");
-  const boardPath = path.join(paths.rootDir, "assets", "fx", "mini_board.png");
+  // Papan tulis & asap dinonaktifkan atas permintaan user
   let hasFx = false;
-  try {
-    await fs.access(smokePath);
-    await fs.access(boardPath);
-    hasFx = true;
-  } catch {}
 
   if (avatarVideo) {
     let filterComplex = "";
@@ -811,12 +799,7 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
   let cursor = introDuration;
   for (const scene of scenes) {
     const end = cursor + scene.durationSec;
-    if (item.input?.avatarMode !== "none") {
-      const boardText = splitLines(scene.screenText || "", 15, 3).join("\\N");
-      const boardX = isHorizontal ? 1350 : 510;
-      const boardY = isHorizontal ? 870 : 1650;
-      events.push(dialogue(cursor + 0.5, end - 0.1, "BoardText", `{\\fad(150,150)}{\\pos(${boardX},${boardY})}${assEscape(boardText)}`));
-    }
+    // Papan tulis & teks papan tulis dinonaktifkan atas permintaan user
     cursor = end;
   }
 
