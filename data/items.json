@@ -2912,7 +2912,7 @@
   {
     "id": "tau_4226ef1ea1fd",
     "source": "openai",
-    "status": "uploading",
+    "status": "ready",
     "createdAt": "2026-06-10T12:52:27.463Z",
     "updatedAt": "2026-06-10T12:58:18.146Z",
     "input": {
@@ -3128,9 +3128,19 @@
       "totalUsd": 0.07252
     },
     "progress": {
-      "percent": 30,
-      "stage": "remote_uploading",
-      "message": "Mengunggah video ke Remote Server (FTP/SFTP)..."
+      "percent": 100,
+      "stage": "upload_success",
+      "message": "Video berhasil di-publish ke facebook!"
+    },
+    "publish": {
+      "facebook": {
+        "ok": true,
+        "type": "facebook_reel",
+        "videoId": "4247722232145604",
+        "postId": "122111779197342479",
+        "url": "https://www.facebook.com/reel/4247722232145604",
+        "publishedAt": "2026-06-10T13:02:28.768Z"
+      }
     }
   }
 ]
