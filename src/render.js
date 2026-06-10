@@ -31,6 +31,79 @@ function getVideoEncodingArgs(customCrf = "22") {
   ];
 }
 
+function getAvatarParams(avatarMode) {
+  let chromaColor = "0x07f506";
+  let chromaSim = "0.12";
+  let chromaBlend = "0.2";
+  let avatarCrop = "";
+
+  const modeLower = String(avatarMode || "").toLowerCase();
+  const isCircleCrop = modeLower.includes("circle") || 
+                       modeLower.includes("lingkaran") || 
+                       modeLower.includes("frame") || 
+                       modeLower.includes("black") || 
+                       modeLower.includes("hitam");
+
+  if (avatarMode === "video1") {
+    chromaColor = "0x556a73";
+    chromaSim = "0.18";
+    chromaBlend = "0.1";
+    avatarCrop = "crop=1080:1080,";
+  } else if (avatarMode === "video2") {
+    chromaColor = "0x426684";
+    chromaSim = "0.18";
+    chromaBlend = "0.1";
+    avatarCrop = "crop=1080:1080,";
+  } else if (modeLower.includes("hijau") || modeLower.includes("green")) {
+    chromaColor = "0x1d6e25";
+    chromaSim = "0.15";
+    chromaBlend = "0.15";
+    avatarCrop = "crop=1260:1080:0:0,";
+  } else if (isCircleCrop) {
+    avatarCrop = "crop=min(iw\\,ih):min(iw\\,ih),";
+  } else {
+    avatarCrop = "crop=min(iw\\,ih):min(iw\\,ih),";
+  }
+
+  return { chromaColor, chromaSim, chromaBlend, avatarCrop, isCircleCrop };
+}
+
+function getAvatarFilterComplex({ inputLabel, size, duration, chromaColor, chromaSim, chromaBlend, avatarCrop, rotateAngle = 5, isCircleCrop = false }) {
+  const durStr = Number(duration || 4).toFixed(2);
+  const rot = rotateAngle;
+  if (isCircleCrop) {
+    return [
+      `${inputLabel}${avatarCrop}scale=${size}:${size},format=rgba,geq=r='if(gt((X-${size/2})*(X-${size/2})+(Y-${size/2})*(Y-${size/2}),${(size/2 - 5)*(size/2 - 5)}),255,r(X,Y))':g='if(gt((X-${size/2})*(X-${size/2})+(Y-${size/2})*(Y-${size/2}),${(size/2 - 5)*(size/2 - 5)}),255,g(X,Y))':b='if(gt((X-${size/2})*(X-${size/2})+(Y-${size/2})*(Y-${size/2}),${(size/2 - 5)*(size/2 - 5)}),255,b(X,Y))':a='if(gt((X-${size/2})*(X-${size/2})+(Y-${size/2})*(Y-${size/2}),${(size/2)*(size/2)}),0,255)',rotate='${rot}*sin(4.5*t)*PI/180:c=none:ow=rotw(${rot}*PI/180):oh=roth(${rot}*PI/180)'[av]`
+    ].join(";");
+  }
+
+  const dilationCount = size >= 360 ? 5 : 3;
+  const borderDilations = Array.from({ length: dilationCount }, () => "dilation").join(",");
+  const glowDilations = Array.from({ length: Math.round(dilationCount * 0.6) }, () => "dilation").join(",");
+  const shadowBlur = size >= 360 ? 15 : 9;
+  const glowBlur = size >= 360 ? 8 : 5;
+  const shadowOffset = size >= 360 ? 6 : 3;
+
+  return [
+    `${inputLabel}${avatarCrop}chromakey=${chromaColor}:${chromaSim}:${chromaBlend},scale=-1:${size},format=rgba[av_raw]`,
+    `[av_raw]split=7[av_main][av_border_1][av_border_2][av_glow_1][av_glow_2][av_shadow_1][av_shadow_2]`,
+    `[av_border_1]alphaextract,${borderDilations}[border_alpha]`,
+    `[av_border_2]geq=r=255:g=255:b=255:a=255[white_solid]`,
+    `[white_solid][border_alpha]alphamerge[white_outline]`,
+    `[av_shadow_1]alphaextract,boxblur=${shadowBlur}[shadow_alpha_blurred]`,
+    `[av_shadow_2]geq=r=0:g=0:b=0:a=255[black_solid]`,
+    `[black_solid][shadow_alpha_blurred]alphamerge,colorchannelmixer=aa=0.30[black_shadow]`,
+    `[av_glow_1]alphaextract,${glowDilations},boxblur=${glowBlur}[glow_alpha_blurred]`,
+    `[av_glow_2]geq=r=255:g=215:b=0:a=255[gold_solid]`,
+    `[gold_solid][glow_alpha_blurred]alphamerge,colorchannelmixer=aa=0.20[glow_final]`,
+    `[glow_final][black_shadow]overlay=x=0:y=${shadowOffset}[shadow_glow]`,
+    `[shadow_glow][white_outline]overlay=x=0:y=0[bg_with_outline]`,
+    `[bg_with_outline][av_main]overlay=x=0:y=0[av_pre_rot]`,
+    `[av_pre_rot]rotate='${rot}*sin(4.5*t)*PI/180:c=none:ow=rotw(${rot}*PI/180):oh=roth(${rot}*PI/180)'[av]`
+  ].join(";");
+}
+
+
 export async function renderKnowledgeVideo(item) {
   const workDir = path.join(paths.workDir, item.id);
   await fs.mkdir(workDir, { recursive: true });
@@ -72,13 +145,24 @@ export async function renderKnowledgeVideo(item) {
     const segmentPath = path.join(workDir, `segment-${String(index).padStart(2, "0")}.mp4`);
     const poses = getSceneAvatarPoses(scene, index, allScenes.length);
 
+    // Tampilkan hanya di opening (intro), momen fakta penting (index 1 & tengah), dan closing (outro).
+    const isIntro = scene.kind === "intro";
+    const isOutro = scene.kind === "outro";
+    const isMiddle = index === Math.floor(allScenes.length / 2);
+    const isFirstContent = index === 1;
+    const hasPose = !!scene.avatarPose;
+    
+    const showAvatar = isIntro || isOutro || isFirstContent || isMiddle || hasPose;
+    const currentAvatarVideo = showAvatar ? avatarVideo : "";
+    const currentAvatarMode = showAvatar ? avatarMode : "none";
+
     if (scene.kind === "outro") {
       await makeOutroSegment({
         outputPath: segmentPath,
         duration: scene.durationSec,
-        avatarVideo,
-        avatarImage: avatarMode === "image" ? poses.closed : "",
-        avatarMode,
+        avatarVideo: currentAvatarVideo,
+        avatarImage: currentAvatarMode === "image" ? poses.closed : "",
+        avatarMode: currentAvatarMode,
         format,
         category: item.input?.category || item.category || ""
       });
@@ -89,8 +173,8 @@ export async function renderKnowledgeVideo(item) {
         duration: scene.durationSec,
         avatarClosed: poses.closed,
         avatarOpen: poses.open,
-        avatarVideo,
-        avatarMode,
+        avatarVideo: currentAvatarVideo,
+        avatarMode: currentAvatarMode,
         format
       });
     } else {
@@ -102,8 +186,8 @@ export async function renderKnowledgeVideo(item) {
         index,
         avatarClosed: poses.closed,
         avatarOpen: poses.open,
-        avatarVideo,
-        avatarMode,
+        avatarVideo: currentAvatarVideo,
+        avatarMode: currentAvatarMode,
         format
       });
     }
@@ -271,36 +355,21 @@ async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection
   const height = isHorizontal ? 1080 : 1920;
   const bottomMargin = isHorizontal ? 60 : 120;
   
-  let chromaColor = "0x07f506";
-  let chromaSim = "0.12";
-  let chromaBlend = "0.2";
-  let avatarCrop = "";
+  const { chromaColor, chromaSim, chromaBlend, avatarCrop, isCircleCrop } = getAvatarParams(avatarMode);
 
-  const isCircleCrop = avatarMode.toLowerCase().includes("circle") || 
-                       avatarMode.toLowerCase().includes("lingkaran") || 
-                       avatarMode.toLowerCase().includes("frame") || 
-                       avatarMode.toLowerCase().includes("black") || 
-                       avatarMode.toLowerCase().includes("hitam");
-
-  if (avatarMode === "video1") {
-    chromaColor = "0x556a73";
-    chromaSim = "0.18";
-    chromaBlend = "0.1";
-    avatarCrop = "crop=1080:1080,";
-  } else if (avatarMode === "video2") {
-    chromaColor = "0x426684";
-    chromaSim = "0.18";
-    chromaBlend = "0.1";
-    avatarCrop = "crop=1080:1080,";
-  } else if (isCircleCrop) {
-    avatarCrop = "crop=min(iw\\,ih):min(iw\\,ih),";
-  }
-
+  const avatarSize = isHorizontal ? 240 : 420;
   let avatarFilter = "";
-  if (isCircleCrop) {
-    avatarFilter = `${avatarCrop}scale=360:360,format=rgba,geq=r='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,r(X,Y))':g='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,g(X,Y))':b='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,b(X,Y))':a='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),180*180),0,255)',rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'`;
-  } else {
-    avatarFilter = `${avatarCrop}chromakey=${chromaColor}:${chromaSim}:${chromaBlend},scale=360:360,rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'`;
+  if (avatarMode !== "none") {
+    avatarFilter = getAvatarFilterComplex({
+      inputLabel: avatarVideo ? "[1:v]" : "[raw_av]",
+      size: avatarSize,
+      duration,
+      chromaColor,
+      chromaSim,
+      chromaBlend,
+      avatarCrop,
+      isCircleCrop
+    });
   }
 
   // Dynamic camera motions to avoid AI looking flat zoom
@@ -328,34 +397,18 @@ async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection
   // Papan tulis & asap dinonaktifkan atas permintaan user
   let hasFx = false;
 
-  if (avatarVideo) {
+  if (avatarVideo && avatarMode !== "none") {
     let filterComplex = "";
     let ffmpegInputs = [
       "-loop", "1", "-t", duration.toFixed(2), "-i", imagePath,
       "-stream_loop", "-1", "-t", duration.toFixed(2), "-i", avatarVideo
     ];
 
-    if (hasFx) {
-      ffmpegInputs.push(
-        "-loop", "1", "-t", duration.toFixed(2), "-i", smokePath,
-        "-loop", "1", "-t", duration.toFixed(2), "-i", boardPath
-      );
-      filterComplex = [
-        `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},zoompan=z='${zoomExpr}':x='${xExpr}':y='${yExpr}':d=${frames}:s=${width}x${height}:fps=${fps},eq=contrast=1.04:saturation=1.06:brightness=0.01[bg]`,
-        `[1:v]${avatarFilter}[av]`,
-        `[3:v]chromakey=0x000000:0.05:0.05,scale=340:-1,fade=t=in:st=0:d=0.3[board]`,
-        `[2:v]chromakey=0x000000:0.05:0.05,scale=420:-1,fade=t=out:st=0.2:d=0.3[smoke]`,
-        `[bg][board]overlay=x=W-w-360-20:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin})'[bg_board]`,
-        `[bg_board][av]overlay=x=W-w-20:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[bg_av]`,
-        `[bg_av][smoke]overlay=x=W-380-30:y=H-390-${bottomMargin}:enable='lt(t,0.5)'[out]`
-      ].join(";");
-    } else {
-      filterComplex = [
-        `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},zoompan=z='${zoomExpr}':x='${xExpr}':y='${yExpr}':d=${frames}:s=${width}x${height}:fps=${fps},eq=contrast=1.04:saturation=1.06:brightness=0.01[bg]`,
-        `[1:v]${avatarFilter}[av]`,
-        `[bg][av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[out]`
-      ].join(";");
-    }
+    filterComplex = [
+      `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},zoompan=z='${zoomExpr}':x='${xExpr}':y='${yExpr}':d=${frames}:s=${width}x${height}:fps=${fps},eq=contrast=1.04:saturation=1.06:brightness=0.01[bg]`,
+      avatarFilter,
+      `[bg][av]overlay=x=W-w-20:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[out]`
+    ].join(";");
 
     await runFfmpeg([
       "-y",
@@ -367,7 +420,7 @@ async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection
       ...getVideoEncodingArgs("22"),
       outputPath
     ]);
-  } else if (avatarClosed && avatarOpen) {
+  } else if (avatarClosed && avatarOpen && avatarMode !== "none") {
     let filterComplex = "";
     let ffmpegInputs = [
       "-loop", "1", "-t", duration.toFixed(2), "-i", imagePath,
@@ -375,33 +428,14 @@ async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection
       "-loop", "1", "-t", duration.toFixed(2), "-i", avatarOpen
     ];
 
-    if (hasFx) {
-      ffmpegInputs.push(
-        "-loop", "1", "-t", duration.toFixed(2), "-i", smokePath,
-        "-loop", "1", "-t", duration.toFixed(2), "-i", boardPath
-      );
-      filterComplex = [
-        `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},zoompan=z='${zoomExpr}':x='${xExpr}':y='${yExpr}':d=${frames}:s=${width}x${height}:fps=${fps},eq=contrast=1.04:saturation=1.06:brightness=0.01[bg]`,
-        `color=c=0x00000000:s=1024x1024:d=${duration.toFixed(2)}[canvas]`,
-        `[canvas][1:v]overlay=enable='lt(mod(t,0.24),0.14)'[tmp_av1]`,
-        `[tmp_av1][2:v]overlay=enable='gte(mod(t,0.24),0.14)'[raw_av]`,
-        `[raw_av]${avatarFilter}[av]`,
-        `[4:v]chromakey=0x000000:0.05:0.05,scale=340:-1,fade=t=in:st=0:d=0.3[board]`,
-        `[3:v]chromakey=0x000000:0.05:0.05,scale=420:-1,fade=t=out:st=0.2:d=0.3[smoke]`,
-        `[bg][board]overlay=x=W-w-360-20:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin})'[bg_board]`,
-        `[bg_board][av]overlay=x=W-w-20:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[bg_av]`,
-        `[bg_av][smoke]overlay=x=W-380-30:y=H-390-${bottomMargin}:enable='lt(t,0.5)'[out]`
-      ].join(";");
-    } else {
-      filterComplex = [
-        `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},zoompan=z='${zoomExpr}':x='${xExpr}':y='${yExpr}':d=${frames}:s=${width}x${height}:fps=${fps},eq=contrast=1.04:saturation=1.06:brightness=0.01[bg]`,
-        `color=c=0x00000000:s=1024x1024:d=${duration.toFixed(2)}[canvas]`,
-        `[canvas][1:v]overlay=enable='lt(mod(t,0.24),0.14)'[tmp_av]`,
-        `[tmp_av][2:v]overlay=enable='gte(mod(t,0.24),0.14)'[raw_av]`,
-        `[raw_av]${avatarFilter}[av]`,
-        `[bg][av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[out]`
-      ].join(";");
-    }
+    filterComplex = [
+      `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},zoompan=z='${zoomExpr}':x='${xExpr}':y='${yExpr}':d=${frames}:s=${width}x${height}:fps=${fps},eq=contrast=1.04:saturation=1.06:brightness=0.01[bg]`,
+      `color=c=0x00000000:s=1024x1024:d=${duration.toFixed(2)}[canvas]`,
+      `[canvas][1:v]overlay=enable='lt(mod(t,0.24),0.14)'[tmp_av]`,
+      `[tmp_av][2:v]overlay=enable='gte(mod(t,0.24),0.14)'[raw_av]`,
+      avatarFilter,
+      `[bg][av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[out]`
+    ].join(";");
 
     await runFfmpeg([
       "-y",
@@ -441,69 +475,38 @@ async function makeClipSegment({ clipPath, outputPath, duration, avatarClosed, a
   const height = isHorizontal ? 1080 : 1920;
   const bottomMargin = isHorizontal ? 60 : 120;
 
-  let chromaColor = "0x07f506";
-  let chromaSim = "0.12";
-  let chromaBlend = "0.2";
-  let avatarCrop = "";
+  const { chromaColor, chromaSim, chromaBlend, avatarCrop, isCircleCrop } = getAvatarParams(avatarMode);
 
-  const isCircleCrop = avatarMode.toLowerCase().includes("circle") || 
-                       avatarMode.toLowerCase().includes("lingkaran") || 
-                       avatarMode.toLowerCase().includes("frame") || 
-                       avatarMode.toLowerCase().includes("black") || 
-                       avatarMode.toLowerCase().includes("hitam");
-
-  if (avatarMode === "video1") {
-    chromaColor = "0x556a73";
-    chromaSim = "0.18";
-    chromaBlend = "0.1";
-    avatarCrop = "crop=1080:1080,";
-  } else if (avatarMode === "video2") {
-    chromaColor = "0x426684";
-    chromaSim = "0.18";
-    chromaBlend = "0.1";
-    avatarCrop = "crop=1080:1080,";
-  } else if (isCircleCrop) {
-    avatarCrop = "crop=min(iw\\,ih):min(iw\\,ih),";
-  }
-
+  const avatarSize = isHorizontal ? 240 : 420;
   let avatarFilter = "";
-  if (isCircleCrop) {
-    avatarFilter = `${avatarCrop}scale=360:360,format=rgba,geq=r='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,r(X,Y))':g='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,g(X,Y))':b='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,b(X,Y))':a='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),180*180),0,255)',rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'`;
-  } else {
-    avatarFilter = `${avatarCrop}chromakey=${chromaColor}:${chromaSim}:${chromaBlend},scale=360:360,rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'`;
+  if (avatarMode !== "none") {
+    avatarFilter = getAvatarFilterComplex({
+      inputLabel: avatarVideo ? "[1:v]" : "[raw_av]",
+      size: avatarSize,
+      duration,
+      chromaColor,
+      chromaSim,
+      chromaBlend,
+      avatarCrop,
+      isCircleCrop
+    });
   }
 
   // Papan tulis & asap dinonaktifkan atas permintaan user
   let hasFx = false;
 
-  if (avatarVideo) {
+  if (avatarVideo && avatarMode !== "none") {
     let filterComplex = "";
     let ffmpegInputs = [
       "-stream_loop", "-1", "-i", clipPath,
       "-stream_loop", "-1", "-t", Number(duration || 4).toFixed(2), "-i", avatarVideo
     ];
 
-    if (hasFx) {
-      ffmpegInputs.push(
-        "-loop", "1", "-t", Number(duration || 4).toFixed(2), "-i", smokePath,
-        "-loop", "1", "-t", Number(duration || 4).toFixed(2), "-i", boardPath
-      );
-      filterComplex = [
-        `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},fps=${fps},eq=contrast=1.035:saturation=1.04:brightness=0.01[bg]`,
-        `[1:v]${avatarFilter}[av]`,
-        `[3:v]chromakey=0x000000:0.05:0.05,scale=340:-1,fade=t=in:st=0:d=0.3[board]`,
-        `[2:v]chromakey=0x000000:0.05:0.05,scale=420:-1,fade=t=out:st=0.2:d=0.3[smoke]`,
-        `[bg][board]overlay=x=W-w-360-20:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin})'[bg_board]`,
-        `[bg_board][av]overlay=x=W-w-20:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[bg_av]`,
-        `[bg_av][smoke]overlay=x=W-380-30:y=H-390-${bottomMargin}:enable='lt(t,0.5)'[out]`
-      ].join(";");
-    } else {
-      filterComplex = [
-        `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},fps=${fps},eq=contrast=1.035:saturation=1.04:brightness=0.01[bg]`,
-        `[1:v]${avatarFilter}[av]`,
-        `[bg][av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[out]`
-      ].join(";");
-    }
+    filterComplex = [
+      `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},fps=${fps},eq=contrast=1.035:saturation=1.04:brightness=0.01[bg]`,
+      avatarFilter,
+      `[bg][av]overlay=x=W-w-20:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[out]`
+    ].join(";");
 
     await runFfmpeg([
       "-y",
@@ -516,7 +519,7 @@ async function makeClipSegment({ clipPath, outputPath, duration, avatarClosed, a
       ...getVideoEncodingArgs("22"),
       outputPath
     ]);
-  } else if (avatarClosed && avatarOpen) {
+  } else if (avatarClosed && avatarOpen && avatarMode !== "none") {
     let filterComplex = "";
     let ffmpegInputs = [
       "-stream_loop", "-1", "-i", clipPath,
@@ -524,33 +527,14 @@ async function makeClipSegment({ clipPath, outputPath, duration, avatarClosed, a
       "-loop", "1", "-t", Number(duration || 4).toFixed(2), "-i", avatarOpen
     ];
 
-    if (hasFx) {
-      ffmpegInputs.push(
-        "-loop", "1", "-t", Number(duration || 4).toFixed(2), "-i", smokePath,
-        "-loop", "1", "-t", Number(duration || 4).toFixed(2), "-i", boardPath
-      );
-      filterComplex = [
-        `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},fps=${fps},eq=contrast=1.035:saturation=1.04:brightness=0.01[bg]`,
-        `color=c=0x00000000:s=1024x1024:d=${Number(duration || 4).toFixed(2)}[canvas]`,
-        `[canvas][1:v]overlay=enable='lt(mod(t,0.24),0.14)'[tmp_av1]`,
-        `[tmp_av1][2:v]overlay=enable='gte(mod(t,0.24),0.14)'[raw_av]`,
-        `[raw_av]${avatarFilter}[av]`,
-        `[4:v]chromakey=0x000000:0.05:0.05,scale=340:-1,fade=t=in:st=0:d=0.3[board]`,
-        `[3:v]chromakey=0x000000:0.05:0.05,scale=420:-1,fade=t=out:st=0.2:d=0.3[smoke]`,
-        `[bg][board]overlay=x=W-w-360-20:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin})'[bg_board]`,
-        `[bg_board][av]overlay=x=W-w-20:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[bg_av]`,
-        `[bg_av][smoke]overlay=x=W-380-30:y=H-390-${bottomMargin}:enable='lt(t,0.5)'[out]`
-      ].join(";");
-    } else {
-      filterComplex = [
-        `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},fps=${fps},eq=contrast=1.035:saturation=1.04:brightness=0.01[bg]`,
-        `color=c=0x00000000:s=1024x1024:d=${Number(duration || 4).toFixed(2)}[canvas]`,
-        `[canvas][1:v]overlay=enable='lt(mod(t,0.24),0.14)'[tmp_av]`,
-        `[tmp_av][2:v]overlay=enable='gte(mod(t,0.24),0.14)'[raw_av]`,
-        `[raw_av]${avatarFilter}[av]`,
-        `[bg][av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[out]`
-      ].join(";");
-    }
+    filterComplex = [
+      `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},fps=${fps},eq=contrast=1.035:saturation=1.04:brightness=0.01[bg]`,
+      `color=c=0x00000000:s=1024x1024:d=${Number(duration || 4).toFixed(2)}[canvas]`,
+      `[canvas][1:v]overlay=enable='lt(mod(t,0.24),0.14)'[tmp_av]`,
+      `[tmp_av][2:v]overlay=enable='gte(mod(t,0.24),0.14)'[raw_av]`,
+      avatarFilter,
+      `[bg][av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[out]`
+    ].join(";");
 
     await runFfmpeg([
       "-y",
@@ -621,7 +605,8 @@ async function addLogoWatermark({ inputPath, outputPath, format = "vertical" }) 
   }
 
   const isHorizontal = format === "horizontal";
-  const overlayPos = isHorizontal ? "40:40" : "W-w-40:40";
+  const logoWidth = isHorizontal ? 170 : 96;
+  const overlayPos = "W-w-40:40";
 
   await runFfmpeg([
     "-y",
@@ -629,7 +614,7 @@ async function addLogoWatermark({ inputPath, outputPath, format = "vertical" }) 
     "-i", logoPath,
     "-filter_complex",
     [
-      "[1:v]scale=245:-1,format=rgba,colorchannelmixer=aa=0.78[wm]",
+      `[1:v]scale=${logoWidth}:-1,format=rgba,colorchannelmixer=aa=0.78[wm]`,
       `[0:v][wm]overlay=${overlayPos}:format=auto[v]`
     ].join(";"),
     "-map", "[v]",
@@ -793,7 +778,10 @@ async function muxVideoAudio({ videoPath, audioPath, outputPath }) {
 async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, narrationTempo, totalDuration }) {
   const events = [];
   const isHorizontal = item.input?.videoFormat === "horizontal";
-  const titleText = splitLines(item.title || item.plan?.title || "BanyakTau", isHorizontal ? 40 : 24, 3).join("\\N");
+  const hookText = splitLines(item.plan?.hook || item.title || "BanyakTau", isHorizontal ? 28 : 18, 2).join("\\N");
+  events.push(dialogue(0.05, introDuration - 0.05, "Hook", `{\\fad(150,150)}${assEscape(hookText)}`));
+
+  const titleText = splitLines(item.title || item.plan?.title || "BanyakTau", isHorizontal ? 32 : 18, 2).join("\\N");
   events.push(dialogue(introDuration + 0.05, Math.max(introDuration + 0.1, totalDuration - outroDuration), "SceneTitle", `{\\fad(140,160)}${assEscape(titleText)}`));
 
   let cursor = introDuration;
@@ -818,15 +806,16 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
   const playResX = isHorizontal ? 1920 : 1080;
   const playResY = isHorizontal ? 1080 : 1920;
 
-  const hookFontsize = isHorizontal ? 54 : 74;
-  const hookMarginV = isHorizontal ? 80 : 140;
+  const hookFontsize = isHorizontal ? 72 : 96;
+  const hookMarginV = isHorizontal ? 120 : 180;
   
-  const titleFontsize = isHorizontal ? 36 : 42;
+  const titleFontsize = isHorizontal ? 48 : 58;
   const titleMarginL = isHorizontal ? 80 : 54;
   const titleMarginR = isHorizontal ? 600 : 340;
   const titleMarginV = isHorizontal ? 60 : 78;
 
   const subFontsize = isHorizontal ? 56 : 76;
+  const subMarginR = isHorizontal ? 360 : 80;
   const subMarginV = isHorizontal ? 120 : 850;
 
   const kickerFontsize = isHorizontal ? 28 : 34;
@@ -842,10 +831,10 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
     "",
     "[V4+ Styles]",
     "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-    `Style: Hook,${config.render.fontTitle},${hookFontsize},&H00FFFFFF,&H000000FF,&H98232A32,&HBB11171C,-1,0,0,0,100,100,0,0,1,3.5,0,5,80,80,${hookMarginV},1`,
-    `Style: SceneTitle,${config.render.fontTitle},${titleFontsize},&H00F7F2DC,&H000000FF,&H90222A2C,&HAA15191D,-1,0,0,0,100,100,0,0,1,2.5,0,7,${titleMarginL},${titleMarginR},${titleMarginV},1`,
+    `Style: Hook,${config.render.fontTitle},${hookFontsize},&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,5.5,4.0,5,80,80,${hookMarginV},1`,
+    `Style: SceneTitle,${config.render.fontTitle},${titleFontsize},&H00F7F2DC,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,4.5,3.5,7,${titleMarginL},${titleMarginR},${titleMarginV},1`,
     `Style: BoardText,${config.render.fontTitle},${isHorizontal ? 24 : 32},&H00F7F2DC,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,0,0,5,0,0,0,1`,
-    `Style: Subtitle,${config.render.fontBody},${subFontsize},&H00FFFFFF,&H000000FF,&H9A11171B,&HBF11171B,-1,0,0,0,100,100,0,0,1,5,0,2,80,80,${subMarginV},1`,
+    `Style: Subtitle,${config.render.fontBody},${subFontsize},&H00FFFFFF,&H000000FF,&H9A11171B,&HBF11171B,-1,0,0,0,100,100,0,0,1,5,0,2,80,${subMarginR},${subMarginV},1`,
     `Style: Point,${config.render.fontBody},72,&H00FFFFFF,&H000000FF,&H8F11171B,&HCC11171B,-1,0,0,0,100,100,0,0,3,18,0,5,96,96,0,1`,
     `Style: OutroDim,${config.render.fontBody},20,&H82000000,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,7,0,0,0,1`,
     `Style: OutroCard,${config.render.fontBody},20,&H1811171B,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,7,0,0,0,1`,
@@ -1346,44 +1335,23 @@ async function makeOutroSegment({ outputPath, duration, avatarVideo, avatarImage
   const width = isHorizontal ? 1920 : 1080;
   const height = isHorizontal ? 1080 : 1920;
   const bottomMargin = isHorizontal ? 60 : 120;
+  const avatarSize = isHorizontal ? 240 : 420;
 
-  let chromaColor = "0x07f506";
-  let chromaSim = "0.12";
-  let chromaBlend = "0.2";
-  let cropFilter = "";
-
-  const isCircleCrop = avatarMode.toLowerCase().includes("circle") || 
-                       avatarMode.toLowerCase().includes("lingkaran") || 
-                       avatarMode.toLowerCase().includes("frame") || 
-                       avatarMode.toLowerCase().includes("black") || 
-                       avatarMode.toLowerCase().includes("hitam");
-
-  if (avatarMode === "video1") {
-    chromaColor = "0x556a73";
-    chromaSim = "0.18";
-    chromaBlend = "0.1";
-    cropFilter = "crop=1080:1080,";
-  } else if (avatarMode === "video2") {
-    chromaColor = "0x426684";
-    chromaSim = "0.18";
-    chromaBlend = "0.1";
-    cropFilter = "crop=1080:1080,";
-  } else if (isCircleCrop) {
-    cropFilter = "crop=min(iw\\,ih):min(iw\\,ih),";
-  }
-
-  let avatarFilterFx = "";
-  if (isCircleCrop) {
-    avatarFilterFx = `${cropFilter}scale=360:360,format=rgba,geq=r='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,r(X,Y))':g='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,g(X,Y))':b='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,b(X,Y))':a='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),180*180),0,255)',rotate='3*sin(4.5*t)*PI/180:c=none:ow=rotw(3*PI/180):oh=roth(3*PI/180)',fade=t=out:st=0.3:d=0.7`;
-  } else {
-    avatarFilterFx = `${cropFilter}chromakey=${chromaColor}:${chromaSim}:${chromaBlend},scale=360:360,rotate='3*sin(4.5*t)*PI/180:c=none:ow=rotw(3*PI/180):oh=roth(3*PI/180)',fade=t=out:st=0.3:d=0.7`;
-  }
+  const { chromaColor, chromaSim, chromaBlend, avatarCrop: cropFilter, isCircleCrop } = getAvatarParams(avatarMode);
 
   let avatarFilterNoFx = "";
-  if (isCircleCrop) {
-    avatarFilterNoFx = `${cropFilter}scale=360:360,format=rgba,geq=r='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,r(X,Y))':g='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,g(X,Y))':b='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,b(X,Y))':a='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),180*180),0,255)',rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'`;
-  } else {
-    avatarFilterNoFx = `${cropFilter}chromakey=${chromaColor}:${chromaSim}:${chromaBlend},scale=360:360,rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'`;
+  if (avatarMode !== "none") {
+    avatarFilterNoFx = getAvatarFilterComplex({
+      inputLabel: avatarVideo ? `[${avatarVideo ? 2 : 1}:v]` : `[${avatarImage ? 2 : 1}:v]`,
+      size: avatarSize,
+      duration,
+      chromaColor,
+      chromaSim,
+      chromaBlend,
+      avatarCrop: cropFilter,
+      rotateAngle: 5,
+      isCircleCrop
+    });
   }
 
   let inputs = [
@@ -1401,29 +1369,16 @@ async function makeOutroSegment({ outputPath, duration, avatarVideo, avatarImage
   }
 
   let avatarIndex = -1;
-  if (avatarVideo) {
+  if (avatarVideo && avatarMode !== "none") {
     inputs.push("-stream_loop", "-1", "-t", duration.toFixed(2), "-i", avatarVideo);
     avatarIndex = inputCount++;
-  } else if (avatarImage) {
+  } else if (avatarImage && avatarMode !== "none") {
     inputs.push("-loop", "1", "-t", duration.toFixed(2), "-i", avatarImage);
     avatarIndex = inputCount++;
   }
 
+  // Animasi pintu & portal dinonaktifkan atas permintaan user
   let fxIndex = -1;
-  let fxPath = "";
-  if (avatarIndex !== -1) {
-    const normCategory = String(category || "").toLowerCase().trim();
-    const isTechOrScience = ["sains", "teknologi", "alam semesta"].includes(normCategory);
-    const fxFilename = isTechOrScience ? "outro_portal.png" : "outro_door.png";
-    fxPath = path.join(paths.rootDir, "assets", "fx", fxFilename);
-    try {
-      await fs.access(fxPath);
-      inputs.push("-loop", "1", "-t", duration.toFixed(2), "-i", fxPath);
-      fxIndex = inputCount++;
-    } catch {
-      // fx asset not found
-    }
-  }
 
   const filters = [];
   let currentOutput = "[0:v]";
@@ -1436,25 +1391,10 @@ async function makeOutroSegment({ outputPath, duration, avatarVideo, avatarImage
   }
 
   if (avatarIndex !== -1) {
-    if (fxIndex !== -1) {
-      // Animation walk-in to portal/door: chromakey, scale, rotate, fade out at st=0.3
-      filters.push(`[${avatarIndex}:v]${avatarFilterFx}[av]`);
-      
-      // Portal/Door: chromakey black background, scale, fade in and out
-      filters.push(`[${fxIndex}:v]chromakey=0x000000:0.05:0.05,scale=420:-1,fade=t=in:st=0:d=0.3,fade=t=out:st=1.2:d=0.3[fx]`);
-      
-      // Overlay avatar moving left (into door/portal center) and disappearing at 1.0s
-      filters.push(`${currentOutput}[av]overlay=x='W-w-20-if(gt(t,0.3),70*(t-0.3)/0.7,0)':y='H-h-${bottomMargin}':enable='lt(t,1.0)'[tmp_av]`);
-      
-      // Overlay door/portal on top of avatar
-      filters.push(`[tmp_av][fx]overlay=x='W-w-60':y='H-h-${bottomMargin}':format=auto[tmp_fx]`);
-      currentOutput = "[tmp_fx]";
-    } else {
-      // Fallback: standard slide up and wobble (no portal)
-      filters.push(`[${avatarIndex}:v]${avatarFilterNoFx}[av]`);
-      filters.push(`${currentOutput}[av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[tmp_av]`);
-      currentOutput = "[tmp_av]";
-    }
+    // Standard wobbly overlay in the bottom right corner (no portal)
+    filters.push(`${avatarFilterNoFx}`);
+    filters.push(`${currentOutput}[av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[tmp_av]`);
+    currentOutput = "[tmp_av]";
   }
 
   filters.push(`${currentOutput}fade=t=out:st=${(duration - 0.4).toFixed(2)}:d=0.4[out]`);
