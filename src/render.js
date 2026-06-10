@@ -286,6 +286,10 @@ async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection
     chromaSim = "0.18";
     chromaBlend = "0.1";
     avatarCrop = "crop=1080:1080,";
+  } else if (avatarMode.toLowerCase().includes("black") || avatarMode.toLowerCase().includes("hitam")) {
+    chromaColor = "0x000000";
+    chromaSim = "0.05";
+    chromaBlend = "0.05";
   }
 
   // Dynamic camera motions to avoid AI looking flat zoom
@@ -447,6 +451,10 @@ async function makeClipSegment({ clipPath, outputPath, duration, avatarClosed, a
     chromaSim = "0.18";
     chromaBlend = "0.1";
     avatarCrop = "crop=1080:1080,";
+  } else if (avatarMode.toLowerCase().includes("black") || avatarMode.toLowerCase().includes("hitam")) {
+    chromaColor = "0x000000";
+    chromaSim = "0.05";
+    chromaBlend = "0.05";
   }
 
   const smokePath = path.join(paths.rootDir, "assets", "fx", "smoke_puff.png");
@@ -1349,6 +1357,10 @@ async function makeOutroSegment({ outputPath, duration, avatarVideo, avatarImage
     chromaSim = "0.18";
     chromaBlend = "0.1";
     cropFilter = "crop=1080:1080,";
+  } else if (avatarMode.toLowerCase().includes("black") || avatarMode.toLowerCase().includes("hitam")) {
+    chromaColor = "0x000000";
+    chromaSim = "0.05";
+    chromaBlend = "0.05";
   }
 
   let inputs = [
