@@ -276,6 +276,12 @@ async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection
   let chromaBlend = "0.2";
   let avatarCrop = "";
 
+  const isCircleCrop = avatarMode.toLowerCase().includes("circle") || 
+                       avatarMode.toLowerCase().includes("lingkaran") || 
+                       avatarMode.toLowerCase().includes("frame") || 
+                       avatarMode.toLowerCase().includes("black") || 
+                       avatarMode.toLowerCase().includes("hitam");
+
   if (avatarMode === "video1") {
     chromaColor = "0x556a73";
     chromaSim = "0.18";
@@ -286,10 +292,15 @@ async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection
     chromaSim = "0.18";
     chromaBlend = "0.1";
     avatarCrop = "crop=1080:1080,";
-  } else if (avatarMode.toLowerCase().includes("black") || avatarMode.toLowerCase().includes("hitam")) {
-    chromaColor = "0x000000";
-    chromaSim = "0.05";
-    chromaBlend = "0.05";
+  } else if (isCircleCrop) {
+    avatarCrop = "crop=min(iw\\,ih):min(iw\\,ih),";
+  }
+
+  let avatarFilter = "";
+  if (isCircleCrop) {
+    avatarFilter = `${avatarCrop}scale=360:360,format=rgba,geq=r='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,r(X,Y))':g='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,g(X,Y))':b='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,b(X,Y))':a='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),180*180),0,255)',rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'`;
+  } else {
+    avatarFilter = `${avatarCrop}chromakey=${chromaColor}:${chromaSim}:${chromaBlend},scale=360:360,rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'`;
   }
 
   // Dynamic camera motions to avoid AI looking flat zoom
@@ -337,7 +348,7 @@ async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection
       );
       filterComplex = [
         `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},zoompan=z='${zoomExpr}':x='${xExpr}':y='${yExpr}':d=${frames}:s=${width}x${height}:fps=${fps},eq=contrast=1.04:saturation=1.06:brightness=0.01[bg]`,
-        `[1:v]${avatarCrop}chromakey=${chromaColor}:${chromaSim}:${chromaBlend},scale=360:360,rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'[av]`,
+        `[1:v]${avatarFilter}[av]`,
         `[3:v]chromakey=0x000000:0.05:0.05,scale=340:-1,fade=t=in:st=0:d=0.3[board]`,
         `[2:v]chromakey=0x000000:0.05:0.05,scale=420:-1,fade=t=out:st=0.2:d=0.3[smoke]`,
         `[bg][board]overlay=x=W-w-360-20:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin})'[bg_board]`,
@@ -347,7 +358,7 @@ async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection
     } else {
       filterComplex = [
         `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},zoompan=z='${zoomExpr}':x='${xExpr}':y='${yExpr}':d=${frames}:s=${width}x${height}:fps=${fps},eq=contrast=1.04:saturation=1.06:brightness=0.01[bg]`,
-        `[1:v]${avatarCrop}chromakey=${chromaColor}:${chromaSim}:${chromaBlend},scale=360:360,rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'[av]`,
+        `[1:v]${avatarFilter}[av]`,
         `[bg][av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[out]`
       ].join(";");
     }
@@ -380,7 +391,7 @@ async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection
         `color=c=0x00000000:s=1024x1024:d=${duration.toFixed(2)}[canvas]`,
         `[canvas][1:v]overlay=enable='lt(mod(t,0.24),0.14)'[tmp_av1]`,
         `[tmp_av1][2:v]overlay=enable='gte(mod(t,0.24),0.14)'[raw_av]`,
-        `[raw_av]${avatarCrop}chromakey=${chromaColor}:${chromaSim}:${chromaBlend},scale=360:360,rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'[av]`,
+        `[raw_av]${avatarFilter}[av]`,
         `[4:v]chromakey=0x000000:0.05:0.05,scale=340:-1,fade=t=in:st=0:d=0.3[board]`,
         `[3:v]chromakey=0x000000:0.05:0.05,scale=420:-1,fade=t=out:st=0.2:d=0.3[smoke]`,
         `[bg][board]overlay=x=W-w-360-20:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin})'[bg_board]`,
@@ -393,7 +404,7 @@ async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection
         `color=c=0x00000000:s=1024x1024:d=${duration.toFixed(2)}[canvas]`,
         `[canvas][1:v]overlay=enable='lt(mod(t,0.24),0.14)'[tmp_av]`,
         `[tmp_av][2:v]overlay=enable='gte(mod(t,0.24),0.14)'[raw_av]`,
-        `[raw_av]${avatarCrop}chromakey=${chromaColor}:${chromaSim}:${chromaBlend},scale=360:360,rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'[av]`,
+        `[raw_av]${avatarFilter}[av]`,
         `[bg][av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[out]`
       ].join(";");
     }
@@ -441,6 +452,12 @@ async function makeClipSegment({ clipPath, outputPath, duration, avatarClosed, a
   let chromaBlend = "0.2";
   let avatarCrop = "";
 
+  const isCircleCrop = avatarMode.toLowerCase().includes("circle") || 
+                       avatarMode.toLowerCase().includes("lingkaran") || 
+                       avatarMode.toLowerCase().includes("frame") || 
+                       avatarMode.toLowerCase().includes("black") || 
+                       avatarMode.toLowerCase().includes("hitam");
+
   if (avatarMode === "video1") {
     chromaColor = "0x556a73";
     chromaSim = "0.18";
@@ -451,10 +468,15 @@ async function makeClipSegment({ clipPath, outputPath, duration, avatarClosed, a
     chromaSim = "0.18";
     chromaBlend = "0.1";
     avatarCrop = "crop=1080:1080,";
-  } else if (avatarMode.toLowerCase().includes("black") || avatarMode.toLowerCase().includes("hitam")) {
-    chromaColor = "0x000000";
-    chromaSim = "0.05";
-    chromaBlend = "0.05";
+  } else if (isCircleCrop) {
+    avatarCrop = "crop=min(iw\\,ih):min(iw\\,ih),";
+  }
+
+  let avatarFilter = "";
+  if (isCircleCrop) {
+    avatarFilter = `${avatarCrop}scale=360:360,format=rgba,geq=r='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,r(X,Y))':g='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,g(X,Y))':b='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,b(X,Y))':a='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),180*180),0,255)',rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'`;
+  } else {
+    avatarFilter = `${avatarCrop}chromakey=${chromaColor}:${chromaSim}:${chromaBlend},scale=360:360,rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'`;
   }
 
   const smokePath = path.join(paths.rootDir, "assets", "fx", "smoke_puff.png");
@@ -480,7 +502,7 @@ async function makeClipSegment({ clipPath, outputPath, duration, avatarClosed, a
       );
       filterComplex = [
         `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},fps=${fps},eq=contrast=1.035:saturation=1.04:brightness=0.01[bg]`,
-        `[1:v]${avatarCrop}chromakey=${chromaColor}:${chromaSim}:${chromaBlend},scale=360:360,rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'[av]`,
+        `[1:v]${avatarFilter}[av]`,
         `[3:v]chromakey=0x000000:0.05:0.05,scale=340:-1,fade=t=in:st=0:d=0.3[board]`,
         `[2:v]chromakey=0x000000:0.05:0.05,scale=420:-1,fade=t=out:st=0.2:d=0.3[smoke]`,
         `[bg][board]overlay=x=W-w-360-20:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin})'[bg_board]`,
@@ -490,7 +512,7 @@ async function makeClipSegment({ clipPath, outputPath, duration, avatarClosed, a
     } else {
       filterComplex = [
         `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},fps=${fps},eq=contrast=1.035:saturation=1.04:brightness=0.01[bg]`,
-        `[1:v]${avatarCrop}chromakey=${chromaColor}:${chromaSim}:${chromaBlend},scale=360:360,rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'[av]`,
+        `[1:v]${avatarFilter}[av]`,
         `[bg][av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[out]`
       ].join(";");
     }
@@ -524,7 +546,7 @@ async function makeClipSegment({ clipPath, outputPath, duration, avatarClosed, a
         `color=c=0x00000000:s=1024x1024:d=${Number(duration || 4).toFixed(2)}[canvas]`,
         `[canvas][1:v]overlay=enable='lt(mod(t,0.24),0.14)'[tmp_av1]`,
         `[tmp_av1][2:v]overlay=enable='gte(mod(t,0.24),0.14)'[raw_av]`,
-        `[raw_av]${avatarCrop}chromakey=${chromaColor}:${chromaSim}:${chromaBlend},scale=360:360,rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'[av]`,
+        `[raw_av]${avatarFilter}[av]`,
         `[4:v]chromakey=0x000000:0.05:0.05,scale=340:-1,fade=t=in:st=0:d=0.3[board]`,
         `[3:v]chromakey=0x000000:0.05:0.05,scale=420:-1,fade=t=out:st=0.2:d=0.3[smoke]`,
         `[bg][board]overlay=x=W-w-360-20:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin})'[bg_board]`,
@@ -537,7 +559,7 @@ async function makeClipSegment({ clipPath, outputPath, duration, avatarClosed, a
         `color=c=0x00000000:s=1024x1024:d=${Number(duration || 4).toFixed(2)}[canvas]`,
         `[canvas][1:v]overlay=enable='lt(mod(t,0.24),0.14)'[tmp_av]`,
         `[tmp_av][2:v]overlay=enable='gte(mod(t,0.24),0.14)'[raw_av]`,
-        `[raw_av]${avatarCrop}chromakey=${chromaColor}:${chromaSim}:${chromaBlend},scale=360:360,rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'[av]`,
+        `[raw_av]${avatarFilter}[av]`,
         `[bg][av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[out]`
       ].join(";");
     }
@@ -1347,6 +1369,12 @@ async function makeOutroSegment({ outputPath, duration, avatarVideo, avatarImage
   let chromaBlend = "0.2";
   let cropFilter = "";
 
+  const isCircleCrop = avatarMode.toLowerCase().includes("circle") || 
+                       avatarMode.toLowerCase().includes("lingkaran") || 
+                       avatarMode.toLowerCase().includes("frame") || 
+                       avatarMode.toLowerCase().includes("black") || 
+                       avatarMode.toLowerCase().includes("hitam");
+
   if (avatarMode === "video1") {
     chromaColor = "0x556a73";
     chromaSim = "0.18";
@@ -1357,10 +1385,22 @@ async function makeOutroSegment({ outputPath, duration, avatarVideo, avatarImage
     chromaSim = "0.18";
     chromaBlend = "0.1";
     cropFilter = "crop=1080:1080,";
-  } else if (avatarMode.toLowerCase().includes("black") || avatarMode.toLowerCase().includes("hitam")) {
-    chromaColor = "0x000000";
-    chromaSim = "0.05";
-    chromaBlend = "0.05";
+  } else if (isCircleCrop) {
+    cropFilter = "crop=min(iw\\,ih):min(iw\\,ih),";
+  }
+
+  let avatarFilterFx = "";
+  if (isCircleCrop) {
+    avatarFilterFx = `${cropFilter}scale=360:360,format=rgba,geq=r='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,r(X,Y))':g='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,g(X,Y))':b='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,b(X,Y))':a='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),180*180),0,255)',rotate='3*sin(4.5*t)*PI/180:c=none:ow=rotw(3*PI/180):oh=roth(3*PI/180)',fade=t=out:st=0.3:d=0.7`;
+  } else {
+    avatarFilterFx = `${cropFilter}chromakey=${chromaColor}:${chromaSim}:${chromaBlend},scale=360:360,rotate='3*sin(4.5*t)*PI/180:c=none:ow=rotw(3*PI/180):oh=roth(3*PI/180)',fade=t=out:st=0.3:d=0.7`;
+  }
+
+  let avatarFilterNoFx = "";
+  if (isCircleCrop) {
+    avatarFilterNoFx = `${cropFilter}scale=360:360,format=rgba,geq=r='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,r(X,Y))':g='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,g(X,Y))':b='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),175*175),255,b(X,Y))':a='if(gt((X-180)*(X-180)+(Y-180)*(Y-180),180*180),0,255)',rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'`;
+  } else {
+    avatarFilterNoFx = `${cropFilter}chromakey=${chromaColor}:${chromaSim}:${chromaBlend},scale=360:360,rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'`;
   }
 
   let inputs = [
@@ -1415,7 +1455,7 @@ async function makeOutroSegment({ outputPath, duration, avatarVideo, avatarImage
   if (avatarIndex !== -1) {
     if (fxIndex !== -1) {
       // Animation walk-in to portal/door: chromakey, scale, rotate, fade out at st=0.3
-      filters.push(`[${avatarIndex}:v]${cropFilter}chromakey=${chromaColor}:${chromaSim}:${chromaBlend},scale=360:360,rotate='3*sin(4.5*t)*PI/180:c=none:ow=rotw(3*PI/180):oh=roth(3*PI/180)',fade=t=out:st=0.3:d=0.7[av]`);
+      filters.push(`[${avatarIndex}:v]${avatarFilterFx}[av]`);
       
       // Portal/Door: chromakey black background, scale, fade in and out
       filters.push(`[${fxIndex}:v]chromakey=0x000000:0.05:0.05,scale=420:-1,fade=t=in:st=0:d=0.3,fade=t=out:st=1.2:d=0.3[fx]`);
@@ -1428,7 +1468,7 @@ async function makeOutroSegment({ outputPath, duration, avatarVideo, avatarImage
       currentOutput = "[tmp_fx]";
     } else {
       // Fallback: standard slide up and wobble (no portal)
-      filters.push(`[${avatarIndex}:v]${cropFilter}chromakey=${chromaColor}:${chromaSim}:${chromaBlend},scale=360:360,rotate='5*sin(4.5*t)*PI/180:c=none:ow=rotw(5*PI/180):oh=roth(5*PI/180)'[av]`);
+      filters.push(`[${avatarIndex}:v]${avatarFilterNoFx}[av]`);
       filters.push(`${currentOutput}[av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[tmp_av]`);
       currentOutput = "[tmp_av]";
     }
