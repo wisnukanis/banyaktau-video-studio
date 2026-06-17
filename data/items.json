@@ -3614,13 +3614,13 @@
   {
     "id": "tau_08df3c7ea226",
     "source": "openai",
-    "status": "ready",
+    "status": "rendered",
     "project_id": "capybara_banyak_tau_id",
     "language": "id-ID",
     "market": "ID",
     "version_type": "original",
     "createdAt": "2026-06-17T04:36:30.338Z",
-    "updatedAt": "2026-06-17T04:51:04.569Z",
+    "updatedAt": "2026-06-17T17:02:59.020Z",
     "input": {
       "topic": "Sejarah",
       "category": "Sejarah",
@@ -3894,7 +3894,7 @@
       },
       "video": {
         "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_08df3c7ea226-openai-kota-atlantis-mitos-atau-realita.mp4",
-        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_08df3c7ea226-openai-kota-atlantis-mitos-atau-realita.mp4",
+        "url": "/generated/videos/tau_08df3c7ea226-openai-kota-atlantis-mitos-atau-realita.mp4",
         "provider": "openai",
         "durationSec": 62.33,
         "scenes": 8
@@ -3920,9 +3920,8 @@
     },
     "progress": {
       "percent": 100,
-      "stage": "upload_failed",
-      "message": "Instagram publish gagal: Gagal mengunggah file biner Instagram Reel: {\"debug_info\":{\"retriable\":false,\"type\":\"ProcessingFailedError\",\"message\":\"Request processing failed\"}}",
-      "error": "Gagal mengunggah file biner Instagram Reel: {\"debug_info\":{\"retriable\":false,\"type\":\"ProcessingFailedError\",\"message\":\"Request processing failed\"}}"
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
     },
     "publish": {
       "facebook": {

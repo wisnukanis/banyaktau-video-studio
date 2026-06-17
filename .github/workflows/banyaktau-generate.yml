@@ -65,11 +65,11 @@ jobs:
 
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL || 'https://api.openai.com/v1' }}
-      STORY_MODEL: ${{ secrets.STORY_MODEL || 'gpt-4o-mini' }}
-      IMAGE_MODEL: ${{ secrets.IMAGE_MODEL || 'gpt-image-2' }}
-      IMAGE_SIZE: ${{ secrets.IMAGE_SIZE || '1024x1792' }}
+      STORY_MODEL: 'gpt-4o-mini'
+      IMAGE_MODEL: 'gpt-image-2'
+      IMAGE_SIZE: '1024x1792'
       IMAGE_QUALITY: ${{ github.event.inputs.image_quality || secrets.IMAGE_QUALITY || 'low' }}
-      OPENAI_TTS_MODEL: ${{ secrets.OPENAI_TTS_MODEL || 'tts-1' }}
+      OPENAI_TTS_MODEL: 'tts-1'
       OPENAI_TTS_VOICE: ${{ secrets.OPENAI_TTS_VOICE || 'shimmer' }}
       OPENAI_TRANSCRIBE_MODEL: ${{ secrets.OPENAI_TRANSCRIBE_MODEL || 'whisper-1' }}
       ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
