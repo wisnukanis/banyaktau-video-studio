@@ -160,29 +160,29 @@ export async function generateOpenAiSpeech({ itemId, text, voice, filenameSuffix
   };
 }
 
-export async function transcribeSpeechSegments(audioPath) {
+export async function transcribeSpeechSegments(audioPath, language = "id") {
   assertOpenAi();
   const model = config.openai.transcribeModel;
   try {
     // verbose_json gives per-segment timestamps for word-synced captions.
-    return await transcribeSpeechSegmentsWithModel(audioPath, model, "verbose_json");
+    return await transcribeSpeechSegmentsWithModel(audioPath, model, "verbose_json", language);
   } catch (error) {
     // Some models/proxies (e.g. gpt-4o-transcribe, gpt-4o-mini-transcribe) reject
     // verbose_json and only accept plain "json". Fall back so captions still render,
     // even though timestamps will not be available from the API in that case.
     if (/verbose_json|response_format|unsupported_value|timestamp/i.test(error.message)) {
-      return transcribeSpeechSegmentsWithModel(audioPath, model, "json");
+      return transcribeSpeechSegmentsWithModel(audioPath, model, "json", language);
     }
     throw error;
   }
 }
 
-async function transcribeSpeechSegmentsWithModel(audioPath, model, responseFormat = "verbose_json") {
+async function transcribeSpeechSegmentsWithModel(audioPath, model, responseFormat = "verbose_json", language = "id") {
   const buffer = await fs.readFile(audioPath);
   const form = new FormData();
   form.append("file", new Blob([buffer]), path.basename(audioPath));
   form.append("model", model);
-  form.append("language", "id");
+  form.append("language", language);
   form.append("response_format", responseFormat);
   if (responseFormat === "verbose_json") {
     form.append("timestamp_granularities[]", "word");

@@ -20,6 +20,7 @@ import { runPreflight } from "./preflight.js";
 import { publishToFacebook, publishToInstagram, socialDescription } from "./facebook.js";
 import { absolutizeGeneratedUrls, remoteEnabled, uploadGeneratedStateAndAssets } from "./remote.js";
 import { setProgress, resetProgress, getProgress } from "./progress.js";
+import { translateAndDraftUS, renderUsVideo } from "./modules/us_generator.js";
 
 ensureProjectDirs();
 
@@ -193,6 +194,24 @@ app.post("/api/items/:id/render", async (req, res, next) => {
   }
 });
 
+app.post("/api/items/:id/translate", async (req, res, next) => {
+  try {
+    const newItem = await translateAndDraftUS(req.params.id, req.body || {});
+    res.json({ item: newItem });
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post("/api/items/:id/render-us", async (req, res, next) => {
+  try {
+    const item = await renderUsVideo(req.params.id);
+    res.json({ item });
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.post("/api/items/:id/publish", async (req, res, next) => {
   try {
     const { platform } = req.body || {};
@@ -282,6 +301,7 @@ app.post("/api/items/:id/publish", async (req, res, next) => {
       try {
         const published = await publishToInstagram({
           videoUrl,
+          videoPath: item.assets?.video?.path || "",
           title: item.title,
           description: socialDescription(item),
           coverUrl: item.assets?.thumbnail?.url || "",

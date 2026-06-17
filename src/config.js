@@ -129,6 +129,18 @@ export const config = {
     pixabayApiKey: process.env.PIXABAY_API_KEY || "",
     defaultVisualSource: clean(process.env.DEFAULT_VISUAL_SOURCE || "stock"),
     defaultVideoFormat: clean(process.env.DEFAULT_VIDEO_FORMAT || "vertical")
+  },
+  usProject: {
+    project_id: "curious_capybara_us",
+    name: "Curious Capybara",
+    language: "en-US",
+    market: "US",
+    timezone: "America/New_York",
+    voice_provider: "edge_tts",
+    voice_id: "en-US-GuyNeural",
+    caption_style: "bold_edu",
+    closing_line: "Now you know.",
+    default_hashtags: ["#CuriousFacts", "#ScienceFacts", "#Shorts", "#LearnOnYouTube"]
   }
 };
 
@@ -181,6 +193,7 @@ export function publicConfig() {
     dashboard: {
       pinRequired: true
     },
+    usProject: config.usProject,
     remote: {
       uploadDriver: process.env.UPLOAD_DRIVER || "none",
       publicBaseUrl: process.env.PUBLIC_BASE_URL || "",

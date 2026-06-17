@@ -121,9 +121,15 @@ export async function uploadGeneratedStateAndAssets(options = {}) {
 export function absolutizeGeneratedUrls(item) {
   const base = publicBaseUrl();
   if (!base || !item) return item;
+  const cfg = remoteConfig();
+  const replacement = cfg.driver === "github" ? "/generated/" : "/";
   const withUrl = (asset) => {
     if (!asset?.url) return asset;
-    return { ...asset, url: `${base}${String(asset.url).replace(/^\/generated\//, "/")}` };
+    const urlStr = String(asset.url);
+    if (urlStr.startsWith("http://") || urlStr.startsWith("https://")) {
+      return asset;
+    }
+    return { ...asset, url: `${base}${urlStr.replace(/^\/generated\//, replacement)}` };
   };
   return {
     ...item,

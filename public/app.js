@@ -10,7 +10,8 @@ const state = {
   processLabel: "",
   historyExpanded: false,
   galleryExpanded: false,
-  logs: []
+  logs: [],
+  projectFilter: "capybara_banyak_tau_id"
 };
 
 const YOUTUBE_UPLOAD_URL = "https://www.youtube.com/upload";
@@ -28,6 +29,7 @@ const els = {
   ttsBtn: document.querySelector("#ttsBtn"),
   clipBtn: document.querySelector("#clipBtn"),
   renderBtn: document.querySelector("#renderBtn"),
+  translateUsBtn: document.querySelector("#translateUsBtn"),
   publishFacebookBtn: document.querySelector("#publishFacebookBtn"),
   publishInstagramBtn: document.querySelector("#publishInstagramBtn"),
   menuBtn: document.querySelector("#menuBtn"),
@@ -154,6 +156,106 @@ function bindEvents() {
   els.shareYoutubeBtn?.addEventListener("click", () => shareToYoutube(state.current));
   els.copyVideoLinkBtn?.addEventListener("click", () => copyVideoLink(state.current));
 
+  // Project filter selection handler
+  const projFilter = document.querySelector("#projectFilter");
+  if (projFilter) {
+    projFilter.addEventListener("change", (e) => {
+      state.projectFilter = e.target.value;
+      renderList();
+      renderGallery();
+    });
+  }
+
+  // Create English Version click handler
+  els.translateUsBtn?.addEventListener("click", () => {
+    if (!state.current) return;
+    const modal = document.querySelector("#usTranslateModal");
+    if (modal) {
+      modal.classList.remove("d-none");
+    }
+  });
+
+  // Modal close click handler
+  document.querySelector("#closeTranslateModalBtn")?.addEventListener("click", () => {
+    const modal = document.querySelector("#usTranslateModal");
+    if (modal) {
+      modal.classList.add("d-none");
+    }
+  });
+
+  // Copy US publish pack button click handler
+  document.querySelector("#copyPublishPackUsBtn")?.addEventListener("click", async () => {
+    if (!state.current) return;
+    const pack = state.current.publish_pack_us || {};
+    const text = [
+      `Title: ${pack.youtube_title || state.current.title}`,
+      `Description: ${pack.youtube_description || ""}`,
+      `TikTok/Reels Caption: ${pack.tiktok_caption || pack.instagram_caption || ""}`,
+      `Pinned Comment: ${pack.pinned_comment || ""}`,
+      `Thumbnail Text: ${pack.thumbnail_text || ""}`,
+      `Best Posting Time: ${pack.recommended_posting_time || ""}`
+    ].join("\n\n");
+    await copyText(text);
+    setStatus("Publish Pack US disalin.");
+  });
+
+  // Submit English translation form
+  document.querySelector("#usTranslateForm")?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const modal = document.querySelector("#usTranslateModal");
+    if (modal) modal.classList.add("d-none");
+    
+    if (!state.current) return;
+    
+    const formEl = event.target;
+    const mode = formEl.usMode.value;
+    const voiceId = formEl.usVoice.value;
+    const reuseVisuals = formEl.reuseVisuals.checked;
+    const autoRenderUs = formEl.autoRenderUs.checked;
+    
+    startProcess("Generate English Version");
+    setBusy(true, "Menerjemahkan storyboard ke Bahasa Inggris...");
+    
+    try {
+      startProgressPolling();
+      const translateRes = await api(`/api/items/${state.current.id}/translate`, {
+        method: "POST",
+        body: JSON.stringify({ mode, voiceId, reuseVisuals })
+      });
+      
+      const usItem = translateRes.item;
+      setStatus(`Naskah Inggris berhasil dibuat: ${usItem.title}`);
+      
+      await refreshItems();
+      state.current = state.items.find(item => item.id === usItem.id) || usItem;
+      state.projectFilter = "curious_capybara_us";
+      const projFilterEl = document.querySelector("#projectFilter");
+      if (projFilterEl) projFilterEl.value = "curious_capybara_us";
+      render();
+      
+      if (autoRenderUs) {
+         setStatus("Memulai render suara dan video versi Inggris...");
+         const renderRes = await api(`/api/items/${usItem.id}/render-us`, {
+           method: "POST"
+         });
+         state.current = renderRes.item;
+         await refreshItems();
+         setStatus("Render video Inggris selesai!");
+         showToast("Video Inggris berhasil dibuat dan dirender!", "success");
+      } else {
+         setStatus("Draft naskah Inggris siap. Silakan klik Render Ulang di workspace tab Studio untuk merender video.");
+         showToast("Draft Inggris berhasil dibuat!", "success");
+      }
+    } catch (error) {
+      setStatus(`Pembuatan versi Inggris gagal: ${error.message}`);
+      showToast("Gagal membuat versi Inggris: " + error.message, "error");
+    } finally {
+      stopProgressPolling();
+      setBusy(false);
+      render();
+    }
+  });
+
   // Voice preset selection handler
   const presetSelect = document.querySelector("#elevenlabsVoicePreset");
   if (presetSelect) {
@@ -237,7 +339,12 @@ async function saveSettings(event) {
 async function refreshItems() {
   const data = await api("/api/items");
   state.items = data.items || [];
-  if (!state.current && state.items.length) state.current = state.items[0];
+  if (!state.current && state.items.length) {
+    state.current = state.items.find(item => {
+      const projId = item.project_id || item.input?.projectId || "capybara_banyak_tau_id";
+      return projId === state.projectFilter;
+    }) || state.items[0];
+  }
 }
 
 async function generateIdeas() {
@@ -440,6 +547,7 @@ async function generateClip(sceneIndex) {
 
 async function renderVideo() {
   if (!state.current) return;
+  const isUs = state.current.project_id === "curious_capybara_us";
   const form = new FormData(els.form);
   const provider = form.get("ttsProvider");
   const avatarMode = form.get("avatarMode") || "image";
@@ -449,9 +557,11 @@ async function renderVideo() {
   setBusy(true, `Merender video ${formatLabel}...`);
   try {
     startProgressPolling();
-    const data = await api(`/api/items/${state.current.id}/render`, {
+    const endpoint = isUs ? `/api/items/${state.current.id}/render-us` : `/api/items/${state.current.id}/render`;
+    const payload = isUs ? {} : { provider, ensureAssets: true, avatarMode, videoFormat, visualSource };
+    const data = await api(endpoint, {
       method: "POST",
-      body: JSON.stringify({ provider, ensureAssets: true, avatarMode, videoFormat, visualSource })
+      body: JSON.stringify(payload)
     });
     state.current = data.item;
     await refreshItems();
@@ -587,14 +697,28 @@ function renderProviderStatus() {
 }
 
 function renderList() {
-  els.itemCount.textContent = String(state.items.length);
-  const visibleItems = state.historyExpanded ? state.items : state.items.slice(0, 3);
-  els.itemList.innerHTML = visibleItems.map((item) => `
-    <button type="button" data-id="${item.id}">
-      <strong>${escapeHtml(item.title)}</strong>
-      <span>${escapeHtml(item.assets?.audio?.provider || item.input?.ttsProvider || "-")} - ${new Date(item.updatedAt || item.createdAt).toLocaleString("id-ID")}</span>
-    </button>
-  `).join("");
+  let filtered = state.items;
+  if (state.projectFilter && state.projectFilter !== "all") {
+    filtered = state.items.filter(item => {
+      const projId = item.project_id || item.input?.projectId || "capybara_banyak_tau_id";
+      return projId === state.projectFilter;
+    });
+  }
+  els.itemCount.textContent = String(filtered.length);
+  const visibleItems = state.historyExpanded ? filtered : filtered.slice(0, 3);
+  els.itemList.innerHTML = visibleItems.map((item) => {
+    let langLabel = "";
+    if (state.projectFilter === "all") {
+      const projId = item.project_id || item.input?.projectId || "capybara_banyak_tau_id";
+      langLabel = projId === "curious_capybara_us" ? '<span style="font-size:0.8em; color:#3b82f6;">[US]</span> ' : '<span style="font-size:0.8em; color:#8fb8a8;">[ID]</span> ';
+    }
+    return `
+      <button type="button" data-id="${item.id}">
+        <strong>${langLabel}${escapeHtml(item.title)}</strong>
+        <span>${escapeHtml(item.assets?.audio?.provider || item.input?.ttsProvider || "-")} - ${new Date(item.updatedAt || item.createdAt).toLocaleString("id-ID")}</span>
+      </button>
+    `;
+  }).join("");
   els.itemList.querySelectorAll("button").forEach((button) => {
     button.addEventListener("click", () => {
       state.current = state.items.find((item) => item.id === button.dataset.id);
@@ -602,20 +726,27 @@ function renderList() {
     });
   });
   if (els.historyMoreBtn) {
-    els.historyMoreBtn.hidden = state.items.length <= 3;
-    els.historyMoreBtn.textContent = state.historyExpanded ? "Show Less" : `Show More (${state.items.length - 3})`;
+    els.historyMoreBtn.hidden = filtered.length <= 3;
+    els.historyMoreBtn.textContent = state.historyExpanded ? "Show Less" : `Show More (${filtered.length - 3})`;
   }
 }
 
 function renderGallery() {
   const videos = state.items.filter((item) => item.assets?.video?.url);
+  let filteredVideos = videos;
+  if (state.projectFilter && state.projectFilter !== "all") {
+    filteredVideos = videos.filter(item => {
+      const projId = item.project_id || item.input?.projectId || "capybara_banyak_tau_id";
+      return projId === state.projectFilter;
+    });
+  }
   if (!els.galleryGrid) return;
-  if (!videos.length) {
-    els.galleryGrid.innerHTML = `<div class="empty-gallery">Belum ada video final. Generate video dulu, nanti muncul di sini.</div>`;
+  if (!filteredVideos.length) {
+    els.galleryGrid.innerHTML = `<div class="empty-gallery">Belum ada video final untuk proyek ini.</div>`;
     if (els.galleryMoreBtn) els.galleryMoreBtn.hidden = true;
     return;
   }
-  const visibleVideos = state.galleryExpanded ? videos : videos.slice(0, 6);
+  const visibleVideos = state.galleryExpanded ? filteredVideos : filteredVideos.slice(0, 6);
   els.galleryGrid.innerHTML = visibleVideos.map((item) => `
     <article class="gallery-card">
       <video controls playsinline preload="metadata" src="${item.assets.video.url}"></video>
@@ -643,8 +774,8 @@ function renderGallery() {
     });
   });
   if (els.galleryMoreBtn) {
-    els.galleryMoreBtn.hidden = videos.length <= 6;
-    els.galleryMoreBtn.textContent = state.galleryExpanded ? "Show Less" : `Show More (${videos.length - 6})`;
+    els.galleryMoreBtn.hidden = filteredVideos.length <= 6;
+    els.galleryMoreBtn.textContent = state.galleryExpanded ? "Show Less" : `Show More (${filteredVideos.length - 6})`;
   }
 }
 
@@ -729,6 +860,17 @@ function renderSelectedIdea() {
 
 function renderCurrent() {
   const item = state.current;
+  
+  // Manage the Translate US button visibility and state when no item
+  if (els.translateUsBtn) {
+    els.translateUsBtn.classList.add("d-none");
+  }
+
+  const normalYoutubeBox = document.querySelector(".youtube-box:not(#publishPackUsBox)");
+  const publishPackUsBox = document.querySelector("#publishPackUsBox");
+  if (normalYoutubeBox) normalYoutubeBox.classList.remove("d-none");
+  if (publishPackUsBox) publishPackUsBox.classList.add("d-none");
+
   if (!item) {
     els.itemTitle.textContent = "Belum ada video";
     els.hookText.textContent = "-";
@@ -744,7 +886,45 @@ function renderCurrent() {
     return;
   }
 
-  els.itemTitle.textContent = item.title;
+  const hasUsVersion = state.items.some(x => x.source_video_id === item.id);
+  const isUsVersion = item.project_id === "curious_capybara_us";
+
+  if (isUsVersion) {
+    els.itemTitle.innerHTML = `${escapeHtml(item.title)} <span class="badge us-badge" style="font-size: 0.6em; background: #3b82f6; color: white; padding: 3px 8px; border-radius: 4px; vertical-align: middle; margin-left: 8px; font-weight: bold; display: inline-block;">US Version</span>`;
+  } else if (hasUsVersion) {
+    els.itemTitle.innerHTML = `${escapeHtml(item.title)} <span class="badge us-badge" style="font-size: 0.6em; background: #10b981; color: white; padding: 3px 8px; border-radius: 4px; vertical-align: middle; margin-left: 8px; font-weight: bold; display: inline-block;">US Version Created</span>`;
+  } else {
+    els.itemTitle.textContent = item.title;
+  }
+
+  // Toggle Translate US button
+  if (els.translateUsBtn) {
+    const isIdVideo = item.project_id === "capybara_banyak_tau_id" || !item.project_id || item.project_id === "";
+    const isReady = item.status === "ready" || item.assets?.video?.url;
+    if (isIdVideo && isReady) {
+      els.translateUsBtn.classList.remove("d-none");
+      els.translateUsBtn.disabled = state.busy;
+    } else {
+      els.translateUsBtn.classList.add("d-none");
+    }
+  }
+
+  // Toggle Publish Pack US
+  if (isUsVersion) {
+    if (normalYoutubeBox) normalYoutubeBox.classList.add("d-none");
+    if (publishPackUsBox) {
+      publishPackUsBox.classList.remove("d-none");
+      const pack = item.publish_pack_us || {};
+      document.querySelector("#usYoutubeTitle").value = pack.youtube_title || item.title || "";
+      document.querySelector("#usYoutubeDescription").value = pack.youtube_description || "";
+      const tiktokCap = pack.tiktok_caption || pack.instagram_caption || pack.facebook_caption || "";
+      document.querySelector("#usTiktokCaption").value = tiktokCap;
+      document.querySelector("#usPostingTime").value = pack.recommended_posting_time || "-";
+      document.querySelector("#usThumbnailText").value = pack.thumbnail_text || "-";
+      document.querySelector("#usPinnedComment").value = pack.pinned_comment || "";
+    }
+  }
+
   els.hookText.textContent = item.plan.hook;
   if (els.summaryText) els.summaryText.textContent = item.plan.summary || "-";
   

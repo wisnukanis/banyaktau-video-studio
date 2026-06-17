@@ -40,10 +40,10 @@ function assertFacebookConfig() {
   if (missing.length) throw new Error(`Config Facebook belum lengkap: ${missing.join(", ")}`);
 }
 
-function assertInstagramVideo({ videoUrl, durationSec }) {
+function assertInstagramVideo({ videoUrl, videoPath, durationSec }) {
   const missing = [];
   if (!config.instagram.enabled) missing.push("INSTAGRAM_UPLOAD_ENABLED=true");
-  if (!videoUrl) missing.push("public video URL");
+  if (!videoUrl && !videoPath) missing.push("public video URL or local video path");
   if (missing.length) throw new Error(`Config Instagram belum lengkap: ${missing.join(", ")}`);
 
   const duration = Number(durationSec || 0);
@@ -194,6 +194,7 @@ async function uploadFacebookReelBinary({ token, uploadUrl, videoPath }) {
       "Authorization": `OAuth ${token}`,
       "offset": "0",
       "file_size": String(buffer.length),
+      "Content-Length": String(buffer.length),
       "Content-Type": "application/octet-stream"
     },
     body: buffer
@@ -320,15 +321,104 @@ async function resolveInstagramPermalink({ token, mediaId }) {
   }
 }
 
-export async function publishToInstagram({ videoUrl, title, description, coverUrl, durationSec }) {
-  assertInstagramVideo({ videoUrl, durationSec });
+async function isUrlReachable(url) {
+  if (!url || !url.startsWith("http")) return false;
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4000);
+    const response = await fetch(url, { method: "HEAD", signal: controller.signal });
+    clearTimeout(timeoutId);
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
+async function createInstagramReelContainerResumable({ token, igUserId, caption, coverUrl }) {
+  const body = new URLSearchParams({
+    access_token: token,
+    media_type: "REELS",
+    upload_type: "resumable",
+    caption: normalizeDescription(caption),
+    share_to_feed: config.instagram.shareToFeed ? "true" : "false"
+  });
+  if (coverUrl) body.set("cover_url", coverUrl);
+
+  const data = await fetchJson(graphUrl(`${igUserId}/media`), {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body
+  });
+  const containerId = clean(data.id);
+  const uploadUrl = clean(data.uri);
+  if (!containerId || !uploadUrl) {
+    throw new Error(`Instagram tidak mengembalikan container id atau upload uri: ${JSON.stringify(data).slice(0, 500)}`);
+  }
+  return { containerId, uploadUrl };
+}
+
+async function uploadInstagramReelBinary({ token, uploadUrl, videoPath }) {
+  const buffer = await fs.promises.readFile(videoPath);
+  const response = await fetch(uploadUrl, {
+    method: "POST",
+    headers: {
+      "Authorization": `OAuth ${token}`,
+      "offset": "0",
+      "file_size": String(buffer.length),
+      "Content-Length": String(buffer.length),
+      "Content-Type": "application/octet-stream"
+    },
+    body: buffer
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`Gagal mengunggah file biner Instagram Reel: ${text}`);
+  }
+  
+  const text = await response.text();
+  let result = {};
+  try {
+    result = text ? JSON.parse(text) : {};
+  } catch {
+    result = { raw: text };
+  }
+  return result;
+}
+
+export async function publishToInstagram({ videoUrl, videoPath, title, description, coverUrl, durationSec }) {
+  assertInstagramVideo({ videoUrl, videoPath, durationSec });
   const pageToken = await resolveOptionalPageAccessToken();
   const token = resolveInstagramAccessToken(pageToken);
   if (!token) throw new Error("INSTAGRAM_ACCESS_TOKEN belum diisi.");
 
   const igUserId = await resolveInstagramUserId(token);
   const caption = normalizeDescription(description || title);
-  const containerId = await createInstagramReelContainer({ token, igUserId, videoUrl, caption, coverUrl });
+
+  // Periksa apakah coverUrl dapat diakses publik. Jika tidak, abaikan agar tidak error.
+  let activeCoverUrl = coverUrl;
+  if (activeCoverUrl) {
+    const reachable = await isUrlReachable(activeCoverUrl);
+    if (!reachable) {
+      console.warn(`[Instagram] Cover URL (${activeCoverUrl}) tidak dapat diakses publik. Diabaikan agar pemrosesan kontainer tidak gagal.`);
+      activeCoverUrl = "";
+    }
+  }
+
+  let containerId;
+  if (videoPath && fs.existsSync(videoPath)) {
+    console.log(`[Instagram] Menggunakan metode Resumable Binary Upload untuk berkas lokal: ${videoPath}`);
+    const session = await createInstagramReelContainerResumable({ token, igUserId, caption, coverUrl: activeCoverUrl });
+    containerId = session.containerId;
+    await uploadInstagramReelBinary({ token, uploadUrl: session.uploadUrl, videoPath });
+  } else {
+    if (!videoUrl || !videoUrl.startsWith("http")) {
+      throw new Error("Instagram Reel membutuhkan videoUrl publik yang valid atau videoPath lokal.");
+    }
+    console.log(`[Instagram] Mengunduh video dari URL publik: ${videoUrl}`);
+    containerId = await createInstagramReelContainer({ token, igUserId, videoUrl, caption, coverUrl: activeCoverUrl });
+  }
+
   await waitForInstagramContainer({ token, containerId });
   const mediaId = await publishInstagramContainer({ token, igUserId, containerId });
   const url = await resolveInstagramPermalink({ token, mediaId });

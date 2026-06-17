@@ -3614,7 +3614,7 @@
   {
     "id": "tau_08df3c7ea226",
     "source": "openai",
-    "status": "uploading",
+    "status": "ready",
     "project_id": "capybara_banyak_tau_id",
     "language": "id-ID",
     "market": "ID",
@@ -3919,9 +3919,10 @@
       "videoUsd": 0
     },
     "progress": {
-      "percent": 30,
-      "stage": "remote_uploading",
-      "message": "Mengunggah video ke Remote Server (FTP/SFTP)..."
+      "percent": 100,
+      "stage": "upload_failed",
+      "message": "Instagram publish gagal: Gagal mengunggah file biner Instagram Reel: {\"debug_info\":{\"retriable\":false,\"type\":\"ProcessingFailedError\",\"message\":\"Request processing failed\"}}",
+      "error": "Gagal mengunggah file biner Instagram Reel: {\"debug_info\":{\"retriable\":false,\"type\":\"ProcessingFailedError\",\"message\":\"Request processing failed\"}}"
     },
     "publish": {
       "facebook": {
@@ -3933,7 +3934,7 @@
         "publishedAt": "2026-06-17T05:31:57.842Z"
       },
       "errors": {
-        "instagram": "Instagram container gagal diproses: 18112650952779157, status=ERROR"
+        "instagram": "Gagal mengunggah file biner Instagram Reel: {\"debug_info\":{\"retriable\":false,\"type\":\"ProcessingFailedError\",\"message\":\"Request processing failed\"}}"
       }
     }
   }

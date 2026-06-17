@@ -121,6 +121,13 @@
             <strong>Riwayat</strong>
             <span id="itemCount">0</span>
           </div>
+          <div class="project-filter-wrapper" style="margin-bottom: 10px;">
+            <select id="projectFilter" style="width: 100%; padding: 6px; border-radius: 4px; background: #1a1d24; color: #fff; border: 1px solid #2d3139;">
+              <option value="capybara_banyak_tau_id" selected>BanyakTau (ID)</option>
+              <option value="curious_capybara_us">Curious Capybara (US)</option>
+              <option value="all">Semua Proyek</option>
+            </select>
+          </div>
           <div id="itemList" class="item-list"></div>
           <button id="historyMoreBtn" class="mini-action subtle" type="button">Show More</button>
         </section>
@@ -138,6 +145,7 @@
             <button id="ttsBtn" class="ghost" type="button">Buat TTS</button>
             <button id="clipBtn" class="ghost d-none" type="button">Tambah Clip Veo</button>
             <button id="renderBtn" class="ghost strong" type="button">Render Ulang</button>
+            <button id="translateUsBtn" class="ghost accent d-none" type="button">Create English Version</button>
             <button id="menuBtn" class="icon-action" type="button" aria-label="Buka pengaturan">☰</button>
           </div>
         </header>
@@ -263,6 +271,39 @@
                 <label>
                   <span>Caption</span>
                   <textarea id="youtubeCaption" rows="6" readonly></textarea>
+                </label>
+              </div>
+
+              <div id="publishPackUsBox" class="youtube-box d-none" style="margin-top: 15px; border: 1px solid rgba(59, 130, 246, 0.4); padding: 12px; border-radius: 8px; background: rgba(59, 130, 246, 0.05);">
+                <div class="section-head compact-head">
+                  <h2 style="color: #60a5fa;">Publish Pack US</h2>
+                  <button id="copyPublishPackUsBtn" class="mini-action accent" type="button">Copy Semua</button>
+                </div>
+                <label>
+                  <span>YouTube Title</span>
+                  <textarea id="usYoutubeTitle" rows="2" readonly style="border-color: rgba(59, 130, 246, 0.3); color: #fff;"></textarea>
+                </label>
+                <label>
+                  <span>YouTube Description / Caption</span>
+                  <textarea id="usYoutubeDescription" rows="4" readonly style="border-color: rgba(59, 130, 246, 0.3); color: #fff;"></textarea>
+                </label>
+                <label>
+                  <span>TikTok / Reels Caption</span>
+                  <textarea id="usTiktokCaption" rows="3" readonly style="border-color: rgba(59, 130, 246, 0.3); color: #fff;"></textarea>
+                </label>
+                <div class="two-col" style="margin-top: 8px;">
+                  <label>
+                    <span>Waktu Posting Terbaik</span>
+                    <input id="usPostingTime" type="text" readonly style="font-size: 0.9em; padding: 6px; border-color: rgba(59, 130, 246, 0.3); color: #fff;">
+                  </label>
+                  <label>
+                    <span>Text Thumbnail</span>
+                    <input id="usThumbnailText" type="text" readonly style="font-size: 0.9em; padding: 6px; border-color: rgba(59, 130, 246, 0.3); color: #fff;">
+                  </label>
+                </div>
+                <label style="margin-top: 8px;">
+                  <span>Komentar Tersemat (Pinned Comment)</span>
+                  <textarea id="usPinnedComment" rows="2" readonly style="border-color: rgba(59, 130, 246, 0.3); color: #fff;"></textarea>
                 </label>
               </div>
             </div>
@@ -502,6 +543,58 @@
     </aside>
 
     <div id="toastContainer" class="toast-container"></div>
+
+    <!-- US Translation Options Modal -->
+    <div id="usTranslateModal" class="modal-overlay d-none">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h2>Create English Version</h2>
+          <button id="closeTranslateModalBtn" class="close-modal-btn" type="button">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="usTranslateForm" class="form-stack">
+            <label>
+              <span>Target Project</span>
+              <input type="text" value="Curious Capybara (US)" readonly disabled style="background: rgba(255, 255, 255, 0.05); color: #a8afb9;">
+            </label>
+            <label>
+              <span>Mode Terjemahan / Remake</span>
+              <select name="usMode" style="color: #fff;">
+                <option value="Controlled Remake" selected>Controlled Remake (Natural rewrite, same sequence - Recommended)</option>
+                <option value="Fast Translate">Fast Translate (Direct translation, keep timing close)</option>
+                <option value="Full Creative Remake">Full Creative Remake (AI re-angles hook & narration structure)</option>
+              </select>
+            </label>
+            <label>
+              <span>Voice / Suara (Edge-TTS)</span>
+              <select name="usVoice" style="color: #fff;">
+                <option value="en-US-GuyNeural" selected>en-US-GuyNeural (Male - Standar)</option>
+                <option value="en-US-JennyNeural">en-US-JennyNeural (Female)</option>
+                <option value="en-US-AnaNeural">en-US-AnaNeural (Female Child)</option>
+                <option value="en-US-ChristopherNeural">en-US-ChristopherNeural (Male)</option>
+                <option value="en-US-EricNeural">en-US-EricNeural (Male)</option>
+                <option value="en-US-MichelleNeural">en-US-MichelleNeural (Female)</option>
+                <option value="en-US-RogerNeural">en-US-RogerNeural (Male)</option>
+                <option value="en-GB-SoniaNeural">en-GB-SoniaNeural (British Female)</option>
+                <option value="en-GB-RyanNeural">en-GB-RyanNeural (British Male)</option>
+              </select>
+            </label>
+            <div class="checkbox-options" style="margin-top: 15px; display: grid; gap: 10px;">
+              <label class="checkbox-row" style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" name="reuseVisuals" checked>
+                <span>Gunakan kembali visual asal (jika disarankan AI)</span>
+              </label>
+              <label class="checkbox-row" style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" name="autoRenderUs" checked>
+                <span>Langsung render video setelah terjemahan selesai</span>
+              </label>
+            </div>
+            <button type="submit" class="primary make-video-btn" style="margin-top: 20px; width: 100%;">Mulai Buat Versi Inggris</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <script type="module" src="/app.js"></script>
   </body>
 </html>

@@ -36,6 +36,7 @@ function getAvatarParams(avatarMode) {
   let chromaSim = "0.12";
   let chromaBlend = "0.2";
   let avatarCrop = "";
+  let keyType = "chromakey"; // default: YUV-space keying
 
   const modeLower = String(avatarMode || "").toLowerCase();
   const isCircleCrop = modeLower.includes("circle") || 
@@ -55,20 +56,28 @@ function getAvatarParams(avatarMode) {
     chromaBlend = "0.1";
     avatarCrop = "crop=1080:1080,";
   } else if (modeLower.includes("hijau") || modeLower.includes("green")) {
-    chromaColor = "0x1d6e25";
+    // Use colorkey (RGB space) for this avatar — its bg is a textured dark-green
+    // that shares YUV range with the avatar's costume, so chromakey removes too much.
+    // Actual sampled bg color: R=31 G=115 B=40 => 0x1f7328
+    keyType = "colorkey";
+    chromaColor = "0x1f7328";
     chromaSim = "0.15";
-    chromaBlend = "0.15";
-    avatarCrop = "crop=1260:1080:0:0,";
+    chromaBlend = "0.08";
+    // Avatar subject occupies left 1260 px of a 1920-wide frame
+    // Shifted X by 20px to slice off the noisy left border of the camera/encoder
+    avatarCrop = "crop=1240:1080:20:0,";
   } else if (isCircleCrop) {
     avatarCrop = "crop=min(iw\\,ih):min(iw\\,ih),";
   } else {
     avatarCrop = "crop=min(iw\\,ih):min(iw\\,ih),";
   }
 
-  return { chromaColor, chromaSim, chromaBlend, avatarCrop, isCircleCrop };
+  const hasPadding = !isCircleCrop;
+
+  return { chromaColor, chromaSim, chromaBlend, avatarCrop, isCircleCrop, keyType, hasPadding };
 }
 
-function getAvatarFilterComplex({ inputLabel, size, duration, chromaColor, chromaSim, chromaBlend, avatarCrop, rotateAngle = 5, isCircleCrop = false }) {
+function getAvatarFilterComplex({ inputLabel, size, duration, chromaColor, chromaSim, chromaBlend, avatarCrop, rotateAngle = 5, isCircleCrop = false, keyType = "chromakey" }) {
   const durStr = Number(duration || 4).toFixed(2);
   const rot = rotateAngle;
   if (isCircleCrop) {
@@ -77,28 +86,36 @@ function getAvatarFilterComplex({ inputLabel, size, duration, chromaColor, chrom
     ].join(";");
   }
 
-  const dilationCount = size >= 360 ? 5 : 3;
+  const dilationCount = size >= 360 ? 4 : 2;
   const borderDilations = Array.from({ length: dilationCount }, () => "dilation").join(",");
-  const glowDilations = Array.from({ length: Math.round(dilationCount * 0.6) }, () => "dilation").join(",");
   const shadowBlur = size >= 360 ? 15 : 9;
-  const glowBlur = size >= 360 ? 8 : 5;
   const shadowOffset = size >= 360 ? 6 : 3;
 
+  // Build the key filter string: colorkey (RGB) or chromakey (YUV)
+  let keyFilter = `${keyType}=${chromaColor}:${chromaSim}:${chromaBlend}`;
+  // Enable despill for green background keys to completely remove green spill/halo
+  const isGreenKey = chromaColor === "0x07f506" || chromaColor === "0x1f7328" || chromaColor === "0x1d6e25";
+  if (isGreenKey) {
+    keyFilter += ",despill=type=green";
+  }
+
+  // Pad transparently to prevent boxblur from clipping the shadow at the edges
+  const padFilter = ",pad=iw+80:ih+80:40:40:color=0x00000000";
+
   return [
-    `${inputLabel}${avatarCrop}chromakey=${chromaColor}:${chromaSim}:${chromaBlend},scale=-1:${size},format=rgba[av_raw]`,
-    `[av_raw]split=7[av_main][av_border_1][av_border_2][av_glow_1][av_glow_2][av_shadow_1][av_shadow_2]`,
+    `${inputLabel}${avatarCrop}${keyFilter},scale=-1:${size},format=rgba${padFilter}[av_raw]`,
+    `[av_raw]split=5[av_main][av_border_1][av_border_2][av_shadow_1][av_shadow_2]`,
     `[av_border_1]alphaextract,${borderDilations}[border_alpha]`,
     `[av_border_2]geq=r=255:g=255:b=255:a=255[white_solid]`,
     `[white_solid][border_alpha]alphamerge[white_outline]`,
     `[av_shadow_1]alphaextract,boxblur=${shadowBlur}[shadow_alpha_blurred]`,
     `[av_shadow_2]geq=r=0:g=0:b=0:a=255[black_solid]`,
-    `[black_solid][shadow_alpha_blurred]alphamerge,colorchannelmixer=aa=0.30[black_shadow]`,
-    `[av_glow_1]alphaextract,${glowDilations},boxblur=${glowBlur}[glow_alpha_blurred]`,
-    `[av_glow_2]geq=r=255:g=215:b=0:a=255[gold_solid]`,
-    `[gold_solid][glow_alpha_blurred]alphamerge,colorchannelmixer=aa=0.20[glow_final]`,
-    `[glow_final][black_shadow]overlay=x=0:y=${shadowOffset}[shadow_glow]`,
-    `[shadow_glow][white_outline]overlay=x=0:y=0[bg_with_outline]`,
-    `[bg_with_outline][av_main]overlay=x=0:y=0[av_pre_rot]`,
+    `[black_solid][shadow_alpha_blurred]alphamerge,colorchannelmixer=aa=0.35[black_shadow]`,
+    `[av_main]split=2[av_disp][av_temp]`,
+    `[av_temp]geq=r=0:g=0:b=0:a=0[canvas]`,
+    `[canvas][black_shadow]overlay=x=0:y=${shadowOffset}[shadow_shifted]`,
+    `[shadow_shifted][white_outline]overlay=x=0:y=0[bg_with_outline]`,
+    `[bg_with_outline][av_disp]overlay=x=0:y=0[av_pre_rot]`,
     `[av_pre_rot]rotate='${rot}*sin(4.5*t)*PI/180:c=none:ow=rotw(${rot}*PI/180):oh=roth(${rot}*PI/180)'[av]`
   ].join(";");
 }
@@ -355,7 +372,7 @@ async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection
   const height = isHorizontal ? 1080 : 1920;
   const bottomMargin = isHorizontal ? 60 : 120;
   
-  const { chromaColor, chromaSim, chromaBlend, avatarCrop, isCircleCrop } = getAvatarParams(avatarMode);
+  const { chromaColor, chromaSim, chromaBlend, avatarCrop, isCircleCrop, keyType, hasPadding } = getAvatarParams(avatarMode);
 
   const avatarSize = isHorizontal ? 240 : 420;
   let avatarFilter = "";
@@ -368,7 +385,8 @@ async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection
       chromaSim,
       chromaBlend,
       avatarCrop,
-      isCircleCrop
+      isCircleCrop,
+      keyType
     });
   }
 
@@ -397,6 +415,8 @@ async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection
   // Papan tulis & asap dinonaktifkan atas permintaan user
   let hasFx = false;
 
+  const overlayMargin = hasPadding ? bottomMargin - 40 : bottomMargin;
+
   if (avatarVideo && avatarMode !== "none") {
     let filterComplex = "";
     let ffmpegInputs = [
@@ -407,7 +427,7 @@ async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection
     filterComplex = [
       `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},zoompan=z='${zoomExpr}':x='${xExpr}':y='${yExpr}':d=${frames}:s=${width}x${height}:fps=${fps},eq=contrast=1.04:saturation=1.06:brightness=0.01[bg]`,
       avatarFilter,
-      `[bg][av]overlay=x=W-w-20:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[out]`
+      `[bg][av]overlay=x=W-w-20:y='if(lt(t,0.5), H-(h+${overlayMargin})*(t/0.5), H-h-${overlayMargin}+18*sin(2.5*(t-0.5)))'[out]`
     ].join(";");
 
     await runFfmpeg([
@@ -434,7 +454,7 @@ async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection
       `[canvas][1:v]overlay=enable='lt(mod(t,0.24),0.14)'[tmp_av]`,
       `[tmp_av][2:v]overlay=enable='gte(mod(t,0.24),0.14)'[raw_av]`,
       avatarFilter,
-      `[bg][av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[out]`
+      `[bg][av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${overlayMargin})*(t/0.5), H-h-${overlayMargin}+18*sin(2.5*(t-0.5)))'[out]`
     ].join(";");
 
     await runFfmpeg([
@@ -475,7 +495,7 @@ async function makeClipSegment({ clipPath, outputPath, duration, avatarClosed, a
   const height = isHorizontal ? 1080 : 1920;
   const bottomMargin = isHorizontal ? 60 : 120;
 
-  const { chromaColor, chromaSim, chromaBlend, avatarCrop, isCircleCrop } = getAvatarParams(avatarMode);
+  const { chromaColor, chromaSim, chromaBlend, avatarCrop, isCircleCrop, keyType, hasPadding } = getAvatarParams(avatarMode);
 
   const avatarSize = isHorizontal ? 240 : 420;
   let avatarFilter = "";
@@ -488,12 +508,15 @@ async function makeClipSegment({ clipPath, outputPath, duration, avatarClosed, a
       chromaSim,
       chromaBlend,
       avatarCrop,
-      isCircleCrop
+      isCircleCrop,
+      keyType
     });
   }
 
   // Papan tulis & asap dinonaktifkan atas permintaan user
   let hasFx = false;
+
+  const overlayMargin = hasPadding ? bottomMargin - 40 : bottomMargin;
 
   if (avatarVideo && avatarMode !== "none") {
     let filterComplex = "";
@@ -505,7 +528,7 @@ async function makeClipSegment({ clipPath, outputPath, duration, avatarClosed, a
     filterComplex = [
       `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},fps=${fps},eq=contrast=1.035:saturation=1.04:brightness=0.01[bg]`,
       avatarFilter,
-      `[bg][av]overlay=x=W-w-20:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[out]`
+      `[bg][av]overlay=x=W-w-20:y='if(lt(t,0.5), H-(h+${overlayMargin})*(t/0.5), H-h-${overlayMargin}+18*sin(2.5*(t-0.5)))'[out]`
     ].join(";");
 
     await runFfmpeg([
@@ -533,7 +556,7 @@ async function makeClipSegment({ clipPath, outputPath, duration, avatarClosed, a
       `[canvas][1:v]overlay=enable='lt(mod(t,0.24),0.14)'[tmp_av]`,
       `[tmp_av][2:v]overlay=enable='gte(mod(t,0.24),0.14)'[raw_av]`,
       avatarFilter,
-      `[bg][av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[out]`
+      `[bg][av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${overlayMargin})*(t/0.5), H-h-${overlayMargin}+18*sin(2.5*(t-0.5)))'[out]`
     ].join(";");
 
     await runFfmpeg([
@@ -1337,7 +1360,7 @@ async function makeOutroSegment({ outputPath, duration, avatarVideo, avatarImage
   const bottomMargin = isHorizontal ? 60 : 120;
   const avatarSize = isHorizontal ? 240 : 420;
 
-  const { chromaColor, chromaSim, chromaBlend, avatarCrop: cropFilter, isCircleCrop } = getAvatarParams(avatarMode);
+  const { chromaColor, chromaSim, chromaBlend, avatarCrop: cropFilter, isCircleCrop, keyType, hasPadding } = getAvatarParams(avatarMode);
 
   let avatarFilterNoFx = "";
   if (avatarMode !== "none") {
@@ -1350,7 +1373,8 @@ async function makeOutroSegment({ outputPath, duration, avatarVideo, avatarImage
       chromaBlend,
       avatarCrop: cropFilter,
       rotateAngle: 5,
-      isCircleCrop
+      isCircleCrop,
+      keyType
     });
   }
 
@@ -1383,6 +1407,8 @@ async function makeOutroSegment({ outputPath, duration, avatarVideo, avatarImage
   const filters = [];
   let currentOutput = "[0:v]";
 
+  const overlayMargin = hasPadding ? bottomMargin - 40 : bottomMargin;
+
   if (logoIndex !== -1) {
     filters.push(`[${logoIndex}:v]scale=${isHorizontal ? 320 : 420}:-1,format=rgba,fade=t=in:st=0:d=0.5[logo]`);
     const logoY = isHorizontal ? (avatarIndex !== -1 ? 120 : 200) : (avatarIndex !== -1 ? "(H-h)/2-350" : "(H-h)/2-120");
@@ -1393,13 +1419,12 @@ async function makeOutroSegment({ outputPath, duration, avatarVideo, avatarImage
   if (avatarIndex !== -1) {
     // Standard wobbly overlay in the bottom right corner (no portal)
     filters.push(`${avatarFilterNoFx}`);
-    filters.push(`${currentOutput}[av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${bottomMargin})*(t/0.5), H-h-${bottomMargin}+18*sin(2.5*(t-0.5)))'[tmp_av]`);
+    filters.push(`${currentOutput}[av]overlay=x=W-w-40:y='if(lt(t,0.5), H-(h+${overlayMargin})*(t/0.5), H-h-${overlayMargin}+18*sin(2.5*(t-0.5)))'[tmp_av]`);
     currentOutput = "[tmp_av]";
   }
 
   filters.push(`${currentOutput}fade=t=out:st=${(duration - 0.4).toFixed(2)}:d=0.4[out]`);
   const filterComplex = filters.join(";");
-
   await runFfmpeg([
     "-y",
     ...inputs,
