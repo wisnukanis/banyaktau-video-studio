@@ -3142,5 +3142,786 @@
         "publishedAt": "2026-06-10T13:02:28.768Z"
       }
     }
+  },
+  {
+    "id": "tau_6ba078340b40",
+    "source": "openai",
+    "status": "draft",
+    "createdAt": "2026-06-12T02:42:10.500Z",
+    "updatedAt": "2026-06-12T02:44:34.386Z",
+    "input": {
+      "topic": "lubang ventilasi dan sistem pendingin laptop",
+      "category": "teknologi",
+      "hookStyle": "Lubang kecil di samping laptop itu kelihatan sepele, tapi kalau desainnya salah, performa laptop bisa langsung turun. Sebenarnya udara di dalam laptop muter ke mana?",
+      "selectedIdea": {
+        "id": "idea_b81e72e6ddbd",
+        "title": "Kenapa Laptop Punya Lubang Kecil di Samping",
+        "topic": "lubang ventilasi dan sistem pendingin laptop",
+        "hook": "Lubang kecil di samping laptop itu kelihatan sepele, tapi kalau desainnya salah, performa laptop bisa langsung turun. Sebenarnya udara di dalam laptop muter ke mana?",
+        "category": "teknologi",
+        "angle": "Menjelaskan alur masuk-keluar udara, peran heatsink, kipas, dan kenapa panas bisa bikin prosesor melambat.",
+        "whyGood": "Dekat dengan benda sehari-hari, rasa penasarannya tinggi, dan mudah dibuat visual potongan laptop, aliran panas, serta kipas internal dengan gambar AI."
+      },
+      "tone": "modern, futuristik, cepat, penuh rasa ingin tahu",
+      "durationSec": 90,
+      "sceneCount": 9,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1536",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "ErXwobaYiN019PkySvjV",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 1.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "hybrid"
+    },
+    "title": "Kenapa Laptop Punya Lubang Kecil di Samping",
+    "plan": {
+      "title": "Kenapa Laptop Punya Lubang Kecil di Samping",
+      "hook": "Lubang kecil di samping laptop itu kelihatan sepele, tapi kalau desainnya salah, performa laptop bisa langsung turun. Sebenarnya udara di dalam laptop muter ke mana?",
+      "summary": "Lubang ventilasi laptop mengatur jalur udara agar panas dari prosesor dipindahkan ke heatsink lalu dibuang kipas. Kalau aliran ini terhambat, suhu naik dan prosesor sengaja melambat supaya tetap aman.",
+      "importantPoints": [
+        "Udara biasanya masuk dari bagian bawah atau sela bodi, lalu keluar lewat ventilasi samping atau belakang.",
+        "Panas dari prosesor dipindahkan ke heatsink melalui pipa panas atau pelat penghantar.",
+        "Kipas mendorong atau menarik udara melewati sirip heatsink agar panas cepat lepas.",
+        "Saat suhu terlalu tinggi, sistem akan menurunkan kecepatan prosesor untuk mencegah kerusakan.",
+        "Ventilasi yang tertutup debu atau alas empuk bisa mengganggu pendinginan dan menurunkan performa."
+      ],
+      "factCheckNote": "Alur pendinginan bisa berbeda tergantung desain laptop. Pada banyak model, udara masuk dari bawah lalu dibuang ke samping atau belakang, tetapi tidak semua laptop punya pola yang sama.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 10.6,
+          "narration": "Lubang kecil di samping laptop itu kelihatan sepele, tapi kalau desainnya salah, performa laptop bisa langsung turun. Sebenarnya udara di dalam laptop muter ke mana?",
+          "screenText": "Lubang kecil, efek besar",
+          "imagePrompt": "close-up sisi laptop modern dengan lubang ventilasi kecil, udara panas divisualkan sebagai aliran halus bercahaya, suasana futuristik, tanpa teks, tanpa logo, topic: lubang ventilasi dan sistem pendingin laptop, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "3D macro futuristic",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 10,
+          "narration": "Di dalam laptop, panas paling besar biasanya datang dari prosesor dan chip grafis. Komponen ini bekerja cepat, tapi juga menghasilkan panas yang harus segera dipindahkan.",
+          "screenText": "Panas muncul dari chip",
+          "imagePrompt": "potongan laptop memperlihatkan motherboard, prosesor dan chip grafis memancarkan panas merah-oranye, detail teknis rapi, tanpa teks, topic: lubang ventilasi dan sistem pendingin laptop, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "cutaway technical render",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 3,
+          "durationSec": 10,
+          "narration": "Panas itu tidak langsung dibuang ke luar. Biasanya ia lebih dulu diserap pelat logam atau pipa panas, lalu dibawa ke heatsink, yaitu kumpulan sirip tipis pembuang panas.",
+          "screenText": "Menuju heatsink",
+          "imagePrompt": "diagram konseptual tanpa teks tentang heat pipe membawa panas dari chip ke heatsink bersirip, aliran energi terlihat jelas, latar gelap bersih, topic: lubang ventilasi dan sistem pendingin laptop, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "concept diagram clean",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 4,
+          "durationSec": 10,
+          "narration": "Di sinilah kipas bekerja. Kipas mengalirkan udara melewati sirip heatsink supaya panas pindah ke udara, lalu udara panas itu dibuang lewat ventilasi samping atau belakang.",
+          "screenText": "Kipas mendorong panas keluar",
+          "imagePrompt": "kipas internal laptop berputar dekat heatsink, aliran udara biru masuk dan merah keluar dari ventilasi samping, tanpa teks, topic: lubang ventilasi dan sistem pendingin laptop, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "dynamic airflow render",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 5,
+          "durationSec": 10,
+          "narration": "Jadi lubang itu bukan sekadar celah. Itu bagian dari jalur lalu lintas udara: masuk, menyerap panas, lalu keluar secepat mungkin.",
+          "screenText": "Jalur udara laptop",
+          "imagePrompt": "diagram potongan samping laptop menunjukkan alur masuk dan keluar udara secara sederhana, gaya minimalis futuristik, tanpa tulisan, topic: lubang ventilasi dan sistem pendingin laptop, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "minimal tech infographic",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 6,
+          "durationSec": 10,
+          "narration": "Bayangkan seperti ruangan kecil dengan exhaust fan. Kalau udara panas tidak dibuang, ruangan makin gerah. Laptop juga begitu, hanya saja ruangnya jauh lebih sempit.",
+          "screenText": "Seperti exhaust fan mini",
+          "imagePrompt": "analogi visual ruangan kecil dengan kipas pembuang lalu transisi ke interior laptop, perbandingan konseptual tanpa teks, topic: lubang ventilasi dan sistem pendingin laptop, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "analogy visual split scene",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 7,
+          "durationSec": 10,
+          "narration": "Kalau ventilasi ketutup debu, selimut, atau paha, udara jadi seret. Panas menumpuk, kipas makin kencang, tapi pembuangannya tetap tidak efisien.",
+          "screenText": "Ventilasi bisa terhambat",
+          "imagePrompt": "laptop di atas permukaan empuk dengan ventilasi tertutup sebagian, debu halus di kisi-kisi, visual realistis tanpa teks, topic: lubang ventilasi dan sistem pendingin laptop, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "realistic everyday macro",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 8,
+          "durationSec": 10,
+          "narration": "Saat suhu terlalu tinggi, sistem biasanya menahan laju prosesor. Ini sering disebut throttling: laptop sengaja melambat supaya komponen tetap aman, bukan karena tiba-tiba lemah.",
+          "screenText": "Panas bikin prosesor melambat",
+          "imagePrompt": "visual konseptual chip yang awalnya menyala terang lalu meredup saat termometer naik, indikator performa turun tanpa angka dan tanpa teks, topic: lubang ventilasi dan sistem pendingin laptop, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "conceptual performance render",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 9,
+          "durationSec": 10.2,
+          "narration": "Jadi, lubang kecil itu sebenarnya pintu napas laptop. Dari luar sederhana, tapi dari situlah performa, suara kipas, dan umur komponen ikut dipertaruhkan.",
+          "screenText": "Lubang kecil, napas laptop",
+          "imagePrompt": "close-up elegan laptop dengan aliran udara halus, komponen internal samar terlihat, nuansa modern bersih, tanpa teks atau logo, topic: lubang ventilasi dan sistem pendingin laptop, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "cinematic tech close-up",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [
+        {
+          "sceneIndex": 1,
+          "provider": "dinoiki",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_6ba078340b40-scene-1-lubang-kecil-efek-besar.jpg",
+          "url": "/generated/images/tau_6ba078340b40-scene-1-lubang-kecil-efek-besar.jpg",
+          "prompt": "close-up sisi laptop modern dengan lubang ventilasi kecil, udara panas divisualkan sebagai aliran halus bercahaya, suasana futuristik, tanpa teks, tanpa logo, topic: lubang ventilasi dan sistem pendingin laptop, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "dinoiki",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_6ba078340b40-scene-2-panas-muncul-dari-chip.jpg",
+          "url": "/generated/images/tau_6ba078340b40-scene-2-panas-muncul-dari-chip.jpg",
+          "prompt": "potongan laptop memperlihatkan motherboard, prosesor dan chip grafis memancarkan panas merah-oranye, detail teknis rapi, tanpa teks, topic: lubang ventilasi dan sistem pendingin laptop, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "dinoiki",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_6ba078340b40-scene-3-menuju-heatsink.jpg",
+          "url": "/generated/images/tau_6ba078340b40-scene-3-menuju-heatsink.jpg",
+          "prompt": "diagram konseptual tanpa teks tentang heat pipe membawa panas dari chip ke heatsink bersirip, aliran energi terlihat jelas, latar gelap bersih, topic: lubang ventilasi dan sistem pendingin laptop, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "dinoiki",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_6ba078340b40-scene-4-kipas-mendorong-panas-keluar.jpg",
+          "url": "/generated/images/tau_6ba078340b40-scene-4-kipas-mendorong-panas-keluar.jpg",
+          "prompt": "kipas internal laptop berputar dekat heatsink, aliran udara biru masuk dan merah keluar dari ventilasi samping, tanpa teks, topic: lubang ventilasi dan sistem pendingin laptop, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "dinoiki",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_6ba078340b40-scene-5-jalur-udara-laptop.jpg",
+          "url": "/generated/images/tau_6ba078340b40-scene-5-jalur-udara-laptop.jpg",
+          "prompt": "diagram potongan samping laptop menunjukkan alur masuk dan keluar udara secara sederhana, gaya minimalis futuristik, tanpa tulisan, topic: lubang ventilasi dan sistem pendingin laptop, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "dinoiki",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_6ba078340b40-scene-6-seperti-exhaust-fan-mini.jpg",
+          "url": "/generated/images/tau_6ba078340b40-scene-6-seperti-exhaust-fan-mini.jpg",
+          "prompt": "analogi visual ruangan kecil dengan kipas pembuang lalu transisi ke interior laptop, perbandingan konseptual tanpa teks, topic: lubang ventilasi dan sistem pendingin laptop, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
+      "clips": [],
+      "audio": null,
+      "video": null
+    },
+    "cost": {
+      "inputTokens": 1511,
+      "outputTokens": 1917,
+      "totalTokens": 3428,
+      "storyUsd": 0.00367,
+      "imageUnitUsd": 0.006,
+      "imageUsd": 0.054,
+      "ttsUsd": 0.02175,
+      "totalUsd": 0.07942
+    }
+  },
+  {
+    "id": "tau_3b4516ff308a",
+    "source": "offline",
+    "status": "draft",
+    "createdAt": "2026-06-12T10:12:55.812Z",
+    "updatedAt": "2026-06-12T10:56:39.220Z",
+    "input": {
+      "topic": "kapal besar bisa mengambang meski terbuat dari besi",
+      "category": "sains",
+      "hookStyle": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?",
+      "selectedIdea": {
+        "id": "idea_a287276c7c8c",
+        "title": "Kenapa Kapal Besi Tidak Tenggelam",
+        "topic": "kapal besar bisa mengambang meski terbuat dari besi",
+        "hook": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?",
+        "category": "sains",
+        "angle": "Mulai dari benda berat yang terlihat mustahil mengambang, lalu masuk ke prinsip daya apung.",
+        "whyGood": "Dekat dengan pengalaman sehari-hari dan visualnya jelas. Catatan: {\"error\":\"Insufficient balance for this request\",\"details\":\"Your balance ($0.0063) is insufficient for this request ($0.0408). Please top up your"
+      },
+      "tone": "penasaran, edukatif, inspiratif",
+      "durationSec": 90,
+      "sceneCount": 9,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1536",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "VR6A4UBqFncf015A2w4H",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 1.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "hybrid"
+    },
+    "title": "Kenapa Kapal Besi Tidak Tenggelam",
+    "plan": {
+      "title": "Kenapa Kapal Besi Tidak Tenggelam",
+      "hook": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?: kapal besar bisa mengambang meski terbuat dari besi",
+      "summary": "Intinya, kapal besar bisa mengambang meski terbuat dari besi menarik karena hal yang tampak sederhana biasanya terjadi dari beberapa faktor yang bekerja bersama. Saat bentuk, gaya, energi, dan waktu saling memengaruhi, hasil akhirnya bisa berbeda dari dugaan kita.",
+      "importantPoints": [
+        "Ubah konsep rumit menjadi analogi sederhana."
+      ],
+      "factCheckNote": "Fallback offline karena: {\"error\":\"Insufficient balance for this request\",\"details\":\"Your balance ($0.0063) is insufficient for this request ($0.0286). Please top up your account.\"}. Verifikasi sumber tambahan sebelum",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 10.6,
+          "narration": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?: kapal besar bisa mengambang meski terbuat dari besi. Kelihatannya sederhana, tapi di balik hal ini ada prinsip yang membuat dunia bekerja dengan cara yang rapi.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Fakta yang Jarang Dibahas, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "slow push-in, clean editorial title layer",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 10,
+          "narration": "Intinya, kapal besar bisa mengambang meski terbuat dari besi bisa dipahami kalau kita melihat hubungan antara bentuk, gaya, energi, dan waktu.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Cara Kerjanya, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "gentle pan, object callout feeling",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 3,
+          "durationSec": 10,
+          "narration": "Bayangkan sebuah benda sehari-hari. Saat satu bagian berubah sedikit saja, hasil akhirnya bisa berbeda jauh dari yang kita kira.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "Contoh Sederhana, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "soft zoom-out, documentary mood",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 4,
+          "durationSec": 10,
+          "narration": "Bagian pentingnya adalah proses ini tidak berdiri sendiri. Ada banyak faktor kecil yang saling membantu sampai hasilnya terlihat alami.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "Bagian Paling Penting, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "light parallax, modern knowledge-card layout",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 5,
+          "durationSec": 10,
+          "narration": "Jadi, hal yang sering kita anggap biasa sebenarnya menyimpan penjelasan yang cukup dalam, dan itu yang membuatnya menarik untuk dipelajari.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "Kenapa Ini Menarik, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "slow push-in, clean editorial title layer",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 6,
+          "durationSec": 10,
+          "narration": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?: kapal besar bisa mengambang meski terbuat dari besi. Kelihatannya sederhana, tapi di balik hal ini ada prinsip yang membuat dunia bekerja dengan cara yang rapi.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "Yang Sering Salah Dipahami, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "gentle pan, object callout feeling",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 7,
+          "durationSec": 10,
+          "narration": "Intinya, kapal besar bisa mengambang meski terbuat dari besi bisa dipahami kalau kita melihat hubungan antara bentuk, gaya, energi, dan waktu.",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "Fakta Utama, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "soft zoom-out, documentary mood",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 8,
+          "durationSec": 10,
+          "narration": "Bayangkan sebuah benda sehari-hari. Saat satu bagian berubah sedikit saja, hasil akhirnya bisa berbeda jauh dari yang kita kira.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Fakta yang Jarang Dibahas, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "light parallax, modern knowledge-card layout",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 9,
+          "durationSec": 10.2,
+          "narration": "Bagian pentingnya adalah proses ini tidak berdiri sendiri. Ada banyak faktor kecil yang saling membantu sampai hasilnya terlihat alami.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Cara Kerjanya, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "slow push-in, clean editorial title layer",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [],
+      "clips": [],
+      "audio": null,
+      "video": null
+    },
+    "cost": {
+      "inputTokens": 1523,
+      "outputTokens": 1844,
+      "totalTokens": 3367,
+      "storyUsd": 0.00356,
+      "imageUnitUsd": 0.006,
+      "imageUsd": 0.054,
+      "ttsUsd": 0.02128,
+      "totalUsd": 0.07884
+    }
+  },
+  {
+    "id": "tau_a5c3a0510104",
+    "source": "offline",
+    "status": "draft",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-06-17T04:26:41.730Z",
+    "updatedAt": "2026-06-17T04:26:41.730Z",
+    "input": {
+      "topic": "kapal besar bisa mengambang meski terbuat dari besi",
+      "category": "sains",
+      "hookStyle": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?",
+      "selectedIdea": {
+        "id": "idea_d08db3770cc3",
+        "title": "Kenapa Kapal Besi Tidak Tenggelam",
+        "topic": "kapal besar bisa mengambang meski terbuat dari besi",
+        "hook": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?",
+        "category": "sains",
+        "angle": "Mulai dari benda berat yang terlihat mustahil mengambang, lalu masuk ke prinsip daya apung.",
+        "whyGood": "Dekat dengan pengalaman sehari-hari dan visualnya jelas. Catatan: {\"error\":\"Invalid API key\"}"
+      },
+      "tone": "dramatis, mendalam, misterius, seperti narator dokumenter sejarah",
+      "durationSec": 120,
+      "sceneCount": 8,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1536",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 1.mp4",
+      "videoFormat": "horizontal",
+      "visualSource": "stock"
+    },
+    "title": "Kenapa Kapal Besi Tidak Tenggelam",
+    "plan": {
+      "title": "Kenapa Kapal Besi Tidak Tenggelam",
+      "hook": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?: kapal besar bisa mengambang meski terbuat dari besi",
+      "summary": "Intinya, kapal besar bisa mengambang meski terbuat dari besi menarik karena hal yang tampak sederhana biasanya terjadi dari beberapa faktor yang bekerja bersama. Saat bentuk, gaya, energi, dan waktu saling memengaruhi, hasil akhirnya bisa berbeda dari dugaan kita.",
+      "importantPoints": [
+        "Ubah konsep rumit menjadi analogi sederhana."
+      ],
+      "factCheckNote": "Fallback offline karena: {\"error\":\"Invalid API key\"}. Verifikasi sumber tambahan sebelum dipublikasikan.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 15.9,
+          "narration": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?: kapal besar bisa mengambang meski terbuat dari besi. Kelihatannya sederhana, tapi di balik hal ini ada prinsip yang membuat dunia bekerja dengan cara yang rapi.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Fakta yang Jarang Dibahas, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "slow push-in, clean editorial title layer",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 15,
+          "narration": "Intinya, kapal besar bisa mengambang meski terbuat dari besi bisa dipahami kalau kita melihat hubungan antara bentuk, gaya, energi, dan waktu.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Cara Kerjanya, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "gentle pan, object callout feeling",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 3,
+          "durationSec": 15,
+          "narration": "Bayangkan sebuah benda sehari-hari. Saat satu bagian berubah sedikit saja, hasil akhirnya bisa berbeda jauh dari yang kita kira.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "Contoh Sederhana, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "soft zoom-out, documentary mood",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 4,
+          "durationSec": 15,
+          "narration": "Bagian pentingnya adalah proses ini tidak berdiri sendiri. Ada banyak faktor kecil yang saling membantu sampai hasilnya terlihat alami.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "Bagian Paling Penting, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "light parallax, modern knowledge-card layout",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 5,
+          "durationSec": 15,
+          "narration": "Jadi, hal yang sering kita anggap biasa sebenarnya menyimpan penjelasan yang cukup dalam, dan itu yang membuatnya menarik untuk dipelajari.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "Kenapa Ini Menarik, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "slow push-in, clean editorial title layer",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 6,
+          "durationSec": 15,
+          "narration": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?: kapal besar bisa mengambang meski terbuat dari besi. Kelihatannya sederhana, tapi di balik hal ini ada prinsip yang membuat dunia bekerja dengan cara yang rapi.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "Yang Sering Salah Dipahami, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "gentle pan, object callout feeling",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 7,
+          "durationSec": 15,
+          "narration": "Intinya, kapal besar bisa mengambang meski terbuat dari besi bisa dipahami kalau kita melihat hubungan antara bentuk, gaya, energi, dan waktu.",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "Fakta Utama, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "soft zoom-out, documentary mood",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 8,
+          "durationSec": 15.3,
+          "narration": "Bayangkan sebuah benda sehari-hari. Saat satu bagian berubah sedikit saja, hasil akhirnya bisa berbeda jauh dari yang kita kira.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Fakta yang Jarang Dibahas, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "light parallax, modern knowledge-card layout",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [],
+      "clips": [],
+      "audio": null,
+      "video": null
+    },
+    "cost": {
+      "inputTokens": 1543,
+      "outputTokens": 1641,
+      "totalTokens": 3184,
+      "storyUsd": 0.00324,
+      "imageUnitUsd": 0.006,
+      "imageUsd": 0.048,
+      "ttsUsd": 0.01925,
+      "totalUsd": 0.07049
+    }
+  },
+  {
+    "id": "tau_08df3c7ea226",
+    "source": "openai",
+    "status": "uploading",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-06-17T04:36:30.338Z",
+    "updatedAt": "2026-06-17T04:51:04.569Z",
+    "input": {
+      "topic": "Sejarah",
+      "category": "Sejarah",
+      "hookStyle": "Kota yang hilang dan dicari-cari, apakah Atlantis benar-benar ada atau hanya legenda?",
+      "selectedIdea": {
+        "id": "idea_5ab84d841598",
+        "title": "Kota Atlantis: Mitos Atau Realita",
+        "topic": "Sejarah",
+        "hook": "Kota yang hilang dan dicari-cari, apakah Atlantis benar-benar ada atau hanya legenda?",
+        "category": "Sejarah",
+        "angle": "Membahas asal-usul dan jejak kebudayaan yang mungkin menginspirasi mitos Atlantis.",
+        "whyGood": "Menyentuh imaginasi dan rasa ingin tahu banyak orang tentang tempat yang misterius."
+      },
+      "tone": "dramatis, mendalam, misterius, seperti narator dokumenter sejarah",
+      "durationSec": 120,
+      "sceneCount": 8,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1536",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 1.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "hybrid"
+    },
+    "title": "Kota Atlantis: Mitos Atau Realita",
+    "plan": {
+      "title": "Kota Atlantis: Mitos Atau Realita",
+      "hook": "Kota yang hilang dan dicari-cari, apakah Atlantis benar-benar ada atau hanya legenda?",
+      "summary": "Atlantis, kota legendaris yang hilang di lautan, mungkin terinspirasi oleh berbagai budaya kuno. Meneliti asal-usulnya membuka wawasan tentang sejarah manusia dan imajinasinya.",
+      "importantPoints": [
+        "Atlantis pertama kali disebutkan oleh Plato dalam dialognya, 'Timaeus' dan 'Critias'.",
+        "Beberapa teori menyebutkan bahwa Atlantis mungkin terinspirasi oleh peradaban Minoan di Kreta.",
+        "Cerita tentang Atlantis menggambarkan masyarakat yang sangat maju secara teknologi dan sosial.",
+        "Pencarian Atlantis telah menginspirasi banyak ekspedisi dan penelitian arkeologi seabad terakhir.",
+        "Mitos Atlantis terus memicu rasa ingin tahu dan imajinasi para peneliti dan penggemar sejarah."
+      ],
+      "factCheckNote": "Meskipun banyak teori tentang Atlantis, keberadaannya belum terbukti secara ilmiah dan tetap menjadi misteri.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 15.9,
+          "narration": "Kota Atlantis, yang sering digambarkan sebagai tempat yang hilang di bawah lautan, telah menjadi misteri selama ribuan tahun. Apakah ini nyata atau hanya legenda?",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Visual peta kuno dengan lautan yang luas dan pulau misterius., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "historical map",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 15,
+          "narration": "Sejarah Atlantis berawal dari tulisan filsuf Yunani, Plato, yang menggambarkannya sebagai peradaban maju yang tenggelam akibat bencana alam.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Ilustrasi Plato sedang menulis di meja, dikelilingi buku-buku., topic: Sejarah, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "artistic depiction",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 3,
+          "durationSec": 15,
+          "narration": "Beberapa peneliti percaya bahwa Atlantis terinspirasi oleh budaya Minoan yang pernah ada di pulau Kreta, yang juga hancur oleh bencana.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "Pemandangan reruntuhan kuno di Kreta dengan laut di latar belakang., topic: Sejarah, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "archaeological site",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 4,
+          "durationSec": 15,
+          "narration": "Cerita Atlantis menggambarkan masyarakat yang sangat canggih, dengan teknologi dan sistem pemerintahan yang dianggap maju untuk zamannya.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "Ilustrasi kota Atlantis yang megah dengan arsitektur yang unik., topic: Sejarah, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "fantasy city",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 5,
+          "durationSec": 15,
+          "narration": "Pencarian Atlantis telah memicu banyak ekspedisi. Sejak abad ke-19, banyak arkeolog berusaha menemukan jejak kota ini.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "Arkeolog melakukan ekskavasi di pantai dengan alat-alat., topic: Sejarah, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "archaeological dig",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 6,
+          "durationSec": 15,
+          "narration": "Walaupun belum ada bukti kuat, kisah Atlantis terus hidup dalam imajinasinya para peneliti dan penggemar sejarah.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "Siluet banyak orang membaca buku tentang Atlantis dengan rasa ingin tahu., topic: Sejarah, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "people reading",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 7,
+          "durationSec": 15,
+          "narration": "Mitos ini bukan sekadar cerita, tetapi juga cermin refleksi budaya manusia dan pencarian akan pengetahuan lebih dalam tentang sejarah.",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "Diagram yang menunjukkan hubungan budaya kuno dengan Atlantis., topic: Sejarah, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "conceptual diagram",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 8,
+          "durationSec": 15.3,
+          "narration": "Jadi, apakah Atlantis hanya sebuah legenda, atau mungkin kita masih bisa menemukan jejaknya di masa depan?",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Visual laut yang tenang, dengan kabut misterius di atasnya., topic: Sejarah, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "mysterious sea",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [
+        {
+          "sceneIndex": 1,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_08df3c7ea226-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/images/tau_08df3c7ea226-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "Visual peta kuno dengan lautan yang luas dan pulau misterius., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_08df3c7ea226-scene-2-cara-kerjanya.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/images/tau_08df3c7ea226-scene-2-cara-kerjanya.jpg",
+          "prompt": "Ilustrasi Plato sedang menulis di meja, dikelilingi buku-buku., topic: Sejarah, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_08df3c7ea226-scene-3-contoh-sederhana.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/images/tau_08df3c7ea226-scene-3-contoh-sederhana.jpg",
+          "prompt": "Pemandangan reruntuhan kuno di Kreta dengan laut di latar belakang., topic: Sejarah, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_08df3c7ea226-scene-4-bagian-paling-penting.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/images/tau_08df3c7ea226-scene-4-bagian-paling-penting.jpg",
+          "prompt": "Ilustrasi kota Atlantis yang megah dengan arsitektur yang unik., topic: Sejarah, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_08df3c7ea226-scene-5-kenapa-ini-menarik.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/images/tau_08df3c7ea226-scene-5-kenapa-ini-menarik.jpg",
+          "prompt": "Arkeolog melakukan ekskavasi di pantai dengan alat-alat., topic: Sejarah, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_08df3c7ea226-scene-6-yang-sering-salah-dipahami.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/images/tau_08df3c7ea226-scene-6-yang-sering-salah-dipahami.jpg",
+          "prompt": "Siluet banyak orang membaca buku tentang Atlantis dengan rasa ingin tahu., topic: Sejarah, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_08df3c7ea226-scene-7-fakta-utama.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/images/tau_08df3c7ea226-scene-7-fakta-utama.jpg",
+          "prompt": "Diagram yang menunjukkan hubungan budaya kuno dengan Atlantis., topic: Sejarah, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_08df3c7ea226-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/images/tau_08df3c7ea226-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "Visual laut yang tenang, dengan kabut misterius di atasnya., topic: Sejarah, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_08df3c7ea226-scene-1-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/clips/tau_08df3c7ea226-scene-1-stock.mp4",
+          "prompt": "Atlantis underwater footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_08df3c7ea226-scene-2-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/clips/tau_08df3c7ea226-scene-2-stock.mp4",
+          "prompt": "Atlantis underwater footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_08df3c7ea226-scene-3-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/clips/tau_08df3c7ea226-scene-3-stock.mp4",
+          "prompt": "Minoan culture footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_08df3c7ea226-scene-4-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/clips/tau_08df3c7ea226-scene-4-stock.mp4",
+          "prompt": "Atlantis civilization footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_08df3c7ea226-scene-5-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/clips/tau_08df3c7ea226-scene-5-stock.mp4",
+          "prompt": "Atlantis expedition footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_08df3c7ea226-scene-6-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/clips/tau_08df3c7ea226-scene-6-stock.mp4",
+          "prompt": "Atlantis mythology footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_08df3c7ea226-scene-7-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/clips/tau_08df3c7ea226-scene-7-stock.mp4",
+          "prompt": "Cultural mythology footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_08df3c7ea226-scene-8-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/clips/tau_08df3c7ea226-scene-8-stock.mp4",
+          "prompt": "Atlantis underwater footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "shimmer",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_08df3c7ea226-openai-natural-narration.mp3",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/audio/tau_08df3c7ea226-openai-natural-narration.mp3",
+        "characters": 1052
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_08df3c7ea226-openai-kota-atlantis-mitos-atau-realita.mp4",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/videos/tau_08df3c7ea226-openai-kota-atlantis-mitos-atau-realita.mp4",
+        "provider": "openai",
+        "durationSec": 62.33,
+        "scenes": 8
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Kota Atlantis, yang sering digambarkan sebagai tempat yang hilang di bawah lautan, telah menjadi misteri selama ribuan tahun. Apakah ini nyata atau hanya legenda? Sejarah Atlantis berawal dari tulisan filsuf Yunani, Plato, yang menggambarkannya sebagai peradaban maju yang tenggelam akibat bencana alam. Beberapa peneliti percaya bahwa Atlantis terinspirasi oleh budaya Minoan yang pernah ada di pulau Kreta, yang juga hancur oleh bencana. Cerita Atlantis menggambarkan masyarakat yang sangat canggih dengan teknologi dan sistem pemerintahan yang dianggap maju untuk zamannya. Pencarian Atlantis telah memicu banyak ekspedisi. Sejak abad ke-19, banyak arkeolog berusaha menemukan jejak kota ini. Walaupun belum ada bukti kuat, kisah Atlantis terus hidup dalam imajinasinya para peneliti dan penggemar sejarah. Mitos ini bukan sekadar cerita, tetapi juga cermin refleksi budaya manusia dan pencarian akan pengetahuan lebih dalam tentang sejarah. Jadi, apakah Atlantis hanya sebuah legenda, atau mungkin kita masih bisa menemukan jejaknya di masa depan?"
+        }
+      ]
+    },
+    "cost": {
+      "inputTokens": 1564,
+      "outputTokens": 1398,
+      "totalTokens": 2962,
+      "storyUsd": 0.00286,
+      "imageUnitUsd": 0.006,
+      "imageUsd": 0.048,
+      "ttsUsd": 0.01578,
+      "totalUsd": 0.06664,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 30,
+      "stage": "remote_uploading",
+      "message": "Mengunggah video ke Remote Server (FTP/SFTP)..."
+    }
   }
 ]
