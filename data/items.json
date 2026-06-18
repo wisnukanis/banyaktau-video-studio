@@ -3940,7 +3940,7 @@
   {
     "id": "tau_389f09a0357a",
     "source": "openai",
-    "status": "ready",
+    "status": "uploading",
     "project_id": "capybara_banyak_tau_id",
     "language": "id-ID",
     "market": "ID",
@@ -4218,9 +4218,9 @@
       "videoUsd": 0
     },
     "progress": {
-      "percent": 100,
-      "stage": "upload_success",
-      "message": "Video berhasil di-publish ke facebook!"
+      "percent": 30,
+      "stage": "remote_uploading",
+      "message": "Mengunggah video ke Remote Server (FTP/SFTP)..."
     },
     "publish": {
       "facebook": {
