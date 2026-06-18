@@ -3936,5 +3936,291 @@
         "instagram": "Gagal mengunggah file biner Instagram Reel: {\"debug_info\":{\"retriable\":false,\"type\":\"ProcessingFailedError\",\"message\":\"Request processing failed\"}}"
       }
     }
+  },
+  {
+    "id": "tau_389f09a0357a",
+    "source": "openai",
+    "status": "uploading",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-06-17T17:11:10.604Z",
+    "updatedAt": "2026-06-18T03:54:47.725Z",
+    "input": {
+      "topic": "Kesehatan Gigi",
+      "category": "benda sehari-hari",
+      "hookStyle": "Gigi yang sehat adalah kunci senyummu. Tapi, kenapa ada yang bisa berlubang? Yuk, cari tahu penyebabnya!",
+      "selectedIdea": {
+        "id": "idea_673797d4b583",
+        "title": "Misteri Gigi Berlubang: Kenapa Bisa Terjadi",
+        "topic": "Kesehatan Gigi",
+        "hook": "Gigi yang sehat adalah kunci senyummu. Tapi, kenapa ada yang bisa berlubang? Yuk, cari tahu penyebabnya!",
+        "category": "benda sehari-hari",
+        "angle": "Menjelaskan faktor utama yang menyebabkan gigi berlubang dan pentingnya kebersihan mulut.",
+        "whyGood": "Pengetahuan yang relevan dengan kehidupan sehari-hari dan mudah dipahami oleh semua usia."
+      },
+      "tone": "santai, dekat keseharian, unik, menghibur",
+      "durationSec": 90,
+      "sceneCount": 7,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1536",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "piTKgcLEGmPEe242CwPv",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 1.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "stock"
+    },
+    "title": "Misteri Gigi Berlubang: Kenapa Bisa Terjadi",
+    "plan": {
+      "title": "Misteri Gigi Berlubang: Kenapa Bisa Terjadi",
+      "hook": "Gigi yang sehat adalah kunci senyummu. Tapi, kenapa ada yang bisa berlubang? Yuk, cari tahu penyebabnya!",
+      "summary": "Gigi berlubang bisa terjadi karena penumpukan plak dan bakteri yang merusak enamel gigi. Menjaga kebersihan mulut sangat penting untuk mencegahnya.",
+      "importantPoints": [
+        "Gigi berlubang disebabkan oleh penumpukan plak yang mengandung bakteri.",
+        "Bakteri ini memproduksi asam yang merusak enamel gigi.",
+        "Kebersihan mulut yang baik dapat mencegah pembentukan plak.",
+        "Makanan manis dan lengket meningkatkan risiko gigi berlubang.",
+        "Pemeriksaan gigi rutin membantu mendeteksi masalah sejak dini."
+      ],
+      "factCheckNote": "Semua informasi dalam video ini berdasarkan fakta medis yang umum diterima.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 13.63,
+          "narration": "Pernahkah kamu merasa khawatir dengan gigi berlubang? Ternyata, gigi yang sehat sangat penting untuk senyum yang cerah.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "close-up gigi sehat dan gigi berlubang, topic: Kesehatan Gigi, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "makro",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 12.86,
+          "narration": "Salah satu penyebab utama gigi berlubang adalah penumpukan plak. Plak adalah lapisan lengket yang terbentuk dari sisa makanan dan bakteri.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "diagram plak gigi dan proses pembentukannya, topic: Kesehatan Gigi, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "diagram konseptual",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 3,
+          "durationSec": 12.86,
+          "narration": "Bakteri dalam plak ini memproduksi asam. Asam inilah yang merusak enamel gigi, lapisan pelindung yang sangat penting.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "ilustrasi asam merusak enamel gigi, topic: Kesehatan Gigi, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "diagram konseptual",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 4,
+          "durationSec": 12.86,
+          "narration": "Bayangkan gigi seperti dinding rumah. Jika dindingnya tidak dirawat, pasti akan rapuh dan mudah rusak.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "ilustrasi dinding rumah yang retak, topic: Kesehatan Gigi, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "makro",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 5,
+          "durationSec": 12.86,
+          "narration": "Makanan manis dan lengket sangat berpotensi meningkatkan risiko gigi berlubang. Jadi, jangan lupa untuk sikat gigi setelahnya!",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "makanan manis dan sikat gigi, topic: Kesehatan Gigi, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "close-up",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 6,
+          "durationSec": 12.86,
+          "narration": "Pemeriksaan gigi secara rutin juga penting. Ini membantu mendeteksi masalah sebelum jadi parah!",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "ilustrasi dokter gigi melakukan pemeriksaan, topic: Kesehatan Gigi, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "manusia belajar/mengamati",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 7,
+          "durationSec": 13.11,
+          "narration": "Ingat, merawat gigi sama pentingnya dengan merawat tubuhmu. Jaga kebersihan mulut, dan senyummu akan selalu cerah!",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "senyum cerah dengan gigi sehat, topic: Kesehatan Gigi, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "close-up",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [
+        {
+          "sceneIndex": 1,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_389f09a0357a-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_389f09a0357a-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "close-up gigi sehat dan gigi berlubang, topic: Kesehatan Gigi, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_389f09a0357a-scene-2-cara-kerjanya.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_389f09a0357a-scene-2-cara-kerjanya.jpg",
+          "prompt": "diagram plak gigi dan proses pembentukannya, topic: Kesehatan Gigi, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_389f09a0357a-scene-3-contoh-sederhana.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_389f09a0357a-scene-3-contoh-sederhana.jpg",
+          "prompt": "ilustrasi asam merusak enamel gigi, topic: Kesehatan Gigi, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_389f09a0357a-scene-4-bagian-paling-penting.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_389f09a0357a-scene-4-bagian-paling-penting.jpg",
+          "prompt": "ilustrasi dinding rumah yang retak, topic: Kesehatan Gigi, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_389f09a0357a-scene-5-kenapa-ini-menarik.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_389f09a0357a-scene-5-kenapa-ini-menarik.jpg",
+          "prompt": "makanan manis dan sikat gigi, topic: Kesehatan Gigi, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_389f09a0357a-scene-6-yang-sering-salah-dipahami.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_389f09a0357a-scene-6-yang-sering-salah-dipahami.jpg",
+          "prompt": "ilustrasi dokter gigi melakukan pemeriksaan, topic: Kesehatan Gigi, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_389f09a0357a-scene-7-fakta-utama.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_389f09a0357a-scene-7-fakta-utama.jpg",
+          "prompt": "senyum cerah dengan gigi sehat, topic: Kesehatan Gigi, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_389f09a0357a-scene-1-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_389f09a0357a-scene-1-stock.mp4",
+          "prompt": "Dental health footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_389f09a0357a-scene-2-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_389f09a0357a-scene-2-stock.mp4",
+          "prompt": "Plaque buildup",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_389f09a0357a-scene-3-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_389f09a0357a-scene-3-stock.mp4",
+          "prompt": "Dental plaque bacteria",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_389f09a0357a-scene-4-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_389f09a0357a-scene-4-stock.mp4",
+          "prompt": "Dental care importance",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_389f09a0357a-scene-5-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_389f09a0357a-scene-5-stock.mp4",
+          "prompt": "Sweet sticky foods",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_389f09a0357a-scene-6-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_389f09a0357a-scene-6-stock.mp4",
+          "prompt": "Dental checkup importance",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_389f09a0357a-scene-7-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_389f09a0357a-scene-7-stock.mp4",
+          "prompt": "Dental care tips",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "shimmer",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_389f09a0357a-openai-natural-narration.mp3",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/audio/tau_389f09a0357a-openai-natural-narration.mp3",
+        "characters": 817
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_389f09a0357a-openai-misteri-gigi-berlubang-kenapa-bisa-terjadi.mp4",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_389f09a0357a-openai-misteri-gigi-berlubang-kenapa-bisa-terjadi.mp4",
+        "provider": "openai",
+        "durationSec": 49.13,
+        "scenes": 7
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Pernahkah kamu merasa khawatir dengan gigi berlubang? Ternyata gigi yang sehat sangat penting untuk senyum yang cerah. Salah satu penyebab utama gigi berlubang adalah penumpukan plak. Plak adalah lapisan lengket yang terbentuk dari sisa makanan dan bakteri. Bakteri dalam plak ini memproduksi asam. Asam inilah yang merusak NML gigi, lapisan pelindung yang sangat penting. Bayangkan gigi seperti dinding rumah. Jika dindingnya tidak dirawat, pasti akan rapuh dan mudah rusak. Makanan manis dan lengket sangat berpotensi meningkatkan risiko gigi berlubang. Jadi jangan lupa untuk sikat gigi setelahnya. Pemeriksaan gigi secara rutin juga penting. Ini membantu mendeteksi masalah sebelum jadi parah. Ingat, merawat gigi sama pentingnya dengan merawat tubuhmu. Jaga kebersihan mulut dan senyummu akan selalu cerah."
+        }
+      ]
+    },
+    "cost": {
+      "inputTokens": 1610,
+      "outputTokens": 1140,
+      "totalTokens": 2750,
+      "storyUsd": 0.00247,
+      "imageUnitUsd": 0.006,
+      "imageUsd": 0.042,
+      "ttsUsd": 0.01226,
+      "totalUsd": 0.05673,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 30,
+      "stage": "remote_uploading",
+      "message": "Mengunggah video ke Remote Server (FTP/SFTP)..."
+    }
   }
 ]
