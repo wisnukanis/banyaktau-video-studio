@@ -2,9 +2,9 @@
   {
     "id": "tau_0b4c72563491",
     "source": "openai",
-    "status": "uploading",
+    "status": "rendered",
     "createdAt": "2026-05-30T16:12:56.281Z",
-    "updatedAt": "2026-06-09T10:04:29.742Z",
+    "updatedAt": "2026-06-19T04:29:09.045Z",
     "input": {
       "topic": "Kebiasaan tidur dan kerja Nikola Tesla",
       "category": "tokoh dunia",
@@ -24,8 +24,8 @@
       "ttsProvider": "openai",
       "imageSize": "1024x1536",
       "imageQuality": "low",
-      "videoFormat": "horizontal",
-      "avatarMode": "video1",
+      "videoFormat": "vertical",
+      "avatarMode": "avatar hijau 2.mp4",
       "visualSource": "hybrid"
     },
     "title": "Kenapa Nikola Tesla Tidur Cuma Sedikit",
@@ -265,9 +265,8 @@
     },
     "progress": {
       "percent": 100,
-      "stage": "upload_failed",
-      "message": "Gagal remote upload: Auto push ke GitHub gagal: Command failed: git push origin main\nerror: RPC failed; HTTP 408 curl 22 The requested URL returned error: 408\nsend-pack: unexpected disconnect while reading sideband packet\nfatal: the remote end hung up unexpectedly\nEverything up-to-date\n",
-      "error": "Auto push ke GitHub gagal: Command failed: git push origin main\nerror: RPC failed; HTTP 408 curl 22 The requested URL returned error: 408\nsend-pack: unexpected disconnect while reading sideband packet\nfatal: the remote end hung up unexpectedly\nEverything up-to-date\n"
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
     }
   },
   {
@@ -4240,6 +4239,1817 @@
         "url": "https://www.instagram.com/reel/DZto2Hakzpf/",
         "publishedAt": "2026-06-18T04:02:11.829Z"
       }
+    }
+  },
+  {
+    "id": "tau_bff140975662",
+    "source": "openai",
+    "status": "draft",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-06-18T04:26:09.666Z",
+    "updatedAt": "2026-06-18T04:31:29.630Z",
+    "input": {
+      "topic": "Sejarah",
+      "category": "Sejarah",
+      "hookStyle": "Piramida Agung di Mesir dibangun ribuan tahun lalu, tapi teknologi apa yang mereka gunakan? Yuk simak cara mereka membangunnya!",
+      "selectedIdea": {
+        "id": "idea_c594d46f107d",
+        "title": "Bagaimana Piramida Dibangun Tanpa Mesin Modern",
+        "topic": "Sejarah",
+        "hook": "Piramida Agung di Mesir dibangun ribuan tahun lalu, tapi teknologi apa yang mereka gunakan? Yuk simak cara mereka membangunnya!",
+        "category": "Sejarah",
+        "angle": "Menjelaskan metode konstruksi kuno dan alat yang digunakan.",
+        "whyGood": "Menarik bagi penggemar sejarah dan misteri arsitektur kuno."
+      },
+      "tone": "dramatis, mendalam, misterius, seperti narator dokumenter sejarah",
+      "durationSec": 90,
+      "sceneCount": 9,
+      "ttsProvider": "elevenlabs",
+      "imageSize": "1024x1536",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 1.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "ai"
+    },
+    "title": "Bagaimana Piramida Dibangun Tanpa Mesin Modern",
+    "plan": {
+      "title": "Bagaimana Piramida Dibangun Tanpa Mesin Modern",
+      "hook": "Piramida Agung di Mesir dibangun ribuan tahun lalu, tapi teknologi apa yang mereka gunakan? Yuk simak cara mereka membangunnya!",
+      "summary": "Piramida Agung dibangun dengan teknik sederhana namun efektif, menggunakan alat tradisional, kerja sama, dan pemahaman matematika yang canggih. Ini menunjukkan prestasi luar biasa manusia kuno.",
+      "importantPoints": [
+        "Piramida Agung dibangun tanpa mesin modern, menggunakan tenaga manusia dan alat sederhana.",
+        "Teknik ramp dan pengangkatan digunakan untuk memindahkan batu besar ke tempatnya.",
+        "Pekerja terlatih bekerja sama dalam proyek besar, menunjukkan organisasi sosial yang kompleks.",
+        "Penggunaan pengukuran dan geometris membantu memastikan ketepatan dalam pembangunan.",
+        "Piramida merupakan simbol kekuasaan dan kepercayaan masyarakat Mesir kuno."
+      ],
+      "factCheckNote": "Informasi yang disajikan berdasarkan penelitian arkeologi dan sejarah yang dapat dipercaya.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 10.6,
+          "narration": "Piramida Agung di Giza, salah satu keajaiban dunia kuno, dibangun tanpa teknologi modern. Bagaimana ini bisa terjadi?",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Gambaran Piramida Agung di Giza dengan latar belakang langit biru., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "arsip sejarah",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 10,
+          "narration": "Teknik yang digunakan sangat sederhana namun efektif. Mereka memanfaatkan alat tradisional dan tenaga manusia.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Pekerja kuno menggunakan alat tradisional untuk memindahkan batu., topic: Sejarah, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "manusia belajar/mengamati",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 3,
+          "durationSec": 10,
+          "narration": "Salah satu metode utama adalah menggunakan ramp. Ini membantu mereka mengangkat batu besar ke ketinggian.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "Diagram ramp yang digunakan untuk mengangkat batu besar., topic: Sejarah, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "diagram konseptual tanpa teks",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 4,
+          "durationSec": 10,
+          "narration": "Bayangkan, hanya dengan tenaga manusia dan alat sederhana, mereka mampu membangun struktur megah ini.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "Gambaran besar piramida dengan pekerja yang mengangkat batu., topic: Sejarah, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "alam",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 5,
+          "durationSec": 10,
+          "narration": "Selain teknik, organisasi dan kerjasama antar pekerja sangat penting. Mereka bekerja dalam tim besar untuk mencapai tujuan.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "Pekerja berkolaborasi dalam proyek besar, menunjukkan kerjasama., topic: Sejarah, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "manusia belajar/mengamati",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 6,
+          "durationSec": 10,
+          "narration": "Mereka juga memiliki pemahaman yang baik tentang matematika dan pengukuran, yang membantu menciptakan struktur yang simetris.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "Ilustrasi pengukuran matematika yang digunakan dalam konstruksi., topic: Sejarah, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "diagram konseptual tanpa teks",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 7,
+          "durationSec": 10,
+          "narration": "Piramida bukan hanya bangunan, tetapi simbol kekuasaan dan kepercayaan masyarakat Mesir kuno yang mengagumkan.",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "Gambaran simbolik piramida sebagai pusat kepercayaan., topic: Sejarah, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "arsip sejarah",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 8,
+          "durationSec": 10,
+          "narration": "Keberhasilan mereka menunjukkan betapa luar biasanya kemampuan manusia kuno dalam mengatasi tantangan.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Ilustrasi abstrak tentang kemampuan manusia kuno., topic: Sejarah, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "alam",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 9,
+          "durationSec": 10.2,
+          "narration": "Penasaran dengan lebih banyak misteri sejarah? Ikuti terus banyak fakta menarik lainnya!",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Gambaran menarik tentang sejarah yang menggugah rasa ingin tahu., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "visual makro",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [
+        {
+          "sceneIndex": 1,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bff140975662-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "url": "/generated/images/tau_bff140975662-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "Gambaran Piramida Agung di Giza dengan latar belakang langit biru., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bff140975662-scene-2-cara-kerjanya.jpg",
+          "url": "/generated/images/tau_bff140975662-scene-2-cara-kerjanya.jpg",
+          "prompt": "Pekerja kuno menggunakan alat tradisional untuk memindahkan batu., topic: Sejarah, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bff140975662-scene-3-contoh-sederhana.jpg",
+          "url": "/generated/images/tau_bff140975662-scene-3-contoh-sederhana.jpg",
+          "prompt": "Diagram ramp yang digunakan untuk mengangkat batu besar., topic: Sejarah, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bff140975662-scene-4-bagian-paling-penting.jpg",
+          "url": "/generated/images/tau_bff140975662-scene-4-bagian-paling-penting.jpg",
+          "prompt": "Gambaran besar piramida dengan pekerja yang mengangkat batu., topic: Sejarah, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bff140975662-scene-5-kenapa-ini-menarik.jpg",
+          "url": "/generated/images/tau_bff140975662-scene-5-kenapa-ini-menarik.jpg",
+          "prompt": "Pekerja berkolaborasi dalam proyek besar, menunjukkan kerjasama., topic: Sejarah, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bff140975662-scene-6-yang-sering-salah-dipahami.jpg",
+          "url": "/generated/images/tau_bff140975662-scene-6-yang-sering-salah-dipahami.jpg",
+          "prompt": "Ilustrasi pengukuran matematika yang digunakan dalam konstruksi., topic: Sejarah, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bff140975662-scene-7-fakta-utama.jpg",
+          "url": "/generated/images/tau_bff140975662-scene-7-fakta-utama.jpg",
+          "prompt": "Gambaran simbolik piramida sebagai pusat kepercayaan., topic: Sejarah, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bff140975662-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "url": "/generated/images/tau_bff140975662-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "Ilustrasi abstrak tentang kemampuan manusia kuno., topic: Sejarah, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bff140975662-scene-9-cara-kerjanya.jpg",
+          "url": "/generated/images/tau_bff140975662-scene-9-cara-kerjanya.jpg",
+          "prompt": "Gambaran menarik tentang sejarah yang menggugah rasa ingin tahu., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
+      "clips": [],
+      "audio": null,
+      "video": null
+    },
+    "cost": {
+      "inputTokens": 1645,
+      "outputTokens": 1490,
+      "totalTokens": 3135,
+      "storyUsd": 0.00304,
+      "imageUnitUsd": 0.006,
+      "imageUsd": 0.054,
+      "ttsUsd": 0.0989,
+      "totalUsd": 0.15594
+    }
+  },
+  {
+    "id": "tau_67adf16977ad",
+    "source": "openai",
+    "status": "rendered",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-06-18T08:36:30.042Z",
+    "updatedAt": "2026-06-18T08:41:43.421Z",
+    "input": {
+      "topic": "Sejarah",
+      "category": "Sejarah",
+      "hookStyle": "Tahukah kamu bahwa kertas pertama kali dibuat dari bambu? Mari kita gali cerita di balik penemuan penting ini!",
+      "selectedIdea": {
+        "id": "idea_c96e0e9b62e2",
+        "title": "Sejarah Kertas Dari Bambu: Apa Rahasia di Baliknya",
+        "topic": "Sejarah",
+        "hook": "Tahukah kamu bahwa kertas pertama kali dibuat dari bambu? Mari kita gali cerita di balik penemuan penting ini!",
+        "category": "Sejarah",
+        "angle": "Menjelaskan asal usul kertas dan pengaruhnya terhadap peradaban.",
+        "whyGood": "Kertas adalah barang sehari-hari yang mempunyai sejarah panjang. Ini bisa menarik perhatian banyak orang yang penasaran."
+      },
+      "tone": "dramatis, mendalam, misterius, seperti narator dokumenter sejarah",
+      "durationSec": 90,
+      "sceneCount": 9,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1536",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 1.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "ai"
+    },
+    "title": "Sejarah Kertas Dari Bambu: Apa Rahasia di Baliknya",
+    "plan": {
+      "title": "Sejarah Kertas Dari Bambu: Apa Rahasia di Baliknya",
+      "hook": "Tahukah kamu bahwa kertas pertama kali dibuat dari bambu? Mari kita gali cerita di balik penemuan penting ini!",
+      "summary": "Kertas, yang berasal dari bambu, telah mengubah cara manusia berkomunikasi dan menyimpan pengetahuan. Temuan ini sangat penting dalam sejarah peradaban manusia.",
+      "importantPoints": [
+        "Kertas pertama kali dibuat di Tiongkok sekitar seribu tahun sebelum Masehi.",
+        "Proses pembuatan kertas dari bambu melibatkan pengolahan serat yang rumit.",
+        "Kertas memungkinkan penyebaran pengetahuan dan ide dengan cepat, mendorong kemajuan budaya dan ilmu pengetahuan.",
+        "Dengan kertas, kita dapat menyimpan informasi lebih lama dan lebih efisien dibandingkan dengan bahan lain.",
+        "Inovasi ini menjadi dasar bagi industri percetakan dan pendidikan yang kita kenal sekarang."
+      ],
+      "factCheckNote": "Semua informasi dalam video ini diambil dari sumber sejarah yang terpercaya dan telah diverifikasi.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 10.6,
+          "narration": "Tahukah kamu bahwa kertas pertama kali dibuat dari bambu? Mari kita gali cerita di balik penemuan penting ini!",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Close-up dari batang bambu yang tumbuh di alam., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "nature",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 2,
+          "durationSec": 10,
+          "narration": "Kertas pertama kali ditemukan di Tiongkok sekitar seribu tahun sebelum Masehi.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Peta kuno Tiongkok yang menunjukkan lokasi dan sejarah., topic: Sejarah, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "historical",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 3,
+          "durationSec": 10,
+          "narration": "Proses pembuatan kertas dari bambu melibatkan pengolahan serat yang rumit, dimulai dengan memotong dan merebus bambu.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "Diagram proses pembuatan kertas dari bambu., topic: Sejarah, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "conceptual",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 4,
+          "durationSec": 10,
+          "narration": "Setelah diolah, serat bambu dicampur dengan air dan dipukul hingga membentuk adonan kertas.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "Ilustrasi seseorang sedang memukul serat bambu., topic: Sejarah, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "experiment",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 5,
+          "durationSec": 10,
+          "narration": "Kertas memungkinkan penyebaran pengetahuan dan ide dengan cepat, mendorong kemajuan budaya dan ilmu pengetahuan.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "Visualisasi buku dan manuskrip kuno yang dihasilkan dari kertas., topic: Sejarah, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "historical",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 6,
+          "durationSec": 10,
+          "narration": "Kertas juga membuat kita dapat menyimpan informasi lebih lama dan lebih efisien dibandingkan dengan bahan lain.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "Gambar beragam dokumen dan buku yang disusun rapi., topic: Sejarah, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "macro",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 7,
+          "durationSec": 10,
+          "narration": "Inovasi ini menjadi dasar bagi industri percetakan dan pendidikan yang kita kenal sekarang.",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "Ilustrasi mesin cetak yang sedang beroperasi., topic: Sejarah, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "historical",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 8,
+          "durationSec": 10,
+          "narration": "Jadi, tanpa kertas, banyak pengetahuan yang mungkin tidak akan pernah kita ketahui.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Visual orang-orang belajar dan membaca menggunakan buku., topic: Sejarah, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "human engagement",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 9,
+          "durationSec": 10.2,
+          "narration": "Sekarang, kamu tahu bahwa kertas dari bambu adalah salah satu penemuan terpenting dalam sejarah. Apa lagi yang ingin kamu pelajari?",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Gambar simbol kertas dengan berbagai informasi di sekitarnya., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "conceptual",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [
+        {
+          "sceneIndex": 1,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_67adf16977ad-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "url": "/generated/images/tau_67adf16977ad-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "Close-up dari batang bambu yang tumbuh di alam., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_67adf16977ad-scene-2-cara-kerjanya.jpg",
+          "url": "/generated/images/tau_67adf16977ad-scene-2-cara-kerjanya.jpg",
+          "prompt": "Peta kuno Tiongkok yang menunjukkan lokasi dan sejarah., topic: Sejarah, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_67adf16977ad-scene-3-contoh-sederhana.jpg",
+          "url": "/generated/images/tau_67adf16977ad-scene-3-contoh-sederhana.jpg",
+          "prompt": "Diagram proses pembuatan kertas dari bambu., topic: Sejarah, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_67adf16977ad-scene-4-bagian-paling-penting.jpg",
+          "url": "/generated/images/tau_67adf16977ad-scene-4-bagian-paling-penting.jpg",
+          "prompt": "Ilustrasi seseorang sedang memukul serat bambu., topic: Sejarah, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_67adf16977ad-scene-5-kenapa-ini-menarik.jpg",
+          "url": "/generated/images/tau_67adf16977ad-scene-5-kenapa-ini-menarik.jpg",
+          "prompt": "Visualisasi buku dan manuskrip kuno yang dihasilkan dari kertas., topic: Sejarah, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_67adf16977ad-scene-6-yang-sering-salah-dipahami.jpg",
+          "url": "/generated/images/tau_67adf16977ad-scene-6-yang-sering-salah-dipahami.jpg",
+          "prompt": "Gambar beragam dokumen dan buku yang disusun rapi., topic: Sejarah, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_67adf16977ad-scene-7-fakta-utama.jpg",
+          "url": "/generated/images/tau_67adf16977ad-scene-7-fakta-utama.jpg",
+          "prompt": "Ilustrasi mesin cetak yang sedang beroperasi., topic: Sejarah, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_67adf16977ad-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "url": "/generated/images/tau_67adf16977ad-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "Visual orang-orang belajar dan membaca menggunakan buku., topic: Sejarah, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_67adf16977ad-scene-9-cara-kerjanya.jpg",
+          "url": "/generated/images/tau_67adf16977ad-scene-9-cara-kerjanya.jpg",
+          "prompt": "Gambar simbol kertas dengan berbagai informasi di sekitarnya., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
+      "clips": [],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "shimmer",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_67adf16977ad-openai-natural-narration.mp3",
+        "url": "/generated/audio/tau_67adf16977ad-openai-natural-narration.mp3",
+        "characters": 932
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_67adf16977ad-openai-sejarah-kertas-dari-bambu-apa-rahasia-di-baliknya.mp4",
+        "url": "/generated/videos/tau_67adf16977ad-openai-sejarah-kertas-dari-bambu-apa-rahasia-di-baliknya.mp4",
+        "provider": "openai",
+        "durationSec": 55.73,
+        "scenes": 9
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Tahukah kamu bahwa kertas pertama kali dibuat dari bambu? Mari kita gali cerita di balik penemuan penting ini. Kertas pertama kali ditemukan di Tiongkok sekitar seribu tahun sebelum masehi. Proses pembuatan kertas dari bambu melibatkan pengolahan serat yang rumit, dimulai dengan memotong dan merebus bambu. Setelah diolah, serat bambu dicampur dengan air dan dipukul hingga membentuk adonan kertas. Kertas memungkinkan penyebaran pengetahuan dan ide dengan cepat, mendorong kemajuan budaya dan ilmu pengetahuan. Kertas juga membuat kita dapat menyimpan informasi lebih lama dan lebih efisien dibandingkan dengan bahan lain. Inovasi ini menjadi dasar bagi industri percetakan dan pendidikan yang kita kenal sekarang. Jadi, tanpa kertas, banyak pengetahuan yang mungkin tidak akan pernah kita ketahui. Sekarang, kamu tahu bahwa kertas dari bambu adalah salah satu penemuan terpenting dalam sejarah. Apa lagi yang ingin kamu pelajari?"
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_67adf16977ad-thumbnail-sejarah-kertas-dari-bambu-apa-rahasia-di-baliknya.jpg",
+        "url": "/generated/thumbnails/tau_67adf16977ad-thumbnail-sejarah-kertas-dari-bambu-apa-rahasia-di-baliknya.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 1699,
+      "outputTokens": 1440,
+      "totalTokens": 3139,
+      "storyUsd": 0.00298,
+      "imageUnitUsd": 0.006,
+      "imageUsd": 0.054,
+      "ttsUsd": 0.01398,
+      "totalUsd": 0.07096
+    },
+    "progress": {
+      "percent": 100,
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
+    }
+  },
+  {
+    "id": "tau_08b377458f0c",
+    "source": "openai",
+    "status": "rendered",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-06-19T02:45:20.494Z",
+    "updatedAt": "2026-06-19T03:12:26.354Z",
+    "input": {
+      "topic": "Sains",
+      "category": "Sains",
+      "hookStyle": "Ada satu elemen di alam yang bisa mengubah segalanya, tapi jarang kita perhatikan. Apa ya?",
+      "selectedIdea": {
+        "id": "idea_4405c9b5bf7d",
+        "title": "Rahasia Awal Mula Bumi: Dari Mana Asalnya",
+        "topic": "Sains",
+        "hook": "Pernahkah kamu bertanya-tanya bagaimana Bumi bisa ada? Mari kita gali asal-usul planet kita.",
+        "category": "Sains",
+        "angle": "Membahas teori ilmiah mengenai pembentukan Bumi dan proses yang terjadi.",
+        "whyGood": "Menarik karena banyak orang penasaran dengan asal mula planet kita dan dapat disajikan dalam visual yang menarik."
+      },
+      "tone": "antusias, penuh energi, ilmiah tapi mudah dipahami",
+      "durationSec": 90,
+      "sceneCount": 8,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1536",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "ErXwobaYiN019PkySvjV",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 3.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "stock"
+    },
+    "title": "Rahasia Awal Mula Bumi: Dari Mana Asalnya",
+    "plan": {
+      "title": "Rahasia Awal Mula Bumi: Dari Mana Asalnya",
+      "hook": "Pernahkah kamu bertanya-tanya bagaimana Bumi bisa ada? Mari kita gali asal-usul planet kita.",
+      "summary": "Bumi terbentuk dari debu dan gas di luar angkasa melalui proses kompleks yang memakan waktu jutaan tahun. Memahami asal-usul Bumi membantu kita memahami tempat tinggal kita.",
+      "importantPoints": [
+        "Bumi terbentuk sekitar 4,5 miliar tahun yang lalu dari nebula matahari.",
+        "Proses akresi mengumpulkan material yang akhirnya membentuk planet.",
+        "Suhu ekstrem dan aktivitas geologis awal berkontribusi pada pembentukan atmosfer.",
+        "Air di Bumi berasal dari komet dan proses geologis.",
+        "Studi tentang asal-usul Bumi memberi wawasan tentang kehidupan dan lingkungan kita."
+      ],
+      "factCheckNote": "Semua informasi dalam video ini didasarkan pada teori ilmiah yang berlaku tentang pembentukan Bumi.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 11.93,
+          "narration": "Bumi yang kita huni ini sebenarnya adalah hasil dari proses yang sangat rumit dan menakjubkan.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Visual planet Bumi dari luar angkasa, terlihat indah dan cerah., topic: Sains, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "close-up",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 11.25,
+          "narration": "Sekitar 4,5 miliar tahun yang lalu, nebula matahari menjadi tempat lahirnya planet kita.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Diagram konseptual nebula matahari dengan material membentuk planet., topic: Sains, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "conceptual diagram",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 3,
+          "durationSec": 11.25,
+          "narration": "Melalui proses yang disebut akresi, material dari ruang angkasa mulai saling menarik dan berkumpul.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "Gumpalan debu dan gas di ruang angkasa yang saling mendekat., topic: Sains, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "animation of particles gathering",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 4,
+          "durationSec": 11.25,
+          "narration": "Proses ini berlangsung selama jutaan tahun hingga terbentuklah bola panas yang kita kenal sebagai Bumi.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "Visual yang menunjukkan bola panas yang perlahan mendingin., topic: Sains, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "macro",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 5,
+          "durationSec": 11.25,
+          "narration": "Suhu yang ekstrem dan aktivitas geologis awal membantu membentuk atmosfer Bumi.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "Visual atmosfer yang terbentuk di sekitar planet., topic: Sains, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "animation of Earth's atmosphere forming",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 6,
+          "durationSec": 11.25,
+          "narration": "Air yang penting bagi kehidupan kita mungkin berasal dari komet dan proses geologis di Bumi.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "Gambaran komet yang jatuh ke Bumi membawa air., topic: Sains, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "animation of comet impact",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 7,
+          "durationSec": 11.25,
+          "narration": "Dengan memahami asal-usul Bumi, kita bisa lebih menghargai planet ini sebagai rumah kita.",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "Visual indah Bumi dengan manusia di atasnya mengagumi pemandangan., topic: Sains, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "nature",
+          "avatarPose": "thumbs_up"
+        },
+        {
+          "index": 8,
+          "durationSec": 11.47,
+          "narration": "Jadi, siap untuk menjelajahi lebih dalam tentang rahasia planet kita? Mari kita cari tahu!",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Visual eksplorasi ruang angkasa dengan tanda tanya besar., topic: Sains, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "animation of space exploration",
+          "avatarPose": "thinking"
+        }
+      ]
+    },
+    "assets": {
+      "images": [
+        {
+          "sceneIndex": 1,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_08b377458f0c-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "url": "/generated/images/tau_08b377458f0c-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "Visual planet Bumi dari luar angkasa, terlihat indah dan cerah., topic: Sains, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_08b377458f0c-scene-2-cara-kerjanya.jpg",
+          "url": "/generated/images/tau_08b377458f0c-scene-2-cara-kerjanya.jpg",
+          "prompt": "Diagram konseptual nebula matahari dengan material membentuk planet., topic: Sains, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_08b377458f0c-scene-3-contoh-sederhana.jpg",
+          "url": "/generated/images/tau_08b377458f0c-scene-3-contoh-sederhana.jpg",
+          "prompt": "Gumpalan debu dan gas di ruang angkasa yang saling mendekat., topic: Sains, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_08b377458f0c-scene-4-bagian-paling-penting.jpg",
+          "url": "/generated/images/tau_08b377458f0c-scene-4-bagian-paling-penting.jpg",
+          "prompt": "Visual yang menunjukkan bola panas yang perlahan mendingin., topic: Sains, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_08b377458f0c-scene-5-kenapa-ini-menarik.jpg",
+          "url": "/generated/images/tau_08b377458f0c-scene-5-kenapa-ini-menarik.jpg",
+          "prompt": "Visual atmosfer yang terbentuk di sekitar planet., topic: Sains, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_08b377458f0c-scene-6-yang-sering-salah-dipahami.jpg",
+          "url": "/generated/images/tau_08b377458f0c-scene-6-yang-sering-salah-dipahami.jpg",
+          "prompt": "Gambaran komet yang jatuh ke Bumi membawa air., topic: Sains, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_08b377458f0c-scene-7-fakta-utama.jpg",
+          "url": "/generated/images/tau_08b377458f0c-scene-7-fakta-utama.jpg",
+          "prompt": "Visual indah Bumi dengan manusia di atasnya mengagumi pemandangan., topic: Sains, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_08b377458f0c-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "url": "/generated/images/tau_08b377458f0c-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "Visual eksplorasi ruang angkasa dengan tanda tanya besar., topic: Sains, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_08b377458f0c-scene-1-stock.mp4",
+          "url": "/generated/clips/tau_08b377458f0c-scene-1-stock.mp4",
+          "prompt": "Earth formation process",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_08b377458f0c-scene-2-stock.mp4",
+          "url": "/generated/clips/tau_08b377458f0c-scene-2-stock.mp4",
+          "prompt": "Solar nebula formation",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_08b377458f0c-scene-3-stock.mp4",
+          "url": "/generated/clips/tau_08b377458f0c-scene-3-stock.mp4",
+          "prompt": "Space accretion process",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_08b377458f0c-scene-4-stock.mp4",
+          "url": "/generated/clips/tau_08b377458f0c-scene-4-stock.mp4",
+          "prompt": "Earth formation B-roll",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_08b377458f0c-scene-5-stock.mp4",
+          "url": "/generated/clips/tau_08b377458f0c-scene-5-stock.mp4",
+          "prompt": "Extreme temperature geology",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_08b377458f0c-scene-6-stock.mp4",
+          "url": "/generated/clips/tau_08b377458f0c-scene-6-stock.mp4",
+          "prompt": "Water origins B-roll",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_08b377458f0c-scene-7-stock.mp4",
+          "url": "/generated/clips/tau_08b377458f0c-scene-7-stock.mp4",
+          "prompt": "Earth origins footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_08b377458f0c-scene-8-stock.mp4",
+          "url": "/generated/clips/tau_08b377458f0c-scene-8-stock.mp4",
+          "prompt": "Planet secrets B-roll",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "shimmer",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_08b377458f0c-openai-natural-narration.mp3",
+        "url": "/generated/audio/tau_08b377458f0c-openai-natural-narration.mp3",
+        "characters": 741
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_08b377458f0c-openai-rahasia-awal-mula-bumi-dari-mana-asalnya.mp4",
+        "url": "/generated/videos/tau_08b377458f0c-openai-rahasia-awal-mula-bumi-dari-mana-asalnya.mp4",
+        "provider": "openai",
+        "durationSec": 45.6,
+        "scenes": 8
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Bumi yang kita huni ini sebenarnya adalah hasil dari proses yang sangat rumit dan menakjubkan. Sekitar 4,5 miliar tahun yang lalu, nebula matahari menjadi tempat lahirnya planet kita. Melalui proses yang disebut akresi, material dari ruang angkasa mulai saling menarik dan berkumpul. Proses ini berlangsung selama jutaan tahun hingga terbentuklah bola panas yang kita kenal sebagai bumi. Suhu yang ekstrem dan aktivitas geologis awal membantu membentuk atmosfer bumi. Air yang penting bagi kehidupan kita mungkin berasal dari komet dan proses geologis di bumi. Dengan memahami asal-usul bumi, kita bisa lebih menghargai planet ini sebagai rumah kita. Jadi, siap untuk menjelajahi lebih dalam tentang rahasia planet kita? Mari kita cari tahu."
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_08b377458f0c-thumbnail-rahasia-awal-mula-bumi-dari-mana-asalnya.jpg",
+        "url": "/generated/thumbnails/tau_08b377458f0c-thumbnail-rahasia-awal-mula-bumi-dari-mana-asalnya.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 1723,
+      "outputTokens": 1294,
+      "totalTokens": 3017,
+      "storyUsd": 0.00276,
+      "imageUnitUsd": 0.006,
+      "imageUsd": 0.048,
+      "ttsUsd": 0.01111,
+      "totalUsd": 0.06187,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 100,
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
+    }
+  },
+  {
+    "id": "tau_73c3e745ecc7",
+    "source": "openai",
+    "status": "uploading",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-06-19T03:16:50.604Z",
+    "updatedAt": "2026-06-19T03:22:57.694Z",
+    "input": {
+      "topic": "Sejarah",
+      "category": "Sejarah",
+      "hookStyle": "Sejarah sering kali dianggap membosankan, padahal banyak kejadian menarik yang membentuk dunia kita.",
+      "selectedIdea": {
+        "id": "idea_b8610902b4c0",
+        "title": "Kota Hilang: Bagaimana Petra Terjaga Dalam Pasir",
+        "topic": "Sejarah",
+        "hook": "Pernah dengar tentang Petra? Kota kuno ini tersembunyi di pegunungan dan penuh misteri! Yuk, kita telusuri kisahnya.",
+        "category": "Sejarah",
+        "angle": "Menyingkap bagaimana Petra, yang dibangun di tebing, bisa bertahan dari cuaca ekstrem dan mengapa menjadi salah satu tujuan wisata terkenal.",
+        "whyGood": "Kisah kota hilang selalu menarik dan dapat memicu rasa ingin tahu tentang sejarah manusia."
+      },
+      "tone": "penasaran, edukatif, inspiratif",
+      "durationSec": 90,
+      "sceneCount": 9,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1536",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "VR6A4UBqFncf015A2w4H",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 2.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "stock"
+    },
+    "title": "Kota Hilang: Bagaimana Petra Terjaga Dalam Pasir",
+    "plan": {
+      "title": "Kota Hilang: Bagaimana Petra Terjaga Dalam Pasir",
+      "hook": "Pernah dengar tentang Petra? Kota kuno ini tersembunyi di pegunungan dan penuh misteri! Yuk, kita telusuri kisahnya.",
+      "summary": "Petra, kota kuno yang terukir di tebing, mampu bertahan dari cuaca ekstrem berkat teknik pembangunan yang cerdas. Ini mengungkapkan kekuatan arsitektur manusia.",
+      "importantPoints": [
+        "Petra didirikan oleh suku Nabatea dan terkenal dengan arsitektur tebingnya.",
+        "Teknik pengairan yang inovatif membantu mengatasi cuaca kering di daerah tersebut.",
+        "Petra menjadi jalur perdagangan penting yang menghubungkan Timur dan Barat.",
+        "Kota ini sempat terlupakan hingga ditemukan kembali pada abad ke-19.",
+        "Sekarang, Petra menjadi salah satu situs warisan dunia UNESCO yang diakui."
+      ],
+      "factCheckNote": "Semua informasi dalam video ini berdasarkan penelitian arkeologis dan sejarah yang terpercaya.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 10.6,
+          "narration": "Petra, kota yang dikenal sebagai 'Kota Batu', terletak di Yordania. Kota ini dibangun di dalam tebing dan dikelilingi oleh gurun.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Pemandangan Petra dari jauh, menunjukkan tebing dan bangunan batu., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "alam",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 10,
+          "narration": "Dibangun oleh suku Nabatea, Petra menjadi pusat perdagangan penting pada zaman kuno.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Ilustrasi perdagangan kuno di Petra dengan karavan., topic: Sejarah, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "arsip sejarah",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 3,
+          "durationSec": 10,
+          "narration": "Satu dari banyak rahasia Petra adalah sistem pengairan yang canggih. Mereka menciptakan saluran untuk mengumpulkan air hujan.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "Diagram sistem pengairan kuno di Petra., topic: Sejarah, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "diagram konseptual",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 4,
+          "durationSec": 10,
+          "narration": "Teknik ini memungkinkan mereka bertahan dari suhu ekstrem di padang pasir.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "Pemandangan gurun dengan suhu yang sangat tinggi., topic: Sejarah, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "alam",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 5,
+          "durationSec": 10,
+          "narration": "Petra sempat terlupakan selama berabad-abad, hingga ditemukan kembali oleh penjelajah Swiss, Johann Ludwig Burckhardt, pada tahun 1812.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "Ilustrasi penemuan Petra oleh Burckhardt., topic: Sejarah, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "arsip sejarah",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 6,
+          "durationSec": 10,
+          "narration": "Kota ini diakui sebagai salah satu keajaiban dunia modern dan menjadi tujuan wisata yang populer.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "Wisatawan berkunjung ke Petra, mengagumi arsitektur., topic: Sejarah, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "manusia belajar/mengamati",
+          "avatarPose": "thumbs_up"
+        },
+        {
+          "index": 7,
+          "durationSec": 10,
+          "narration": "Arsitektur Petra yang unik, termasuk bangunan dan kuil yang dipahat langsung dari batu, menjadi daya tarik tersendiri.",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "Close-up detail arsitektur Petra., topic: Sejarah, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "visual makro",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 8,
+          "durationSec": 10,
+          "narration": "Petra mengajarkan kita tentang inovasi manusia dan bagaimana teknologi kuno dapat beradaptasi dengan lingkungan.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Ilustrasi inovasi dan adaptasi manusia di alam., topic: Sejarah, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "konsep",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 9,
+          "durationSec": 10.2,
+          "narration": "Dengan semua kisah dan rahasianya, Petra tetap menjadi simbol kekuatan dan kecerdasan peradaban manusia.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Pemandangan indah Petra saat matahari terbenam., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "alam",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [
+        {
+          "sceneIndex": 1,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_73c3e745ecc7-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_73c3e745ecc7-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "Pemandangan Petra dari jauh, menunjukkan tebing dan bangunan batu., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_73c3e745ecc7-scene-2-cara-kerjanya.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_73c3e745ecc7-scene-2-cara-kerjanya.jpg",
+          "prompt": "Ilustrasi perdagangan kuno di Petra dengan karavan., topic: Sejarah, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_73c3e745ecc7-scene-3-contoh-sederhana.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_73c3e745ecc7-scene-3-contoh-sederhana.jpg",
+          "prompt": "Diagram sistem pengairan kuno di Petra., topic: Sejarah, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_73c3e745ecc7-scene-4-bagian-paling-penting.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_73c3e745ecc7-scene-4-bagian-paling-penting.jpg",
+          "prompt": "Pemandangan gurun dengan suhu yang sangat tinggi., topic: Sejarah, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_73c3e745ecc7-scene-5-kenapa-ini-menarik.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_73c3e745ecc7-scene-5-kenapa-ini-menarik.jpg",
+          "prompt": "Ilustrasi penemuan Petra oleh Burckhardt., topic: Sejarah, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_73c3e745ecc7-scene-6-yang-sering-salah-dipahami.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_73c3e745ecc7-scene-6-yang-sering-salah-dipahami.jpg",
+          "prompt": "Wisatawan berkunjung ke Petra, mengagumi arsitektur., topic: Sejarah, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_73c3e745ecc7-scene-7-fakta-utama.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_73c3e745ecc7-scene-7-fakta-utama.jpg",
+          "prompt": "Close-up detail arsitektur Petra., topic: Sejarah, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_73c3e745ecc7-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_73c3e745ecc7-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "Ilustrasi inovasi dan adaptasi manusia di alam., topic: Sejarah, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_73c3e745ecc7-scene-9-cara-kerjanya.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_73c3e745ecc7-scene-9-cara-kerjanya.jpg",
+          "prompt": "Pemandangan indah Petra saat matahari terbenam., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_73c3e745ecc7-scene-1-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_73c3e745ecc7-scene-1-stock.mp4",
+          "prompt": "Petra desert footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_73c3e745ecc7-scene-2-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_73c3e745ecc7-scene-2-stock.mp4",
+          "prompt": "Petra ancient trade",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_73c3e745ecc7-scene-3-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_73c3e745ecc7-scene-3-stock.mp4",
+          "prompt": "Water irrigation system",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_73c3e745ecc7-scene-4-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_73c3e745ecc7-scene-4-stock.mp4",
+          "prompt": "Desert survival techniques",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_73c3e745ecc7-scene-5-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_73c3e745ecc7-scene-5-stock.mp4",
+          "prompt": "Petra discovery footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_73c3e745ecc7-scene-6-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_73c3e745ecc7-scene-6-stock.mp4",
+          "prompt": "Modern cityscape",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_73c3e745ecc7-scene-7-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_73c3e745ecc7-scene-7-stock.mp4",
+          "prompt": "Petra architecture B-roll",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_73c3e745ecc7-scene-8-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_73c3e745ecc7-scene-8-stock.mp4",
+          "prompt": "Ancient technology adaptation",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_73c3e745ecc7-scene-9-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_73c3e745ecc7-scene-9-stock.mp4",
+          "prompt": "Petra historical footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "shimmer",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_73c3e745ecc7-openai-natural-narration.mp3",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/audio/tau_73c3e745ecc7-openai-natural-narration.mp3",
+        "characters": 986
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_73c3e745ecc7-openai-kota-hilang-bagaimana-petra-terjaga-dalam-pasir.mp4",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_73c3e745ecc7-openai-kota-hilang-bagaimana-petra-terjaga-dalam-pasir.mp4",
+        "provider": "openai",
+        "durationSec": 59.17,
+        "scenes": 9
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Petra, kota yang dikenal sebagai Kota Batu, terletak di Jordania. Kota ini dibangun di dalam tebing dan dikelilingi oleh gurun. Dibangun oleh suku Nabatea, Petra menjadi pusat perdagangan penting pada zaman kuno. Satu dari banyak rahasia Petra adalah sistem pengairan yang canggih. Mereka menciptakan saluran untuk mengumpulkan air hujan. Teknik ini memungkinkan mereka bertahan dari suhu ekstrem di padang pasir. Petra sempat terlupakan selama berabad-abad hingga ditemukan kembali oleh penjelajah Swiss, Johan Ludwig Burckhardt, pada tahun 1919. Kota ini diakui sebagai salah satu ajaiban dunia modern dan menjadi tujuan wisata yang populer. Arsitektur Petra yang unik, termasuk bangunan dan kuil yang dipahat langsung dari batu, menjadi daya tarik tersendiri. Petra mengajarkan kita tentang inovasi manusia dan bagaimana teknologi kuno dapat beradaptasi dengan lingkungan. Dengan semua kisah dan rahasianya, Petra tetap menjadi simbol skikaini ke cetusyaf perdagangan manusia."
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_73c3e745ecc7-thumbnail-kota-hilang-bagaimana-petra-terjaga-dalam-pasir.jpg",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/thumbnails/tau_73c3e745ecc7-thumbnail-kota-hilang-bagaimana-petra-terjaga-dalam-pasir.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 1776,
+      "outputTokens": 1424,
+      "totalTokens": 3200,
+      "storyUsd": 0.00299,
+      "imageUnitUsd": 0.006,
+      "imageUsd": 0.054,
+      "ttsUsd": 0.01479,
+      "totalUsd": 0.07178,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 30,
+      "stage": "remote_uploading",
+      "message": "Mengunggah video ke Remote Server (FTP/SFTP)..."
+    }
+  },
+  {
+    "id": "tau_20fccfc9d3a1",
+    "source": "openai",
+    "status": "rendered",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-06-19T08:16:34.870Z",
+    "updatedAt": "2026-06-19T08:26:28.552Z",
+    "input": {
+      "topic": "Alam",
+      "category": "Alam",
+      "hookStyle": "Satu detik bisa mengubah segalanya di alam, tapi apa sebenarnya yang terjadi dalam detik itu?",
+      "selectedIdea": {
+        "id": "idea_99919e5e457f",
+        "title": "Misteri Jeruk Bali: Kenapa Bisa Seberat Ini",
+        "topic": "Alam",
+        "hook": "Jeruk Bali bisa sebesar bola basket! Kenapa bisa begitu besar?",
+        "category": "Alam",
+        "angle": "Mengungkap faktor genetik dan lingkungan yang membuat jeruk Bali bisa tumbuh sangat besar.",
+        "whyGood": "Menarik untuk pecinta tanaman dan mendorong rasa penasaran tentang buah."
+      },
+      "tone": "dramatis, mendalam, misterius, seperti narator dokumenter sejarah",
+      "durationSec": 90,
+      "sceneCount": 9,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1536",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 3.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "stock"
+    },
+    "title": "Misteri Jeruk Bali: Kenapa Bisa Seberat Ini",
+    "plan": {
+      "title": "Misteri Jeruk Bali: Kenapa Bisa Seberat Ini",
+      "hook": "Jeruk Bali bisa sebesar bola basket! Kenapa bisa begitu besar?",
+      "summary": "Jeruk Bali tumbuh sangat besar berkat kombinasi faktor genetik dan lingkungan yang ideal, menjadikannya salah satu buah paling menarik untuk dipelajari.",
+      "importantPoints": [
+        "Jeruk Bali memiliki genetik khusus yang mempengaruhi pertumbuhannya.",
+        "Lingkungan tumbuh yang baik, termasuk tanah subur dan iklim yang tepat, sangat mendukung ukuran buah ini.",
+        "Faktor air dan nutrisi yang cukup berperan penting dalam ukuran jeruk Bali.",
+        "Proses fotosintesis yang efisien membuat jeruk Bali dapat menyimpan lebih banyak energi.",
+        "Buah yang besar ini menarik perhatian para peneliti dan pecinta tanaman di seluruh dunia."
+      ],
+      "factCheckNote": "Semua informasi berdasarkan penelitian tentang pertumbuhan jeruk Bali dan faktor-faktor yang mempengaruhi ukuran buah.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 10.6,
+          "narration": "Jeruk Bali bisa sebesar bola basket! Siapa sangka, di balik ukurannya yang luar biasa, ada rahasia menarik yang menanti untuk diungkap.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "close-up jeruk Bali berukuran besar di ladang, topic: Alam, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "alam",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 2,
+          "durationSec": 10,
+          "narration": "Faktor genetik menjadi salah satu kunci utama. Jeruk Bali memiliki varietas tertentu yang memengaruhi pertumbuhan dan ukurannya.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "diagram genetik jeruk Bali, topic: Alam, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "diagram konseptual",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 3,
+          "durationSec": 10,
+          "narration": "Namun, genetik saja tidak cukup. Lingkungan tumbuh juga sangat penting, termasuk tanah yang subur dan iklim yang mendukung.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "pemandangan ladang jeruk Bali yang subur, topic: Alam, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "alam",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 4,
+          "durationSec": 10,
+          "narration": "Ketersediaan air dan nutrisi yang cukup membuat jeruk Bali mampu tumbuh maksimal. Tanpa keduanya, ukurannya bisa sangat terpengaruh.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "ilustrasi penyiraman tanaman, topic: Alam, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "eksperimen sederhana",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 5,
+          "durationSec": 10,
+          "narration": "Proses fotosintesis yang efisien juga menjadi faktor penting. Semakin baik tanaman menyerap cahaya, semakin banyak energi yang dapat disimpan.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "visual makro daun jeruk Bali, topic: Alam, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "visual makro",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 6,
+          "durationSec": 10,
+          "narration": "Ukuran besar jeruk Bali ini bukan hanya menarik perhatian, tetapi juga membuatnya menjadi subjek penelitian yang menarik.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "peneliti mempelajari jeruk Bali, topic: Alam, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "manusia belajar/mengamati",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 7,
+          "durationSec": 10,
+          "narration": "Bagi pecinta tanaman, jeruk Bali adalah simbol ketahanan dan keindahan alam. Setiap buah memiliki cerita tersendiri.",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "aroma jeruk Bali yang menggugah selera, topic: Alam, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "alam",
+          "avatarPose": "thumbs_up"
+        },
+        {
+          "index": 8,
+          "durationSec": 10,
+          "narration": "Jadi, lain kali kamu melihat jeruk Bali, ingatlah, ada banyak faktor yang menjadikannya begitu istimewa!",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "jeruk Bali di tangan seseorang, topic: Alam, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "alam",
+          "avatarPose": "thumbs_up"
+        },
+        {
+          "index": 9,
+          "durationSec": 10.2,
+          "narration": "Misteri jeruk Bali mengingatkan kita akan keajaiban alam yang masih banyak harus kita pelajari.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "pemandangan alam yang indah, topic: Alam, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "alam",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [
+        {
+          "sceneIndex": 1,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_20fccfc9d3a1-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "url": "/generated/images/tau_20fccfc9d3a1-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "close-up jeruk Bali berukuran besar di ladang, topic: Alam, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_20fccfc9d3a1-scene-2-cara-kerjanya.jpg",
+          "url": "/generated/images/tau_20fccfc9d3a1-scene-2-cara-kerjanya.jpg",
+          "prompt": "diagram genetik jeruk Bali, topic: Alam, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_20fccfc9d3a1-scene-3-contoh-sederhana.jpg",
+          "url": "/generated/images/tau_20fccfc9d3a1-scene-3-contoh-sederhana.jpg",
+          "prompt": "pemandangan ladang jeruk Bali yang subur, topic: Alam, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_20fccfc9d3a1-scene-4-bagian-paling-penting.jpg",
+          "url": "/generated/images/tau_20fccfc9d3a1-scene-4-bagian-paling-penting.jpg",
+          "prompt": "ilustrasi penyiraman tanaman, topic: Alam, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_20fccfc9d3a1-scene-5-kenapa-ini-menarik.jpg",
+          "url": "/generated/images/tau_20fccfc9d3a1-scene-5-kenapa-ini-menarik.jpg",
+          "prompt": "visual makro daun jeruk Bali, topic: Alam, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_20fccfc9d3a1-scene-6-yang-sering-salah-dipahami.jpg",
+          "url": "/generated/images/tau_20fccfc9d3a1-scene-6-yang-sering-salah-dipahami.jpg",
+          "prompt": "peneliti mempelajari jeruk Bali, topic: Alam, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_20fccfc9d3a1-scene-7-fakta-utama.jpg",
+          "url": "/generated/images/tau_20fccfc9d3a1-scene-7-fakta-utama.jpg",
+          "prompt": "aroma jeruk Bali yang menggugah selera, topic: Alam, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_20fccfc9d3a1-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "url": "/generated/images/tau_20fccfc9d3a1-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "jeruk Bali di tangan seseorang, topic: Alam, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_20fccfc9d3a1-scene-9-cara-kerjanya.jpg",
+          "url": "/generated/images/tau_20fccfc9d3a1-scene-9-cara-kerjanya.jpg",
+          "prompt": "pemandangan alam yang indah, topic: Alam, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_20fccfc9d3a1-scene-1-stock.mp4",
+          "url": "/generated/clips/tau_20fccfc9d3a1-scene-1-stock.mp4",
+          "prompt": "Bali orange footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_20fccfc9d3a1-scene-2-stock.mp4",
+          "url": "/generated/clips/tau_20fccfc9d3a1-scene-2-stock.mp4",
+          "prompt": "Genetic factors",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_20fccfc9d3a1-scene-3-stock.mp4",
+          "url": "/generated/clips/tau_20fccfc9d3a1-scene-3-stock.mp4",
+          "prompt": "Fertile soil climate",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_20fccfc9d3a1-scene-4-stock.mp4",
+          "url": "/generated/clips/tau_20fccfc9d3a1-scene-4-stock.mp4",
+          "prompt": "Bali orange growth",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_20fccfc9d3a1-scene-5-stock.mp4",
+          "url": "/generated/clips/tau_20fccfc9d3a1-scene-5-stock.mp4",
+          "prompt": "Photosynthesis process",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_20fccfc9d3a1-scene-6-stock.mp4",
+          "url": "/generated/clips/tau_20fccfc9d3a1-scene-6-stock.mp4",
+          "prompt": "Bali orange footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_20fccfc9d3a1-scene-7-stock.mp4",
+          "url": "/generated/clips/tau_20fccfc9d3a1-scene-7-stock.mp4",
+          "prompt": "Bali orange footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_20fccfc9d3a1-scene-8-stock.mp4",
+          "url": "/generated/clips/tau_20fccfc9d3a1-scene-8-stock.mp4",
+          "prompt": "Bali orange footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_20fccfc9d3a1-scene-9-stock.mp4",
+          "url": "/generated/clips/tau_20fccfc9d3a1-scene-9-stock.mp4",
+          "prompt": "Bali orange nature",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "shimmer",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_20fccfc9d3a1-openai-natural-narration.mp3",
+        "url": "/generated/audio/tau_20fccfc9d3a1-openai-natural-narration.mp3",
+        "characters": 1104
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_20fccfc9d3a1-openai-misteri-jeruk-bali-kenapa-bisa-seberat-ini.mp4",
+        "url": "/generated/videos/tau_20fccfc9d3a1-openai-misteri-jeruk-bali-kenapa-bisa-seberat-ini.mp4",
+        "provider": "openai",
+        "durationSec": 64.63,
+        "scenes": 9
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "jeruk bali bisa sebesar bola basket. Siapa sangka, dibalik ukurannya yang luar biasa, ada rahasia menarik yang menanti untuk diungkap. Faktor genetik menjadi salah satu kunci utama. Jeruk bali memiliki varietas tertentu yang memengaruhi pertumbuhan dan ukurannya. Namun, genetik saja tidak cukup. Lingkungan tumbuh juga sangat penting, termasuk tanah yang subur dan iklim yang mendukung. Ketersediaan air dan nutrisi yang cukup membuat jeruk bali mampu tumbuh maksimal. Tanpa keduanya, ukurannya bisa sangat terpengaruh. Proses fotosintesis yang efisien juga menjadi faktor penting. Semakin baik tanaman menyerap cahaya, semakin banyak energi yang dapat disimpan. Ukuran besar jeruk bali ini bukan hanya menarik perhatian, tetapi juga membuatnya menjadi subjek penelitian yang menarik. Bagi pecinta tanaman, jeruk bali adalah simbol ketahanan dan keindahan alam. Setiap buah memiliki cerita tersendiri. Jadi lain kali kamu melihat jeruk bali, ingatlah ada banyak faktor yang menjadikannya begitu istimewa. Misteri jeruk bali mengingatkan kita akan ajaiban alam yang lebih banyak harus kita pelajari."
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_20fccfc9d3a1-thumbnail-misteri-jeruk-bali-kenapa-bisa-seberat-ini.jpg",
+        "url": "/generated/thumbnails/tau_20fccfc9d3a1-thumbnail-misteri-jeruk-bali-kenapa-bisa-seberat-ini.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 1791,
+      "outputTokens": 1415,
+      "totalTokens": 3206,
+      "storyUsd": 0.00298,
+      "imageUnitUsd": 0.006,
+      "imageUsd": 0.054,
+      "ttsUsd": 0.01656,
+      "totalUsd": 0.07354,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 100,
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
+    }
+  },
+  {
+    "id": "tau_0d76eecd2e3c",
+    "source": "openai",
+    "status": "rendered",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-06-19T08:34:04.281Z",
+    "updatedAt": "2026-06-19T08:40:05.590Z",
+    "input": {
+      "topic": "Sejarah",
+      "category": "sejarah",
+      "hookStyle": "Tahukah kamu peristiwa kecil yang justru mengubah arah sejarah dunia?",
+      "selectedIdea": {
+        "id": "idea_b19a4b92d393",
+        "title": "Kenapa Piramida Punya Sudut Khusus",
+        "topic": "Sejarah",
+        "hook": "Piramida di Mesir punya sudut yang sangat presisi. Apa rahasia di baliknya?",
+        "category": "sejarah",
+        "angle": "Menjelaskan fungsi dan alasan di balik sudut tertentu pada piramida.",
+        "whyGood": "Membuat orang penasaran tentang arsitektur kuno yang rumit."
+      },
+      "tone": "dramatis, mendalam, misterius, seperti narator dokumenter sejarah",
+      "durationSec": 90,
+      "sceneCount": 9,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1536",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 2.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "hybrid"
+    },
+    "title": "Kenapa Piramida Punya Sudut Khusus",
+    "plan": {
+      "title": "Kenapa Piramida Punya Sudut Khusus",
+      "hook": "Piramida di Mesir punya sudut yang sangat presisi. Apa rahasia di baliknya?",
+      "summary": "Sudut khusus pada piramida bukan hanya soal estetika, tapi juga berkaitan dengan tujuan fungsional dan spiritual, menandakan kecanggihan arsitektur kuno Mesir.",
+      "importantPoints": [
+        "Piramida memiliki sudut sekitar 51 derajat untuk mengoptimalkan stabilitas.",
+        "Desain ini mencerminkan hubungan antara bumi dan langit dalam budaya Mesir kuno.",
+        "Konstruksi piramida memperlihatkan pemahaman matematis yang mendalam tentang geometri.",
+        "Sudut yang tepat membantu dalam pengukuran waktu dan arah matahari.",
+        "Piramida berfungsi sebagai makam serta simbol keabadian bagi para firaun."
+      ],
+      "factCheckNote": "Semua informasi yang disampaikan telah diverifikasi dan berdasarkan penelitian sejarah yang sah.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 10.6,
+          "narration": "Piramida, salah satu keajaiban dunia, memiliki sudut yang sangat presisi. Tapi, mengapa?",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Pemandangan piramida besar di Mesir dengan latar belakang langit biru., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "close-up",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 10,
+          "narration": "Sudut sekitar 51 derajat ini bukan hanya estetika, tapi berfungsi untuk stabilitas.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Diagram piramida dengan garis sudut yang jelas., topic: Sejarah, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "diagram konseptual",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 3,
+          "durationSec": 10,
+          "narration": "Desain ini mencerminkan hubungan mendalam antara dunia fisik dan spiritual Mesir kuno.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "Ilustrasi simbol-simbol Mesir kuno yang menggambarkan spiritualitas., topic: Sejarah, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "conceptual",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 4,
+          "durationSec": 10,
+          "narration": "Para arsitek Mesir memahami geometri dengan sangat baik, menciptakan struktur yang tahan lama.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "Arsitek kuno Mesir bekerja dengan alat pengukur., topic: Sejarah, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "historical archive",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 5,
+          "durationSec": 10,
+          "narration": "Sudut khas ini juga membantu dalam menentukan waktu dan arah matahari setiap hari.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "Piramida dengan sinar matahari memancarkan bayangan., topic: Sejarah, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "landscape",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 6,
+          "durationSec": 10,
+          "narration": "Fungsi piramida tidak hanya sebagai makam, tetapi juga simbol keabadian bagi firaun.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "Ilustrasi firaun di depan piramida., topic: Sejarah, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "conceptual",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 7,
+          "durationSec": 10,
+          "narration": "Penggunaan sudut yang tepat ini menunjukkan betapa canggihnya peradaban Mesir kuno.",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "Pemandangan piramida bersejarah dengan latar belakang langit senja., topic: Sejarah, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "landscape",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 8,
+          "durationSec": 10,
+          "narration": "Keahlian dalam arsitektur dan sains menjadikan piramida sebagai warisan yang mengagumkan.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Piramida dengan arsitektur yang terlihat megah dan solid., topic: Sejarah, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "macro",
+          "avatarPose": "thumbs_up"
+        },
+        {
+          "index": 9,
+          "durationSec": 10.2,
+          "narration": "Sebuah misteri yang terungkap, piramida mengajak kita untuk terus menggali pengetahuan sejarah.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Gambaran keseluruhan piramida di malam hari yang penuh bintang., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "landscape",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [
+        {
+          "sceneIndex": 1,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_0d76eecd2e3c-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "url": "/generated/images/tau_0d76eecd2e3c-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "Pemandangan piramida besar di Mesir dengan latar belakang langit biru., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_0d76eecd2e3c-scene-2-cara-kerjanya.jpg",
+          "url": "/generated/images/tau_0d76eecd2e3c-scene-2-cara-kerjanya.jpg",
+          "prompt": "Diagram piramida dengan garis sudut yang jelas., topic: Sejarah, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_0d76eecd2e3c-scene-3-contoh-sederhana.jpg",
+          "url": "/generated/images/tau_0d76eecd2e3c-scene-3-contoh-sederhana.jpg",
+          "prompt": "Ilustrasi simbol-simbol Mesir kuno yang menggambarkan spiritualitas., topic: Sejarah, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_0d76eecd2e3c-scene-4-bagian-paling-penting.jpg",
+          "url": "/generated/images/tau_0d76eecd2e3c-scene-4-bagian-paling-penting.jpg",
+          "prompt": "Arsitek kuno Mesir bekerja dengan alat pengukur., topic: Sejarah, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_0d76eecd2e3c-scene-5-kenapa-ini-menarik.jpg",
+          "url": "/generated/images/tau_0d76eecd2e3c-scene-5-kenapa-ini-menarik.jpg",
+          "prompt": "Piramida dengan sinar matahari memancarkan bayangan., topic: Sejarah, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_0d76eecd2e3c-scene-6-yang-sering-salah-dipahami.jpg",
+          "url": "/generated/images/tau_0d76eecd2e3c-scene-6-yang-sering-salah-dipahami.jpg",
+          "prompt": "Ilustrasi firaun di depan piramida., topic: Sejarah, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_0d76eecd2e3c-scene-7-fakta-utama.jpg",
+          "url": "/generated/images/tau_0d76eecd2e3c-scene-7-fakta-utama.jpg",
+          "prompt": "Pemandangan piramida bersejarah dengan latar belakang langit senja., topic: Sejarah, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_0d76eecd2e3c-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "url": "/generated/images/tau_0d76eecd2e3c-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "Piramida dengan arsitektur yang terlihat megah dan solid., topic: Sejarah, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_0d76eecd2e3c-scene-9-cara-kerjanya.jpg",
+          "url": "/generated/images/tau_0d76eecd2e3c-scene-9-cara-kerjanya.jpg",
+          "prompt": "Gambaran keseluruhan piramida di malam hari yang penuh bintang., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_0d76eecd2e3c-scene-1-stock.mp4",
+          "url": "/generated/clips/tau_0d76eecd2e3c-scene-1-stock.mp4",
+          "prompt": "Pyramid precision footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_0d76eecd2e3c-scene-2-stock.mp4",
+          "url": "/generated/clips/tau_0d76eecd2e3c-scene-2-stock.mp4",
+          "prompt": "Stability angle footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_0d76eecd2e3c-scene-3-stock.mp4",
+          "url": "/generated/clips/tau_0d76eecd2e3c-scene-3-stock.mp4",
+          "prompt": "Ancient Egypt spirituality",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_0d76eecd2e3c-scene-4-stock.mp4",
+          "url": "/generated/clips/tau_0d76eecd2e3c-scene-4-stock.mp4",
+          "prompt": "Egyptian architecture",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_0d76eecd2e3c-scene-5-stock.mp4",
+          "url": "/generated/clips/tau_0d76eecd2e3c-scene-5-stock.mp4",
+          "prompt": "Sunlight direction",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_0d76eecd2e3c-scene-6-stock.mp4",
+          "url": "/generated/clips/tau_0d76eecd2e3c-scene-6-stock.mp4",
+          "prompt": "Pyramid symbolism footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_0d76eecd2e3c-scene-7-stock.mp4",
+          "url": "/generated/clips/tau_0d76eecd2e3c-scene-7-stock.mp4",
+          "prompt": "Ancient Egypt B-roll",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_0d76eecd2e3c-scene-8-stock.mp4",
+          "url": "/generated/clips/tau_0d76eecd2e3c-scene-8-stock.mp4",
+          "prompt": "Pyramid architecture footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_0d76eecd2e3c-scene-9-stock.mp4",
+          "url": "/generated/clips/tau_0d76eecd2e3c-scene-9-stock.mp4",
+          "prompt": "Pyramid mystery footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "shimmer",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_0d76eecd2e3c-openai-natural-narration.mp3",
+        "url": "/generated/audio/tau_0d76eecd2e3c-openai-natural-narration.mp3",
+        "characters": 792
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_0d76eecd2e3c-openai-kenapa-piramida-punya-sudut-khusus.mp4",
+        "url": "/generated/videos/tau_0d76eecd2e3c-openai-kenapa-piramida-punya-sudut-khusus.mp4",
+        "provider": "openai",
+        "durationSec": 48.26,
+        "scenes": 9
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Piramida, salah satu keajaiban dunia, memiliki sudut yang sangat presisi. Tapi mengapa? Sudut sekitar mime 1 derajat ini bukan hanya estetika, tapi berfungsi untuk stabilitas. Desain ini mencerminkan hubungan mendalam antara dunia fisik dan spiritual Mesir kuno. Para arsitek Mesir memahami geometri dengan sangat baik, menciptakan struktur yang tahan lama. Sudut khas ini juga membantu dalam menentukan waktu dan arah matahari setiap hari. Fungsi piramida tidak hanya sebagai makam, tetapi juga simbol keabadian bagi firaun. Penggunaan sudut yang tepat ini menunjukkan betapa canggihnya peradaban Mesir kuno. Keahlian dalam arsitektur dan sains menjadikan piramida sebagai warisan yang mengagumkan. Sebuah misteri yang terungkap, piramida mengajak kita untuk terus menggali pengetahuan sejarah."
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_0d76eecd2e3c-thumbnail-kenapa-piramida-punya-sudut-khusus.jpg",
+        "url": "/generated/thumbnails/tau_0d76eecd2e3c-thumbnail-kenapa-piramida-punya-sudut-khusus.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 1807,
+      "outputTokens": 1384,
+      "totalTokens": 3191,
+      "storyUsd": 0.00294,
+      "imageUnitUsd": 0.006,
+      "imageUsd": 0.054,
+      "ttsUsd": 0.01188,
+      "totalUsd": 0.06882,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 100,
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
     }
   }
 ]
