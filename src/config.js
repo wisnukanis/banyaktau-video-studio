@@ -73,7 +73,7 @@ export const config = {
   },
   video: {
     provider: clean(process.env.VIDEO_PROVIDER || "gemini-veo"),
-    apiKey: process.env.VIDEO_API_KEY || process.env.GEMINI_API_KEY || process.env.DINOIKI_API_KEY || "",
+    apiKey: process.env.VIDEO_API_KEY || process.env.GEMINI_API_KEY || process.env.DINOIKI_API_KEY || process.env.OPENAI_API_KEY || "",
     baseUrl: trimSlash(process.env.VIDEO_BASE_URL || process.env.GEMINI_BASE_URL || process.env.DINOIKI_BASE_URL || "https://generativelanguage.googleapis.com"),
     endpointMode: clean(process.env.VIDEO_ENDPOINT_MODE || "gemini"),
     model: clean(process.env.VIDEO_MODEL || process.env.DINOIKI_VIDEO_MODEL || "veo-3.1-lite-generate-preview"),

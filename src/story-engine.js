@@ -2,6 +2,7 @@ import { config } from "./config.js";
 import { estimateTotalCost } from "./cost.js";
 import { requestIdeaJson, requestKnowledgeJson } from "./openai.js";
 import { clamp, cleanText, createId, nowIso } from "./util.js";
+import { ensureStrongHook } from "./hook-engine.js";
 
 const categories = [
   "sains",
@@ -229,6 +230,18 @@ export async function createIdeaRecommendations(rawInput = {}, context = {}) {
 
 export async function createKnowledgeDraft(rawInput, context = {}) {
   const input = normalizeInput(rawInput);
+  
+  if (config.openai.apiKey) {
+    try {
+      const hookResult = await ensureStrongHook(input, requestIdeaJson);
+      if (hookResult?.best?.text) {
+        input.hookStyle = hookResult.best.text;
+      }
+    } catch (err) {
+      console.warn("Optimasi Hook gagal, menggunakan hook bawaan:", err.message);
+    }
+  }
+
   const promptText = buildPrompt(input, context);
   let plan;
   let source = "offline";

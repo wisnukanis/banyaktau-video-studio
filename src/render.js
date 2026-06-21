@@ -45,51 +45,43 @@ function getAvatarParams(avatarMode) {
                        modeLower.includes("black") || 
                        modeLower.includes("hitam");
 
-  if (avatarMode === "video1") {
+  if (avatarMode === "video1" || modeLower.includes("video 1") || modeLower.includes("video1")) {
     chromaColor = "0x556a73";
     chromaSim = "0.18";
     chromaBlend = "0.1";
     avatarCrop = "crop=1080:1080,";
-  } else if (avatarMode === "video2") {
+  } else if (avatarMode === "video2" || modeLower.includes("video 2") || modeLower.includes("video2")) {
     chromaColor = "0x426684";
     chromaSim = "0.18";
     chromaBlend = "0.1";
     avatarCrop = "crop=1080:1080,";
   } else if (modeLower.includes("hijau") || modeLower.includes("green")) {
-    // Use colorkey (RGB space) for this avatar — its bg is a textured dark-green
-    // that shares YUV range with the avatar's costume, so chromakey removes too much.
-    // Actual sampled bg color: R=31 G=115 B=40 => 0x1f7328
+    // Use colorkey (RGB space) with centered green color 0x3b9b4a (RGB 59, 155, 74)
+    // to perfectly key out center background without eating into the capybara.
+    // Crop tightly at crop=820:1080:580:0 to exclude the dark vignette corners entirely.
     keyType = "colorkey";
-    chromaColor = "0x1f7328";
-    chromaSim = "0.15";
+    chromaColor = "0x3b9b4a";
+    chromaSim = "0.18";
     chromaBlend = "0.08";
-    // Avatar subject occupies left 1260 px of a 1920-wide frame
-    // Shifted X by 20px to slice off the noisy left border of the camera/encoder
-    avatarCrop = "crop=1240:1080:20:0,";
+    avatarCrop = "crop=820:1080:580:0,";
   } else if (isCircleCrop) {
     avatarCrop = "crop=min(iw\\,ih):min(iw\\,ih),";
   } else {
     avatarCrop = "crop=min(iw\\,ih):min(iw\\,ih),";
   }
 
-  const hasPadding = !isCircleCrop;
+  const hasPadding = false;
 
   return { chromaColor, chromaSim, chromaBlend, avatarCrop, isCircleCrop, keyType, hasPadding };
 }
 
 function getAvatarFilterComplex({ inputLabel, size, duration, chromaColor, chromaSim, chromaBlend, avatarCrop, rotateAngle = 5, isCircleCrop = false, keyType = "chromakey" }) {
-  const durStr = Number(duration || 4).toFixed(2);
   const rot = rotateAngle;
   if (isCircleCrop) {
     return [
       `${inputLabel}${avatarCrop}scale=${size}:${size},format=rgba,geq=r='if(gt((X-${size/2})*(X-${size/2})+(Y-${size/2})*(Y-${size/2}),${(size/2 - 5)*(size/2 - 5)}),255,r(X,Y))':g='if(gt((X-${size/2})*(X-${size/2})+(Y-${size/2})*(Y-${size/2}),${(size/2 - 5)*(size/2 - 5)}),255,g(X,Y))':b='if(gt((X-${size/2})*(X-${size/2})+(Y-${size/2})*(Y-${size/2}),${(size/2 - 5)*(size/2 - 5)}),255,b(X,Y))':a='if(gt((X-${size/2})*(X-${size/2})+(Y-${size/2})*(Y-${size/2}),${(size/2)*(size/2)}),0,255)',rotate='${rot}*sin(4.5*t)*PI/180:c=none:ow=rotw(${rot}*PI/180):oh=roth(${rot}*PI/180)'[av]`
     ].join(";");
   }
-
-  const dilationCount = size >= 360 ? 4 : 2;
-  const borderDilations = Array.from({ length: dilationCount }, () => "dilation").join(",");
-  const shadowBlur = size >= 360 ? 15 : 9;
-  const shadowOffset = size >= 360 ? 6 : 3;
 
   // Build the key filter string: colorkey (RGB) or chromakey (YUV)
   let keyFilter = `${keyType}=${chromaColor}:${chromaSim}:${chromaBlend}`;
@@ -99,24 +91,9 @@ function getAvatarFilterComplex({ inputLabel, size, duration, chromaColor, chrom
     keyFilter += ",despill=type=green";
   }
 
-  // Pad transparently to prevent boxblur from clipping the shadow at the edges
-  const padFilter = ",pad=iw+80:ih+80:40:40:color=0x00000000";
-
   return [
-    `${inputLabel}${avatarCrop}${keyFilter},scale=-1:${size},format=rgba${padFilter}[av_raw]`,
-    `[av_raw]split=5[av_main][av_border_1][av_border_2][av_shadow_1][av_shadow_2]`,
-    `[av_border_1]alphaextract,${borderDilations}[border_alpha]`,
-    `[av_border_2]geq=r=255:g=255:b=255:a=255[white_solid]`,
-    `[white_solid][border_alpha]alphamerge[white_outline]`,
-    `[av_shadow_1]alphaextract,boxblur=${shadowBlur}[shadow_alpha_blurred]`,
-    `[av_shadow_2]geq=r=0:g=0:b=0:a=255[black_solid]`,
-    `[black_solid][shadow_alpha_blurred]alphamerge,colorchannelmixer=aa=0.35[black_shadow]`,
-    `[av_main]split=2[av_disp][av_temp]`,
-    `[av_temp]geq=r=0:g=0:b=0:a=0[canvas]`,
-    `[canvas][black_shadow]overlay=x=0:y=${shadowOffset}[shadow_shifted]`,
-    `[shadow_shifted][white_outline]overlay=x=0:y=0[bg_with_outline]`,
-    `[bg_with_outline][av_disp]overlay=x=0:y=0[av_pre_rot]`,
-    `[av_pre_rot]rotate='${rot}*sin(4.5*t)*PI/180:c=none:ow=rotw(${rot}*PI/180):oh=roth(${rot}*PI/180)'[av]`
+    `${inputLabel}${avatarCrop}${keyFilter},scale=-1:${size},format=rgba[av_raw]`,
+    `[av_raw]rotate='${rot}*sin(4.5*t)*PI/180:c=none:ow=rotw(${rot}*PI/180):oh=roth(${rot}*PI/180)'[av]`
   ].join(";");
 }
 
@@ -390,28 +367,6 @@ async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection
     });
   }
 
-  // Dynamic camera motions to avoid AI looking flat zoom
-  const motions = ["zoom_in", "zoom_out", "pan_right", "pan_left", "pan_down", "pan_up"];
-  const motion = motions[index % motions.length];
-  
-  let zoomExpr = "1.12";
-  let xExpr = "iw/2-(iw/zoom/2)";
-  let yExpr = "ih/2-(ih/zoom/2)";
-  
-  if (motion === "zoom_in") {
-    zoomExpr = `min(1.0+on*0.00035,1.055)`;
-  } else if (motion === "zoom_out") {
-    zoomExpr = `if(eq(on,0),1.055,max(1.0,zoom-0.00035))`;
-  } else if (motion === "pan_right") {
-    xExpr = `(iw-iw/zoom)*(on/${frames})`;
-  } else if (motion === "pan_left") {
-    xExpr = `(iw-iw/zoom)*(1.0-on/${frames})`;
-  } else if (motion === "pan_down") {
-    yExpr = `(ih-ih/zoom)*(on/${frames})`;
-  } else if (motion === "pan_up") {
-    yExpr = `(ih-ih/zoom)*(1.0-on/${frames})`;
-  }
-
   // Papan tulis & asap dinonaktifkan atas permintaan user
   let hasFx = false;
 
@@ -425,7 +380,7 @@ async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection
     ];
 
     filterComplex = [
-      `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},zoompan=z='${zoomExpr}':x='${xExpr}':y='${yExpr}':d=${frames}:s=${width}x${height}:fps=${fps},eq=contrast=1.04:saturation=1.06:brightness=0.01[bg]`,
+      `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},eq=contrast=1.04:saturation=1.06:brightness=0.01[bg]`,
       avatarFilter,
       `[bg][av]overlay=x=W-w-20:y='if(lt(t,0.5), H-(h+${overlayMargin})*(t/0.5), H-h-${overlayMargin}+18*sin(2.5*(t-0.5)))'[out]`
     ].join(";");
@@ -449,7 +404,7 @@ async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection
     ];
 
     filterComplex = [
-      `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},zoompan=z='${zoomExpr}':x='${xExpr}':y='${yExpr}':d=${frames}:s=${width}x${height}:fps=${fps},eq=contrast=1.04:saturation=1.06:brightness=0.01[bg]`,
+      `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},eq=contrast=1.04:saturation=1.06:brightness=0.01[bg]`,
       `color=c=0x00000000:s=1024x1024:d=${duration.toFixed(2)}[canvas]`,
       `[canvas][1:v]overlay=enable='lt(mod(t,0.24),0.14)'[tmp_av]`,
       `[tmp_av][2:v]overlay=enable='gte(mod(t,0.24),0.14)'[raw_av]`,
@@ -471,7 +426,6 @@ async function makeImageSegment({ imagePath, outputPath, duration, zoomDirection
     const vf = [
       `scale=${width}:${height}:force_original_aspect_ratio=increase`,
       `crop=${width}:${height}`,
-      `zoompan=z='${zoomExpr}':x='${xExpr}':y='${yExpr}':d=${frames}:s=${width}x${height}:fps=${fps}`,
       "eq=contrast=1.04:saturation=1.06:brightness=0.01",
       "format=yuv420p"
     ].join(",");
@@ -837,7 +791,7 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
   const titleMarginR = isHorizontal ? 600 : 340;
   const titleMarginV = isHorizontal ? 60 : 78;
 
-  const subFontsize = isHorizontal ? 56 : 76;
+  const subFontsize = isHorizontal ? 56 : 88;
   const subMarginR = isHorizontal ? 360 : 80;
   const subMarginV = isHorizontal ? 120 : 850;
 
@@ -857,7 +811,7 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
     `Style: Hook,${config.render.fontTitle},${hookFontsize},&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,5.5,4.0,5,80,80,${hookMarginV},1`,
     `Style: SceneTitle,${config.render.fontTitle},${titleFontsize},&H00F7F2DC,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,4.5,3.5,7,${titleMarginL},${titleMarginR},${titleMarginV},1`,
     `Style: BoardText,${config.render.fontTitle},${isHorizontal ? 24 : 32},&H00F7F2DC,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,0,0,5,0,0,0,1`,
-    `Style: Subtitle,${config.render.fontBody},${subFontsize},&H00FFFFFF,&H000000FF,&H9A11171B,&HBF11171B,-1,0,0,0,100,100,0,0,1,5,0,2,80,${subMarginR},${subMarginV},1`,
+    `Style: Subtitle,${config.render.fontBody},${subFontsize},&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,4.5,0,2,80,${subMarginR},${subMarginV},1`,
     `Style: Point,${config.render.fontBody},72,&H00FFFFFF,&H000000FF,&H8F11171B,&HCC11171B,-1,0,0,0,100,100,0,0,3,18,0,5,96,96,0,1`,
     `Style: OutroDim,${config.render.fontBody},20,&H82000000,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,7,0,0,0,1`,
     `Style: OutroCard,${config.render.fontBody},20,&H1811171B,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,7,0,0,0,1`,
@@ -959,7 +913,7 @@ function generateKaraokeCaptionEvents(item, timing, subtitleEnd) {
       if (endTimeline - startTimeline >= 0.05) {
         const textParts = wordsText.map((word, idx) => {
           if (idx === i) {
-            return `{\\c&H003AF4FF&}${word}{\\c&HFFFFFF&}`;
+            return `{\\c&H0024E0FF&}${word}{\\c&HFFFFFF&}`;
           }
           return word;
         });

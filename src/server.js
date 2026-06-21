@@ -345,9 +345,12 @@ app.use((error, _req, res, _next) => {
   res.status(error.status || 500).json({ error: error.message || "Server error" });
 });
 
-app.listen(publicConfig().port, () => {
+const server = app.listen(publicConfig().port, () => {
   console.log(`BanyakTau Video Studio running at http://localhost:${publicConfig().port}`);
 });
+server.timeout = 900000; // 15 menit
+server.headersTimeout = 900000;
+server.requestTimeout = 900000;
 
 function requireDashboardPin(req, res, next) {
   const expected = String(process.env.AUTO_DASHBOARD_PIN || "123456").trim();

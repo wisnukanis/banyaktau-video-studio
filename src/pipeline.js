@@ -96,9 +96,23 @@ export async function ensureVisualClips(item, options = {}) {
         item.updatedAt = nowIso();
         await saveItem(item);
       } catch (error) {
-        const msg = `AI Video gagal untuk scene ${scene.index}: ${error.message}`;
-        warnings.push(msg);
-        if (options.strict) throw new Error(msg);
+        const msg = `AI Video gagal untuk scene ${scene.index}: ${error.message}. Mencoba fallback ke stock video...`;
+        console.warn(msg);
+        try {
+          const query = await extractSearchQuery(scene);
+          const clip = await fetchStockClip({ scene, query, format, itemId: item.id });
+          const clips = [...(item.assets.clips || [])];
+          const idx = clips.findIndex(c => Number(c.sceneIndex) === Number(scene.index));
+          if (idx >= 0) clips.splice(idx, 1, clip);
+          else clips.push(clip);
+          item.assets.clips = sortByScene(clips);
+          item.updatedAt = nowIso();
+          await saveItem(item);
+        } catch (stockError) {
+          const finalMsg = `AI Video gagal dan fallback stock video juga gagal untuk scene ${scene.index}: ${stockError.message}`;
+          warnings.push(finalMsg);
+          if (options.strict) throw new Error(finalMsg);
+        }
       }
     }
     return;
@@ -185,18 +199,34 @@ export async function ensureAudio(item, options = {}) {
 
   try {
     const text = narrationText(item);
+
+    // Auto-align voice with the Capybara avatar vibe if not customized
+    let voice = item.input.openaiTtsVoice;
+    let elevenlabsVoiceId = item.input.elevenlabsVoiceId;
+    const avatarMode = String(item.input.avatarMode || "").toLowerCase();
+    const isCapybara = avatarMode.includes("hijau") || avatarMode.includes("green") || 
+                       avatarMode.includes("video") || avatarMode.includes("hitam");
+    if (isCapybara) {
+      if (!voice || voice === "shimmer") {
+        voice = "onyx"; // Deep, professional, warm male voice fits the capybara perfectly
+      }
+      if (!elevenlabsVoiceId) {
+        elevenlabsVoiceId = "pNInz6obpgfrhhF21cjL"; // Adam (Deep Male)
+      }
+    }
+
     item.assets.audio = provider === "elevenlabs"
       ? await generateElevenLabsSpeech({
           itemId: item.id,
           text,
-          voiceId: item.input.elevenlabsVoiceId,
+          voiceId: elevenlabsVoiceId,
           modelId: item.input.elevenlabsModel,
           filenameSuffix: "elevenlabs-natural"
         })
       : await generateOpenAiSpeech({
           itemId: item.id,
           text,
-          voice: item.input.openaiTtsVoice,
+          voice,
           filenameSuffix: "openai-natural"
         });
     item.assets.audio.characters = text.length;

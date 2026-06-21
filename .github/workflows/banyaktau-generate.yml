@@ -67,7 +67,7 @@ jobs:
       OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL || 'https://api.openai.com/v1' }}
       STORY_MODEL: 'gpt-4o-mini'
       IMAGE_MODEL: 'gpt-image-2'
-      IMAGE_SIZE: '1024x1792'
+      IMAGE_SIZE: '1024x1536'
       IMAGE_QUALITY: ${{ github.event.inputs.image_quality || secrets.IMAGE_QUALITY || 'low' }}
       OPENAI_TTS_MODEL: 'tts-1'
       OPENAI_TTS_VOICE: ${{ secrets.OPENAI_TTS_VOICE || 'shimmer' }}
