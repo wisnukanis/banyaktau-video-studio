@@ -16,7 +16,7 @@ async function generateGeminiClip({ itemId, scene, prompt }) {
   const clipPrompt = sanitizeVideoPrompt(prompt || scene?.videoPrompt || scene?.imagePrompt || scene?.narration);
   const model = config.video.model.replace(/^models\//, "");
   const cleanVideoBase = (config.video.baseUrl || "").replace(/\/+$/g, "");
-  const baseUrl = cleanVideoBase.endsWith("/v1beta") ? cleanVideoBase : joinUrl(cleanVideoBase, "v1beta");
+  const baseUrl = cleanVideoBase.endsWith("/v1beta") || cleanVideoBase.endsWith("/v1alpha") ? cleanVideoBase : joinUrl(cleanVideoBase, "v1beta");
   const createUrl = `${baseUrl}/models/${encodeURIComponent(model)}:predictLongRunning`;
   const payload = {
     instances: [{ prompt: clipPrompt }],
