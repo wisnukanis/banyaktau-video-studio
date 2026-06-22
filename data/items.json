@@ -6618,5 +6618,350 @@
         "publishedAt": "2026-06-22T05:11:14.637Z"
       }
     }
+  },
+  {
+    "id": "tau_1a2199bb56a7",
+    "source": "openai",
+    "status": "uploading",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-06-22T06:43:57.380Z",
+    "updatedAt": "2026-06-22T06:49:15.229Z",
+    "input": {
+      "topic": "Sejarah",
+      "category": "sejarah",
+      "hookStyle": "Menara Condong Pisa terkenal karena kemiringannya. Tapi, apa yang membuatnya tetap berdiri?",
+      "selectedIdea": {
+        "id": "idea_cd89126704f1",
+        "title": "Mengapa Menara Condong Pisa Tidak Runtuh",
+        "topic": "Sejarah",
+        "hook": "Menara Condong Pisa terkenal karena kemiringannya. Tapi, apa yang membuatnya tetap berdiri?",
+        "category": "sejarah",
+        "angle": "Menelusuri teknik konstruksi dan faktor lingkungan yang membuat menara ini bertahan.",
+        "whyGood": "Menawarkan pemahaman tentang arsitektur dan sejarah, serta menarik secara visual dengan gambar menara."
+      },
+      "tone": "dramatis, mendalam, misterius, seperti narator dokumenter sejarah",
+      "durationSec": 120,
+      "sceneCount": 9,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1536",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 2.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "hybrid"
+    },
+    "title": "Mengapa Menara Condong Pisa Tidak Runtuh",
+    "plan": {
+      "title": "Mengapa Menara Condong Pisa Tidak Runtuh",
+      "hook": "Menara Condong Pisa terkenal karena kemiringannya. Tapi, apa yang membuatnya tetap berdiri?",
+      "summary": "Menara Condong Pisa tetap berdiri berkat teknik konstruksi cerdas dan faktor lingkungan yang mendukung. Ini penting untuk memahami arsitektur dan sejarahnya.",
+      "importantPoints": [
+        "Menara ini dibangun dengan teknik konstruksi yang inovatif pada zamannya.",
+        "Kondisi tanah yang lembek di bawah menara memberikan stabilitas tambahan.",
+        "Kemiringan menara sebenarnya tidak meningkat karena perawatan yang tepat.",
+        "Para insinyur telah melakukan restorasi untuk memastikan menara tetap aman.",
+        "Menara ini menjadi simbol ketahanan arsitektur meski dalam situasi sulit."
+      ],
+      "factCheckNote": "Semua informasi ini dikumpulkan dari sumber sejarah yang terpercaya dan studi arsitektur.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 14.13,
+          "narration": "Menara Condong Pisa, sebuah karya arsitektur yang memikat. Namun, kemiringannya justru menjadi ciri khas.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Close-up menara Condong Pisa dengan latar langit biru., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "dramatic",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 2,
+          "durationSec": 13.33,
+          "narration": "Awalnya, menara ini direncanakan berdiri tegak. Tapi, tanah yang lembek menjadi tantangan pertama.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Diagram tanah lembek di bawah menara., topic: Sejarah, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "conceptual diagram",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 3,
+          "durationSec": 13.33,
+          "narration": "Teknik konstruksi yang digunakan pada menara ini sangat inovatif, menggabungkan berbagai bahan untuk memperkuat struktur.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "Arsitek sedang menggambar rancangan menara., topic: Sejarah, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "historical archive",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 4,
+          "durationSec": 13.33,
+          "narration": "Setiap tingkatan menara memiliki desain yang berbeda, menyesuaikan dengan kemiringan yang ada.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "Visual makro detail arsitektur menara., topic: Sejarah, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "macro",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 5,
+          "durationSec": 13.33,
+          "narration": "Upaya restorasi yang dilakukan di menara ini sangat penting, memastikan kemiringan tidak semakin parah.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "Insinyur sedang memeriksa struktur menara., topic: Sejarah, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "human observation",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 6,
+          "durationSec": 13.33,
+          "narration": "Menara ini berdiri lebih dari seribu tahun, menjadi simbol ketahanan meski berada di tanah yang sulit.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "Pemandangan menara dengan pengunjung di sekitarnya., topic: Sejarah, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "nature",
+          "avatarPose": "thumbs_up"
+        },
+        {
+          "index": 7,
+          "durationSec": 13.33,
+          "narration": "Kemiringan yang unik ini justru menarik perhatian banyak pengunjung dari seluruh dunia.",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "Pengunjung berfoto dengan latar belakang menara., topic: Sejarah, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "people observing",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 8,
+          "durationSec": 13.33,
+          "narration": "Sejarah menara ini mengajarkan kita tentang pentingnya perencanaan dan inovasi dalam arsitektur.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Timeline sejarah pembangunan menara., topic: Sejarah, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "timeline",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 9,
+          "durationSec": 13.6,
+          "narration": "Menara Condong Pisa bukan hanya sekedar bangunan, tetapi juga simbol keuletan manusia dalam menghadapi tantangan.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Menara di malam hari dengan cahaya lampu., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "dramatic",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [
+        {
+          "sceneIndex": 1,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_1a2199bb56a7-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_1a2199bb56a7-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "Close-up menara Condong Pisa dengan latar langit biru., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_1a2199bb56a7-scene-2-cara-kerjanya.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_1a2199bb56a7-scene-2-cara-kerjanya.jpg",
+          "prompt": "Diagram tanah lembek di bawah menara., topic: Sejarah, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_1a2199bb56a7-scene-3-contoh-sederhana.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_1a2199bb56a7-scene-3-contoh-sederhana.jpg",
+          "prompt": "Arsitek sedang menggambar rancangan menara., topic: Sejarah, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_1a2199bb56a7-scene-4-bagian-paling-penting.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_1a2199bb56a7-scene-4-bagian-paling-penting.jpg",
+          "prompt": "Visual makro detail arsitektur menara., topic: Sejarah, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_1a2199bb56a7-scene-5-kenapa-ini-menarik.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_1a2199bb56a7-scene-5-kenapa-ini-menarik.jpg",
+          "prompt": "Insinyur sedang memeriksa struktur menara., topic: Sejarah, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_1a2199bb56a7-scene-6-yang-sering-salah-dipahami.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_1a2199bb56a7-scene-6-yang-sering-salah-dipahami.jpg",
+          "prompt": "Pemandangan menara dengan pengunjung di sekitarnya., topic: Sejarah, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_1a2199bb56a7-scene-7-fakta-utama.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_1a2199bb56a7-scene-7-fakta-utama.jpg",
+          "prompt": "Pengunjung berfoto dengan latar belakang menara., topic: Sejarah, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_1a2199bb56a7-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_1a2199bb56a7-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "Timeline sejarah pembangunan menara., topic: Sejarah, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_1a2199bb56a7-scene-9-cara-kerjanya.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_1a2199bb56a7-scene-9-cara-kerjanya.jpg",
+          "prompt": "Menara di malam hari dengan cahaya lampu., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_1a2199bb56a7-scene-1-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_1a2199bb56a7-scene-1-stock.mp4",
+          "prompt": "Pisa Tower B-roll",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_1a2199bb56a7-scene-2-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_1a2199bb56a7-scene-2-stock.mp4",
+          "prompt": "Soft ground challenges",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_1a2199bb56a7-scene-3-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_1a2199bb56a7-scene-3-stock.mp4",
+          "prompt": "Innovative construction techniques",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_1a2199bb56a7-scene-4-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_1a2199bb56a7-scene-4-stock.mp4",
+          "prompt": "Tower design variations",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_1a2199bb56a7-scene-5-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_1a2199bb56a7-scene-5-stock.mp4",
+          "prompt": "Tower restoration footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_1a2199bb56a7-scene-6-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_1a2199bb56a7-scene-6-stock.mp4",
+          "prompt": "Ancient tower resilience",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_1a2199bb56a7-scene-7-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_1a2199bb56a7-scene-7-stock.mp4",
+          "prompt": "Unique slope footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_1a2199bb56a7-scene-8-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_1a2199bb56a7-scene-8-stock.mp4",
+          "prompt": "Architectural innovation",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_1a2199bb56a7-scene-9-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_1a2199bb56a7-scene-9-stock.mp4",
+          "prompt": "Pisa Leaning Tower",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "onyx",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_1a2199bb56a7-openai-natural-narration.mp3",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/audio/tau_1a2199bb56a7-openai-natural-narration.mp3",
+        "characters": 927
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_1a2199bb56a7-openai-mengapa-menara-condong-pisa-tidak-runtuh.mp4",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_1a2199bb56a7-openai-mengapa-menara-condong-pisa-tidak-runtuh.mp4",
+        "provider": "openai",
+        "durationSec": 55.23,
+        "scenes": 9
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Menara Condong Pisa sebuah karya arsitektur yang memikat, namun kemiringannya justru menjadi ciri khas. Awalnya menara ini direncanakan berdiri tegak, tapi tanah yang lembek menjadi tantangan pertama. Teknik konstruksi yang digunakan pada menara ini sangat inovatif, menggabungkan berbagai bahan untuk memperkuat struktur. Setiap tingkatan menara memiliki desain yang berbeda, menyesuaikan dengan kemiringan yang ada. Upaya restorasi yang dilakukan di menara ini sangat penting, memastikan kemiringan tidak semakin parah. Menara ini berdiri lebih dari seribu tahun, menjadi simbol ketahanan meski berada di tanah yang sulit. Kemiringan yang unik ini justru menarik perhatian banyak pengunjung dari seluruh dunia. Sejarah menara ini mengajarkan kita tentang pentingnya perencanaan dan inovasi dalam arsitektur. Menara Condong Pisah bukan hanya sekedar bangunan. Isembur Simba Kaulutin isker nebomgab of temet."
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_1a2199bb56a7-thumbnail-mengapa-menara-condong-pisa-tidak-runtuh.jpg",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/thumbnails/tau_1a2199bb56a7-thumbnail-mengapa-menara-condong-pisa-tidak-runtuh.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 1974,
+      "outputTokens": 1396,
+      "totalTokens": 3370,
+      "storyUsd": 0.00302,
+      "imageUnitUsd": 0.006,
+      "imageUsd": 0.054,
+      "ttsUsd": 0.0139,
+      "totalUsd": 0.07092,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 30,
+      "stage": "remote_uploading",
+      "message": "Mengunggah video ke Remote Server (FTP/SFTP)..."
+    }
   }
 ]
