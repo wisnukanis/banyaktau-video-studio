@@ -15,6 +15,75 @@ const categories = [
   "tokoh dunia"
 ];
 
+export const categoryStyles = {
+  "sains": {
+    styleName: "science_documentary",
+    tone: "analytical, clear, slightly curious",
+    style: "science documentary",
+    rules: "Add slight emphasis on logic, cause-effect, and terms. Use calm curiosity, not excitement."
+  },
+  "penemuan": {
+    styleName: "discovery_suspense",
+    tone: "discovery, slightly suspenseful",
+    style: "“breaking knowledge”",
+    rules: "Build curiosity before reveal. Pause before key discoveries."
+  },
+  "sejarah": {
+    styleName: "historical_storytelling",
+    tone: "storytelling, cinematic documentary",
+    style: "chronological narration",
+    rules: "Use slightly slower pacing. Emphasize dates, events, transitions."
+  },
+  "tokoh dunia": {
+    styleName: "historical_storytelling",
+    tone: "storytelling, cinematic documentary",
+    style: "chronological narration",
+    rules: "Use slightly slower pacing. Emphasize dates, events, transitions."
+  },
+  "tubuh manusia": {
+    styleName: "medical_soft",
+    tone: "educational, soft, precise",
+    style: "medical documentary but simple",
+    rules: "Avoid drama. Focus on clarity. Use gentle explanation style."
+  },
+  "alam semesta": {
+    styleName: "cosmic_deep",
+    tone: "deep, awe, slow pacing",
+    style: "cosmic documentary",
+    rules: "Longer pauses. Slightly more mysterious tone."
+  },
+  "teknologi": {
+    styleName: "tech_explainer",
+    tone: "modern, confident, explanatory",
+    style: "tech documentary",
+    rules: "Slightly faster than history/science. Focus on function and impact."
+  },
+  "benda sehari-hari": {
+    styleName: "relatable_doc",
+    tone: "simple, friendly documentary",
+    style: "relatable explanation",
+    rules: "More casual but still documentary."
+  },
+  "random": {
+    styleName: "adaptive",
+    tone: "flexible, curiosity-driven",
+    style: "hybrid documentary",
+    rules: "Adjust dynamically based on content: mystery -> slow + suspense, fact -> neutral, surprising -> slight emphasis."
+  }
+};
+
+export function getToneStyleGuidelines(tone, category) {
+  const cleanTone = String(tone || "").trim().toLowerCase();
+  for (const key of Object.keys(categoryStyles)) {
+    if (categoryStyles[key].styleName.toLowerCase() === cleanTone) {
+      return categoryStyles[key];
+    }
+  }
+  const normalizedCat = String(category || "").toLowerCase().trim();
+  return categoryStyles[normalizedCat] || categoryStyles["random"];
+}
+
+
 function normalizeIdeaInput(input) {
   const category = cleanText(input.category || "random", 80);
   const randomCategory = categories[Math.floor(Math.random() * categories.length)];
@@ -230,7 +299,7 @@ export async function createIdeaRecommendations(rawInput = {}, context = {}) {
 
 export async function createKnowledgeDraft(rawInput, context = {}) {
   const input = normalizeInput(rawInput);
-  
+
   if (config.openai.apiKey) {
     try {
       const hookResult = await ensureStrongHook(input, requestIdeaJson);
@@ -301,13 +370,14 @@ function normalizeInput(input) {
   const chosenCategory = selectedIdea?.category || (category === "random" ? randomCategory : category);
   const durationSec = clamp(Number(input.durationSec || 90), 45, 120);
   const sceneCount = clamp(Number(input.sceneCount || Math.round(durationSec / 12)), 5, 10);
+  const catStyle = getToneStyleGuidelines(input.tone, chosenCategory);
 
   return {
     topic: cleanText(selectedIdea?.topic || input.topic || "Kapal bisa mengambang karena prinsip Archimedes", 260),
     category: chosenCategory,
     hookStyle: cleanText(selectedIdea?.hook || input.hookStyle || "", 180),
     selectedIdea,
-    tone: cleanText(input.tone || "natural, penasaran, hangat, seperti konten pengetahuan yang enak didengar", 180),
+    tone: cleanText(input.tone || catStyle.styleName, 180),
     durationSec,
     sceneCount,
     ttsProvider: String(input.ttsProvider || "openai").toLowerCase() === "elevenlabs" ? "elevenlabs" : "openai",
@@ -327,13 +397,16 @@ function buildPrompt(input, context) {
     ? context.existingItems.slice(0, 40).map((item) => `- ${item.title}: ${item.plan?.hook || item.hook || item.input?.topic || item.topic || ""}`)
     : [];
   const idea = input.selectedIdea;
+  const catStyle = getToneStyleGuidelines(input.tone, input.category);
 
   return [
     "Buat naskah video vertikal channel pengetahuan Bahasa Indonesia bernama BanyakTau.",
     "Kontennya bergaya ensiklopedia ringan: ilmu, penemuan, sejarah, alam, tubuh manusia, teknologi, atau benda sehari-hari.",
     "Tujuan: penonton merasa 'oh ternyata begitu', bukan seperti kelas formal.",
     "Wajib faktual dan hati-hati. Jangan membuat klaim palsu, jangan menyebut angka spesifik jika tidak yakin, dan jangan memakai figur publik modern secara kontroversial.",
-    "Bahasa harus natural, menyambung, dan enak dibacakan TTS. Jangan kaku seperti artikel Wikipedia. Jangan bertele-tele.",
+    "Gaya narasi harus mengikuti gaya narator dokumenter Indonesia: suara pria dewasa yang tenang, berwibawa, cerdas, tepercaya, dan memikat. Bahasa harus natural, menyambung, dan enak dibacakan TTS dengan aksen Indonesia netral.",
+    `Gaya narasi kategori (${input.category}): ${catStyle.style}. Tone: ${catStyle.tone}. Aturan tambahan: ${catStyle.rules}`,
+    "Gunakan tempo dan jeda alami sesuai dengan gaya kategori di atas. Tekankan kata kunci secara halus tanpa berlebihan atau berteriak. Hindari gaya heboh ala influencer YouTube atau emosi berlebih.",
     "Kamu yang membuat hook, judul, dan alur narasi. Jangan terasa seperti template.",
     "Judul harus siap pakai untuk YouTube Shorts: singkat, jelas, maksimal 70 karakter, tanpa slang pembuka seperti 'gimana sih', dan kuat dibaca di thumbnail.",
     "Awali dengan satu kalimat hook yang membuat orang berhenti scroll, lalu langsung masuk ke penjelasan.",

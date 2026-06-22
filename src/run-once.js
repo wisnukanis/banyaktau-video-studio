@@ -23,12 +23,12 @@ ensureProjectDirs();
 const input = {
   topic: argValue("--topic", process.env.BANYAKTAU_TOPIC || ""),
   category: argValue("--category", process.env.BANYAKTAU_CATEGORY || "random"),
-  tone: argValue("--tone", process.env.BANYAKTAU_TONE || "natural, penasaran, hangat, seperti kreator pengetahuan yang enak didengar"),
+  tone: argValue("--tone", process.env.BANYAKTAU_TONE || "narator dokumenter TV Indonesia pria dewasa, tenang, berwibawa, tempo sedang, cerdas, tepercaya, jeda alami, transisi halus, tanpa emosi berlebih"),
   ttsProvider: argValue("--tts-provider", process.env.BANYAKTAU_TTS_PROVIDER || "openai"),
   durationSec: Number(argValue("--duration", process.env.BANYAKTAU_DURATION || "90")),
   sceneCount: Number(argValue("--scenes", process.env.BANYAKTAU_SCENES || "7")),
   imageQuality: argValue("--image-quality", process.env.IMAGE_QUALITY || "low"),
-  imageSize: argValue("--image-size", process.env.IMAGE_SIZE || "1024x1536")
+  imageSize: argValue("--image-size", process.env.IMAGE_SIZE || "1024x1792")
 };
 
 const withClip = boolValue(argValue("--with-clip", process.env.BANYAKTAU_WITH_CLIP || "false"), false);

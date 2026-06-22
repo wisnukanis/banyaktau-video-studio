@@ -63,11 +63,11 @@ export const config = {
   openai: {
     apiKey: process.env.OPENAI_API_KEY || "",
     baseUrl: trimSlash(process.env.OPENAI_BASE_URL || "https://api.openai.com/v1"),
-    storyModel: clean(process.env.STORY_MODEL || "gpt-4.1-mini"),
-    imageModel: clean(process.env.IMAGE_MODEL || "gpt-image-1-mini"),
-    imageSize: clean(process.env.IMAGE_SIZE || "1024x1536"),
-    imageQuality: clean(process.env.IMAGE_QUALITY || "low"),
-    ttsModel: clean(process.env.OPENAI_TTS_MODEL || process.env.TTS_MODEL || "gpt-4o-mini-tts"),
+    storyModel: clean(process.env.STORY_MODEL || "gpt-4o-mini"),
+    imageModel: clean(process.env.IMAGE_MODEL || "dall-e-3"),
+    imageSize: clean(process.env.IMAGE_SIZE || "1024x1792"),
+    imageQuality: clean(process.env.IMAGE_QUALITY || "standard"),
+    ttsModel: clean(process.env.OPENAI_TTS_MODEL || process.env.TTS_MODEL || "tts-1"),
     ttsVoice: clean(process.env.OPENAI_TTS_VOICE || process.env.TTS_VOICE || "shimmer"),
     transcribeModel: clean(process.env.OPENAI_TRANSCRIBE_MODEL || "whisper-1")
   },

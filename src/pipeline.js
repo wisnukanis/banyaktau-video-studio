@@ -6,7 +6,7 @@ import { generateOpenAiSpeech, generateSceneImage, transcribeSpeechSegments } fr
 import { renderKnowledgeVideo } from "./render.js";
 import { generateThumbnail } from "./thumbnail.js";
 import { getItem, listContextItems, saveItem } from "./storage.js";
-import { createIdeaRecommendations, createKnowledgeDraft } from "./story-engine.js";
+import { createIdeaRecommendations, createKnowledgeDraft, getToneStyleGuidelines } from "./story-engine.js";
 import { nowIso } from "./util.js";
 import { generateVideoClip } from "./video-provider.js";
 import { fetchStockClip, extractSearchQuery } from "./stock.js";
@@ -215,6 +215,9 @@ export async function ensureAudio(item, options = {}) {
       }
     }
 
+    const catStyle = getToneStyleGuidelines(item.input.tone, item.input.category);
+    const instructions = `Bacakan sebagai narator dokumenter Indonesia dengan suara pria dewasa yang tenang, berwibawa, cerdas, dan tepercaya. Gunakan tempo sedang dan aksen Indonesia netral (tidak robotik, tidak dramatis, tidak seperti iklan). Gaya: ${catStyle.style}. Tone: ${catStyle.tone}. Aturan tambahan: ${catStyle.rules}. Jangan terburu-buru, jangan berteriak, jangan terdengar heboh seperti influencer YouTube, hindari emosi berlebih.`;
+
     item.assets.audio = provider === "elevenlabs"
       ? await generateElevenLabsSpeech({
           itemId: item.id,
@@ -227,7 +230,8 @@ export async function ensureAudio(item, options = {}) {
           itemId: item.id,
           text,
           voice,
-          filenameSuffix: "openai-natural"
+          filenameSuffix: "openai-natural",
+          instructions
         });
     item.assets.audio.characters = text.length;
     try {

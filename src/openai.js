@@ -15,7 +15,7 @@ export async function requestKnowledgeJson(promptText) {
       messages: [
         {
           role: "system",
-          content: "You are an Indonesian educational short-video writer. Write factual, engaging, natural Indonesian narration for encyclopedia-style videos. Return valid JSON only."
+          content: "You are an Indonesian educational short-video writer. Write factual, engaging, natural Indonesian narration in a calm, authoritative documentary style. Return valid JSON only."
         },
         { role: "user", content: promptText }
       ],
@@ -124,7 +124,7 @@ function optimizeImage(inputPath, outputPath) {
   });
 }
 
-export async function generateOpenAiSpeech({ itemId, text, voice, filenameSuffix = "openai" }) {
+export async function generateOpenAiSpeech({ itemId, text, voice, filenameSuffix = "openai", instructions }) {
   assertOpenAi();
   await fs.mkdir(paths.audioDir, { recursive: true });
 
@@ -137,8 +137,8 @@ export async function generateOpenAiSpeech({ itemId, text, voice, filenameSuffix
     input: text,
     response_format: "mp3"
   };
-  if (!/dinoiki/i.test(config.openai.baseUrl)) {
-    payload.instructions = "Bacakan sepenuhnya dalam Bahasa Indonesia natural. Gaya suara hangat, penasaran, jelas, seperti kreator pengetahuan sedang menjelaskan fakta menarik kepada teman. Tempo sedang-cepat dan tetap santai; jangan terlalu lambat, jangan terdengar seperti robot, beri jeda ringan setelah kalimat penting, dan tekankan bagian hook dengan rasa ingin tahu.";
+  if (/dinoiki/i.test(config.openai.baseUrl)) {
+    payload.instructions = instructions || "Bacakan sebagai narator dokumenter Indonesia dengan suara pria dewasa yang tenang, berwibawa, cerdas, dan tepercaya. Gunakan tempo sedang dan aksen Indonesia netral (tidak robotik, tidak dramatis, tidak seperti iklan). Berikan jeda alami antar-kalimat dan jeda sedikit lebih lama sebelum fakta penting atau mengejutkan. Tekankan kata kunci secara halus demi membangun rasa penasaran dan takjub tanpa berlebihan. Gaya narasi tenang, percaya diri, hangat, informatif, dengan sedikit ketegangan saat mengungkap fakta dan transisi mulus. Jangan terburu-buru, jangan berteriak, jangan terdengar heboh seperti influencer YouTube, hindari emosi berlebih.";
   }
   const response = await fetch(`${config.openai.baseUrl}/audio/speech`, {
     method: "POST",

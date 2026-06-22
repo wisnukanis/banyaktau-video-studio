@@ -1,7 +1,9 @@
 const imageUsd = {
-  "1024x1024": { low: 0.005, medium: 0.011, high: 0.036 },
+  "1024x1024": { low: 0.02, medium: 0.02, high: 0.04, standard: 0.02, hd: 0.04 },
   "1024x1536": { low: 0.006, medium: 0.015, high: 0.05 },
-  "1536x1024": { low: 0.006, medium: 0.015, high: 0.05 }
+  "1536x1024": { low: 0.006, medium: 0.015, high: 0.05 },
+  "1024x1792": { low: 0.04, medium: 0.04, high: 0.08, standard: 0.04, hd: 0.08 },
+  "1792x1024": { low: 0.04, medium: 0.04, high: 0.08, standard: 0.04, hd: 0.08 }
 };
 
 export function estimateTokens(text) {

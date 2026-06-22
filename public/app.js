@@ -589,7 +589,7 @@ function formPayload() {
     durationSec: Number(form.get("durationSec")),
     sceneCount: Number(form.get("sceneCount")),
     imageQuality: form.get("imageQuality"),
-    imageSize: "1024x1536",
+    imageSize: state.config?.providers?.imageSize || "1024x1792",
     avatarMode: form.get("avatarMode") || "image",
     videoFormat: form.get("videoFormat") || "vertical",
     visualSource: form.get("visualSource") || "stock",
@@ -630,8 +630,8 @@ function renderFlow() {
 function fillSettingsForm() {
   if (!state.config) return;
   els.settingsForm.openaiBaseUrl.value = state.config.providers?.openaiBaseUrl || "https://api.openai.com/v1";
-  els.settingsForm.storyModel.value = state.config.providers?.storyModel || "gpt-4.1-mini";
-  els.settingsForm.imageModel.value = state.config.providers?.imageModel || "gpt-image-1-mini";
+  els.settingsForm.storyModel.value = state.config.providers?.storyModel || "gpt-4o-mini";
+  els.settingsForm.imageModel.value = state.config.providers?.imageModel || "dall-e-3";
   els.settingsForm.openaiTtsVoice.value = state.config.providers?.openaiTtsVoice || "shimmer";
   els.settingsForm.elevenlabsVoiceId.value = state.config.providers?.elevenlabsVoiceId || "";
   els.settingsForm.elevenlabsModel.value = state.config.providers?.elevenlabsModel || "eleven_turbo_v2_5";
@@ -1472,35 +1472,38 @@ async function publishToSocialsUI(platform) {
 }
 
 function applyCategoryDefaults(cat) {
-  if (!cat) return;
   const mapping = {
     sains: {
-      voice: "ErXwobaYiN019PkySvjV", // Antoni (Energetic Male)
-      tone: "antusias, penuh energi, ilmiah tapi mudah dipahami"
+      voice: "pNInz6obpgfrhhF21cjL", // Adam (Deep Male - Rekomendasi)
+      tone: "science_documentary"
     },
     sejarah: {
       voice: "pNInz6obpgfrhhF21cjL", // Adam (Deep Male - Rekomendasi)
-      tone: "dramatis, mendalam, misterius, seperti narator dokumenter sejarah"
+      tone: "historical_storytelling"
     },
     penemuan: {
-      voice: "VR6A4UBqFncf015A2w4H", // Arnold (Rich Male)
-      tone: "penasaran, edukatif, inspiratif"
+      voice: "pNInz6obpgfrhhF21cjL", // Adam (Deep Male - Rekomendasi)
+      tone: "discovery_suspense"
     },
     "tubuh manusia": {
-      voice: "piTKgcLEGmPEe242CwPv", // Nicole (Friendly Female)
-      tone: "bersahabat, informatif, seru"
+      voice: "pNInz6obpgfrhhF21cjL", // Adam (Deep Male - Rekomendasi)
+      tone: "medical_soft"
     },
     "alam semesta": {
       voice: "pNInz6obpgfrhhF21cjL", // Adam (Deep Male - Rekomendasi)
-      tone: "takjub, dramatis, puitis, memikirkan skala kosmis"
+      tone: "cosmic_deep"
     },
     teknologi: {
-      voice: "ErXwobaYiN019PkySvjV", // Antoni (Energetic Male)
-      tone: "modern, futuristik, cepat, penuh rasa ingin tahu"
+      voice: "pNInz6obpgfrhhF21cjL", // Adam (Deep Male - Rekomendasi)
+      tone: "tech_explainer"
     },
     "benda sehari-hari": {
-      voice: "piTKgcLEGmPEe242CwPv", // Nicole (Friendly Female)
-      tone: "santai, dekat keseharian, unik, menghibur"
+      voice: "pNInz6obpgfrhhF21cjL", // Adam (Deep Male - Rekomendasi)
+      tone: "relatable_doc"
+    },
+    random: {
+      voice: "pNInz6obpgfrhhF21cjL", // Adam (Deep Male - Rekomendasi)
+      tone: "adaptive"
     }
   };
 
