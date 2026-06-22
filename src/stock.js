@@ -108,28 +108,51 @@ export async function fetchStockClip({ scene, query, format, itemId }) {
   await fs.mkdir(paths.clipDir, { recursive: true });
   await fs.mkdir(paths.workDir, { recursive: true });
   
-  // 1. Try Pexels first
   let downloadUrl = null;
   let provider = "pexels";
+  let usedQuery = query;
   
-  console.log(`Searching Pexels for query: "${query}"`);
-  const pexelsVideos = await searchPexels(query);
-  if (pexelsVideos && pexelsVideos.length) {
-    downloadUrl = selectPexelsFile(pexelsVideos[0]);
+  const queries = [query];
+  const words = query.split(/\s+/).filter(w => w && w.length > 2);
+  if (words.length > 1) {
+    // Fall back to individual words
+    for (const word of words) {
+      if (!queries.includes(word)) queries.push(word);
+    }
   }
-  
-  // 2. Try Pixabay if Pexels failed
-  if (!downloadUrl) {
-    console.log(`Searching Pixabay for query: "${query}"`);
-    provider = "pixabay";
-    const pixabayHits = await searchPixabay(query);
+  // Generic safe fallbacks
+  const genericFallbacks = ["history", "science", "knowledge", "education", "abstract"];
+  for (const fallback of genericFallbacks) {
+    if (!queries.includes(fallback)) queries.push(fallback);
+  }
+
+  for (const q of queries) {
+    usedQuery = q;
+    // 1. Try Pexels first
+    console.log(`Searching Pexels for query: "${q}"`);
+    const pexelsVideos = await searchPexels(q);
+    if (pexelsVideos && pexelsVideos.length) {
+      downloadUrl = selectPexelsFile(pexelsVideos[0]);
+      if (downloadUrl) {
+        provider = "pexels";
+        break;
+      }
+    }
+    
+    // 2. Try Pixabay
+    console.log(`Searching Pixabay for query: "${q}"`);
+    const pixabayHits = await searchPixabay(q);
     if (pixabayHits && pixabayHits.length) {
       downloadUrl = selectPixabayFile(pixabayHits[0]);
+      if (downloadUrl) {
+        provider = "pixabay";
+        break;
+      }
     }
   }
   
   if (!downloadUrl) {
-    throw new Error(`Tidak menemukan stock video untuk kata kunci "${query}" di Pexels maupun Pixabay.`);
+    throw new Error(`Tidak menemukan stock video untuk kata kunci pencarian utama maupun cadangan di Pexels dan Pixabay.`);
   }
   
   const tempFilename = `temp-raw-stock-${itemId}-${scene.index}.mp4`;
@@ -156,7 +179,7 @@ export async function fetchStockClip({ scene, query, format, itemId }) {
     model: "stock-footage",
     path: finalPath,
     url: `/generated/clips/${finalFilename}`,
-    prompt: query,
+    prompt: usedQuery,
     seconds: 4, // standard default segment duration
     aspectRatio: format === "horizontal" ? "16:9" : "9:16",
     resolution: "720p"
