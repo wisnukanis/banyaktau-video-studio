@@ -6061,5 +6061,552 @@
       "stage": "completed",
       "message": "Video final selesai dibuat!"
     }
+  },
+  {
+    "id": "tau_f3e41af6c4ee",
+    "source": "offline",
+    "status": "draft",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-06-21T05:48:58.991Z",
+    "updatedAt": "2026-06-21T05:48:58.991Z",
+    "input": {
+      "topic": "kapal besar bisa mengambang meski terbuat dari besi",
+      "category": "sains",
+      "hookStyle": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?",
+      "selectedIdea": {
+        "id": "idea_00d664bcf69e",
+        "title": "Kenapa Kapal Besi Tidak Tenggelam",
+        "topic": "kapal besar bisa mengambang meski terbuat dari besi",
+        "hook": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?",
+        "category": "sains",
+        "angle": "Mulai dari benda berat yang terlihat mustahil mengambang, lalu masuk ke prinsip daya apung.",
+        "whyGood": "Dekat dengan pengalaman sehari-hari dan visualnya jelas. Catatan: fetch failed"
+      },
+      "tone": "dramatis, mendalam, misterius, seperti narator dokumenter sejarah",
+      "durationSec": 120,
+      "sceneCount": 7,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1536",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 2.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "ai"
+    },
+    "title": "Kenapa Kapal Besi Tidak Tenggelam",
+    "plan": {
+      "title": "Kenapa Kapal Besi Tidak Tenggelam",
+      "hook": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?: kapal besar bisa mengambang meski terbuat dari besi",
+      "summary": "Intinya, kapal besar bisa mengambang meski terbuat dari besi menarik karena hal yang tampak sederhana biasanya terjadi dari beberapa faktor yang bekerja bersama. Saat bentuk, gaya, energi, dan waktu saling memengaruhi, hasil akhirnya bisa berbeda dari dugaan kita.",
+      "importantPoints": [
+        "Ubah konsep rumit menjadi analogi sederhana."
+      ],
+      "factCheckNote": "Fallback offline karena: fetch failed. Verifikasi sumber tambahan sebelum dipublikasikan.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 18.17,
+          "narration": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?: kapal besar bisa mengambang meski terbuat dari besi. Kelihatannya sederhana, tapi di balik hal ini ada prinsip yang membuat dunia bekerja dengan cara yang rapi.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Fakta yang Jarang Dibahas, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "slow push-in, clean editorial title layer",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 17.14,
+          "narration": "Intinya, kapal besar bisa mengambang meski terbuat dari besi bisa dipahami kalau kita melihat hubungan antara bentuk, gaya, energi, dan waktu.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Cara Kerjanya, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "gentle pan, object callout feeling",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 3,
+          "durationSec": 17.14,
+          "narration": "Bayangkan sebuah benda sehari-hari. Saat satu bagian berubah sedikit saja, hasil akhirnya bisa berbeda jauh dari yang kita kira.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "Contoh Sederhana, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "soft zoom-out, documentary mood",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 4,
+          "durationSec": 17.14,
+          "narration": "Bagian pentingnya adalah proses ini tidak berdiri sendiri. Ada banyak faktor kecil yang saling membantu sampai hasilnya terlihat alami.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "Bagian Paling Penting, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "light parallax, modern knowledge-card layout",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 5,
+          "durationSec": 17.14,
+          "narration": "Jadi, hal yang sering kita anggap biasa sebenarnya menyimpan penjelasan yang cukup dalam, dan itu yang membuatnya menarik untuk dipelajari.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "Kenapa Ini Menarik, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "slow push-in, clean editorial title layer",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 6,
+          "durationSec": 17.14,
+          "narration": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?: kapal besar bisa mengambang meski terbuat dari besi. Kelihatannya sederhana, tapi di balik hal ini ada prinsip yang membuat dunia bekerja dengan cara yang rapi.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "Yang Sering Salah Dipahami, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "gentle pan, object callout feeling",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 7,
+          "durationSec": 17.49,
+          "narration": "Intinya, kapal besar bisa mengambang meski terbuat dari besi bisa dipahami kalau kita melihat hubungan antara bentuk, gaya, energi, dan waktu.",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "Fakta Utama, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "soft zoom-out, documentary mood",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [],
+      "clips": [],
+      "audio": null,
+      "video": null
+    },
+    "cost": {
+      "inputTokens": 1866,
+      "outputTokens": 1458,
+      "totalTokens": 3324,
+      "storyUsd": 0.00308,
+      "imageUnitUsd": 0.006,
+      "imageUsd": 0.042,
+      "ttsUsd": 0.01731,
+      "totalUsd": 0.06239
+    }
+  },
+  {
+    "id": "tau_7b2e67cbcf83",
+    "source": "offline",
+    "status": "draft",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-06-21T06:42:26.097Z",
+    "updatedAt": "2026-06-21T06:42:26.097Z",
+    "input": {
+      "topic": "kapal besar bisa mengambang meski terbuat dari besi",
+      "category": "sains",
+      "hookStyle": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?",
+      "selectedIdea": {
+        "id": "idea_ec4c49e410fa",
+        "title": "Kenapa Kapal Besi Tidak Tenggelam",
+        "topic": "kapal besar bisa mengambang meski terbuat dari besi",
+        "hook": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?",
+        "category": "sains",
+        "angle": "Mulai dari benda berat yang terlihat mustahil mengambang, lalu masuk ke prinsip daya apung.",
+        "whyGood": "Dekat dengan pengalaman sehari-hari dan visualnya jelas. Catatan: fetch failed"
+      },
+      "tone": "dramatis, mendalam, misterius, seperti narator dokumenter sejarah",
+      "durationSec": 120,
+      "sceneCount": 7,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1536",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 2.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "hybrid"
+    },
+    "title": "Kenapa Kapal Besi Tidak Tenggelam",
+    "plan": {
+      "title": "Kenapa Kapal Besi Tidak Tenggelam",
+      "hook": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?: kapal besar bisa mengambang meski terbuat dari besi",
+      "summary": "Intinya, kapal besar bisa mengambang meski terbuat dari besi menarik karena hal yang tampak sederhana biasanya terjadi dari beberapa faktor yang bekerja bersama. Saat bentuk, gaya, energi, dan waktu saling memengaruhi, hasil akhirnya bisa berbeda dari dugaan kita.",
+      "importantPoints": [
+        "Ubah konsep rumit menjadi analogi sederhana."
+      ],
+      "factCheckNote": "Fallback offline karena: fetch failed. Verifikasi sumber tambahan sebelum dipublikasikan.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 18.17,
+          "narration": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?: kapal besar bisa mengambang meski terbuat dari besi. Kelihatannya sederhana, tapi di balik hal ini ada prinsip yang membuat dunia bekerja dengan cara yang rapi.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Fakta yang Jarang Dibahas, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "slow push-in, clean editorial title layer",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 17.14,
+          "narration": "Intinya, kapal besar bisa mengambang meski terbuat dari besi bisa dipahami kalau kita melihat hubungan antara bentuk, gaya, energi, dan waktu.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Cara Kerjanya, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "gentle pan, object callout feeling",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 3,
+          "durationSec": 17.14,
+          "narration": "Bayangkan sebuah benda sehari-hari. Saat satu bagian berubah sedikit saja, hasil akhirnya bisa berbeda jauh dari yang kita kira.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "Contoh Sederhana, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "soft zoom-out, documentary mood",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 4,
+          "durationSec": 17.14,
+          "narration": "Bagian pentingnya adalah proses ini tidak berdiri sendiri. Ada banyak faktor kecil yang saling membantu sampai hasilnya terlihat alami.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "Bagian Paling Penting, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "light parallax, modern knowledge-card layout",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 5,
+          "durationSec": 17.14,
+          "narration": "Jadi, hal yang sering kita anggap biasa sebenarnya menyimpan penjelasan yang cukup dalam, dan itu yang membuatnya menarik untuk dipelajari.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "Kenapa Ini Menarik, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "slow push-in, clean editorial title layer",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 6,
+          "durationSec": 17.14,
+          "narration": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?: kapal besar bisa mengambang meski terbuat dari besi. Kelihatannya sederhana, tapi di balik hal ini ada prinsip yang membuat dunia bekerja dengan cara yang rapi.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "Yang Sering Salah Dipahami, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "gentle pan, object callout feeling",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 7,
+          "durationSec": 17.49,
+          "narration": "Intinya, kapal besar bisa mengambang meski terbuat dari besi bisa dipahami kalau kita melihat hubungan antara bentuk, gaya, energi, dan waktu.",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "Fakta Utama, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "soft zoom-out, documentary mood",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [],
+      "clips": [],
+      "audio": null,
+      "video": null
+    },
+    "cost": {
+      "inputTokens": 1906,
+      "outputTokens": 1458,
+      "totalTokens": 3364,
+      "storyUsd": 0.0031,
+      "imageUnitUsd": 0.006,
+      "imageUsd": 0.042,
+      "ttsUsd": 0.01731,
+      "totalUsd": 0.06241
+    }
+  },
+  {
+    "id": "tau_3536325422c9",
+    "source": "openai",
+    "status": "uploading",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-06-22T05:05:59.343Z",
+    "updatedAt": "2026-06-22T05:09:49.514Z",
+    "input": {
+      "topic": "Teknologi",
+      "category": "teknologi",
+      "hookStyle": "Robot modern mengandalkan sensor untuk berfungsi. Tapi, sensor apa yang paling vital?",
+      "selectedIdea": {
+        "id": "idea_a8c91279bd55",
+        "title": "Mengapa Robot Menggunakan Sensor Khusus",
+        "topic": "Teknologi",
+        "hook": "Robot modern mengandalkan sensor untuk berfungsi. Tapi, sensor apa yang paling vital?",
+        "category": "teknologi",
+        "angle": "Menjelaskan jenis sensor yang digunakan robot dan fungsinya.",
+        "whyGood": "Membuat penonton penasaran tentang teknologi di balik robotika dan aplikasinya dalam kehidupan sehari-hari."
+      },
+      "tone": "natural, penasaran, hangat, seperti kreator pengetahuan yang enak didengar",
+      "durationSec": 90,
+      "sceneCount": 7,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1536",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pFZP5JQG7iQjIQuC4Bku",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 2.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "hybrid"
+    },
+    "title": "Mengapa Robot Menggunakan Sensor Khusus",
+    "plan": {
+      "title": "Mengapa Robot Menggunakan Sensor Khusus",
+      "hook": "Robot modern mengandalkan sensor untuk berfungsi. Tapi, sensor apa yang paling vital?",
+      "summary": "Robot menggunakan berbagai sensor seperti sensor cahaya dan jarak untuk beradaptasi dengan lingkungannya, memudahkan tugas sehari-hari dan meningkatkan efisiensi.",
+      "importantPoints": [
+        "Sensor jarak membantu robot menghindari hambatan di jalan.",
+        "Sensor cahaya memungkinkan robot mengenali terang dan gelap.",
+        "Sensor suhu membantu robot menjaga suhu optimal saat bekerja.",
+        "Sensor suara memungkinkan robot merespons perintah suara.",
+        "Penggunaan sensor ini membuat robot lebih cerdas dan mandiri."
+      ],
+      "factCheckNote": "Semua informasi dalam video ini berdasarkan pengetahuan terkini tentang teknologi robotika.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 13.63,
+          "narration": "Bayangkan seorang robot yang bisa bergerak tanpa menabrak benda lain. Ini semua berkat sensor yang digunakannya.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Close-up robot yang bergerak dengan latar belakang objek biasa., topic: Teknologi, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "close-up",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 2,
+          "durationSec": 12.86,
+          "narration": "Salah satu sensor penting adalah sensor jarak. Sensor ini membantu robot mendeteksi seberapa jauh objek di sekitarnya.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Diagram sensor jarak yang menunjukkan cara kerjanya., topic: Teknologi, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "diagram konseptual",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 3,
+          "durationSec": 12.86,
+          "narration": "Selain itu, ada sensor cahaya. Robot bisa mengenali apakah lingkungannya terang atau gelap.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "Illustrasi robot di lingkungan terang dan gelap., topic: Teknologi, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "conceptual",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 4,
+          "durationSec": 12.86,
+          "narration": "Sensor suhu juga tak kalah penting. Ini membantu robot menjaga suhu agar tetap ideal saat bekerja.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "Visual makro sensor suhu dengan latar robot., topic: Teknologi, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "macro",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 5,
+          "durationSec": 12.86,
+          "narration": "Ada juga sensor suara. Dengan ini, robot bisa memahami perintah suara kita.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "Animasi robot mendengarkan suara dan merespons., topic: Teknologi, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "animation",
+          "avatarPose": "thumbs_up"
+        },
+        {
+          "index": 6,
+          "durationSec": 12.86,
+          "narration": "Semua sensor ini bekerja sama, menjadikan robot lebih pintar dan mandiri. Bayangkan saja, tanpa sensor, robot tak bisa melakukan tugasnya!",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "Visual eksplorasi robot yang menggunakan berbagai sensor., topic: Teknologi, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "exploration",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 7,
+          "durationSec": 13.11,
+          "narration": "Jadi, sensor mana yang paling penting bagi robot? Jawabannya ada pada tugas dan lingkungan mereka!",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "Robot di berbagai tugas berbeda., topic: Teknologi, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "varied tasks",
+          "avatarPose": "thinking"
+        }
+      ]
+    },
+    "assets": {
+      "images": [
+        {
+          "sceneIndex": 1,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_3536325422c9-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_3536325422c9-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "Close-up robot yang bergerak dengan latar belakang objek biasa., topic: Teknologi, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_3536325422c9-scene-2-cara-kerjanya.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_3536325422c9-scene-2-cara-kerjanya.jpg",
+          "prompt": "Diagram sensor jarak yang menunjukkan cara kerjanya., topic: Teknologi, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_3536325422c9-scene-3-contoh-sederhana.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_3536325422c9-scene-3-contoh-sederhana.jpg",
+          "prompt": "Illustrasi robot di lingkungan terang dan gelap., topic: Teknologi, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_3536325422c9-scene-4-bagian-paling-penting.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_3536325422c9-scene-4-bagian-paling-penting.jpg",
+          "prompt": "Visual makro sensor suhu dengan latar robot., topic: Teknologi, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_3536325422c9-scene-5-kenapa-ini-menarik.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_3536325422c9-scene-5-kenapa-ini-menarik.jpg",
+          "prompt": "Animasi robot mendengarkan suara dan merespons., topic: Teknologi, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_3536325422c9-scene-6-yang-sering-salah-dipahami.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_3536325422c9-scene-6-yang-sering-salah-dipahami.jpg",
+          "prompt": "Visual eksplorasi robot yang menggunakan berbagai sensor., topic: Teknologi, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_3536325422c9-scene-7-fakta-utama.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_3536325422c9-scene-7-fakta-utama.jpg",
+          "prompt": "Robot di berbagai tugas berbeda., topic: Teknologi, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_3536325422c9-scene-1-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_3536325422c9-scene-1-stock.mp4",
+          "prompt": "Robot movement sensor",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_3536325422c9-scene-2-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_3536325422c9-scene-2-stock.mp4",
+          "prompt": "Distance sensor footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_3536325422c9-scene-3-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_3536325422c9-scene-3-stock.mp4",
+          "prompt": "Light sensor robot",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_3536325422c9-scene-4-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_3536325422c9-scene-4-stock.mp4",
+          "prompt": "Temperature sensor footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_3536325422c9-scene-5-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_3536325422c9-scene-5-stock.mp4",
+          "prompt": "Voice recognition technology",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_3536325422c9-scene-6-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_3536325422c9-scene-6-stock.mp4",
+          "prompt": "Robot sensors teamwork",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_3536325422c9-scene-7-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_3536325422c9-scene-7-stock.mp4",
+          "prompt": "Robot sensors",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "onyx",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_3536325422c9-openai-natural-narration.mp3",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/audio/tau_3536325422c9-openai-natural-narration.mp3",
+        "characters": 736
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_3536325422c9-openai-mengapa-robot-menggunakan-sensor-khusus.mp4",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_3536325422c9-openai-mengapa-robot-menggunakan-sensor-khusus.mp4",
+        "provider": "openai",
+        "durationSec": 44.57,
+        "scenes": 7
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Bayangkan seorang robot yang bisa bergerak tanpa menabrak benda lain. Ini semua berkat sensor yang digunakannya. Salah satu sensor penting adalah sensor jarak. Sensor ini membantu robot mendeteksi seberapa jauh objek di sekitarnya. Selain itu, ada sensor cahaya. Robot bisa mengenali apakah lingkungannya terang atau gelap. Sensor suhu juga tak kalah penting. Ini membantu robot menjaga suhu agar tetap ideal saat bekerja. Ada juga sensor suara. Dengan ini, robot bisa memahami perintah suara kita. Semua sensor ini bekerja sama menjadikan robot lebih pintar dan mandiri. Bayangkan saja, tanpa sensor, robot tak bisa-bisa melakukan tugasnya. Jadi, sensor penting paling bagi robot. Jawabannya pada tugas dan lingkungan mereka."
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_3536325422c9-thumbnail-mengapa-robot-menggunakan-sensor-khusus.jpg",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/thumbnails/tau_3536325422c9-thumbnail-mengapa-robot-menggunakan-sensor-khusus.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 1937,
+      "outputTokens": 1130,
+      "totalTokens": 3067,
+      "storyUsd": 0.00258,
+      "imageUnitUsd": 0.006,
+      "imageUsd": 0.042,
+      "ttsUsd": 0.01104,
+      "totalUsd": 0.05562,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 30,
+      "stage": "remote_uploading",
+      "message": "Mengunggah video ke Remote Server (FTP/SFTP)..."
+    }
   }
 ]
