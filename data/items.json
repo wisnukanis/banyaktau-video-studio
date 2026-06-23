@@ -8645,6 +8645,25 @@
       "percent": 100,
       "stage": "completed",
       "message": "Video final selesai dibuat!"
+    },
+    "publish": {
+      "facebook": {
+        "ok": true,
+        "type": "facebook_reel",
+        "videoId": "1311766621105874",
+        "postId": "122116265049342479",
+        "url": "https://www.facebook.com/reel/1311766621105874",
+        "publishedAt": "2026-06-23T07:08:34.759Z"
+      },
+      "instagram": {
+        "ok": true,
+        "type": "instagram_reel",
+        "mediaId": "18102252317146843",
+        "containerId": "18113652844779157",
+        "igUserId": "17841423374699740",
+        "url": "https://www.instagram.com/reel/DZ62D-fETw8/",
+        "publishedAt": "2026-06-23T07:08:34.759Z"
+      }
     }
   }
 ]
