@@ -6973,5 +6973,1678 @@
         "publishedAt": "2026-06-22T07:20:03.809Z"
       }
     }
+  },
+  {
+    "id": "tau_4bf1618b28d0",
+    "source": "openai",
+    "status": "rendered",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-06-22T09:34:13.319Z",
+    "updatedAt": "2026-06-22T09:40:05.278Z",
+    "input": {
+      "topic": "Geologi dan Fenomena Alam",
+      "category": "alam",
+      "hookStyle": "Pernahkah kamu bertanya-tanya bagaimana gunung bisa muncul dari tanah yang datar?",
+      "selectedIdea": {
+        "id": "idea_a8ad40e09887",
+        "title": "Misteri Batu Datar di Taman Nasional: Kenapa Bisa Seperti Ini",
+        "topic": "Geologi dan Fenomena Alam",
+        "hook": "Ada sebuah batu datar yang bikin penasaran di Taman Nasional. Apa yang membuatnya bisa seunik ini?",
+        "category": "alam",
+        "angle": "Jelaskan tentang fenomena geologi yang menciptakan formasi batu datar dan sejarahnya.",
+        "whyGood": "Menghadirkan keunikan alam yang jarang diketahui, mengajak penonton untuk mengeksplorasi keajaiban geologi di Indonesia."
+      },
+      "tone": "penasaran, edukatif, inspiratif",
+      "durationSec": 120,
+      "sceneCount": 9,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1536",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "VR6A4UBqFncf015A2w4H",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 3.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "ai"
+    },
+    "title": "Misteri Batu Datar di Taman Nasional: Kenapa Bisa Seperti Ini",
+    "plan": {
+      "title": "Misteri Batu Datar di Taman Nasional: Kenapa Bisa Seperti Ini",
+      "hook": "Ada sebuah batu datar yang bikin penasaran di Taman Nasional. Apa yang membuatnya bisa seunik ini?",
+      "summary": "Batu datar terbentuk dari proses geologi yang unik, seperti erosi dan pelapukan. Fenomena ini menunjukkan kekayaan alam Indonesia yang menakjubkan.",
+      "importantPoints": [
+        "Batu datar biasanya terbentuk oleh proses erosi yang berlangsung ribuan tahun.",
+        "Faktor cuaca dan aktivitas air berperan penting dalam menciptakan formasi batu ini.",
+        "Formasi batu datar dapat memberikan informasi tentang sejarah geologi suatu daerah.",
+        "Indonesia memiliki banyak contoh batu datar yang menakjubkan untuk dieksplorasi.",
+        "Keberadaan batu datar menyoroti keindahan dan keragaman alam Indonesia."
+      ],
+      "factCheckNote": "Informasi yang disampaikan bersumber dari penelitian geologi dan fenomena alam yang sudah terbukti.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 14.13,
+          "narration": "Pernahkah kamu bertanya-tanya bagaimana batu datar ini bisa terbentuk? Mari kita telusuri fenomena geologinya!",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Close-up batu datar yang unik di Taman Nasional., topic: Geologi dan Fenomena Alam, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "alam",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 13.33,
+          "narration": "Batu datar ini terbentuk melalui proses yang sangat menarik. Erosi, pelapukan, dan tekanan alami memainkan peran penting.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Diagram konsep erosi dan pelapukan batu., topic: Geologi dan Fenomena Alam, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "diagram konseptual",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 3,
+          "durationSec": 13.33,
+          "narration": "Setiap batu memiliki cerita. Seiring waktu, air dan angin berperan mengukir bentuknya yang khas.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "Visualisasi air mengalir di sekitar batu., topic: Geologi dan Fenomena Alam, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "alam",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 4,
+          "durationSec": 13.33,
+          "narration": "Analoginya, bayangkan jika kamu mengukir batu dengan air. Proses ini berlangsung berabad-abad hingga membentuk yang kita lihat sekarang.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "Ilustrasi mengukir batu dengan air., topic: Geologi dan Fenomena Alam, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "diagram konseptual",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 5,
+          "durationSec": 13.33,
+          "narration": "Setiap lapisan batu menceritakan sejarah geologi daerah tersebut, mencerminkan perubahan iklim dan aktivitas geologis di masa lalu.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "Visual makro lapisan batu dengan variasi warna., topic: Geologi dan Fenomena Alam, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "alam",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 6,
+          "durationSec": 13.33,
+          "narration": "Indonesia memiliki banyak batu datar yang menarik untuk dieksplorasi, masing-masing dengan keunikan tersendiri.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "Pemandangan indah beberapa batu datar di Taman Nasional., topic: Geologi dan Fenomena Alam, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "alam",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 7,
+          "durationSec": 13.33,
+          "narration": "Fenomena ini penting, karena menunjukkan kekayaan alam dan keindahan geologi yang ada di tanah air kita.",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "Peta Indonesia dengan lokasi batu datar terkenal., topic: Geologi dan Fenomena Alam, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "alam",
+          "avatarPose": "thumbs_up"
+        },
+        {
+          "index": 8,
+          "durationSec": 13.33,
+          "narration": "Mari kita jaga keindahan ini dan terus eksplorasi keajaiban alam yang ada di sekitar kita.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Orang-orang menjelajahi Taman Nasional dengan penuh semangat., topic: Geologi dan Fenomena Alam, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "alam",
+          "avatarPose": "thumbs_up"
+        },
+        {
+          "index": 9,
+          "durationSec": 13.6,
+          "narration": "Bagian pentingnya adalah proses ini tidak berdiri sendiri. Ada banyak faktor kecil yang saling membantu sampai hasilnya terlihat alami.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Cara Kerjanya, educational visual about Geologi dan Fenomena Alam, bright editorial illustration, topic: Geologi dan Fenomena Alam, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "slow push-in, clean editorial title layer",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [
+        {
+          "sceneIndex": 1,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_4bf1618b28d0-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "url": "/generated/images/tau_4bf1618b28d0-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "Close-up batu datar yang unik di Taman Nasional., topic: Geologi dan Fenomena Alam, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_4bf1618b28d0-scene-2-cara-kerjanya.jpg",
+          "url": "/generated/images/tau_4bf1618b28d0-scene-2-cara-kerjanya.jpg",
+          "prompt": "Diagram konsep erosi dan pelapukan batu., topic: Geologi dan Fenomena Alam, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_4bf1618b28d0-scene-3-contoh-sederhana.jpg",
+          "url": "/generated/images/tau_4bf1618b28d0-scene-3-contoh-sederhana.jpg",
+          "prompt": "Visualisasi air mengalir di sekitar batu., topic: Geologi dan Fenomena Alam, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_4bf1618b28d0-scene-4-bagian-paling-penting.jpg",
+          "url": "/generated/images/tau_4bf1618b28d0-scene-4-bagian-paling-penting.jpg",
+          "prompt": "Ilustrasi mengukir batu dengan air., topic: Geologi dan Fenomena Alam, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_4bf1618b28d0-scene-5-kenapa-ini-menarik.jpg",
+          "url": "/generated/images/tau_4bf1618b28d0-scene-5-kenapa-ini-menarik.jpg",
+          "prompt": "Visual makro lapisan batu dengan variasi warna., topic: Geologi dan Fenomena Alam, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_4bf1618b28d0-scene-6-yang-sering-salah-dipahami.jpg",
+          "url": "/generated/images/tau_4bf1618b28d0-scene-6-yang-sering-salah-dipahami.jpg",
+          "prompt": "Pemandangan indah beberapa batu datar di Taman Nasional., topic: Geologi dan Fenomena Alam, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_4bf1618b28d0-scene-7-fakta-utama.jpg",
+          "url": "/generated/images/tau_4bf1618b28d0-scene-7-fakta-utama.jpg",
+          "prompt": "Peta Indonesia dengan lokasi batu datar terkenal., topic: Geologi dan Fenomena Alam, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_4bf1618b28d0-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "url": "/generated/images/tau_4bf1618b28d0-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "Orang-orang menjelajahi Taman Nasional dengan penuh semangat., topic: Geologi dan Fenomena Alam, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_4bf1618b28d0-scene-9-cara-kerjanya.jpg",
+          "url": "/generated/images/tau_4bf1618b28d0-scene-9-cara-kerjanya.jpg",
+          "prompt": "Cara Kerjanya, educational visual about Geologi dan Fenomena Alam, bright editorial illustration, topic: Geologi dan Fenomena Alam, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_4bf1618b28d0-scene-1-stock.mp4",
+          "url": "/generated/clips/tau_4bf1618b28d0-scene-1-stock.mp4",
+          "prompt": "Geological formations",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_4bf1618b28d0-scene-2-stock.mp4",
+          "url": "/generated/clips/tau_4bf1618b28d0-scene-2-stock.mp4",
+          "prompt": "Natural erosion process",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_4bf1618b28d0-scene-3-stock.mp4",
+          "url": "/generated/clips/tau_4bf1618b28d0-scene-3-stock.mp4",
+          "prompt": "Stone erosion footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_4bf1618b28d0-scene-4-stock.mp4",
+          "url": "/generated/clips/tau_4bf1618b28d0-scene-4-stock.mp4",
+          "prompt": "Water carving stone",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_4bf1618b28d0-scene-5-stock.mp4",
+          "url": "/generated/clips/tau_4bf1618b28d0-scene-5-stock.mp4",
+          "prompt": "Geological layers footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_4bf1618b28d0-scene-6-stock.mp4",
+          "url": "/generated/clips/tau_4bf1618b28d0-scene-6-stock.mp4",
+          "prompt": "Flat stones Indonesia",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_4bf1618b28d0-scene-7-stock.mp4",
+          "url": "/generated/clips/tau_4bf1618b28d0-scene-7-stock.mp4",
+          "prompt": "Natural beauty geology",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_4bf1618b28d0-scene-8-stock.mp4",
+          "url": "/generated/clips/tau_4bf1618b28d0-scene-8-stock.mp4",
+          "prompt": "Nature exploration footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_4bf1618b28d0-scene-9-stock.mp4",
+          "url": "/generated/clips/tau_4bf1618b28d0-scene-9-stock.mp4",
+          "prompt": "Natural process footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "onyx",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_4bf1618b28d0-openai-natural-narration.mp3",
+        "url": "/generated/audio/tau_4bf1618b28d0-openai-natural-narration.mp3",
+        "characters": 1042
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_4bf1618b28d0-openai-misteri-batu-datar-di-taman-nasional-kenapa-bisa-seperti-ini.mp4",
+        "url": "/generated/videos/tau_4bf1618b28d0-openai-misteri-batu-datar-di-taman-nasional-kenapa-bisa-seperti-ini.mp4",
+        "provider": "openai",
+        "durationSec": 61.4,
+        "scenes": 9
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Pernahkah kamu bertanya-tanya bagaimana batu datar ini bisa terbentuk? Mari kita telusuri fenomena geologinya. Batu datar ini terbentuk melalui proses yang sangat menarik. Erosi, pelapukan, dan tekanan alami memainkan peran penting. Setiap batu memiliki cerita. Seiring waktu, air dan angin berperan mengukir bentuknya yang khas. Analoginya, bayangkan jika kamu mengukir batu dengan air. Proses ini berlangsung berabad-abad hingga membentuk yang kita lihat sekarang. Setiap lapisan batu menceritakan sejarah geologi daerah tersebut, mencerminkan perubahan iklim dan aktivitas geologis di masa lalu. Indonesia memiliki banyak batu datar yang menarik untuk dieksplorasi, masing-masing dengan keunikan tersendiri. Fenomena ini penting karena menunjukkan kekayaan alam dan keindahan geologi yang ada di tanah air kita. Mari kita jaga keindahan ini dan terus eksplorasi keajaiban alam yang ada di sekitar kita. Bagian pentingnya adalah proses ini tidak berdiri sendiri. Ada banyak faktor kecil yang saling membantu sampai hasilnya terlihat alami."
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_4bf1618b28d0-thumbnail-misteri-batu-datar-di-taman-nasional-kenapa-bisa-seperti-ini.jpg",
+        "url": "/generated/thumbnails/tau_4bf1618b28d0-thumbnail-misteri-batu-datar-di-taman-nasional-kenapa-bisa-seperti-ini.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 2017,
+      "outputTokens": 1499,
+      "totalTokens": 3516,
+      "storyUsd": 0.00321,
+      "imageUnitUsd": 0.006,
+      "imageUsd": 0.054,
+      "ttsUsd": 0.01563,
+      "totalUsd": 0.07284
+    },
+    "progress": {
+      "percent": 100,
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
+    }
+  },
+  {
+    "id": "tau_842c14772be7",
+    "source": "openai",
+    "status": "rendered",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-06-22T10:33:58.828Z",
+    "updatedAt": "2026-06-22T10:39:07.277Z",
+    "input": {
+      "topic": "Sains",
+      "category": "Sains",
+      "hookStyle": "Pernah gak sih kamu penasaran kenapa roti bisa mengembang saat dipanggang? Ternyata ada proses kimia yang menarik di baliknya!",
+      "selectedIdea": {
+        "id": "idea_e4d1b6cf4ef3",
+        "title": "Mengapa Roti Mengembang Saat Dipanggang",
+        "topic": "Sains",
+        "hook": "Pernah gak sih kamu penasaran kenapa roti bisa mengembang saat dipanggang? Ternyata ada proses kimia yang menarik di baliknya!",
+        "category": "Sains",
+        "angle": "Menjelaskan proses fermentasi dan pembentukan gas pada adonan roti.",
+        "whyGood": "Menyajikan informasi menarik tentang ilmu sains yang berkaitan dengan makanan sehari-hari."
+      },
+      "tone": "antusias, penuh energi, ilmiah tapi mudah dipahami",
+      "durationSec": 120,
+      "sceneCount": 9,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1536",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "ErXwobaYiN019PkySvjV",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 2.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "hybrid"
+    },
+    "title": "Mengapa Roti Mengembang Saat Dipanggang",
+    "plan": {
+      "title": "Mengapa Roti Mengembang Saat Dipanggang",
+      "hook": "Pernah gak sih kamu penasaran kenapa roti bisa mengembang saat dipanggang? Ternyata ada proses kimia yang menarik di baliknya!",
+      "summary": "Roti mengembang saat dipanggang karena proses fermentasi yang menghasilkan gas karbon dioksida. Proses ini penting untuk memahami bagaimana makanan sehari-hari bisa berubah.",
+      "importantPoints": [
+        "Fermentasi adalah proses di mana ragi mengubah gula menjadi alkohol dan gas karbon dioksida.",
+        "Gas karbon dioksida yang terperangkap dalam adonan membuat roti mengembang.",
+        "Suhu tinggi saat dipanggang membuat gluten dalam adonan mengembang dan mengunci gas.",
+        "Roti yang mengembang berarti memiliki tekstur yang lebih ringan dan empuk.",
+        "Proses ini adalah contoh sempurna bagaimana sains berperan dalam kehidupan sehari-hari."
+      ],
+      "factCheckNote": "Informasi ini berdasarkan proses fermentasi umum yang terjadi pada adonan roti.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 14.13,
+          "narration": "Pernahkah kamu bertanya-tanya apa yang terjadi pada adonan roti saat dipanggang? Mari kita selami prosesnya!",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "visualisasi adonan roti yang segar dan siap dipanggang, topic: Sains, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "close-up",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 13.33,
+          "narration": "Saat kamu mencampurkan ragi dengan gula, ragi mulai berfermentasi. Proses ini menghasilkan gas karbon dioksida yang membuat adonan mengembang.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "diagram fermentasi ragi yang menunjukkan proses produksi gas, topic: Sains, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "diagram konseptual",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 3,
+          "durationSec": 13.33,
+          "narration": "Gas ini terperangkap dalam adonan, menciptakan gelembung-gelembung kecil. Inilah yang membuat roti kita menjadi ringan dan empuk.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "close-up roti yang mengembang dengan gelembung gas, topic: Sains, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "visual makro",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 4,
+          "durationSec": 13.33,
+          "narration": "Ketika adonan dipanaskan, suhu tinggi membuat gluten dalam adonan mengembang, mengunci gas karbon dioksida.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "adonan roti dalam oven yang mengembang, topic: Sains, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "eksperimen sederhana",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 5,
+          "durationSec": 13.33,
+          "narration": "Proses ini sangat penting, karena tanpa gas yang terperangkap, roti akan menjadi padat dan keras.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "perbandingan roti mengembang dan roti yang datar, topic: Sains, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "visualisasi perbandingan",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 6,
+          "durationSec": 13.33,
+          "narration": "Jadi, saat kamu menikmati roti, ingatlah bahwa ada sains yang bekerja di balik setiap gigitan.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "seseorang menikmati roti dengan ekspresi bahagia, topic: Sains, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "manusia belajar/mengamati",
+          "avatarPose": "thumbs_up"
+        },
+        {
+          "index": 7,
+          "durationSec": 13.33,
+          "narration": "Setiap roti yang mengembang adalah hasil kerja keras mikroorganisme kecil yang tak terlihat. Menarik, bukan?",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "ilustrasi ragi dan mikroorganisme, topic: Sains, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "diagram konseptual",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 8,
+          "durationSec": 13.33,
+          "narration": "Proses fermentasi ini bukan hanya terjadi pada roti, tapi juga pada banyak makanan lainnya seperti bir dan yogurt.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "berbagai makanan yang difermentasi, topic: Sains, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "visualisasi makanan",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 9,
+          "durationSec": 13.6,
+          "narration": "Jadi, lain kali kamu memanggang roti, ingatlah betapa menawannya sains di dalamnya!",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "roti yang baru dipanggang dengan aroma yang menggoda, topic: Sains, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "close-up",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [
+        {
+          "sceneIndex": 1,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_842c14772be7-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "url": "/generated/images/tau_842c14772be7-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "visualisasi adonan roti yang segar dan siap dipanggang, topic: Sains, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_842c14772be7-scene-2-cara-kerjanya.jpg",
+          "url": "/generated/images/tau_842c14772be7-scene-2-cara-kerjanya.jpg",
+          "prompt": "diagram fermentasi ragi yang menunjukkan proses produksi gas, topic: Sains, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_842c14772be7-scene-3-contoh-sederhana.jpg",
+          "url": "/generated/images/tau_842c14772be7-scene-3-contoh-sederhana.jpg",
+          "prompt": "close-up roti yang mengembang dengan gelembung gas, topic: Sains, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_842c14772be7-scene-4-bagian-paling-penting.jpg",
+          "url": "/generated/images/tau_842c14772be7-scene-4-bagian-paling-penting.jpg",
+          "prompt": "adonan roti dalam oven yang mengembang, topic: Sains, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_842c14772be7-scene-5-kenapa-ini-menarik.jpg",
+          "url": "/generated/images/tau_842c14772be7-scene-5-kenapa-ini-menarik.jpg",
+          "prompt": "perbandingan roti mengembang dan roti yang datar, topic: Sains, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_842c14772be7-scene-6-yang-sering-salah-dipahami.jpg",
+          "url": "/generated/images/tau_842c14772be7-scene-6-yang-sering-salah-dipahami.jpg",
+          "prompt": "seseorang menikmati roti dengan ekspresi bahagia, topic: Sains, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_842c14772be7-scene-7-fakta-utama.jpg",
+          "url": "/generated/images/tau_842c14772be7-scene-7-fakta-utama.jpg",
+          "prompt": "ilustrasi ragi dan mikroorganisme, topic: Sains, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_842c14772be7-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "url": "/generated/images/tau_842c14772be7-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "berbagai makanan yang difermentasi, topic: Sains, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_842c14772be7-scene-9-cara-kerjanya.jpg",
+          "url": "/generated/images/tau_842c14772be7-scene-9-cara-kerjanya.jpg",
+          "prompt": "roti yang baru dipanggang dengan aroma yang menggoda, topic: Sains, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_842c14772be7-scene-1-stock.mp4",
+          "url": "/generated/clips/tau_842c14772be7-scene-1-stock.mp4",
+          "prompt": "Bread baking process",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_842c14772be7-scene-2-stock.mp4",
+          "url": "/generated/clips/tau_842c14772be7-scene-2-stock.mp4",
+          "prompt": "Fermentation process",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_842c14772be7-scene-3-stock.mp4",
+          "url": "/generated/clips/tau_842c14772be7-scene-3-stock.mp4",
+          "prompt": "Baking bubbles footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_842c14772be7-scene-4-stock.mp4",
+          "url": "/generated/clips/tau_842c14772be7-scene-4-stock.mp4",
+          "prompt": "Dough rising footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_842c14772be7-scene-5-stock.mp4",
+          "url": "/generated/clips/tau_842c14772be7-scene-5-stock.mp4",
+          "prompt": "Bread baking process",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_842c14772be7-scene-6-stock.mp4",
+          "url": "/generated/clips/tau_842c14772be7-scene-6-stock.mp4",
+          "prompt": "Bread science B-roll",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_842c14772be7-scene-7-stock.mp4",
+          "url": "/generated/clips/tau_842c14772be7-scene-7-stock.mp4",
+          "prompt": "Baking process footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_842c14772be7-scene-8-stock.mp4",
+          "url": "/generated/clips/tau_842c14772be7-scene-8-stock.mp4",
+          "prompt": "Fermentation process footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_842c14772be7-scene-9-stock.mp4",
+          "url": "/generated/clips/tau_842c14772be7-scene-9-stock.mp4",
+          "prompt": "Baking bread science",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "onyx",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_842c14772be7-openai-natural-narration.mp3",
+        "url": "/generated/audio/tau_842c14772be7-openai-natural-narration.mp3",
+        "characters": 990
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_842c14772be7-openai-mengapa-roti-mengembang-saat-dipanggang.mp4",
+        "url": "/generated/videos/tau_842c14772be7-openai-mengapa-roti-mengembang-saat-dipanggang.mp4",
+        "provider": "openai",
+        "durationSec": 58.3,
+        "scenes": 9
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Pernahkah kamu bertanya-tanya apa yang terjadi pada adonan roti saat dipanggang? Mari kita selami prosesnya. Saat kamu mencampurkan ragi dengan gula, ragi mulai berfermentasi. Proses ini menghasilkan gas karbon dioksida yang membuat adonan mengembang. Gas ini terperangkap dalam adonan, menciptakan gelembung-gelembung kecil. Inilah yang membuat roti kita menjadi ringan dan empuk. Ketika adonan dipanaskan, suhu tinggi membuat gluten dalam adonan mengembang, mengunci gas karbon dioksida. Proses ini sangat penting, karena tanpa gas yang terperangkap, roti akan menjadi padat dan keras. Jadi saat kamu menikmati roti, ingatlah bahwa ada sains yang bekerja di balik setiap gigitan. Setiap roti yang mengembang adalah hasil kerja keras mikroorganisme kecil yang tak terlihat. Menarik, bukan? Proses fermentasi ini bukan hanya terjadi pada roti, tapi juga pada banyak makanan lainnya, seperti bir dan yoghurt. Jadi, lain ke hak semua memaang roti, ngoleh steph emu sain ye sense the time ye."
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_842c14772be7-thumbnail-mengapa-roti-mengembang-saat-dipanggang.jpg",
+        "url": "/generated/thumbnails/tau_842c14772be7-thumbnail-mengapa-roti-mengembang-saat-dipanggang.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 2054,
+      "outputTokens": 1447,
+      "totalTokens": 3501,
+      "storyUsd": 0.00314,
+      "imageUnitUsd": 0.006,
+      "imageUsd": 0.054,
+      "ttsUsd": 0.01485,
+      "totalUsd": 0.07199,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 100,
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
+    }
+  },
+  {
+    "id": "tau_bfb2002091fc",
+    "source": "openai",
+    "status": "rendered",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-06-22T10:49:56.728Z",
+    "updatedAt": "2026-06-22T10:57:42.596Z",
+    "input": {
+      "topic": "alam semesta",
+      "category": "alam semesta",
+      "hookStyle": "Pernahkah kamu bertanya-tanya tentang lubang hitam? Apa yang sebenarnya terjadi di dalamnya?",
+      "selectedIdea": {
+        "id": "idea_a0ee825331ae",
+        "title": "Misteri Lubang Hitam: Apa Yang Terjadi Di Dalamnya",
+        "topic": "alam semesta",
+        "hook": "Pernahkah kamu bertanya-tanya tentang lubang hitam? Apa yang sebenarnya terjadi di dalamnya?",
+        "category": "alam semesta",
+        "angle": "Memperkenalkan konsep lubang hitam dan misteri di dalamnya.",
+        "whyGood": "Menggugah rasa ingin tahu tentang fenomena ruang angkasa yang misterius dan belum sepenuhnya dipahami."
+      },
+      "tone": "takjub, dramatis, puitis, memikirkan skala kosmis",
+      "durationSec": 120,
+      "sceneCount": 9,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1536",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 1.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "hybrid"
+    },
+    "title": "Misteri Lubang Hitam: Apa Yang Terjadi Di Dalamnya",
+    "plan": {
+      "title": "Misteri Lubang Hitam: Apa Yang Terjadi Di Dalamnya",
+      "hook": "Pernahkah kamu bertanya-tanya tentang lubang hitam? Apa yang sebenarnya terjadi di dalamnya?",
+      "summary": "Lubang hitam adalah fenomena luar angkasa yang sangat misterius. Terletak di pusat galaksi, mereka memiliki kekuatan gravitasi yang sangat besar dan menarik segala sesuatu, bahkan cahaya.",
+      "importantPoints": [
+        "Lubang hitam terbentuk ketika bintang besar kehabisan bahan bakar dan kolaps under gravitasi sendiri.",
+        "Bagian luar lubang hitam disebut 'event horizon', area di mana tidak ada yang bisa melarikan diri.",
+        "Lubang hitam tidak terlihat, tetapi kehadirannya dapat terdeteksi melalui pengaruh gravitasi pada objek di sekitarnya.",
+        "Teori relativitas umum Einstein menjelaskan bagaimana lubang hitam memengaruhi ruang dan waktu.",
+        "Misteri di dalam lubang hitam masih banyak dan menjadi subjek penelitian intensif di dunia ilmu pengetahuan."
+      ],
+      "factCheckNote": "Semua informasi dalam video ini bersumber dari penelitian ilmiah terkini dan teori yang sudah terverifikasi.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 14.13,
+          "narration": "Lubang hitam, salah satu misteri alam semesta yang paling menakjubkan. Apa yang sebenarnya terjadi di dalamnya?",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "visualisasi lubang hitam di ruang angkasa dengan bintang-bintang di sekitarnya, topic: alam semesta, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "alam",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 13.33,
+          "narration": "Lubang hitam terbentuk ketika bintang besar kehabisan bahan bakar dan kolaps di bawah gravitasi sendiri. Proses ini sangat dramatis.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "diagram proses pembentukan lubang hitam dari bintang, topic: alam semesta, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "diagram konseptual",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 3,
+          "durationSec": 13.33,
+          "narration": "Bagian luar lubang hitam, yang disebut 'event horizon', adalah titik tanpa kembali. Segala sesuatu yang melewatinya terjebak selamanya.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "ilustrasi event horizon dan objek yang mendekatinya, topic: alam semesta, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "ilustrasi",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 4,
+          "durationSec": 13.33,
+          "narration": "Meskipun lubang hitam tidak bisa terlihat, kita bisa mendeteksi keberadaannya dari pengaruh gravitasi yang kuat pada objek di sekitarnya.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "visualisasi objek bintang yang dipengaruhi oleh gravitasi lubang hitam, topic: alam semesta, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "alam",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 5,
+          "durationSec": 13.33,
+          "narration": "Pakar fisika menggunakan teori relativitas umum Einstein untuk memahami bagaimana lubang hitam memengaruhi ruang dan waktu.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "diagram teori relativitas umum dengan lubang hitam, topic: alam semesta, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "diagram konseptual",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 6,
+          "durationSec": 13.33,
+          "narration": "Di dalam lubang hitam, waktu dan ruang berperilaku secara aneh. Apa yang terjadi di dalamnya masih menjadi misteri besar.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "ilustrasi ruang waktu yang terdistorsi di sekitar lubang hitam, topic: alam semesta, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "ilustrasi",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 7,
+          "durationSec": 13.33,
+          "narration": "Penelitian tentang lubang hitam terus berlanjut, dan banyak ilmuwan berharap suatu hari kita bisa memahami lebih dalam tentang mereka.",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "ilmuwan yang sedang melakukan penelitian tentang lubang hitam, topic: alam semesta, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "manusia belajar/mengamati",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 8,
+          "durationSec": 13.33,
+          "narration": "Misteri lubang hitam adalah pengingat akan betapa sedikitnya yang kita ketahui tentang alam semesta yang luas ini.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "pemandangan alam semesta yang luas dan bintang-bintang, topic: alam semesta, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "alam",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 9,
+          "durationSec": 13.6,
+          "narration": "Jadi, siapkah kamu untuk menjelajahi lebih dalam tentang sisa-sisa misteri yang ada di kosmos?",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "ilustrasi perjalanan ke luar angkasa, topic: alam semesta, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "alam",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [
+        {
+          "sceneIndex": 1,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bfb2002091fc-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "url": "/generated/images/tau_bfb2002091fc-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "visualisasi lubang hitam di ruang angkasa dengan bintang-bintang di sekitarnya, topic: alam semesta, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bfb2002091fc-scene-2-cara-kerjanya.jpg",
+          "url": "/generated/images/tau_bfb2002091fc-scene-2-cara-kerjanya.jpg",
+          "prompt": "diagram proses pembentukan lubang hitam dari bintang, topic: alam semesta, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bfb2002091fc-scene-3-contoh-sederhana.jpg",
+          "url": "/generated/images/tau_bfb2002091fc-scene-3-contoh-sederhana.jpg",
+          "prompt": "ilustrasi event horizon dan objek yang mendekatinya, topic: alam semesta, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bfb2002091fc-scene-4-bagian-paling-penting.jpg",
+          "url": "/generated/images/tau_bfb2002091fc-scene-4-bagian-paling-penting.jpg",
+          "prompt": "visualisasi objek bintang yang dipengaruhi oleh gravitasi lubang hitam, topic: alam semesta, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bfb2002091fc-scene-5-kenapa-ini-menarik.jpg",
+          "url": "/generated/images/tau_bfb2002091fc-scene-5-kenapa-ini-menarik.jpg",
+          "prompt": "diagram teori relativitas umum dengan lubang hitam, topic: alam semesta, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bfb2002091fc-scene-6-yang-sering-salah-dipahami.jpg",
+          "url": "/generated/images/tau_bfb2002091fc-scene-6-yang-sering-salah-dipahami.jpg",
+          "prompt": "ilustrasi ruang waktu yang terdistorsi di sekitar lubang hitam, topic: alam semesta, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bfb2002091fc-scene-7-fakta-utama.jpg",
+          "url": "/generated/images/tau_bfb2002091fc-scene-7-fakta-utama.jpg",
+          "prompt": "ilmuwan yang sedang melakukan penelitian tentang lubang hitam, topic: alam semesta, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bfb2002091fc-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "url": "/generated/images/tau_bfb2002091fc-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "pemandangan alam semesta yang luas dan bintang-bintang, topic: alam semesta, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bfb2002091fc-scene-9-cara-kerjanya.jpg",
+          "url": "/generated/images/tau_bfb2002091fc-scene-9-cara-kerjanya.jpg",
+          "prompt": "ilustrasi perjalanan ke luar angkasa, topic: alam semesta, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_bfb2002091fc-scene-1-stock.mp4",
+          "url": "/generated/clips/tau_bfb2002091fc-scene-1-stock.mp4",
+          "prompt": "Black hole footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_bfb2002091fc-scene-2-stock.mp4",
+          "url": "/generated/clips/tau_bfb2002091fc-scene-2-stock.mp4",
+          "prompt": "Black hole formation",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_bfb2002091fc-scene-3-stock.mp4",
+          "url": "/generated/clips/tau_bfb2002091fc-scene-3-stock.mp4",
+          "prompt": "Black hole event horizon",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_bfb2002091fc-scene-4-stock.mp4",
+          "url": "/generated/clips/tau_bfb2002091fc-scene-4-stock.mp4",
+          "prompt": "Black hole gravity",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_bfb2002091fc-scene-5-stock.mp4",
+          "url": "/generated/clips/tau_bfb2002091fc-scene-5-stock.mp4",
+          "prompt": "Black hole effects",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_bfb2002091fc-scene-6-stock.mp4",
+          "url": "/generated/clips/tau_bfb2002091fc-scene-6-stock.mp4",
+          "prompt": "Black hole mystery",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_bfb2002091fc-scene-7-stock.mp4",
+          "url": "/generated/clips/tau_bfb2002091fc-scene-7-stock.mp4",
+          "prompt": "Black hole footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_bfb2002091fc-scene-8-stock.mp4",
+          "url": "/generated/clips/tau_bfb2002091fc-scene-8-stock.mp4",
+          "prompt": "Black hole mystery",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_bfb2002091fc-scene-9-stock.mp4",
+          "url": "/generated/clips/tau_bfb2002091fc-scene-9-stock.mp4",
+          "prompt": "Cosmos mystery B-roll",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "onyx",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_bfb2002091fc-openai-natural-narration.mp3",
+        "url": "/generated/audio/tau_bfb2002091fc-openai-natural-narration.mp3",
+        "characters": 1109
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_bfb2002091fc-openai-misteri-lubang-hitam-apa-yang-terjadi-di-dalamnya.mp4",
+        "url": "/generated/videos/tau_bfb2002091fc-openai-misteri-lubang-hitam-apa-yang-terjadi-di-dalamnya.mp4",
+        "provider": "openai",
+        "durationSec": 65.33,
+        "scenes": 9
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Lubang hitam, salah satu misteri alam semesta yang paling menakjubkan. Apa yang sebenarnya terjadi di dalamnya? Lubang hitam terbentuk ketika bintang besar kehabisan bahan bakar dan kolaps di bawah gravitasi sendiri. Proses ini sangat dramatis. Bagian luar lubang hitam, yang disebut event horizon, adalah titik tanpa kembali. Segala sesuatu yang melewatinya terjebak selamanya. Meskipun lubang hitam tidak bisa terlihat, kita bisa mendeteksi keberadaannya dari pengaruh gravitasi yang kuat pada objek di sekitarnya. Pakar fisika menggunakan teori relativitas umum Einstein untuk memahami bagaimana lubang hitam memengaruhi ruang dan waktu. Di dalam lubang hitam, waktu dan ruang berperilaku secara aneh. Apa yang terjadi di dalamnya masih menjadi misteri besar. Penelitian tentang lubang hitam terus berlanjut, dan banyak ilmuwan berharap suatu hari kita bisa memahami lebih dalam tentang mereka. Misteri lubang hitam adalah pengingat akan betapa sedikitnya yang kita ketahui tentang alam semesta yang luas ini. Jadi, siapkah kamu untuk menjelajahi lebih dalam tentang sisa-sisa misteri yang ada di kosmos?"
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_bfb2002091fc-thumbnail-misteri-lubang-hitam-apa-yang-terjadi-di-dalamnya.jpg",
+        "url": "/generated/thumbnails/tau_bfb2002091fc-thumbnail-misteri-lubang-hitam-apa-yang-terjadi-di-dalamnya.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 2088,
+      "outputTokens": 1534,
+      "totalTokens": 3622,
+      "storyUsd": 0.00329,
+      "imageUnitUsd": 0.006,
+      "imageUsd": 0.054,
+      "ttsUsd": 0.01664,
+      "totalUsd": 0.07393,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 100,
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
+    }
+  },
+  {
+    "id": "tau_e1f194b9b924",
+    "source": "openai",
+    "status": "rendered",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-06-22T11:11:30.393Z",
+    "updatedAt": "2026-06-22T11:17:25.744Z",
+    "input": {
+      "topic": "Sejarah",
+      "category": "Sejarah",
+      "hookStyle": "Kita sering menganggap sejarah hanya tentang masa lalu, tapi kenapa ia bisa mempengaruhi masa kini?",
+      "selectedIdea": {
+        "id": "idea_15890084a4fd",
+        "title": "Mengapa Menara Eiffel Tidak Runtuh",
+        "topic": "Sejarah",
+        "hook": "Pernahkah kamu bingung kenapa Menara Eiffel masih berdiri kokoh hingga kini? Yuk, kita telusuri rahasianya!",
+        "category": "Sejarah",
+        "angle": "Menjelaskan teknik dan bahan yang digunakan dalam konstruksi Menara Eiffel.",
+        "whyGood": "Menarik bagi penggemar arsitektur dan sejarah, serta visualisasi yang kaya dengan gambar menara."
+      },
+      "tone": "dramatis, mendalam, misterius, seperti narator dokumenter sejarah",
+      "durationSec": 120,
+      "sceneCount": 9,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1536",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 2.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "hybrid"
+    },
+    "title": "Mengapa Menara Eiffel Tidak Runtuh",
+    "plan": {
+      "title": "Mengapa Menara Eiffel Tidak Runtuh",
+      "hook": "Pernahkah kamu bingung kenapa Menara Eiffel masih berdiri kokoh hingga kini? Yuk, kita telusuri rahasianya!",
+      "summary": "Menara Eiffel tetap berdiri kuat berkat teknik dan bahan konstruksi inovatif yang digunakan di abad ke-19, membuatnya menjadi simbol arsitektur dunia.",
+      "importantPoints": [
+        "Menara Eiffel dirancang oleh Gustave Eiffel dengan teknik balok besi yang cerdas.",
+        "Penggunaan struktur rangka yang terbuka membuatnya mampu menahan angin.",
+        "Besi yang digunakan berasal dari sumber berkualitas tinggi, meningkatkan daya tahan.",
+        "Desainnya memungkinkan pergerakan tanpa merusak struktur utama.",
+        "Menara ini merupakan contoh arsitektur modern yang menginspirasi banyak bangunan masa kini."
+      ],
+      "factCheckNote": "Semua informasi yang disajikan diambil dari sumber sejarah yang dapat dipercaya.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 14.13,
+          "narration": "Menara Eiffel, ikon Paris, dibangun pada tahun 1889. Namun, banyak yang penasaran, mengapa bangunan ini dapat bertahan hingga kini?",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "close-up Menara Eiffel di malam hari dengan lampu menyala, topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "dramatic lighting",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 13.33,
+          "narration": "Rahasianya terletak pada teknik dan bahan yang digunakan. Menara ini terbuat dari besi yang diperoleh dari sumber berkualitas tinggi.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "ilustrasi diagram struktur rangka Menara Eiffel, topic: Sejarah, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "conceptual diagram",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 3,
+          "durationSec": 13.33,
+          "narration": "Desainnya yang terbuka memungkinkan untuk mengurangi tekanan angin, sehingga tidak mudah runtuh.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "visualisasi angin yang mengalir di sekitar struktur, topic: Sejarah, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "animation of wind flow",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 4,
+          "durationSec": 13.33,
+          "narration": "Besi yang digunakan bukan sembarang besi. Ia dirancang agar kuat dan tahan lama, mampu menahan cuaca ekstrem.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "ilustrasi kualitas besi dalam konstruksi, topic: Sejarah, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "macro shot of iron",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 5,
+          "durationSec": 13.33,
+          "narration": "Menara ini juga dirancang untuk bergerak sedikit saat angin kencang. Hal ini membantu menghindari kerusakan pada struktur.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "ilustrasi Menara Eiffel bergetar lembut di tengah angin, topic: Sejarah, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "animation showing slight movement",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 6,
+          "durationSec": 13.33,
+          "narration": "Bayangkan saja, jika tidak ada teknologi seperti ini, Menara Eiffel mungkin tidak akan bertahan seabad!",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "ilustrasi waktu yang berlalu dengan Menara Eiffel di latar belakang, topic: Sejarah, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "timeline illustration",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 7,
+          "durationSec": 13.33,
+          "narration": "Menara Eiffel adalah contoh brilian dari arsitektur modern. Banyak bangunan masa kini terinspirasi dari desainnya yang inovatif.",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "kolase bangunan modern terinspirasi oleh Menara Eiffel, topic: Sejarah, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "collage of inspired buildings",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 8,
+          "durationSec": 13.33,
+          "narration": "Jadi, ketika kamu melihat Menara Eiffel, ingatlah bahwa ada banyak ilmu di balik keindahannya.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "close-up Menara Eiffel di siang hari, topic: Sejarah, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "bright and inviting",
+          "avatarPose": "thumbs_up"
+        },
+        {
+          "index": 9,
+          "durationSec": 13.6,
+          "narration": "Rasa ingin tahumu tentang sejarah arsitektur tidak berhenti di sini. Masih banyak yang bisa kau pelajari!",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "visualisasi buku tentang arsitektur, topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "inspiring and educational",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [
+        {
+          "sceneIndex": 1,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e1f194b9b924-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "url": "/generated/images/tau_e1f194b9b924-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "close-up Menara Eiffel di malam hari dengan lampu menyala, topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e1f194b9b924-scene-2-cara-kerjanya.jpg",
+          "url": "/generated/images/tau_e1f194b9b924-scene-2-cara-kerjanya.jpg",
+          "prompt": "ilustrasi diagram struktur rangka Menara Eiffel, topic: Sejarah, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e1f194b9b924-scene-3-contoh-sederhana.jpg",
+          "url": "/generated/images/tau_e1f194b9b924-scene-3-contoh-sederhana.jpg",
+          "prompt": "visualisasi angin yang mengalir di sekitar struktur, topic: Sejarah, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e1f194b9b924-scene-4-bagian-paling-penting.jpg",
+          "url": "/generated/images/tau_e1f194b9b924-scene-4-bagian-paling-penting.jpg",
+          "prompt": "ilustrasi kualitas besi dalam konstruksi, topic: Sejarah, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e1f194b9b924-scene-5-kenapa-ini-menarik.jpg",
+          "url": "/generated/images/tau_e1f194b9b924-scene-5-kenapa-ini-menarik.jpg",
+          "prompt": "ilustrasi Menara Eiffel bergetar lembut di tengah angin, topic: Sejarah, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e1f194b9b924-scene-6-yang-sering-salah-dipahami.jpg",
+          "url": "/generated/images/tau_e1f194b9b924-scene-6-yang-sering-salah-dipahami.jpg",
+          "prompt": "ilustrasi waktu yang berlalu dengan Menara Eiffel di latar belakang, topic: Sejarah, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e1f194b9b924-scene-7-fakta-utama.jpg",
+          "url": "/generated/images/tau_e1f194b9b924-scene-7-fakta-utama.jpg",
+          "prompt": "kolase bangunan modern terinspirasi oleh Menara Eiffel, topic: Sejarah, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e1f194b9b924-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "url": "/generated/images/tau_e1f194b9b924-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "close-up Menara Eiffel di siang hari, topic: Sejarah, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e1f194b9b924-scene-9-cara-kerjanya.jpg",
+          "url": "/generated/images/tau_e1f194b9b924-scene-9-cara-kerjanya.jpg",
+          "prompt": "visualisasi buku tentang arsitektur, topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e1f194b9b924-scene-1-stock.mp4",
+          "url": "/generated/clips/tau_e1f194b9b924-scene-1-stock.mp4",
+          "prompt": "Eiffel Tower B-roll",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e1f194b9b924-scene-2-stock.mp4",
+          "url": "/generated/clips/tau_e1f194b9b924-scene-2-stock.mp4",
+          "prompt": "Steel construction footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e1f194b9b924-scene-3-stock.mp4",
+          "url": "/generated/clips/tau_e1f194b9b924-scene-3-stock.mp4",
+          "prompt": "Open design footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e1f194b9b924-scene-4-stock.mp4",
+          "url": "/generated/clips/tau_e1f194b9b924-scene-4-stock.mp4",
+          "prompt": "Durable steel footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e1f194b9b924-scene-5-stock.mp4",
+          "url": "/generated/clips/tau_e1f194b9b924-scene-5-stock.mp4",
+          "prompt": "Windy tower movement",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e1f194b9b924-scene-6-stock.mp4",
+          "url": "/generated/clips/tau_e1f194b9b924-scene-6-stock.mp4",
+          "prompt": "Eiffel Tower technology",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e1f194b9b924-scene-7-stock.mp4",
+          "url": "/generated/clips/tau_e1f194b9b924-scene-7-stock.mp4",
+          "prompt": "Eiffel Tower B-roll",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e1f194b9b924-scene-8-stock.mp4",
+          "url": "/generated/clips/tau_e1f194b9b924-scene-8-stock.mp4",
+          "prompt": "Eiffel Tower B-roll",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e1f194b9b924-scene-9-stock.mp4",
+          "url": "/generated/clips/tau_e1f194b9b924-scene-9-stock.mp4",
+          "prompt": "Architecture history B-roll",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "onyx",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_e1f194b9b924-openai-natural-narration.mp3",
+        "url": "/generated/audio/tau_e1f194b9b924-openai-natural-narration.mp3",
+        "characters": 1029
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_e1f194b9b924-openai-mengapa-menara-eiffel-tidak-runtuh.mp4",
+        "url": "/generated/videos/tau_e1f194b9b924-openai-mengapa-menara-eiffel-tidak-runtuh.mp4",
+        "provider": "openai",
+        "durationSec": 60.87,
+        "scenes": 9
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Menara Eiffel, ikon Paris, dibangun pada tahun 1789. Namun, banyak yang penasaran mengapa bangunan ini dapat bertahan hingga kini. Rahasianya terletak pada teknik dan bahan yang digunakan. Menara ini terbuat dari besi yang diperoleh dari sumber berkualitas tinggi. Desainnya yang terbuka memungkinkan untuk mengurangi tekanan angin, sehingga tidak mudah runtuh. Besi yang digunakan bukan sembarang besi. Ia dirancang agar kuat dan tahan lama, mampu menahan cuaca ekstrem. Menara ini juga dirancang untuk bergerak sedikit saat angin kencang. Hal ini membantu menghindari kerusakan pada struktur. Bayangkan saja jika tidak ada teknologi seperti ini, Menara Eiffel mungkin tidak akan bertahan seabat. Menara Eiffel adalah contoh brilliant dari arsitektur modern. Banyak bangunan masa kini terinspirasi dari desainnya yang inovatif. Jadi ketika kamu melihat Menara Eiffel, ingatlah bahwa ada banyak ilmu dibalik keindahannya. Untuk mengetahui bahwa menara Eiffel adalah sebuah arsitektur yang tidak berhenti di sini, masakkan kayu kecap."
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_e1f194b9b924-thumbnail-mengapa-menara-eiffel-tidak-runtuh.jpg",
+        "url": "/generated/thumbnails/tau_e1f194b9b924-thumbnail-mengapa-menara-eiffel-tidak-runtuh.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 2129,
+      "outputTokens": 1463,
+      "totalTokens": 3592,
+      "storyUsd": 0.00319,
+      "imageUnitUsd": 0.006,
+      "imageUsd": 0.054,
+      "ttsUsd": 0.01543,
+      "totalUsd": 0.07262,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 100,
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
+    }
+  },
+  {
+    "id": "tau_e4d895adae90",
+    "source": "openai",
+    "status": "draft",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-06-23T06:19:20.478Z",
+    "updatedAt": "2026-06-23T06:19:20.478Z",
+    "input": {
+      "topic": "teknologi",
+      "category": "teknologi",
+      "hookStyle": "Teknologi canggih bisa jadi sangat sederhana, tapi dampaknya bisa mengubah cara kita hidup.",
+      "selectedIdea": {
+        "id": "idea_f445d6e3a801",
+        "title": "Kenapa Smartphone Terlihat Berbeda Dari Dulu",
+        "topic": "teknologi",
+        "hook": "Pernahkah kamu memperhatikan bagaimana desain smartphone berubah drastis? Mari kita lihat evolusinya!",
+        "category": "teknologi",
+        "angle": "Menjelajahi perubahan desain smartphone dari tahun ke tahun dan alasan di baliknya.",
+        "whyGood": "Membuat penonton tertarik untuk mengetahui sejarah dan inovasi dalam teknologi sehari-hari."
+      },
+      "tone": "narator dokumenter TV Indonesia pria dewasa, tenang, berwibawa, tempo sedang, cerdas, tepercaya, jeda alami, transisi halus, tanpa emosi berlebih",
+      "durationSec": 45,
+      "sceneCount": 5,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1792",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "",
+      "elevenlabsModel": "",
+      "openaiTtsVoice": "",
+      "avatarMode": "image",
+      "videoFormat": "vertical",
+      "visualSource": "stock"
+    },
+    "title": "Kenapa Smartphone Terlihat Berbeda Dari Dulu",
+    "plan": {
+      "title": "Kenapa Smartphone Terlihat Berbeda Dari Dulu",
+      "hook": "Pernahkah kamu memperhatikan bagaimana desain smartphone berubah drastis? Mari kita lihat evolusinya!",
+      "summary": "Evolusi desain smartphone mencerminkan inovasi teknologi dan kebutuhan pengguna yang terus berkembang, mengubah cara kita berinteraksi dengan dunia.",
+      "importantPoints": [
+        "Desain smartphone berevolusi dari bentuk kotak tebal ke bodi ramping dan layar penuh.",
+        "Inovasi seperti kamera ganda dan pengenalan wajah mempengaruhi desain.",
+        "Material yang digunakan sekarang lebih premium, memberikan estetika dan daya tahan.",
+        "Perubahan ergonomis membuat smartphone lebih nyaman digunakan dalam berbagai aktivitas.",
+        "Desain yang berfokus pada user experience menjadi kunci dalam pengembangan produk."
+      ],
+      "factCheckNote": "Semua informasi dalam video ini berdasarkan fakta dan perkembangan terbaru dalam industri smartphone.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 9.54,
+          "narration": "Dari ponsel dengan tombol fisik yang tebal hingga layar sentuh yang ramping, desain smartphone telah mengalami perubahan mencolok.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "close-up smartphone lama dan baru berdampingan, topic: teknologi, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "clearly defined, contrasting colors",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 2,
+          "durationSec": 9,
+          "narration": "Inovasi teknologi, seperti kamera ganda dan fitur pengenalan wajah, semakin menuntut desain yang lebih futuristik.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "diagram konseptual tentang inovasi desain smartphone, topic: teknologi, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "modern and sleek",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 3,
+          "durationSec": 9,
+          "narration": "Material yang lebih premium, seperti kaca dan metal, tidak hanya meningkatkan estetika, namun juga daya tahan perangkat.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "visual makro dari material smartphone, topic: teknologi, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "high-resolution and detailed",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 4,
+          "durationSec": 9,
+          "narration": "Dengan desain yang ergonomis, smartphone kini lebih nyaman dipegang selama beragam aktivitas.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "manusia menggunakan smartphone dengan nyaman, topic: teknologi, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "natural and relatable",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 5,
+          "durationSec": 9.18,
+          "narration": "Desain yang berfokus pada pengalaman pengguna menjadi kunci dalam setiap inovasi baru di dunia smartphone.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "timeline evolusi desain smartphone, topic: teknologi, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "engaging and informative",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [],
+      "clips": [],
+      "audio": null,
+      "video": null
+    },
+    "cost": {
+      "inputTokens": 2305,
+      "outputTokens": 913,
+      "totalTokens": 3218,
+      "storyUsd": 0.00238,
+      "imageUnitUsd": 0.04,
+      "imageUsd": 0.2,
+      "ttsUsd": 0.00851,
+      "totalUsd": 0.21089
+    }
+  },
+  {
+    "id": "tau_030cdfb445ef",
+    "source": "openai",
+    "status": "rendered",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-06-23T07:05:13.127Z",
+    "updatedAt": "2026-06-23T07:07:27.194Z",
+    "input": {
+      "topic": "Sejarah",
+      "category": "tokoh dunia",
+      "hookStyle": "Siapa tokoh dalam sejarah yang ternyata memiliki sisi gelap yang tak banyak orang ketahui?",
+      "selectedIdea": {
+        "id": "idea_93ccae3f0bcf",
+        "title": "Misteri Penemuan Gula: Dari Mana Sumbernya",
+        "topic": "Sejarah",
+        "hook": "Pernahkah kamu bertanya-tanya bagaimana gula ditemukan dan dari mana asalnya?",
+        "category": "tokoh dunia",
+        "angle": "Mengkaji sejarah gula dari tanaman tebu hingga menjadi bahan pokok dunia.",
+        "whyGood": "Topik ini menarik bagi banyak orang karena gula adalah komponen penting dalam makanan sehari-hari."
+      },
+      "tone": "narator dokumenter TV Indonesia pria dewasa, tenang, berwibawa, tempo sedang, cerdas, tepercaya, jeda alami, transisi halus, tanpa emosi berlebih",
+      "durationSec": 45,
+      "sceneCount": 5,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1792",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "",
+      "elevenlabsModel": "",
+      "openaiTtsVoice": "",
+      "avatarMode": "image",
+      "videoFormat": "vertical",
+      "visualSource": "stock"
+    },
+    "title": "Misteri Penemuan Gula: Dari Mana Sumbernya",
+    "plan": {
+      "title": "Misteri Penemuan Gula: Dari Mana Sumbernya",
+      "hook": "Pernahkah kamu bertanya-tanya bagaimana gula ditemukan dan dari mana asalnya?",
+      "summary": "Gula berasal dari tanaman tebu yang telah menemani manusia selama berabad-abad. Mengetahui sejarahnya memudahkan kita menghargai kehadirannya dalam kehidupan sehari-hari.",
+      "importantPoints": [
+        "Gula pertama kali diekstraksi dari tanaman tebu di India sekitar 500 SM.",
+        "Seiring waktu, pengetahuan tentang gula menyebar ke Persia, Arab, dan akhirnya ke Eropa.",
+        "Gula tidak hanya digunakan sebagai pemanis, tetapi juga untuk pengawet dan dalam pengobatan.",
+        "Proses pembuatan gula melibatkan pengolahan tebu yang rumit dan beragam teknik.",
+        "Gula kini menjadi salah satu bahan pokok yang penting dalam berbagai budaya dan masakan di seluruh dunia."
+      ],
+      "factCheckNote": "Informasi tentang asal mula gula dan sejarahnya telah didukung oleh berbagai sumber ilmiah dan sejarah.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 9.54,
+          "narration": "Gula, bahan manis yang kita kenal, memiliki sejarah panjang yang dimulai ribuan tahun lalu.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "close-up tanaman tebu di ladang, topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "natural, close-up",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 9,
+          "narration": "Sekitar 500 SM, masyarakat India mulai mengekstrak gula dari tebu, menjadikannya pemanis yang berharga.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "ilustrasi kuno tentang proses ekstraksi gula, topic: Sejarah, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "historical illustration",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 3,
+          "durationSec": 9,
+          "narration": "Pengetahuan tentang gula menyebar ke Persia dan Arab, lalu di Eropa, mengubah cara manusia menikmati makanan.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "peta sejarah perdagangan gula dari India ke Eropa, topic: Sejarah, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "conceptual diagram",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 4,
+          "durationSec": 9,
+          "narration": "Proses pembuatan gula melibatkan teknik yang rumit, mulai dari pemanenan hingga kristalisasi.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "diagram proses pembuatan gula dari tebu, topic: Sejarah, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "educational diagram",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 5,
+          "durationSec": 9.18,
+          "narration": "Kini, gula telah menjadi bahan pokok di berbagai budaya, mengingatkan kita akan perjalanan panjangnya.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "beragam makanan manis yang menggunakan gula, topic: Sejarah, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "macro shot",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [
+        {
+          "sceneIndex": 1,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_030cdfb445ef-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_030cdfb445ef-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "close-up tanaman tebu di ladang, topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_030cdfb445ef-scene-2-cara-kerjanya.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_030cdfb445ef-scene-2-cara-kerjanya.jpg",
+          "prompt": "ilustrasi kuno tentang proses ekstraksi gula, topic: Sejarah, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_030cdfb445ef-scene-3-contoh-sederhana.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_030cdfb445ef-scene-3-contoh-sederhana.jpg",
+          "prompt": "peta sejarah perdagangan gula dari India ke Eropa, topic: Sejarah, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_030cdfb445ef-scene-4-bagian-paling-penting.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_030cdfb445ef-scene-4-bagian-paling-penting.jpg",
+          "prompt": "diagram proses pembuatan gula dari tebu, topic: Sejarah, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_030cdfb445ef-scene-5-kenapa-ini-menarik.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_030cdfb445ef-scene-5-kenapa-ini-menarik.jpg",
+          "prompt": "beragam makanan manis yang menggunakan gula, topic: Sejarah, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
+      "clips": [],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "shimmer",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_030cdfb445ef-openai-natural-narration.mp3",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/audio/tau_030cdfb445ef-openai-natural-narration.mp3",
+        "characters": 502
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_030cdfb445ef-openai-misteri-penemuan-gula-dari-mana-sumbernya.mp4",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_030cdfb445ef-openai-misteri-penemuan-gula-dari-mana-sumbernya.mp4",
+        "provider": "openai",
+        "durationSec": 38.5,
+        "scenes": 5
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Gula, bahan manis yang kita kenal, memiliki sejarah panjang yang dimulai ribuan tahun lalu. Sekitar 500 SM, masyarakat India mulai mengekstrak gula dari tebu, menjadikannya pemanis yang berharga. Pengetahuan tentang gula menyebar ke Persia dan Arab, lalu di Eropa, mengubah cara manusia menikmati makanan. Proses pembuatan gula melibatkan teknik yang rumit, mulai dari pemanenan hingga kristalisasi. Kini, gula telah menjadi bahan pokok di berbagai budaya."
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_030cdfb445ef-thumbnail-misteri-penemuan-gula-dari-mana-sumbernya.jpg",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/thumbnails/tau_030cdfb445ef-thumbnail-misteri-penemuan-gula-dari-mana-sumbernya.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 2338,
+      "outputTokens": 890,
+      "totalTokens": 3228,
+      "storyUsd": 0.00236,
+      "imageUnitUsd": 0.04,
+      "imageUsd": 0.2,
+      "ttsUsd": 0.00753,
+      "totalUsd": 0.20989
+    },
+    "progress": {
+      "percent": 100,
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
+    }
   }
 ]
