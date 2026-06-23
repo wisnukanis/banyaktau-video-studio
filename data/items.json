@@ -7666,7 +7666,7 @@
   {
     "id": "tau_bfb2002091fc",
     "source": "openai",
-    "status": "rendered",
+    "status": "uploading",
     "project_id": "capybara_banyak_tau_id",
     "language": "id-ID",
     "market": "ID",
@@ -7802,63 +7802,63 @@
           "sceneIndex": 1,
           "provider": "openai",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bfb2002091fc-scene-1-fakta-yang-jarang-dibahas.jpg",
-          "url": "/generated/images/tau_bfb2002091fc-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_bfb2002091fc-scene-1-fakta-yang-jarang-dibahas.jpg",
           "prompt": "visualisasi lubang hitam di ruang angkasa dengan bintang-bintang di sekitarnya, topic: alam semesta, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
         },
         {
           "sceneIndex": 2,
           "provider": "openai",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bfb2002091fc-scene-2-cara-kerjanya.jpg",
-          "url": "/generated/images/tau_bfb2002091fc-scene-2-cara-kerjanya.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_bfb2002091fc-scene-2-cara-kerjanya.jpg",
           "prompt": "diagram proses pembentukan lubang hitam dari bintang, topic: alam semesta, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
         },
         {
           "sceneIndex": 3,
           "provider": "openai",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bfb2002091fc-scene-3-contoh-sederhana.jpg",
-          "url": "/generated/images/tau_bfb2002091fc-scene-3-contoh-sederhana.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_bfb2002091fc-scene-3-contoh-sederhana.jpg",
           "prompt": "ilustrasi event horizon dan objek yang mendekatinya, topic: alam semesta, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
         },
         {
           "sceneIndex": 4,
           "provider": "openai",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bfb2002091fc-scene-4-bagian-paling-penting.jpg",
-          "url": "/generated/images/tau_bfb2002091fc-scene-4-bagian-paling-penting.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_bfb2002091fc-scene-4-bagian-paling-penting.jpg",
           "prompt": "visualisasi objek bintang yang dipengaruhi oleh gravitasi lubang hitam, topic: alam semesta, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
         },
         {
           "sceneIndex": 5,
           "provider": "openai",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bfb2002091fc-scene-5-kenapa-ini-menarik.jpg",
-          "url": "/generated/images/tau_bfb2002091fc-scene-5-kenapa-ini-menarik.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_bfb2002091fc-scene-5-kenapa-ini-menarik.jpg",
           "prompt": "diagram teori relativitas umum dengan lubang hitam, topic: alam semesta, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
         },
         {
           "sceneIndex": 6,
           "provider": "openai",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bfb2002091fc-scene-6-yang-sering-salah-dipahami.jpg",
-          "url": "/generated/images/tau_bfb2002091fc-scene-6-yang-sering-salah-dipahami.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_bfb2002091fc-scene-6-yang-sering-salah-dipahami.jpg",
           "prompt": "ilustrasi ruang waktu yang terdistorsi di sekitar lubang hitam, topic: alam semesta, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
         },
         {
           "sceneIndex": 7,
           "provider": "openai",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bfb2002091fc-scene-7-fakta-utama.jpg",
-          "url": "/generated/images/tau_bfb2002091fc-scene-7-fakta-utama.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_bfb2002091fc-scene-7-fakta-utama.jpg",
           "prompt": "ilmuwan yang sedang melakukan penelitian tentang lubang hitam, topic: alam semesta, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
         },
         {
           "sceneIndex": 8,
           "provider": "openai",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bfb2002091fc-scene-8-fakta-yang-jarang-dibahas.jpg",
-          "url": "/generated/images/tau_bfb2002091fc-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_bfb2002091fc-scene-8-fakta-yang-jarang-dibahas.jpg",
           "prompt": "pemandangan alam semesta yang luas dan bintang-bintang, topic: alam semesta, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
         },
         {
           "sceneIndex": 9,
           "provider": "openai",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_bfb2002091fc-scene-9-cara-kerjanya.jpg",
-          "url": "/generated/images/tau_bfb2002091fc-scene-9-cara-kerjanya.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_bfb2002091fc-scene-9-cara-kerjanya.jpg",
           "prompt": "ilustrasi perjalanan ke luar angkasa, topic: alam semesta, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
         }
       ],
@@ -7868,7 +7868,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_bfb2002091fc-scene-1-stock.mp4",
-          "url": "/generated/clips/tau_bfb2002091fc-scene-1-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_bfb2002091fc-scene-1-stock.mp4",
           "prompt": "Black hole footage",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -7879,7 +7879,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_bfb2002091fc-scene-2-stock.mp4",
-          "url": "/generated/clips/tau_bfb2002091fc-scene-2-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_bfb2002091fc-scene-2-stock.mp4",
           "prompt": "Black hole formation",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -7890,7 +7890,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_bfb2002091fc-scene-3-stock.mp4",
-          "url": "/generated/clips/tau_bfb2002091fc-scene-3-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_bfb2002091fc-scene-3-stock.mp4",
           "prompt": "Black hole event horizon",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -7901,7 +7901,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_bfb2002091fc-scene-4-stock.mp4",
-          "url": "/generated/clips/tau_bfb2002091fc-scene-4-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_bfb2002091fc-scene-4-stock.mp4",
           "prompt": "Black hole gravity",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -7912,7 +7912,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_bfb2002091fc-scene-5-stock.mp4",
-          "url": "/generated/clips/tau_bfb2002091fc-scene-5-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_bfb2002091fc-scene-5-stock.mp4",
           "prompt": "Black hole effects",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -7923,7 +7923,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_bfb2002091fc-scene-6-stock.mp4",
-          "url": "/generated/clips/tau_bfb2002091fc-scene-6-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_bfb2002091fc-scene-6-stock.mp4",
           "prompt": "Black hole mystery",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -7934,7 +7934,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_bfb2002091fc-scene-7-stock.mp4",
-          "url": "/generated/clips/tau_bfb2002091fc-scene-7-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_bfb2002091fc-scene-7-stock.mp4",
           "prompt": "Black hole footage",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -7945,7 +7945,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_bfb2002091fc-scene-8-stock.mp4",
-          "url": "/generated/clips/tau_bfb2002091fc-scene-8-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_bfb2002091fc-scene-8-stock.mp4",
           "prompt": "Black hole mystery",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -7956,7 +7956,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_bfb2002091fc-scene-9-stock.mp4",
-          "url": "/generated/clips/tau_bfb2002091fc-scene-9-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_bfb2002091fc-scene-9-stock.mp4",
           "prompt": "Cosmos mystery B-roll",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -7968,12 +7968,12 @@
         "model": "tts-1",
         "voice": "onyx",
         "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_bfb2002091fc-openai-natural-narration.mp3",
-        "url": "/generated/audio/tau_bfb2002091fc-openai-natural-narration.mp3",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/audio/tau_bfb2002091fc-openai-natural-narration.mp3",
         "characters": 1109
       },
       "video": {
         "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_bfb2002091fc-openai-misteri-lubang-hitam-apa-yang-terjadi-di-dalamnya.mp4",
-        "url": "/generated/videos/tau_bfb2002091fc-openai-misteri-lubang-hitam-apa-yang-terjadi-di-dalamnya.mp4",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_bfb2002091fc-openai-misteri-lubang-hitam-apa-yang-terjadi-di-dalamnya.mp4",
         "provider": "openai",
         "durationSec": 65.33,
         "scenes": 9
@@ -7987,7 +7987,7 @@
       ],
       "thumbnail": {
         "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_bfb2002091fc-thumbnail-misteri-lubang-hitam-apa-yang-terjadi-di-dalamnya.jpg",
-        "url": "/generated/thumbnails/tau_bfb2002091fc-thumbnail-misteri-lubang-hitam-apa-yang-terjadi-di-dalamnya.jpg",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/thumbnails/tau_bfb2002091fc-thumbnail-misteri-lubang-hitam-apa-yang-terjadi-di-dalamnya.jpg",
         "provider": "ffmpeg-collage"
       }
     },
@@ -8003,9 +8003,9 @@
       "videoUsd": 0
     },
     "progress": {
-      "percent": 100,
-      "stage": "completed",
-      "message": "Video final selesai dibuat!"
+      "percent": 30,
+      "stage": "remote_uploading",
+      "message": "Mengunggah video ke Remote Server (FTP/SFTP)..."
     }
   },
   {
