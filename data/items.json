@@ -8675,5 +8675,184 @@
         "publishedAt": "2026-06-23T07:08:34.759Z"
       }
     }
+  },
+  {
+    "id": "tau_6b2a6ef3e180",
+    "source": "openai",
+    "status": "rendered",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-06-23T07:33:52.858Z",
+    "updatedAt": "2026-06-23T07:35:58.079Z",
+    "input": {
+      "topic": "Gurita",
+      "category": "teknologi",
+      "hookStyle": "Pernahkah kamu tahu bahwa gurita memiliki teknologi sensor yang sangat canggih? Yuk, kita eksplor kemampuannya!",
+      "selectedIdea": {
+        "id": "idea_126dc1aed7be",
+        "title": "Teknologi Luar Biasa Gurita: Sensor Canggih di Tubuhnya",
+        "topic": "Gurita",
+        "hook": "Pernahkah kamu tahu bahwa gurita memiliki teknologi sensor yang sangat canggih? Yuk, kita eksplor kemampuannya!",
+        "category": "teknologi",
+        "angle": "Menggali kemampuan sensorikal gurita yang menakjubkan, termasuk penglihatan dan peraba, serta bagaimana ini membantu mereka bertahan di alam liar.",
+        "whyGood": "Menarik perhatian dengan fakta-fakta unik tentang gurita yang jarang diketahui dan relevansi teknologi."
+      },
+      "tone": "narator dokumenter TV Indonesia pria dewasa, tenang, berwibawa, tempo sedang, cerdas, tepercaya, jeda alami, transisi halus, tanpa emosi berlebih",
+      "durationSec": 45,
+      "sceneCount": 5,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1792",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "",
+      "elevenlabsModel": "",
+      "openaiTtsVoice": "",
+      "avatarMode": "image",
+      "videoFormat": "vertical",
+      "visualSource": "stock"
+    },
+    "title": "Teknologi Luar Biasa Gurita: Sensor Canggih di Tubuhnya",
+    "plan": {
+      "title": "Teknologi Luar Biasa Gurita: Sensor Canggih di Tubuhnya",
+      "hook": "Pernahkah kamu tahu bahwa gurita memiliki teknologi sensor yang sangat canggih? Yuk, kita eksplor kemampuannya!",
+      "summary": "Gurita memiliki kemampuan sensorik yang menakjubkan, termasuk penglihatan dan peraba, yang membantu mereka bertahan di alam liar.",
+      "importantPoints": [
+        "Gurita dapat merasakan lingkungan di sekitarnya melalui jutaan sel sensor di kulitnya.",
+        "Mereka memiliki penglihatan yang luar biasa, mampu melihat warna dan pola.",
+        "Gurita dapat berkomunikasi dengan perubahan warna kulit dan pola.",
+        "Kemampuan sensorik ini memungkinkan gurita berburu dan menghindari predator dengan efektif."
+      ],
+      "factCheckNote": "Semua informasi dalam video ini berdasarkan penelitian dan fakta ilmiah yang valid.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 9.54,
+          "narration": "Gurita dikenal sebagai makhluk yang misterius dan cerdas. Namun, tahukah kamu bahwa mereka memiliki teknologi sensor yang luar biasa?",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Close-up gurita di habitatnya, menunjukkan warna dan tekstur kulitnya., topic: Gurita, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "natural underwater scene",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 2,
+          "durationSec": 9,
+          "narration": "Dengan jutaan sel sensor di kulitnya, gurita dapat merasakan perubahan lingkungan secara akurat.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Diagram yang menunjukkan struktur kulit gurita dengan sel-sel sensor., topic: Gurita, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "conceptual diagram",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 3,
+          "durationSec": 9,
+          "narration": "Mereka juga memiliki penglihatan yang tajam. Gurita dapat melihat warna dan pola yang membantu mereka dalam berburu.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "Visual gurita berburu, menampilkan cara mereka menggunakan penglihatan., topic: Gurita, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "nature hunting scene",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 4,
+          "durationSec": 9,
+          "narration": "Selain itu, gurita mampu berkomunikasi melalui perubahan warna kulitnya, menandakan emosi atau peringatan.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "Gurita dengan perubahan warna yang mencolok, menunjukkan komunikasi., topic: Gurita, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "colorful underwater scene",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 5,
+          "durationSec": 9.18,
+          "narration": "Kemampuan unik ini menjadikan gurita sebagai salah satu makhluk paling menarik di lautan.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "Gurita berenang bebas di lautan, menunjukkan kecantikan dan keunikan., topic: Gurita, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "serene ocean scene",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [
+        {
+          "sceneIndex": 1,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_6b2a6ef3e180-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_6b2a6ef3e180-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "Close-up gurita di habitatnya, menunjukkan warna dan tekstur kulitnya., topic: Gurita, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_6b2a6ef3e180-scene-2-cara-kerjanya.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_6b2a6ef3e180-scene-2-cara-kerjanya.jpg",
+          "prompt": "Diagram yang menunjukkan struktur kulit gurita dengan sel-sel sensor., topic: Gurita, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_6b2a6ef3e180-scene-3-contoh-sederhana.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_6b2a6ef3e180-scene-3-contoh-sederhana.jpg",
+          "prompt": "Visual gurita berburu, menampilkan cara mereka menggunakan penglihatan., topic: Gurita, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_6b2a6ef3e180-scene-4-bagian-paling-penting.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_6b2a6ef3e180-scene-4-bagian-paling-penting.jpg",
+          "prompt": "Gurita dengan perubahan warna yang mencolok, menunjukkan komunikasi., topic: Gurita, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_6b2a6ef3e180-scene-5-kenapa-ini-menarik.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_6b2a6ef3e180-scene-5-kenapa-ini-menarik.jpg",
+          "prompt": "Gurita berenang bebas di lautan, menunjukkan kecantikan dan keunikan., topic: Gurita, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
+      "clips": [],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "shimmer",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_6b2a6ef3e180-openai-natural-narration.mp3",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/audio/tau_6b2a6ef3e180-openai-natural-narration.mp3",
+        "characters": 544
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_6b2a6ef3e180-openai-teknologi-luar-biasa-gurita-sensor-canggih-di-tubuhnya.mp4",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_6b2a6ef3e180-openai-teknologi-luar-biasa-gurita-sensor-canggih-di-tubuhnya.mp4",
+        "provider": "openai",
+        "durationSec": 38.5,
+        "scenes": 5
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Gurita dikenal sebagai makhluk yang misterius dan cerdas. Namun, tahukah kamu bahwa mereka memiliki teknologi sensor yang luar biasa? Dengan jutaan sel sensor di kulitnya, Gurita dapat merasakan perubahan lingkungan secara akurat. Mereka juga memiliki penglihatan yang tajam. Gurita dapat melihat warna dan pola yang membantu mereka dalam berburu. Selain itu, Gurita mampu berkomunikasi melalui perubahan warna kulitnya, menandakan emosi atau peringatan. Selain itu, Gurita juga memiliki pengalaman yang luar biasa."
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_6b2a6ef3e180-thumbnail-teknologi-luar-biasa-gurita-sensor-canggih-di-tubuhnya.jpg",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/thumbnails/tau_6b2a6ef3e180-thumbnail-teknologi-luar-biasa-gurita-sensor-canggih-di-tubuhnya.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 2401,
+      "outputTokens": 904,
+      "totalTokens": 3305,
+      "storyUsd": 0.00241,
+      "imageUnitUsd": 0.04,
+      "imageUsd": 0.2,
+      "ttsUsd": 0.00816,
+      "totalUsd": 0.21057
+    },
+    "progress": {
+      "percent": 100,
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
+    }
   }
 ]
