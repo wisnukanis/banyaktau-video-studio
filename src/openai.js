@@ -50,24 +50,98 @@ export async function requestIdeaJson(promptText) {
   return JSON.parse(content);
 }
 
+async function fetchAvailableModels() {
+  try {
+    const response = await fetch(`${config.openai.baseUrl}/models`, {
+      headers: {
+        Authorization: `Bearer ${config.openai.apiKey}`
+      }
+    });
+    if (!response.ok) return [];
+    const data = await response.json();
+    return (data.data || []).map((m) => m.id);
+  } catch {
+    return [];
+  }
+}
+
 export async function generateSceneImage({ itemId, scene, size, quality }) {
   assertOpenAi();
   await fs.mkdir(paths.imageDir, { recursive: true });
 
   const prompt = sanitizeImagePrompt(scene.imagePrompt);
-  const response = await fetch(`${config.openai.baseUrl}/images/generations`, {
-    method: "POST",
-    headers: headersJson(),
-    body: JSON.stringify({
-      model: config.openai.imageModel,
+  let modelToUse = config.openai.imageModel;
+  let qualityToUse = quality;
+  let sizeToUse = size;
+  let item = null;
+
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    const payload = {
+      model: modelToUse,
       prompt,
-      size,
-      quality,
       n: 1
-    })
-  });
-  const data = await parseOpenAiResponse(response);
-  const item = data.data?.[0];
+    };
+    if (sizeToUse) payload.size = sizeToUse;
+    if (qualityToUse) payload.quality = qualityToUse;
+
+    const response = await fetch(`${config.openai.baseUrl}/images/generations`, {
+      method: "POST",
+      headers: headersJson(),
+      body: JSON.stringify(payload)
+    });
+
+    const text = await response.text();
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = { raw: text };
+    }
+
+    if (!response.ok) {
+      const errMsg = data?.error?.message || text || `HTTP ${response.status}`;
+      console.warn(`[generateSceneImage] Attempt ${attempt} failed: ${errMsg}`);
+
+      if (attempt === 3) {
+        throw new Error(errMsg);
+      }
+
+      // 1. Check for model not found
+      if (/model.*not.*exist|not.*found.*model|unknown.*model|model.*unsupported/i.test(errMsg) || (data?.error?.code === "model_not_found")) {
+        console.log("[generateSceneImage] Model not found. Fetching available models...");
+        const available = await fetchAvailableModels();
+        const fallbackModel = available.find(id => /image|dall/i.test(id));
+        if (fallbackModel && fallbackModel !== modelToUse) {
+          console.log(`[generateSceneImage] Switching image model: ${modelToUse} -> ${fallbackModel}`);
+          modelToUse = fallbackModel;
+          config.openai.imageModel = fallbackModel;
+          continue;
+        }
+      }
+
+      // 2. Check for invalid quality parameter
+      if (data?.error?.param === "quality" || /quality/i.test(errMsg) || /invalid_value.*quality/i.test(data?.error?.code)) {
+        console.log("[generateSceneImage] Quality parameter rejected. Disabling quality parameter...");
+        qualityToUse = undefined;
+        config.openai.imageQuality = undefined;
+        continue;
+      }
+
+      // 3. Check for invalid size parameter
+      if (data?.error?.param === "size" || /size/i.test(errMsg) || /invalid_value.*size/i.test(data?.error?.code)) {
+        console.log("[generateSceneImage] Size parameter rejected. Disabling size parameter...");
+        sizeToUse = undefined;
+        config.openai.imageSize = undefined;
+        continue;
+      }
+
+      throw new Error(errMsg);
+    }
+
+    item = data.data?.[0];
+    break;
+  }
+
   if (!item) throw new Error("OpenAI tidak mengembalikan gambar.");
 
   const rawFilename = `${itemId}-scene-${scene.index}-${safeFilename(scene.screenText)}-raw.png`;

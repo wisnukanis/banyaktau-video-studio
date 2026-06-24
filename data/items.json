@@ -8685,7 +8685,7 @@
     "market": "ID",
     "version_type": "original",
     "createdAt": "2026-06-23T07:33:52.858Z",
-    "updatedAt": "2026-06-23T07:35:58.079Z",
+    "updatedAt": "2026-06-23T07:37:39.334Z",
     "input": {
       "topic": "Gurita",
       "category": "teknologi",
@@ -8810,7 +8810,63 @@
           "prompt": "Gurita berenang bebas di lautan, menunjukkan kecantikan dan keunikan., topic: Gurita, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
         }
       ],
-      "clips": [],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6b2a6ef3e180-scene-1-stock.mp4",
+          "url": "/generated/clips/tau_6b2a6ef3e180-scene-1-stock.mp4",
+          "prompt": "Octopus footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6b2a6ef3e180-scene-2-stock.mp4",
+          "url": "/generated/clips/tau_6b2a6ef3e180-scene-2-stock.mp4",
+          "prompt": "Octopus sensory footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6b2a6ef3e180-scene-3-stock.mp4",
+          "url": "/generated/clips/tau_6b2a6ef3e180-scene-3-stock.mp4",
+          "prompt": "Octopus hunting footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6b2a6ef3e180-scene-4-stock.mp4",
+          "url": "/generated/clips/tau_6b2a6ef3e180-scene-4-stock.mp4",
+          "prompt": "Octopus color change",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6b2a6ef3e180-scene-5-stock.mp4",
+          "url": "/generated/clips/tau_6b2a6ef3e180-scene-5-stock.mp4",
+          "prompt": "Octopus underwater footage",
+          "seconds": 4,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
       "audio": {
         "provider": "openai",
         "model": "tts-1",
@@ -8821,7 +8877,7 @@
       },
       "video": {
         "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_6b2a6ef3e180-openai-teknologi-luar-biasa-gurita-sensor-canggih-di-tubuhnya.mp4",
-        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_6b2a6ef3e180-openai-teknologi-luar-biasa-gurita-sensor-canggih-di-tubuhnya.mp4",
+        "url": "/generated/videos/tau_6b2a6ef3e180-openai-teknologi-luar-biasa-gurita-sensor-canggih-di-tubuhnya.mp4",
         "provider": "openai",
         "durationSec": 38.5,
         "scenes": 5
@@ -8847,31 +8903,13 @@
       "imageUnitUsd": 0.04,
       "imageUsd": 0.2,
       "ttsUsd": 0.00816,
-      "totalUsd": 0.21057
+      "totalUsd": 0.21057,
+      "videoUsd": 0
     },
     "progress": {
       "percent": 100,
       "stage": "completed",
       "message": "Video final selesai dibuat!"
-    },
-    "publish": {
-      "facebook": {
-        "ok": true,
-        "type": "facebook_reel",
-        "videoId": "1407942421158183",
-        "postId": "122116269405342479",
-        "url": "https://www.facebook.com/reel/1407942421158183",
-        "publishedAt": "2026-06-23T07:37:24.280Z"
-      },
-      "instagram": {
-        "ok": true,
-        "type": "instagram_reel",
-        "mediaId": "18109010525313784",
-        "containerId": "18113655037779157",
-        "igUserId": "17841423374699740",
-        "url": "https://www.instagram.com/reel/DZ65V7GgU_G/",
-        "publishedAt": "2026-06-23T07:37:24.280Z"
-      }
     }
   }
 ]

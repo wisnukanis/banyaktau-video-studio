@@ -98,9 +98,8 @@ async function loadAvatars() {
     const data = await api("/api/avatars");
     const select = document.querySelector("#avatarModeSelect");
     if (!select || !data.avatars) return;
-    
-    // Clear existing dynamic options (keep static flapping capybara)
-    select.innerHTML = '<option value="image" selected>Capybara Static (Flapping)</option>';
+    // Clear existing dynamic options (only show green screen video avatars)
+    select.innerHTML = '';
     
     data.avatars.forEach(file => {
       // Use clean names for labels (e.g. "avatar video 1.mp4" -> "Avatar Video 1")
@@ -295,6 +294,7 @@ async function saveSettings(event) {
         videoSeconds: Number(form.get("videoSeconds")),
         videoUsdPerSecond: Number(form.get("videoUsdPerSecond")),
         openaiTtsVoice: form.get("openaiTtsVoice"),
+        edgeTtsVoice: form.get("edgeTtsVoice"),
         elevenlabsVoiceId: form.get("elevenlabsVoiceId"),
         elevenlabsModel: form.get("elevenlabsModel"),
         geminiApiKey: form.get("geminiApiKey"),
@@ -594,6 +594,7 @@ function formPayload() {
     videoFormat: form.get("videoFormat") || "vertical",
     visualSource: form.get("visualSource") || "stock",
     openaiTtsVoice: settingsForm.get("openaiTtsVoice"),
+    edgeTtsVoice: settingsForm.get("edgeTtsVoice"),
     elevenlabsVoiceId: settingsForm.get("elevenlabsVoiceId"),
     elevenlabsModel: settingsForm.get("elevenlabsModel")
   };
@@ -633,6 +634,7 @@ function fillSettingsForm() {
   els.settingsForm.storyModel.value = state.config.providers?.storyModel || "gpt-4o-mini";
   els.settingsForm.imageModel.value = state.config.providers?.imageModel || "dall-e-3";
   els.settingsForm.openaiTtsVoice.value = state.config.providers?.openaiTtsVoice || "shimmer";
+  els.settingsForm.edgeTtsVoice.value = state.config.providers?.edgeTtsVoice || "id-ID-ArdiNeural";
   els.settingsForm.elevenlabsVoiceId.value = state.config.providers?.elevenlabsVoiceId || "";
   els.settingsForm.elevenlabsModel.value = state.config.providers?.elevenlabsModel || "eleven_turbo_v2_5";
   els.settingsForm.videoBaseUrl.value = state.config.providers?.videoBaseUrl || "https://ai.dinoiki.com";

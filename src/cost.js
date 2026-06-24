@@ -16,6 +16,7 @@ export function estimateImageUsd(size, quality) {
 
 export function estimateTtsUsd(chars, provider, pricing) {
   const count = Math.max(0, Number(chars || 0));
+  if (provider === "edge_tts") return 0.0;
   if (provider === "elevenlabs") return roundUsd((count / 1000) * pricing.elevenlabsTtsUsdPer1KChars);
   return roundUsd((count / 1_000_000) * pricing.openaiTtsUsdPer1MChars);
 }

@@ -69,6 +69,7 @@ export const config = {
     imageQuality: clean(process.env.IMAGE_QUALITY || "standard"),
     ttsModel: clean(process.env.OPENAI_TTS_MODEL || process.env.TTS_MODEL || "tts-1"),
     ttsVoice: clean(process.env.OPENAI_TTS_VOICE || process.env.TTS_VOICE || "shimmer"),
+    edgeTtsVoice: clean(process.env.EDGE_TTS_VOICE || "id-ID-ArdiNeural"),
     transcribeModel: clean(process.env.OPENAI_TRANSCRIBE_MODEL || "whisper-1")
   },
   video: {
@@ -175,6 +176,7 @@ export function publicConfig() {
       openaiApiKeySet: bool(config.openai.apiKey),
       openaiTtsModel: config.openai.ttsModel,
       openaiTtsVoice: config.openai.ttsVoice,
+      edgeTtsVoice: config.openai.edgeTtsVoice,
       openaiTranscribeModel: config.openai.transcribeModel,
       elevenlabsApiKeySet: bool(config.elevenlabs.apiKey),
       elevenlabsModel: config.elevenlabs.model,
@@ -217,6 +219,7 @@ export async function updateRuntimeSettings(input = {}) {
   const imageModel = sanitizeEnvValue(input.imageModel);
   const elevenlabsKey = sanitizeEnvValue(input.elevenlabsApiKey);
   const openaiTtsVoice = sanitizeEnvValue(input.openaiTtsVoice);
+  const edgeTtsVoice = sanitizeEnvValue(input.edgeTtsVoice);
   const openaiTtsModel = sanitizeEnvValue(input.openaiTtsModel);
   const openaiTranscribeModel = sanitizeEnvValue(input.openaiTranscribeModel);
   const videoApiKey = sanitizeEnvValue(input.videoApiKey);
@@ -251,6 +254,7 @@ export async function updateRuntimeSettings(input = {}) {
   if (imageModel) updates.IMAGE_MODEL = imageModel;
   if (elevenlabsKey) updates.ELEVENLABS_API_KEY = elevenlabsKey;
   if (openaiTtsVoice) updates.OPENAI_TTS_VOICE = openaiTtsVoice;
+  if (edgeTtsVoice) updates.EDGE_TTS_VOICE = edgeTtsVoice;
   if (openaiTtsModel) updates.OPENAI_TTS_MODEL = openaiTtsModel;
   if (openaiTranscribeModel) updates.OPENAI_TRANSCRIBE_MODEL = openaiTranscribeModel;
   if (videoApiKey) updates.VIDEO_API_KEY = videoApiKey;
@@ -322,6 +326,7 @@ function applyConfigUpdates(updates) {
   if (updates.IMAGE_MODEL !== undefined) config.openai.imageModel = updates.IMAGE_MODEL;
   if (updates.OPENAI_TTS_MODEL !== undefined) config.openai.ttsModel = updates.OPENAI_TTS_MODEL;
   if (updates.OPENAI_TTS_VOICE !== undefined) config.openai.ttsVoice = updates.OPENAI_TTS_VOICE;
+  if (updates.EDGE_TTS_VOICE !== undefined) config.openai.edgeTtsVoice = updates.EDGE_TTS_VOICE;
   if (updates.OPENAI_TRANSCRIBE_MODEL !== undefined) config.openai.transcribeModel = updates.OPENAI_TRANSCRIBE_MODEL;
   if (updates.VIDEO_API_KEY !== undefined) config.video.apiKey = updates.VIDEO_API_KEY;
   if (updates.VIDEO_BASE_URL !== undefined) config.video.baseUrl = trimSlash(updates.VIDEO_BASE_URL);

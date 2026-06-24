@@ -386,7 +386,20 @@ function normalizeInput(input) {
     elevenlabsVoiceId: cleanText(input.elevenlabsVoiceId || "", 80),
     elevenlabsModel: cleanText(input.elevenlabsModel || "", 80),
     openaiTtsVoice: cleanText(input.openaiTtsVoice || "", 80),
-    avatarMode: cleanText(input.avatarMode || "image", 40),
+    avatarMode: (() => {
+      const greenAvatars = ["avatar hijau 1.mp4", "avatar hijau 2.mp4", "avatar hijau 3.mp4"];
+      const rawMode = cleanText(input.avatarMode || "", 40);
+      if (greenAvatars.includes(rawMode)) {
+        return rawMode;
+      }
+      const seed = selectedIdea?.topic || input.topic || "default";
+      let hash = 0;
+      for (let i = 0; i < seed.length; i++) {
+        hash = (hash << 5) - hash + seed.charCodeAt(i);
+        hash |= 0;
+      }
+      return greenAvatars[Math.abs(hash) % greenAvatars.length];
+    })(),
     videoFormat: cleanText(input.videoFormat || config.stock?.defaultVideoFormat || "vertical", 40),
     visualSource: cleanText(input.visualSource || config.stock?.defaultVisualSource || "stock", 40)
   };

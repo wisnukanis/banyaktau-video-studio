@@ -57,7 +57,7 @@ app.get("/api/avatars", async (_req, res, next) => {
     const avatarDir = path.join(paths.rootDir, "assets", "avatar");
     await fs.mkdir(avatarDir, { recursive: true });
     const files = await fs.readdir(avatarDir);
-    const mp4Files = files.filter(f => f.toLowerCase().endsWith(".mp4"));
+    const mp4Files = files.filter(f => f.toLowerCase().endsWith(".mp4") && f.toLowerCase().includes("hijau"));
     res.json({ avatars: mp4Files });
   } catch (error) {
     next(error);

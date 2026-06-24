@@ -1,8 +1,11 @@
 import { spawnSync } from "node:child_process";
-import { config } from "./config.js";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { config, paths } from "./config.js";
 import { estimateTtsUsd, estimateVideoUsd } from "./cost.js";
 import { generateElevenLabsSpeech } from "./elevenlabs.js";
 import { generateOpenAiSpeech, generateSceneImage, transcribeSpeechSegments } from "./openai.js";
+import { generateEdgeTts } from "./modules/edge_tts.js";
 import { renderKnowledgeVideo } from "./render.js";
 import { generateThumbnail } from "./thumbnail.js";
 import { getItem, listContextItems, saveItem } from "./storage.js";
@@ -194,7 +197,10 @@ export async function ensureImages(item, options = {}) {
 export async function ensureAudio(item, options = {}) {
   const hasWarningSink = Array.isArray(options.warnings);
   const warnings = options.warnings || [];
-  const provider = String(options.provider || item.input.ttsProvider || "openai").toLowerCase() === "elevenlabs" ? "elevenlabs" : "openai";
+  let provider = String(options.provider || item.input.ttsProvider || "openai").toLowerCase();
+  if (!["elevenlabs", "openai", "edge_tts"].includes(provider)) {
+    provider = "openai";
+  }
   if (item.assets.audio?.path && !options.force && item.assets.audio.provider === provider) return;
 
   try {
@@ -203,6 +209,7 @@ export async function ensureAudio(item, options = {}) {
     // Auto-align voice with the Capybara avatar vibe if not customized
     let voice = item.input.openaiTtsVoice;
     let elevenlabsVoiceId = item.input.elevenlabsVoiceId;
+    let edgeTtsVoice = item.input.edgeTtsVoice || config.openai.edgeTtsVoice || "id-ID-ArdiNeural";
     const avatarMode = String(item.input.avatarMode || "").toLowerCase();
     const isCapybara = avatarMode.includes("hijau") || avatarMode.includes("green") || 
                        avatarMode.includes("video") || avatarMode.includes("hitam");
@@ -218,21 +225,37 @@ export async function ensureAudio(item, options = {}) {
     const catStyle = getToneStyleGuidelines(item.input.tone, item.input.category);
     const instructions = `Bacakan sebagai narator dokumenter Indonesia dengan suara pria dewasa yang tenang, berwibawa, cerdas, dan tepercaya. Gunakan tempo sedang dan aksen Indonesia netral (tidak robotik, tidak dramatis, tidak seperti iklan). Gaya: ${catStyle.style}. Tone: ${catStyle.tone}. Aturan tambahan: ${catStyle.rules}. Jangan terburu-buru, jangan berteriak, jangan terdengar heboh seperti influencer YouTube, hindari emosi berlebih.`;
 
-    item.assets.audio = provider === "elevenlabs"
-      ? await generateElevenLabsSpeech({
-          itemId: item.id,
-          text,
-          voiceId: elevenlabsVoiceId,
-          modelId: item.input.elevenlabsModel,
-          filenameSuffix: "elevenlabs-natural"
-        })
-      : await generateOpenAiSpeech({
-          itemId: item.id,
-          text,
-          voice,
-          filenameSuffix: "openai-natural",
-          instructions
-        });
+    if (provider === "elevenlabs") {
+      item.assets.audio = await generateElevenLabsSpeech({
+        itemId: item.id,
+        text,
+        voiceId: elevenlabsVoiceId,
+        modelId: item.input.elevenlabsModel,
+        filenameSuffix: "elevenlabs-natural"
+      });
+    } else if (provider === "edge_tts") {
+      const audioFilename = `${item.id}-edge-tts-natural.mp3`;
+      const audioPath = path.join(paths.audioDir, audioFilename);
+      const audioUrl = `/generated/audio/${audioFilename}`;
+      await fs.mkdir(paths.audioDir, { recursive: true });
+      await generateEdgeTts({ text, voiceId: edgeTtsVoice, outputPath: audioPath });
+      item.assets.audio = {
+        provider: "edge_tts",
+        model: "edge-tts-cli",
+        voice: edgeTtsVoice,
+        path: audioPath,
+        url: audioUrl
+      };
+    } else {
+      item.assets.audio = await generateOpenAiSpeech({
+        itemId: item.id,
+        text,
+        voice,
+        filenameSuffix: "openai-natural",
+        instructions
+      });
+    }
+
     item.assets.audio.characters = text.length;
     try {
       item.assets.captions = await transcribeSpeechSegments(item.assets.audio.path);
