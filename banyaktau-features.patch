@@ -1,0 +1,936 @@
+diff --git a/.env.example b/.env.example
+index cbf0b12..c7fcc00 100644
+--- a/.env.example
++++ b/.env.example
+@@ -75,3 +75,25 @@ BANYAKTAU_CLEANUP_DAYS=7
+ BANYAKTAU_CLEANUP_DELETE_ALL=false
+ BANYAKTAU_CLEANUP_DRY_RUN=false
+ BANYAKTAU_CLEANUP_SUBDIRS=videos,thumbnails,images,audio,clips
++
++# YouTube Shorts auto upload.
++# One-time setup: create an OAuth 2.0 Client ID (type "Desktop app") in Google
++# Cloud Console, enable "YouTube Data API v3", then run the standard Google
++# OAuth installed-app flow once with scope
++# https://www.googleapis.com/auth/youtube.upload to obtain a refresh token.
++YOUTUBE_UPLOAD_ENABLED=false
++YOUTUBE_CLIENT_ID=
++YOUTUBE_CLIENT_SECRET=
++YOUTUBE_REFRESH_TOKEN=
++YOUTUBE_CATEGORY_ID=27
++YOUTUBE_PRIVACY_STATUS=public
++YOUTUBE_MADE_FOR_KIDS=false
++YOUTUBE_TITLE_PREFIX=
++
++# Scheduler: automated daily generate + publish runs (npm run schedule).
++SCHEDULE_TIMES=08:00,13:00,19:00
++SCHEDULE_TIMEZONE=Asia/Jakarta
++SCHEDULE_CATEGORIES=random
++SCHEDULE_WITH_CLIP=false
++SCHEDULE_ANALYTICS_SYNC_TIME=03:30
++SCHEDULE_MAX_RUNS_PER_DAY=3
+diff --git a/package.json b/package.json
+index c29ff62..9047594 100644
+--- a/package.json
++++ b/package.json
+@@ -9,15 +9,18 @@
+     "start": "node src/server.js",
+     "preflight": "node src/preflight.js",
+     "run:once": "node src/run-once.js",
++    "schedule": "node src/scheduler.js",
++    "analytics:sync": "node -e \"import('./src/analytics.js').then(m => m.syncAllAnalytics()).then(r => console.log(JSON.stringify(r, null, 2)))\"",
+     "download:music": "node src/download-music.js",
+     "remote:cleanup": "node src/cleanup-remote.js",
+     "remote:cleanup:dry": "node src/cleanup-remote.js --dry-run",
+-    "check": "node --check src/server.js && node --check src/story-engine.js && node --check src/render.js && node --check src/openai.js && node --check src/elevenlabs.js && node --check src/video-provider.js && node --check src/facebook.js && node --check src/pipeline.js && node --check src/remote.js && node --check src/run-once.js && node --check src/preflight.js && node --check src/thumbnail.js && node --check src/cleanup-remote.js"
++    "check": "node --check src/server.js && node --check src/story-engine.js && node --check src/render.js && node --check src/openai.js && node --check src/elevenlabs.js && node --check src/video-provider.js && node --check src/facebook.js && node --check src/pipeline.js && node --check src/remote.js && node --check src/run-once.js && node --check src/preflight.js && node --check src/thumbnail.js && node --check src/cleanup-remote.js && node --check src/youtube.js && node --check src/analytics.js && node --check src/scheduler.js"
+   },
+   "dependencies": {
+     "basic-ftp": "^5.3.1",
+     "dotenv": "^16.4.7",
+     "express": "^5.2.1",
++    "node-cron": "^3.0.3",
+     "ssh2-sftp-client": "^12.1.1"
+   }
+ }
+diff --git a/src/analytics.js b/src/analytics.js
+new file mode 100644
+index 0000000..6c0cc5e
+--- /dev/null
++++ b/src/analytics.js
+@@ -0,0 +1,209 @@
++import fs from "node:fs/promises";
++import path from "node:path";
++import { paths } from "./config.js";
++import { listItems } from "./storage.js";
++import { fetchFacebookVideoInsights, fetchInstagramMediaInsights } from "./facebook.js";
++import { fetchYoutubeVideoStats } from "./youtube.js";
++
++const analyticsFile = path.join(paths.dataDir, "analytics.json");
++
++async function readAnalytics() {
++  try {
++    return JSON.parse(await fs.readFile(analyticsFile, "utf8"));
++  } catch (error) {
++    if (error.code === "ENOENT") return { version: 1, items: {} };
++    throw error;
++  }
++}
++
++async function writeAnalytics(value) {
++  await fs.mkdir(path.dirname(analyticsFile), { recursive: true });
++  const tmp = `${analyticsFile}.tmp`;
++  await fs.writeFile(tmp, `${JSON.stringify(value, null, 2)}\n`);
++  await fs.rename(tmp, analyticsFile);
++}
++
++// A simple, transparent engagement score so different platforms can be
++// compared on the same scale. Weights favor signals that indicate real
++// interest (shares/saves) over passive views.
++function engagementScore(snapshot = {}) {
++  const views = Number(snapshot.viewCount || snapshot.playCount || 0);
++  const likes = Number(snapshot.likeCount || 0);
++  const comments = Number(snapshot.commentCount || 0);
++  const shares = Number(snapshot.shareCount || 0);
++  const saves = Number(snapshot.savedCount || 0);
++  return views * 1 + likes * 3 + comments * 5 + shares * 8 + saves * 8;
++}
++
++// Fetches fresh metrics for one item across whichever platforms it was
++// published to, and appends a timestamped snapshot to its history.
++export async function recordItemAnalyticsSnapshot(item) {
++  if (!item?.publish) return null;
++  const platforms = {};
++
++  const fbVideoId = item.publish.facebook?.videoId;
++  if (fbVideoId) {
++    const insight = await fetchFacebookVideoInsights(fbVideoId);
++    if (insight) platforms.facebook = insight;
++  }
++
++  const igMediaId = item.publish.instagram?.mediaId;
++  if (igMediaId) {
++    const insight = await fetchInstagramMediaInsights(igMediaId);
++    if (insight) platforms.instagram = insight;
++  }
++
++  const ytVideoId = item.publish.youtube?.videoId;
++  if (ytVideoId) {
++    try {
++      const insight = await fetchYoutubeVideoStats(ytVideoId);
++      if (insight) platforms.youtube = insight;
++    } catch (error) {
++      console.warn(`[Analytics] Gagal ambil statistik YouTube untuk ${ytVideoId}: ${error.message}`);
++    }
++  }
++
++  if (!Object.keys(platforms).length) return null;
++
++  const totalScore = Object.values(platforms).reduce((sum, snap) => sum + engagementScore(snap), 0);
++
++  const store = await readAnalytics();
++  const existing = store.items[item.id] || {
++    itemId: item.id,
++    title: item.title,
++    topic: item.input?.topic || "",
++    category: item.input?.category || "",
++    hook: item.plan?.hook || "",
++    snapshots: []
++  };
++  existing.title = item.title;
++  existing.topic = item.input?.topic || existing.topic;
++  existing.category = item.input?.category || existing.category;
++  existing.hook = item.plan?.hook || existing.hook;
++  existing.snapshots.push({
++    at: new Date().toISOString(),
++    platforms,
++    totalScore
++  });
++  existing.snapshots = existing.snapshots.slice(-30);
++  existing.latestScore = totalScore;
++  store.items[item.id] = existing;
++  await writeAnalytics(store);
++  return existing;
++}
++
++// Syncs analytics for every item that has been published somewhere and is
++// at least `minHoursSincePublish` old (fresh uploads have no meaningful
++// stats yet). Intended to be called on a schedule (see scheduler.js).
++export async function syncAllAnalytics({ minHoursSincePublish = 6 } = {}) {
++  const items = await listItems();
++  const results = [];
++  const now = Date.now();
++
++  for (const item of items) {
++    const publishTimes = [
++      item.publish?.facebook?.publishedAt,
++      item.publish?.instagram?.publishedAt,
++      item.publish?.youtube?.publishedAt
++    ].filter(Boolean);
++    if (!publishTimes.length) continue;
++
++    const earliestPublish = Math.min(...publishTimes.map((t) => new Date(t).getTime()));
++    const hoursSince = (now - earliestPublish) / 3_600_000;
++    if (hoursSince < minHoursSincePublish) continue;
++
++    try {
++      const snapshot = await recordItemAnalyticsSnapshot(item);
++      if (snapshot) results.push({ itemId: item.id, ok: true, totalScore: snapshot.latestScore });
++    } catch (error) {
++      results.push({ itemId: item.id, ok: false, error: error.message });
++    }
++  }
++
++  return { syncedAt: new Date().toISOString(), count: results.length, results };
++}
++
++// Ranks categories and hooks by average engagement score so the idea
++// generator can lean toward what has actually worked, instead of guessing.
++export async function getPerformanceSummary({ topN = 5 } = {}) {
++  const store = await readAnalytics();
++  const rows = Object.values(store.items || {}).filter((row) => row.snapshots?.length);
++  if (!rows.length) return null;
++
++  const byCategory = new Map();
++  for (const row of rows) {
++    const category = row.category || "random";
++    const score = row.latestScore || 0;
++    const entry = byCategory.get(category) || { category, totalScore: 0, count: 0, bestTitle: "", bestScore: -1 };
++    entry.totalScore += score;
++    entry.count += 1;
++    if (score > entry.bestScore) {
++      entry.bestScore = score;
++      entry.bestTitle = row.title;
++    }
++    byCategory.set(category, entry);
++  }
++
++  const categoryRanking = [...byCategory.values()]
++    .map((entry) => ({ ...entry, avgScore: entry.totalScore / entry.count }))
++    .sort((a, b) => b.avgScore - a.avgScore);
++
++  const topItems = [...rows]
++    .sort((a, b) => (b.latestScore || 0) - (a.latestScore || 0))
++    .slice(0, topN);
++
++  const bottomCutoff = Math.max(1, Math.floor(rows.length * 0.3));
++  const lowPerformers = [...rows]
++    .sort((a, b) => (a.latestScore || 0) - (b.latestScore || 0))
++    .slice(0, bottomCutoff);
++
++  return {
++    generatedAt: new Date().toISOString(),
++    sampleSize: rows.length,
++    categoryRanking,
++    topItems,
++    lowPerformers
++  };
++}
++
++// Turns the ranking above into a short, plain-language block that gets
++// appended to the idea-generation prompt in story-engine.js.
++export async function getPerformanceNotesText() {
++  const summary = await getPerformanceSummary({ topN: 5 });
++  if (!summary || summary.sampleSize < 3) {
++    // Not enough data yet to draw useful conclusions; say nothing rather
++    // than mislead the model with noise from 1-2 data points.
++    return "";
++  }
++
++  const lines = [
++    `Data performa ${summary.sampleSize} video terakhir (skor = views + like*3 + komentar*5 + share/save*8):`
++  ];
++
++  const topCategories = summary.categoryRanking.slice(0, 3);
++  if (topCategories.length) {
++    lines.push(
++      "Kategori dengan performa rata-rata terbaik: " +
++      topCategories.map((c) => `${c.category} (avg ${Math.round(c.avgScore)}, contoh terbaik: "${c.bestTitle}")`).join("; ")
++    );
++  }
++
++  const weakCategories = summary.categoryRanking.slice(-2).reverse();
++  if (weakCategories.length && weakCategories[0].category !== topCategories[0]?.category) {
++    lines.push(
++      "Kategori dengan performa rata-rata lebih lemah (bukan dilarang, tapi jangan didominasi): " +
++      weakCategories.map((c) => `${c.category} (avg ${Math.round(c.avgScore)})`).join("; ")
++    );
++  }
++
++  if (summary.topItems.length) {
++    lines.push(
++      "Video dengan engagement tertinggi baru-baru ini: " +
++      summary.topItems.slice(0, 3).map((item) => `"${item.title}" (hook: ${item.hook || "-"})`).join(" | ")
++    );
++  }
++
++  lines.push("Gunakan ini sebagai sinyal arah, bukan aturan kaku — tetap prioritaskan ide yang faktual dan orisinal.");
++
++  return lines.join("\n");
++}
+diff --git a/src/config.js b/src/config.js
+index 7d53c27..d858235 100644
+--- a/src/config.js
++++ b/src/config.js
+@@ -105,6 +105,16 @@ export const config = {
+     apiKey: process.env.GEMINI_API_KEY || "",
+     baseUrl: trimSlash(process.env.GEMINI_BASE_URL || "https://generativelanguage.googleapis.com")
+   },
++  youtube: {
++    enabled: bool(process.env.YOUTUBE_UPLOAD_ENABLED),
++    clientId: clean(process.env.YOUTUBE_CLIENT_ID),
++    clientSecret: clean(process.env.YOUTUBE_CLIENT_SECRET),
++    refreshToken: clean(process.env.YOUTUBE_REFRESH_TOKEN),
++    categoryId: clean(process.env.YOUTUBE_CATEGORY_ID || "27"),
++    privacyStatus: clean(process.env.YOUTUBE_PRIVACY_STATUS || "public").toLowerCase(),
++    madeForKids: bool(process.env.YOUTUBE_MADE_FOR_KIDS || "false"),
++    titlePrefix: clean(process.env.YOUTUBE_TITLE_PREFIX || "")
++  },
+   elevenlabs: {
+     apiKey: process.env.ELEVENLABS_API_KEY || "",
+     model: clean(process.env.ELEVENLABS_MODEL || "eleven_multilingual_v2"),
+@@ -173,6 +183,10 @@ export function publicConfig() {
+       instagramAccessTokenSet: bool(config.instagram.accessToken),
+       geminiApiKeySet: bool(config.gemini.apiKey),
+       geminiBaseUrl: config.gemini.baseUrl,
++      youtubeUploadEnabled: config.youtube.enabled,
++      youtubeClientIdSet: bool(config.youtube.clientId),
++      youtubeRefreshTokenSet: bool(config.youtube.refreshToken),
++      youtubePrivacyStatus: config.youtube.privacyStatus,
+       openaiApiKeySet: bool(config.openai.apiKey),
+       openaiTtsModel: config.openai.ttsModel,
+       openaiTtsVoice: config.openai.ttsVoice,
+diff --git a/src/facebook.js b/src/facebook.js
+index 35790ef..caed6d1 100644
+--- a/src/facebook.js
++++ b/src/facebook.js
+@@ -1,5 +1,6 @@
+ import fs from "node:fs";
+ import { config } from "./config.js";
++import { publishToYoutube } from "./youtube.js";
+ 
+ function clean(value) {
+   return String(value || "").trim();
+@@ -454,6 +455,47 @@ export async function publishToFacebook({ videoUrl, videoPath, title, descriptio
+   }
+ }
+ 
++// Basic post-performance metrics for the analytics feedback loop.
++export async function fetchFacebookVideoInsights(videoId) {
++  if (!videoId || !config.facebook.enabled) return null;
++  try {
++    const token = await resolvePageAccessToken();
++    const data = await fetchJson(graphUrl(`${videoId}?fields=likes.summary(true),comments.summary(true),shares`) + `&access_token=${encodeURIComponent(token)}`);
++    return {
++      videoId,
++      likeCount: Number(data.likes?.summary?.total_count || 0),
++      commentCount: Number(data.comments?.summary?.total_count || 0),
++      shareCount: Number(data.shares?.count || 0),
++      fetchedAt: new Date().toISOString()
++    };
++  } catch (error) {
++    console.warn(`[Analytics] Gagal ambil insight Facebook untuk ${videoId}: ${error.message}`);
++    return null;
++  }
++}
++
++export async function fetchInstagramMediaInsights(mediaId) {
++  if (!mediaId || !config.instagram.enabled) return null;
++  try {
++    const pageToken = await resolveOptionalPageAccessToken();
++    const token = resolveInstagramAccessToken(pageToken);
++    const data = await fetchJson(graphUrl(`${mediaId}/insights?metric=plays,likes,comments,shares,saved`) + `&access_token=${encodeURIComponent(token)}`);
++    const byName = Object.fromEntries((data.data || []).map((row) => [row.name, row.values?.[0]?.value || 0]));
++    return {
++      mediaId,
++      playCount: Number(byName.plays || 0),
++      likeCount: Number(byName.likes || 0),
++      commentCount: Number(byName.comments || 0),
++      shareCount: Number(byName.shares || 0),
++      savedCount: Number(byName.saved || 0),
++      fetchedAt: new Date().toISOString()
++    };
++  } catch (error) {
++    console.warn(`[Analytics] Gagal ambil insight Instagram untuk ${mediaId}: ${error.message}`);
++    return null;
++  }
++}
++
+ export async function publishToSocials(options) {
+   const result = { ok: false, errors: {} };
+ 
+@@ -473,7 +515,21 @@ export async function publishToSocials(options) {
+     }
+   }
+ 
+-  result.ok = Boolean(result.facebook?.ok || result.instagram?.ok);
++  if (config.youtube.enabled) {
++    try {
++      result.youtube = await publishToYoutube({
++        videoPath: options.videoPath,
++        title: options.title,
++        description: options.description,
++        tags: options.tags,
++        thumbnailPath: options.thumbnailPath
++      });
++    } catch (error) {
++      result.errors.youtube = error.message;
++    }
++  }
++
++  result.ok = Boolean(result.facebook?.ok || result.instagram?.ok || result.youtube?.ok);
+   if (!result.ok && Object.keys(result.errors).length) {
+     throw new Error(Object.entries(result.errors).map(([platform, message]) => `${platform}: ${message}`).join("; "));
+   }
+diff --git a/src/pipeline.js b/src/pipeline.js
+index 41f7595..f2d2590 100644
+--- a/src/pipeline.js
++++ b/src/pipeline.js
+@@ -10,6 +10,7 @@ import { renderKnowledgeVideo } from "./render.js";
+ import { generateThumbnail } from "./thumbnail.js";
+ import { getItem, listContextItems, saveItem } from "./storage.js";
+ import { createIdeaRecommendations, createKnowledgeDraft, getToneStyleGuidelines } from "./story-engine.js";
++import { getPerformanceNotesText } from "./analytics.js";
+ import { nowIso } from "./util.js";
+ import { generateVideoClip } from "./video-provider.js";
+ import { fetchStockClip, extractSearchQuery } from "./stock.js";
+@@ -20,11 +21,17 @@ export async function generateFullItem(input = {}, options = {}) {
+   let payload = { ...input };
+   const existingItems = await listContextItems();
+   if (!payload.selectedIdea) {
++    let performanceNotes = "";
++    try {
++      performanceNotes = await getPerformanceNotesText();
++    } catch (error) {
++      warnings.push(`Analytics performance notes dilewati: ${error.message}`);
++    }
+     const ideas = await createIdeaRecommendations({
+       seed: payload.topic || "",
+       category: payload.category || "random",
+       durationSec: payload.durationSec || 90
+-    }, { existingItems });
++    }, { existingItems, performanceNotes });
+     payload = {
+       ...payload,
+       selectedIdea: ideas.ideas?.[0] || null,
+diff --git a/src/run-once.js b/src/run-once.js
+index 9029d1b..8de1c08 100644
+--- a/src/run-once.js
++++ b/src/run-once.js
+@@ -102,14 +102,17 @@ function normalizeMemoryPayload(value) {
+ }
+ 
+ async function publishSocialsIfEnabled(result) {
+-  if (!config.facebook.enabled && !config.instagram.enabled) return;
++  if (!config.facebook.enabled && !config.instagram.enabled && !config.youtube.enabled) return;
+   try {
+     const item = result.item;
+     const published = await publishToSocials({
+       videoUrl: item.assets?.video?.url || "",
++      videoPath: item.assets?.video?.path || "",
+       title: item.title,
+       description: socialDescription(item),
+       coverUrl: item.assets?.thumbnail?.url || "",
++      thumbnailPath: item.assets?.thumbnail?.path || "",
++      tags: ["BanyakTau", "FaktaMenarik", item.input?.category || ""].filter(Boolean),
+       durationSec: item.assets?.video?.durationSec || 0
+     });
+     const publishedAt = new Date().toISOString();
+@@ -118,6 +121,7 @@ async function publishSocialsIfEnabled(result) {
+     };
+     if (published.facebook) item.publish.facebook = { ...published.facebook, publishedAt };
+     if (published.instagram) item.publish.instagram = { ...published.instagram, publishedAt };
++    if (published.youtube) item.publish.youtube = { ...published.youtube, publishedAt };
+     if (Object.keys(published.errors || {}).length) {
+       item.publish.errors = {
+         ...(item.publish.errors || {}),
+@@ -143,6 +147,7 @@ function publishSummary(published) {
+   const rows = [];
+   if (published.facebook) rows.push(`facebook=${published.facebook.url || published.facebook.videoId || "ok"}`);
+   if (published.instagram) rows.push(`instagram=${published.instagram.url || published.instagram.mediaId || "ok"}`);
++  if (published.youtube) rows.push(`youtube=${published.youtube.url || published.youtube.videoId || "ok"}`);
+   if (Object.keys(published.errors || {}).length) rows.push(`errors=${Object.keys(published.errors).join(",")}`);
+   return rows.join(" ") || "skipped";
+ }
+diff --git a/src/scheduler.js b/src/scheduler.js
+new file mode 100644
+index 0000000..aec748a
+--- /dev/null
++++ b/src/scheduler.js
+@@ -0,0 +1,169 @@
++import cron from "node-cron";
++import { config, ensureProjectDirs } from "./config.js";
++import { runPreflight } from "./preflight.js";
++import { generateFullItem } from "./pipeline.js";
++import { publishToSocials, socialDescription } from "./facebook.js";
++import { syncAllAnalytics } from "./analytics.js";
++import { absolutizeGeneratedUrls, remoteEnabled, uploadGeneratedStateAndAssets } from "./remote.js";
++import { mergeMemoryItems, saveItem } from "./storage.js";
++import { nowIso } from "./util.js";
++
++ensureProjectDirs();
++
++// ---- Config (env-driven, all optional with sane defaults) ----------------
++// SCHEDULE_TIMES="08:00,13:00,19:00"  (24h, local to SCHEDULE_TIMEZONE)
++// SCHEDULE_TIMEZONE="Asia/Jakarta"
++// SCHEDULE_CATEGORIES="random"  or "sains,sejarah,teknologi" to rotate through
++// SCHEDULE_WITH_CLIP="false"
++// SCHEDULE_ANALYTICS_SYNC_TIME="03:30"  (once daily)
++// SCHEDULE_MAX_RUNS_PER_DAY="3"  (safety cap, independent of how many times are listed)
++
++const times = parseTimes(process.env.SCHEDULE_TIMES || "08:00,13:00,19:00");
++const timezone = process.env.SCHEDULE_TIMEZONE || "Asia/Jakarta";
++const categories = parseList(process.env.SCHEDULE_CATEGORIES || "random");
++const withClip = boolEnv(process.env.SCHEDULE_WITH_CLIP, false);
++const analyticsSyncTime = process.env.SCHEDULE_ANALYTICS_SYNC_TIME || "03:30";
++const maxRunsPerDay = Math.max(1, Number(process.env.SCHEDULE_MAX_RUNS_PER_DAY || times.length || 3));
++
++let runsToday = 0;
++let currentDay = new Date().toDateString();
++let categoryIndex = 0;
++
++function parseTimes(value) {
++  return String(value || "")
++    .split(",")
++    .map((entry) => entry.trim())
++    .filter((entry) => /^\d{1,2}:\d{2}$/.test(entry));
++}
++
++function parseList(value) {
++  return String(value || "")
++    .split(",")
++    .map((entry) => entry.trim())
++    .filter(Boolean);
++}
++
++function boolEnv(value, fallback) {
++  if (value === undefined || value === "") return fallback;
++  return ["1", "true", "yes", "on"].includes(String(value).toLowerCase());
++}
++
++function resetDailyCounterIfNeeded() {
++  const today = new Date().toDateString();
++  if (today !== currentDay) {
++    currentDay = today;
++    runsToday = 0;
++  }
++}
++
++function nextCategory() {
++  if (!categories.length) return "random";
++  const value = categories[categoryIndex % categories.length];
++  categoryIndex += 1;
++  return value;
++}
++
++function log(message) {
++  console.log(`[scheduler ${nowIso()}] ${message}`);
++}
++
++async function runOnce() {
++  resetDailyCounterIfNeeded();
++  if (runsToday >= maxRunsPerDay) {
++    log(`Lewati run — sudah mencapai batas SCHEDULE_MAX_RUNS_PER_DAY=${maxRunsPerDay} hari ini.`);
++    return;
++  }
++
++  const preflight = await runPreflight();
++  if (!preflight.ok) {
++    log(`Preflight gagal, run dibatalkan: ${JSON.stringify(preflight.checks?.filter((c) => c.required && !c.ok))}`);
++    return;
++  }
++
++  const category = nextCategory();
++  log(`Mulai generate item baru. category=${category} withClip=${withClip}`);
++
++  try {
++    const result = await generateFullItem({ category }, { withClip, requireClip: withClip });
++    let item = result.item;
++    log(`Item selesai dirender: ${item.id} — "${item.title}"`);
++
++    if (remoteEnabled()) {
++      item = absolutizeGeneratedUrls(item);
++      await saveItem(item);
++      await mergeMemoryItems([item]);
++      await uploadGeneratedStateAndAssets({ item });
++      log("Upload remote selesai.");
++    }
++
++    if (config.facebook.enabled || config.instagram.enabled || config.youtube.enabled) {
++      const published = await publishToSocials({
++        videoUrl: item.assets?.video?.url || "",
++        videoPath: item.assets?.video?.path || "",
++        title: item.title,
++        description: socialDescription(item),
++        coverUrl: item.assets?.thumbnail?.url || "",
++        thumbnailPath: item.assets?.thumbnail?.path || "",
++        tags: ["BanyakTau", "FaktaMenarik", item.input?.category || ""].filter(Boolean),
++        durationSec: item.assets?.video?.durationSec || 0
++      });
++
++      const publishedAt = new Date().toISOString();
++      item.publish = { ...(item.publish || {}) };
++      if (published.facebook) item.publish.facebook = { ...published.facebook, publishedAt };
++      if (published.instagram) item.publish.instagram = { ...published.instagram, publishedAt };
++      if (published.youtube) item.publish.youtube = { ...published.youtube, publishedAt };
++      if (Object.keys(published.errors || {}).length) {
++        item.publish.errors = { ...(item.publish.errors || {}), ...published.errors };
++        for (const [platform, message] of Object.entries(published.errors)) {
++          log(`Publish gagal di ${platform}: ${message}`);
++        }
++      }
++      await saveItem(item);
++      await mergeMemoryItems([item]);
++      if (remoteEnabled()) await uploadGeneratedStateAndAssets({ item });
++      log(`Publish selesai. facebook=${Boolean(published.facebook?.ok)} instagram=${Boolean(published.instagram?.ok)} youtube=${Boolean(published.youtube?.ok)}`);
++    } else {
++      log("Tidak ada platform publish yang aktif (FACEBOOK/INSTAGRAM/YOUTUBE_UPLOAD_ENABLED=false). Item hanya dirender lokal.");
++    }
++
++    runsToday += 1;
++  } catch (error) {
++    log(`Run gagal: ${error.message}`);
++  }
++}
++
++async function runAnalyticsSync() {
++  log("Mulai sinkronisasi analytics...");
++  try {
++    const result = await syncAllAnalytics();
++    log(`Analytics sync selesai. ${result.count} item diperbarui.`);
++  } catch (error) {
++    log(`Analytics sync gagal: ${error.message}`);
++  }
++}
++
++function scheduleDaily(time, handler, label) {
++  const [hour, minute] = time.split(":").map(Number);
++  const expression = `${minute} ${hour} * * *`;
++  cron.schedule(expression, handler, { timezone });
++  log(`Terjadwal: ${label} tiap hari jam ${time} (${timezone}).`);
++}
++
++if (!times.length) {
++  log("SCHEDULE_TIMES kosong atau tidak valid. Tidak ada jadwal generate yang aktif.");
++} else {
++  for (const time of times) {
++    scheduleDaily(time, runOnce, "generate + publish");
++  }
++}
++
++scheduleDaily(analyticsSyncTime, runAnalyticsSync, "analytics sync");
++
++log(`Scheduler aktif. runsPerDayCap=${maxRunsPerDay} categories=${categories.join(",") || "random"}`);
++log("Proses ini harus tetap berjalan (pakai pm2 / systemd / screen agar tidak mati saat terminal ditutup).");
++
++// Keep the process alive; cron.schedule already does this via its internal
++// timer, but an explicit heartbeat makes it obvious the process is healthy
++// when watching logs (e.g. via `pm2 logs`).
++setInterval(() => {}, 1 << 30);
+diff --git a/src/server.js b/src/server.js
+index 149518f..838b4bb 100644
+--- a/src/server.js
++++ b/src/server.js
+@@ -14,10 +14,12 @@ import {
+   requireItem
+ } from "./pipeline.js";
+ import { listItems, saveItem, mergeMemoryItems } from "./storage.js";
+-import { createIdeaRecommendations, createKnowledgeDraft } from "./story-engine.js";
++import { createIdeaRecommendations, createKnowledgeDraft } from "./story-engine.js";
++import { getPerformanceNotesText, getPerformanceSummary, syncAllAnalytics } from "./analytics.js";
+ import { nowIso } from "./util.js";
+ import { runPreflight } from "./preflight.js";
+-import { publishToFacebook, publishToInstagram, socialDescription } from "./facebook.js";
++import { publishToFacebook, publishToInstagram, socialDescription } from "./facebook.js";
++import { publishToYoutube } from "./youtube.js";
+ import { absolutizeGeneratedUrls, remoteEnabled, uploadGeneratedStateAndAssets } from "./remote.js";
+ import { setProgress, resetProgress, getProgress } from "./progress.js";
+ import { translateAndDraftUS, renderUsVideo } from "./modules/us_generator.js";
+@@ -75,7 +77,24 @@ app.post("/api/progress/reset", (_req, res) => {
+ 
+ app.post("/api/ideas", async (req, res, next) => {
+   try {
+-    res.json(await createIdeaRecommendations(req.body || {}, { existingItems: await listItems() }));
++    const performanceNotes = await getPerformanceNotesText().catch(() => "");
++    res.json(await createIdeaRecommendations(req.body || {}, { existingItems: await listItems(), performanceNotes }));
++  } catch (error) {
++    next(error);
++  }
++});
++
++app.get("/api/analytics/summary", async (_req, res, next) => {
++  try {
++    res.json({ summary: await getPerformanceSummary() });
++  } catch (error) {
++    next(error);
++  }
++});
++
++app.post("/api/analytics/sync", async (req, res, next) => {
++  try {
++    res.json(await syncAllAnalytics(req.body || {}));
+   } catch (error) {
+     next(error);
+   }
+@@ -215,8 +234,8 @@ app.post("/api/items/:id/render-us", async (req, res, next) => {
+ app.post("/api/items/:id/publish", async (req, res, next) => {
+   try {
+     const { platform } = req.body || {};
+-    if (!["facebook", "instagram"].includes(platform)) {
+-      return res.status(400).json({ error: "Platform tidak valid. Harus 'facebook' atau 'instagram'." });
++    if (!["facebook", "instagram", "youtube"].includes(platform)) {
++      return res.status(400).json({ error: "Platform tidak valid. Harus 'facebook', 'instagram', atau 'youtube'." });
+     }
+     
+     let item = await requireItem(req.params.id);
+@@ -271,6 +290,12 @@ app.post("/api/items/:id/publish", async (req, res, next) => {
+           error: "File video lokal tidak ditemukan untuk diunggah langsung ke Facebook." 
+         });
+       }
++    } else if (platform === "youtube") {
++      if (!videoPath) {
++        return res.status(409).json({
++          error: "File video lokal tidak ditemukan untuk diunggah ke YouTube (resumable upload butuh file lokal)."
++        });
++      }
+     }
+ 
+     const publishedAt = new Date().toISOString();
+@@ -316,6 +341,24 @@ app.post("/api/items/:id/publish", async (req, res, next) => {
+         setProgress({ percent: 100, stage: "upload_failed", message: `Instagram publish gagal: ${error.message}`, error: error.message });
+         return res.status(502).json({ error: `Instagram publish gagal: ${error.message}` });
+       }
++    } else if (platform === "youtube") {
++      try {
++        const published = await publishToYoutube({
++          videoPath,
++          title: item.title,
++          description: socialDescription(item),
++          tags: ["BanyakTau", "FaktaMenarik", item.input?.category || ""].filter(Boolean),
++          thumbnailPath: item.assets?.thumbnail?.path || ""
++        });
++        item.publish.youtube = { ...published, publishedAt };
++      } catch (error) {
++        item.status = "ready";
++        item.progress = { percent: 100, stage: "upload_failed", message: `YouTube publish gagal: ${error.message}`, error: error.message };
++        item.publish.errors = { ...(item.publish.errors || {}), youtube: error.message };
++        await saveItem(item);
++        setProgress({ percent: 100, stage: "upload_failed", message: `YouTube publish gagal: ${error.message}`, error: error.message });
++        return res.status(502).json({ error: `YouTube publish gagal: ${error.message}` });
++      }
+     }
+ 
+     item.status = "ready";
+diff --git a/src/story-engine.js b/src/story-engine.js
+index 21d9f54..be7d283 100644
+--- a/src/story-engine.js
++++ b/src/story-engine.js
+@@ -113,7 +113,8 @@ function buildIdeaPrompt(input, context) {
+     input.seed ? `Arah topik dari user: ${input.seed}` : "Arah topik dari user: bebas, cari ide paling menarik.",
+     `Kategori prioritas: ${input.category}`,
+     `Durasi target: ${input.durationSec} detik`,
+-    recent.length ? `Hindari duplikasi dari riwayat ini:\n${recent.join("\n")}` : ""
++    recent.length ? `Hindari duplikasi dari riwayat ini:\n${recent.join("\n")}` : "",
++    context.performanceNotes ? `\n${context.performanceNotes}` : ""
+   ].filter(Boolean).join("\n");
+ }
+ 
+diff --git a/src/youtube.js b/src/youtube.js
+new file mode 100644
+index 0000000..33498cc
+--- /dev/null
++++ b/src/youtube.js
+@@ -0,0 +1,194 @@
++import fs from "node:fs";
++import { config } from "./config.js";
++
++const TOKEN_URL = "https://oauth2.googleapis.com/token";
++const UPLOAD_URL = "https://www.googleapis.com/upload/youtube/v3/videos";
++const API_URL = "https://www.googleapis.com/youtube/v3";
++
++function clean(value) {
++  return String(value || "").trim();
++}
++
++function assertYoutubeConfig() {
++  const missing = [];
++  if (!config.youtube.enabled) missing.push("YOUTUBE_UPLOAD_ENABLED=true");
++  if (!config.youtube.clientId) missing.push("YOUTUBE_CLIENT_ID");
++  if (!config.youtube.clientSecret) missing.push("YOUTUBE_CLIENT_SECRET");
++  if (!config.youtube.refreshToken) missing.push("YOUTUBE_REFRESH_TOKEN");
++  if (missing.length) throw new Error(`Config YouTube belum lengkap: ${missing.join(", ")}`);
++}
++
++async function fetchJson(url, options = {}) {
++  const response = await fetch(url, options);
++  const text = await response.text();
++  let data = {};
++  try {
++    data = text ? JSON.parse(text) : {};
++  } catch {
++    data = { raw: text };
++  }
++  if (!response.ok) {
++    const apiError = data?.error || {};
++    const detail = apiError.message || data.raw || text || response.statusText;
++    const error = new Error(`${detail} [YouTube ${apiError.code || response.status}]`);
++    error.apiCode = apiError.code;
++    throw error;
++  }
++  return data;
++}
++
++// Refresh-token OAuth2 flow. One-time setup: create OAuth client (Desktop app)
++// in Google Cloud Console, enable YouTube Data API v3, then run the standard
++// Google OAuth playground / installed-app flow once to obtain a refresh token
++// with scope https://www.googleapis.com/auth/youtube.upload
++async function getAccessToken() {
++  assertYoutubeConfig();
++  const body = new URLSearchParams({
++    client_id: config.youtube.clientId,
++    client_secret: config.youtube.clientSecret,
++    refresh_token: config.youtube.refreshToken,
++    grant_type: "refresh_token"
++  });
++  const data = await fetchJson(TOKEN_URL, {
++    method: "POST",
++    headers: { "Content-Type": "application/x-www-form-urlencoded" },
++    body
++  });
++  if (!data.access_token) throw new Error("Gagal mendapatkan YouTube access token dari refresh token.");
++  return data.access_token;
++}
++
++function buildTitle(value) {
++  const prefix = config.youtube.titlePrefix;
++  return [prefix, value].filter(Boolean).join(" ").replace(/\s+/g, " ").trim().slice(0, 100) || "BanyakTau";
++}
++
++function buildDescription(value, tags) {
++  const hashtags = (tags || []).map((tag) => `#${tag.replace(/^#/, "")}`).join(" ");
++  return [clean(value), hashtags].filter(Boolean).join("\n\n").slice(0, 4900);
++}
++
++function buildTags(tags) {
++  return (Array.isArray(tags) ? tags : [])
++    .map((tag) => clean(tag).replace(/^#/, ""))
++    .filter(Boolean)
++    .slice(0, 15);
++}
++
++async function initResumableSession({ token, title, description, tags }) {
++  const metadata = {
++    snippet: {
++      title: buildTitle(title),
++      description: buildDescription(description, tags),
++      tags: buildTags(tags),
++      categoryId: config.youtube.categoryId
++    },
++    status: {
++      privacyStatus: config.youtube.privacyStatus,
++      selfDeclaredMadeForKids: config.youtube.madeForKids
++    }
++  };
++
++  const response = await fetch(`${UPLOAD_URL}?uploadType=resumable&part=snippet,status`, {
++    method: "POST",
++    headers: {
++      "Authorization": `Bearer ${token}`,
++      "Content-Type": "application/json",
++      "X-Upload-Content-Type": "video/mp4"
++    },
++    body: JSON.stringify(metadata)
++  });
++
++  if (!response.ok) {
++    const text = await response.text();
++    throw new Error(`Gagal membuka sesi resumable upload YouTube: ${text}`);
++  }
++
++  const uploadUrl = response.headers.get("location");
++  if (!uploadUrl) throw new Error("YouTube tidak mengembalikan upload URL (Location header kosong).");
++  return uploadUrl;
++}
++
++async function uploadVideoBinary({ uploadUrl, videoPath }) {
++  const buffer = fs.readFileSync(videoPath);
++  const response = await fetch(uploadUrl, {
++    method: "PUT",
++    headers: {
++      "Content-Type": "video/mp4",
++      "Content-Length": String(buffer.length)
++    },
++    body: buffer
++  });
++  const text = await response.text();
++  let data = {};
++  try {
++    data = text ? JSON.parse(text) : {};
++  } catch {
++    data = { raw: text };
++  }
++  if (!response.ok) {
++    throw new Error(`Gagal mengunggah berkas video ke YouTube: ${data.raw || text}`);
++  }
++  return data;
++}
++
++async function setThumbnail({ token, videoId, thumbnailPath }) {
++  if (!thumbnailPath || !fs.existsSync(thumbnailPath)) return;
++  try {
++    const buffer = fs.readFileSync(thumbnailPath);
++    await fetchJson(`${API_URL}/thumbnails/set?videoId=${videoId}`, {
++      method: "POST",
++      headers: {
++        "Authorization": `Bearer ${token}`,
++        "Content-Type": "image/jpeg",
++        "Content-Length": String(buffer.length)
++      },
++      body: buffer
++    });
++  } catch (error) {
++    console.warn(`[YouTube] Gagal set thumbnail kustom: ${error.message}`);
++  }
++}
++
++export async function publishToYoutube({ videoPath, title, description, tags, thumbnailPath }) {
++  assertYoutubeConfig();
++  if (!videoPath || !fs.existsSync(videoPath)) {
++    throw new Error("YouTube membutuhkan videoPath lokal yang valid (resumable upload dari file).");
++  }
++
++  const token = await getAccessToken();
++  const uploadUrl = await initResumableSession({ token, title, description, tags });
++  const result = await uploadVideoBinary({ uploadUrl, videoPath });
++
++  const videoId = result?.id;
++  if (!videoId) throw new Error(`YouTube tidak mengembalikan video ID. Respons: ${JSON.stringify(result)}`);
++
++  await setThumbnail({ token, videoId, thumbnailPath });
++
++  return {
++    ok: true,
++    type: "youtube_short",
++    videoId,
++    url: `https://www.youtube.com/shorts/${videoId}`,
++    privacyStatus: config.youtube.privacyStatus
++  };
++}
++
++// Pull basic public statistics for a published video (used by analytics sync).
++export async function fetchYoutubeVideoStats(videoId) {
++  if (!videoId) return null;
++  const token = await getAccessToken();
++  const data = await fetchJson(
++    `${API_URL}/videos?part=statistics,contentDetails&id=${encodeURIComponent(videoId)}`,
++    { headers: { "Authorization": `Bearer ${token}` } }
++  );
++  const item = data.items?.[0];
++  if (!item) return null;
++  return {
++    videoId,
++    viewCount: Number(item.statistics?.viewCount || 0),
++    likeCount: Number(item.statistics?.likeCount || 0),
++    commentCount: Number(item.statistics?.commentCount || 0),
++    fetchedAt: new Date().toISOString()
++  };
++}

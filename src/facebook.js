@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import { config } from "./config.js";
+import { publishToYoutube } from "./youtube.js";
 
 function clean(value) {
   return String(value || "").trim();
@@ -454,6 +455,47 @@ export async function publishToFacebook({ videoUrl, videoPath, title, descriptio
   }
 }
 
+// Basic post-performance metrics for the analytics feedback loop.
+export async function fetchFacebookVideoInsights(videoId) {
+  if (!videoId || !config.facebook.enabled) return null;
+  try {
+    const token = await resolvePageAccessToken();
+    const data = await fetchJson(graphUrl(`${videoId}?fields=likes.summary(true),comments.summary(true),shares`) + `&access_token=${encodeURIComponent(token)}`);
+    return {
+      videoId,
+      likeCount: Number(data.likes?.summary?.total_count || 0),
+      commentCount: Number(data.comments?.summary?.total_count || 0),
+      shareCount: Number(data.shares?.count || 0),
+      fetchedAt: new Date().toISOString()
+    };
+  } catch (error) {
+    console.warn(`[Analytics] Gagal ambil insight Facebook untuk ${videoId}: ${error.message}`);
+    return null;
+  }
+}
+
+export async function fetchInstagramMediaInsights(mediaId) {
+  if (!mediaId || !config.instagram.enabled) return null;
+  try {
+    const pageToken = await resolveOptionalPageAccessToken();
+    const token = resolveInstagramAccessToken(pageToken);
+    const data = await fetchJson(graphUrl(`${mediaId}/insights?metric=plays,likes,comments,shares,saved`) + `&access_token=${encodeURIComponent(token)}`);
+    const byName = Object.fromEntries((data.data || []).map((row) => [row.name, row.values?.[0]?.value || 0]));
+    return {
+      mediaId,
+      playCount: Number(byName.plays || 0),
+      likeCount: Number(byName.likes || 0),
+      commentCount: Number(byName.comments || 0),
+      shareCount: Number(byName.shares || 0),
+      savedCount: Number(byName.saved || 0),
+      fetchedAt: new Date().toISOString()
+    };
+  } catch (error) {
+    console.warn(`[Analytics] Gagal ambil insight Instagram untuk ${mediaId}: ${error.message}`);
+    return null;
+  }
+}
+
 export async function publishToSocials(options) {
   const result = { ok: false, errors: {} };
 
@@ -473,7 +515,21 @@ export async function publishToSocials(options) {
     }
   }
 
-  result.ok = Boolean(result.facebook?.ok || result.instagram?.ok);
+  if (config.youtube.enabled) {
+    try {
+      result.youtube = await publishToYoutube({
+        videoPath: options.videoPath,
+        title: options.title,
+        description: options.description,
+        tags: options.tags,
+        thumbnailPath: options.thumbnailPath
+      });
+    } catch (error) {
+      result.errors.youtube = error.message;
+    }
+  }
+
+  result.ok = Boolean(result.facebook?.ok || result.instagram?.ok || result.youtube?.ok);
   if (!result.ok && Object.keys(result.errors).length) {
     throw new Error(Object.entries(result.errors).map(([platform, message]) => `${platform}: ${message}`).join("; "));
   }

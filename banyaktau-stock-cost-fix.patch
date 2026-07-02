@@ -1,0 +1,49 @@
+diff --git a/src/pipeline.js b/src/pipeline.js
+index 739d9a3..9345da8 100644
+--- a/src/pipeline.js
++++ b/src/pipeline.js
+@@ -48,12 +48,26 @@ export async function generateFullItem(input = {}, options = {}) {
+ 
+   const item = await createKnowledgeDraft(payload, { existingItems });
+   await saveItem(item);
+-  await ensureImages(item, { warnings, strict: true });
++
++  const visualSource = item.input.visualSource || "stock";
++  const wantsClips = options.withClip !== false;
++
++  if (wantsClips && visualSource !== "ai") {
++    // Cost optimization: try stock footage (Pexels/Pixabay, free/licensed)
++    // first. Only pay for AI-generated images on scenes where stock
++    // genuinely has no match, instead of generating an AI image for every
++    // scene "just in case" and then throwing most of them away.
++    await ensureVisualClips(item, { warnings, strict: Boolean(options.requireClip) });
++    await ensureImages(item, { warnings, strict: true, onlyMissingClips: true });
++  } else {
++    await ensureImages(item, { warnings, strict: true });
++    if (wantsClips) {
++      await ensureVisualClips(item, { warnings, strict: options.requireClip });
++    }
++  }
++
+   await ensureAudio(item, { provider: item.input.ttsProvider, warnings, force: true, strict: true });
+   await ensureThumbnail(item, { warnings });
+-  if (options.withClip !== false) {
+-    await ensureVisualClips(item, { warnings, strict: options.requireClip });
+-  }
+   await renderAndPersist(item);
+   return { item, warnings };
+ }
+@@ -187,7 +201,12 @@ export async function ensureImages(item, options = {}) {
+   const size = item.input.imageSize || config.openai.imageSize;
+   const quality = item.input.imageQuality || config.openai.imageQuality;
+ 
+-  for (const scene of item.plan.scenes) {
++  const clipSceneIndexes = new Set((item.assets.clips || []).map((clip) => Number(clip.sceneIndex)));
++  const scenesToProcess = options.onlyMissingClips
++    ? item.plan.scenes.filter((scene) => !clipSceneIndexes.has(Number(scene.index)))
++    : item.plan.scenes;
++
++  for (const scene of scenesToProcess) {
+     const existing = images.find((image) => Number(image.sceneIndex) === Number(scene.index));
+     if (existing?.path) continue;
+     try {

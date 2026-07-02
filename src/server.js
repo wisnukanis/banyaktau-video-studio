@@ -15,9 +15,12 @@ import {
 } from "./pipeline.js";
 import { listItems, saveItem, mergeMemoryItems } from "./storage.js";
 import { createIdeaRecommendations, createKnowledgeDraft } from "./story-engine.js";
+import { getPerformanceNotesText, getPerformanceSummary, syncAllAnalytics } from "./analytics.js";
+import { refreshTrendSnapshot, getLatestSnapshot } from "./trend-research.js";
 import { nowIso } from "./util.js";
 import { runPreflight } from "./preflight.js";
 import { publishToFacebook, publishToInstagram, socialDescription } from "./facebook.js";
+import { publishToYoutube } from "./youtube.js";
 import { absolutizeGeneratedUrls, remoteEnabled, uploadGeneratedStateAndAssets } from "./remote.js";
 import { setProgress, resetProgress, getProgress } from "./progress.js";
 import { translateAndDraftUS, renderUsVideo } from "./modules/us_generator.js";
@@ -75,7 +78,48 @@ app.post("/api/progress/reset", (_req, res) => {
 
 app.post("/api/ideas", async (req, res, next) => {
   try {
-    res.json(await createIdeaRecommendations(req.body || {}, { existingItems: await listItems() }));
+    const performanceNotes = await getPerformanceNotesText().catch(() => "");
+    res.json(await createIdeaRecommendations(req.body || {}, { existingItems: await listItems(), performanceNotes }));
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.get("/api/analytics/summary", async (_req, res, next) => {
+  try {
+    res.json({ summary: await getPerformanceSummary() });
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post("/api/analytics/sync", async (req, res, next) => {
+  try {
+    res.json(await syncAllAnalytics(req.body || {}));
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.get("/api/trends/:region", async (req, res, next) => {
+  try {
+    const region = String(req.params.region || "ID").toUpperCase();
+    if (!["ID", "US"].includes(region)) {
+      return res.status(400).json({ error: "Region harus 'ID' atau 'US'." });
+    }
+    res.json({ snapshot: await getLatestSnapshot(region) });
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post("/api/trends/:region/refresh", async (req, res, next) => {
+  try {
+    const region = String(req.params.region || "ID").toUpperCase();
+    if (!["ID", "US"].includes(region)) {
+      return res.status(400).json({ error: "Region harus 'ID' atau 'US'." });
+    }
+    res.json({ snapshot: await refreshTrendSnapshot(region) });
   } catch (error) {
     next(error);
   }
@@ -215,8 +259,8 @@ app.post("/api/items/:id/render-us", async (req, res, next) => {
 app.post("/api/items/:id/publish", async (req, res, next) => {
   try {
     const { platform } = req.body || {};
-    if (!["facebook", "instagram"].includes(platform)) {
-      return res.status(400).json({ error: "Platform tidak valid. Harus 'facebook' atau 'instagram'." });
+    if (!["facebook", "instagram", "youtube"].includes(platform)) {
+      return res.status(400).json({ error: "Platform tidak valid. Harus 'facebook', 'instagram', atau 'youtube'." });
     }
     
     let item = await requireItem(req.params.id);
@@ -271,6 +315,12 @@ app.post("/api/items/:id/publish", async (req, res, next) => {
           error: "File video lokal tidak ditemukan untuk diunggah langsung ke Facebook." 
         });
       }
+    } else if (platform === "youtube") {
+      if (!videoPath) {
+        return res.status(409).json({
+          error: "File video lokal tidak ditemukan untuk diunggah ke YouTube (resumable upload butuh file lokal)."
+        });
+      }
     }
 
     const publishedAt = new Date().toISOString();
@@ -315,6 +365,24 @@ app.post("/api/items/:id/publish", async (req, res, next) => {
         await saveItem(item);
         setProgress({ percent: 100, stage: "upload_failed", message: `Instagram publish gagal: ${error.message}`, error: error.message });
         return res.status(502).json({ error: `Instagram publish gagal: ${error.message}` });
+      }
+    } else if (platform === "youtube") {
+      try {
+        const published = await publishToYoutube({
+          videoPath,
+          title: item.title,
+          description: socialDescription(item),
+          tags: ["BanyakTau", "FaktaMenarik", item.input?.category || ""].filter(Boolean),
+          thumbnailPath: item.assets?.thumbnail?.path || ""
+        });
+        item.publish.youtube = { ...published, publishedAt };
+      } catch (error) {
+        item.status = "ready";
+        item.progress = { percent: 100, stage: "upload_failed", message: `YouTube publish gagal: ${error.message}`, error: error.message };
+        item.publish.errors = { ...(item.publish.errors || {}), youtube: error.message };
+        await saveItem(item);
+        setProgress({ percent: 100, stage: "upload_failed", message: `YouTube publish gagal: ${error.message}`, error: error.message });
+        return res.status(502).json({ error: `YouTube publish gagal: ${error.message}` });
       }
     }
 

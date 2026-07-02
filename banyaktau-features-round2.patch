@@ -1,0 +1,567 @@
+diff --git a/.env.example b/.env.example
+index c7fcc00..ce685c0 100644
+--- a/.env.example
++++ b/.env.example
+@@ -90,10 +90,25 @@ YOUTUBE_PRIVACY_STATUS=public
+ YOUTUBE_MADE_FOR_KIDS=false
+ YOUTUBE_TITLE_PREFIX=
+ 
++# Trend research (read-only, public data — YouTube Data API v3).
++# Separate from the upload credentials above: this only needs a plain API
++# key (Google Cloud Console -> Credentials -> Create API Key), no OAuth.
++# Used to pull aggregate trending keywords per category for ID and US
++# markets, which get fed into idea generation as directional signal only
++# (never used to clone a specific video).
++YOUTUBE_DATA_API_KEY=
++
+ # Scheduler: automated daily generate + publish runs (npm run schedule).
+ SCHEDULE_TIMES=08:00,13:00,19:00
+ SCHEDULE_TIMEZONE=Asia/Jakarta
+ SCHEDULE_CATEGORIES=random
+ SCHEDULE_WITH_CLIP=false
+ SCHEDULE_ANALYTICS_SYNC_TIME=03:30
++SCHEDULE_TREND_SYNC_TIME=03:00
+ SCHEDULE_MAX_RUNS_PER_DAY=3
++
++# When true, every scheduled ID item is automatically remade into a US
++# version (via src/modules/us_generator.js) and published to the YouTube
++# channel configured above. Keep false until the US channel is ready.
++SCHEDULE_US_REMAKE_ENABLED=false
++SCHEDULE_US_REMAKE_MODE=Controlled Remake
+diff --git a/package.json b/package.json
+index 9047594..471e980 100644
+--- a/package.json
++++ b/package.json
+@@ -14,7 +14,7 @@
+     "download:music": "node src/download-music.js",
+     "remote:cleanup": "node src/cleanup-remote.js",
+     "remote:cleanup:dry": "node src/cleanup-remote.js --dry-run",
+-    "check": "node --check src/server.js && node --check src/story-engine.js && node --check src/render.js && node --check src/openai.js && node --check src/elevenlabs.js && node --check src/video-provider.js && node --check src/facebook.js && node --check src/pipeline.js && node --check src/remote.js && node --check src/run-once.js && node --check src/preflight.js && node --check src/thumbnail.js && node --check src/cleanup-remote.js && node --check src/youtube.js && node --check src/analytics.js && node --check src/scheduler.js"
++    "check": "node --check src/server.js && node --check src/story-engine.js && node --check src/render.js && node --check src/openai.js && node --check src/elevenlabs.js && node --check src/video-provider.js && node --check src/facebook.js && node --check src/pipeline.js && node --check src/remote.js && node --check src/run-once.js && node --check src/preflight.js && node --check src/thumbnail.js && node --check src/cleanup-remote.js && node --check src/youtube.js && node --check src/analytics.js && node --check src/scheduler.js && node --check src/trend-research.js && node --check src/quality-check.js && node --check src/modules/us_generator.js"
+   },
+   "dependencies": {
+     "basic-ftp": "^5.3.1",
+diff --git a/src/config.js b/src/config.js
+index d858235..0491386 100644
+--- a/src/config.js
++++ b/src/config.js
+@@ -113,7 +113,10 @@ export const config = {
+     categoryId: clean(process.env.YOUTUBE_CATEGORY_ID || "27"),
+     privacyStatus: clean(process.env.YOUTUBE_PRIVACY_STATUS || "public").toLowerCase(),
+     madeForKids: bool(process.env.YOUTUBE_MADE_FOR_KIDS || "false"),
+-    titlePrefix: clean(process.env.YOUTUBE_TITLE_PREFIX || "")
++    titlePrefix: clean(process.env.YOUTUBE_TITLE_PREFIX || ""),
++    // Read-only public API key (no OAuth) used only for trend research
++    // (videos.list?chart=mostPopular). Separate from the upload credentials.
++    dataApiKey: clean(process.env.YOUTUBE_DATA_API_KEY)
+   },
+   elevenlabs: {
+     apiKey: process.env.ELEVENLABS_API_KEY || "",
+diff --git a/src/pipeline.js b/src/pipeline.js
+index f2d2590..739d9a3 100644
+--- a/src/pipeline.js
++++ b/src/pipeline.js
+@@ -11,6 +11,7 @@ import { generateThumbnail } from "./thumbnail.js";
+ import { getItem, listContextItems, saveItem } from "./storage.js";
+ import { createIdeaRecommendations, createKnowledgeDraft, getToneStyleGuidelines } from "./story-engine.js";
+ import { getPerformanceNotesText } from "./analytics.js";
++import { getTrendNotesText } from "./trend-research.js";
+ import { nowIso } from "./util.js";
+ import { generateVideoClip } from "./video-provider.js";
+ import { fetchStockClip, extractSearchQuery } from "./stock.js";
+@@ -27,11 +28,17 @@ export async function generateFullItem(input = {}, options = {}) {
+     } catch (error) {
+       warnings.push(`Analytics performance notes dilewati: ${error.message}`);
+     }
++    let trendNotes = "";
++    try {
++      trendNotes = await getTrendNotesText("ID", payload.category || "random");
++    } catch (error) {
++      warnings.push(`Trend research dilewati: ${error.message}`);
++    }
+     const ideas = await createIdeaRecommendations({
+       seed: payload.topic || "",
+       category: payload.category || "random",
+       durationSec: payload.durationSec || 90
+-    }, { existingItems, performanceNotes });
++    }, { existingItems, performanceNotes, trendNotes });
+     payload = {
+       ...payload,
+       selectedIdea: ideas.ideas?.[0] || null,
+diff --git a/src/quality-check.js b/src/quality-check.js
+new file mode 100644
+index 0000000..f08c074
+--- /dev/null
++++ b/src/quality-check.js
+@@ -0,0 +1,73 @@
++import fs from "node:fs/promises";
++import { probeDuration } from "./render.js";
++import { saveItem } from "./storage.js";
++
++// Checks a rendered item's video file for basic sanity: does it exist, is it
++// non-empty, and is its actual duration reasonably close to what was
++// planned? Mismatches usually mean a TTS/render step silently truncated or
++// a scene failed to render — worth flagging rather than publishing blind.
++export async function verifyRenderedItem(item, { toleranceRatio = 0.25, persist = true } = {}) {
++  const result = {
++    itemId: item.id,
++    ok: false,
++    fileExists: false,
++    targetDurationSec: Number(item.input?.durationSec || 0),
++    actualDurationSec: null,
++    deviationRatio: null,
++    warnings: []
++  };
++
++  const videoPath = item.assets?.video?.path;
++  if (!videoPath) {
++    result.warnings.push("Tidak ada assets.video.path pada item — render mungkin belum selesai atau gagal.");
++    return finalize(item, result, persist);
++  }
++
++  try {
++    const stat = await fs.stat(videoPath);
++    result.fileExists = stat.size > 0;
++    if (!result.fileExists) result.warnings.push("File video ada tapi ukurannya 0 byte.");
++  } catch {
++    result.warnings.push(`File video tidak ditemukan di path: ${videoPath}`);
++    return finalize(item, result, persist);
++  }
++
++  try {
++    result.actualDurationSec = await probeDuration(videoPath);
++  } catch (error) {
++    result.warnings.push(`Gagal membaca durasi video (ffprobe): ${error.message}`);
++    return finalize(item, result, persist);
++  }
++
++  if (result.targetDurationSec > 0) {
++    result.deviationRatio = Math.abs(result.actualDurationSec - result.targetDurationSec) / result.targetDurationSec;
++    if (result.deviationRatio > toleranceRatio) {
++      result.warnings.push(
++        `Durasi hasil render (${result.actualDurationSec.toFixed(1)}s) meleset ${Math.round(result.deviationRatio * 100)}% dari target (${result.targetDurationSec}s).`
++      );
++    }
++  }
++
++  result.ok = result.fileExists && (result.deviationRatio === null || result.deviationRatio <= toleranceRatio);
++  return finalize(item, result, persist);
++}
++
++async function finalize(item, result, persist) {
++  if (persist) {
++    item.quality_notes = item.quality_notes || { fact_safety_score: 0, hook_score: 0, caption_readability_score: 0, visual_reuse_score: 0, warnings: [] };
++    item.quality_notes.warnings = [...new Set([...(item.quality_notes.warnings || []), ...result.warnings])];
++    item.quality_notes.lastRenderCheck = {
++      at: new Date().toISOString(),
++      ok: result.ok,
++      actualDurationSec: result.actualDurationSec,
++      targetDurationSec: result.targetDurationSec
++    };
++    try {
++      await saveItem(item);
++    } catch {
++      // Non-fatal: quality check result is still returned to the caller
++      // even if persisting the annotation fails.
++    }
++  }
++  return result;
++}
+diff --git a/src/scheduler.js b/src/scheduler.js
+index aec748a..6ce3abc 100644
+--- a/src/scheduler.js
++++ b/src/scheduler.js
+@@ -3,7 +3,11 @@ import { config, ensureProjectDirs } from "./config.js";
+ import { runPreflight } from "./preflight.js";
+ import { generateFullItem } from "./pipeline.js";
+ import { publishToSocials, socialDescription } from "./facebook.js";
++import { publishToYoutube } from "./youtube.js";
+ import { syncAllAnalytics } from "./analytics.js";
++import { refreshTrendSnapshot } from "./trend-research.js";
++import { verifyRenderedItem } from "./quality-check.js";
++import { translateAndDraftUS, renderUsVideo } from "./modules/us_generator.js";
+ import { absolutizeGeneratedUrls, remoteEnabled, uploadGeneratedStateAndAssets } from "./remote.js";
+ import { mergeMemoryItems, saveItem } from "./storage.js";
+ import { nowIso } from "./util.js";
+@@ -16,14 +20,20 @@ ensureProjectDirs();
+ // SCHEDULE_CATEGORIES="random"  or "sains,sejarah,teknologi" to rotate through
+ // SCHEDULE_WITH_CLIP="false"
+ // SCHEDULE_ANALYTICS_SYNC_TIME="03:30"  (once daily)
++// SCHEDULE_TREND_SYNC_TIME="03:00"  (once daily, before analytics sync)
+ // SCHEDULE_MAX_RUNS_PER_DAY="3"  (safety cap, independent of how many times are listed)
++// SCHEDULE_US_REMAKE_ENABLED="false"  (auto-remake every ID item into a US version)
++// SCHEDULE_US_REMAKE_MODE="Controlled Remake"  (Fast Translate | Controlled Remake | Full Creative Remake)
+ 
+ const times = parseTimes(process.env.SCHEDULE_TIMES || "08:00,13:00,19:00");
+ const timezone = process.env.SCHEDULE_TIMEZONE || "Asia/Jakarta";
+ const categories = parseList(process.env.SCHEDULE_CATEGORIES || "random");
+ const withClip = boolEnv(process.env.SCHEDULE_WITH_CLIP, false);
+ const analyticsSyncTime = process.env.SCHEDULE_ANALYTICS_SYNC_TIME || "03:30";
++const trendSyncTime = process.env.SCHEDULE_TREND_SYNC_TIME || "03:00";
+ const maxRunsPerDay = Math.max(1, Number(process.env.SCHEDULE_MAX_RUNS_PER_DAY || times.length || 3));
++const usRemakeEnabled = boolEnv(process.env.SCHEDULE_US_REMAKE_ENABLED, false);
++const usRemakeMode = process.env.SCHEDULE_US_REMAKE_MODE || "Controlled Remake";
+ 
+ let runsToday = 0;
+ let currentDay = new Date().toDateString();
+@@ -88,6 +98,13 @@ async function runOnce() {
+     let item = result.item;
+     log(`Item selesai dirender: ${item.id} — "${item.title}"`);
+ 
++    const check = await verifyRenderedItem(item);
++    if (!check.ok) {
++      log(`Peringatan kualitas render (ID): ${check.warnings.join(" | ")}`);
++    } else {
++      log(`Cek render OK. Durasi aktual ${check.actualDurationSec?.toFixed(1)}s (target ${check.targetDurationSec}s).`);
++    }
++
+     if (remoteEnabled()) {
+       item = absolutizeGeneratedUrls(item);
+       await saveItem(item);
+@@ -96,7 +113,7 @@ async function runOnce() {
+       log("Upload remote selesai.");
+     }
+ 
+-    if (config.facebook.enabled || config.instagram.enabled || config.youtube.enabled) {
++    if (config.facebook.enabled || config.instagram.enabled) {
+       const published = await publishToSocials({
+         videoUrl: item.assets?.video?.url || "",
+         videoPath: item.assets?.video?.path || "",
+@@ -112,7 +129,6 @@ async function runOnce() {
+       item.publish = { ...(item.publish || {}) };
+       if (published.facebook) item.publish.facebook = { ...published.facebook, publishedAt };
+       if (published.instagram) item.publish.instagram = { ...published.instagram, publishedAt };
+-      if (published.youtube) item.publish.youtube = { ...published.youtube, publishedAt };
+       if (Object.keys(published.errors || {}).length) {
+         item.publish.errors = { ...(item.publish.errors || {}), ...published.errors };
+         for (const [platform, message] of Object.entries(published.errors)) {
+@@ -122,9 +138,13 @@ async function runOnce() {
+       await saveItem(item);
+       await mergeMemoryItems([item]);
+       if (remoteEnabled()) await uploadGeneratedStateAndAssets({ item });
+-      log(`Publish selesai. facebook=${Boolean(published.facebook?.ok)} instagram=${Boolean(published.instagram?.ok)} youtube=${Boolean(published.youtube?.ok)}`);
++      log(`Publish ID selesai. facebook=${Boolean(published.facebook?.ok)} instagram=${Boolean(published.instagram?.ok)}`);
+     } else {
+-      log("Tidak ada platform publish yang aktif (FACEBOOK/INSTAGRAM/YOUTUBE_UPLOAD_ENABLED=false). Item hanya dirender lokal.");
++      log("Tidak ada platform ID (Facebook/Instagram) yang aktif. Item ID hanya dirender lokal.");
++    }
++
++    if (usRemakeEnabled) {
++      await runUsRemake(item);
+     }
+ 
+     runsToday += 1;
+@@ -133,6 +153,68 @@ async function runOnce() {
+   }
+ }
+ 
++// Takes a finished Indonesian item and produces + publishes its US market
++// counterpart via the existing us_generator.js localization pipeline
++// (translate/remake -> render -> publish to the US YouTube channel).
++// This never touches or depends on any other creator's video — it only
++// remixes the ID-market item this same pipeline just generated.
++async function runUsRemake(sourceItem) {
++  log(`Mulai auto-remake US dari item ${sourceItem.id} (mode=${usRemakeMode})...`);
++  try {
++    const draft = await translateAndDraftUS(sourceItem.id, { mode: usRemakeMode });
++    log(`Draft US dibuat: ${draft.id} — "${draft.title}"`);
++
++    const rendered = await renderUsVideo(draft.id);
++    log(`Render US selesai: ${rendered.id}`);
++
++    const check = await verifyRenderedItem(rendered);
++    if (!check.ok) {
++      log(`Peringatan kualitas render (US): ${check.warnings.join(" | ")}`);
++    } else {
++      log(`Cek render US OK. Durasi aktual ${check.actualDurationSec?.toFixed(1)}s (target ${check.targetDurationSec}s).`);
++    }
++
++    if (config.youtube.enabled) {
++      try {
++        const published = await publishToYoutube({
++          videoPath: rendered.assets?.video?.path || "",
++          title: rendered.title,
++          description: rendered.publish_pack_us?.youtube_description || rendered.plan?.summary || "",
++          tags: rendered.publish_pack_us?.hashtags || ["BanyakTau", "US"],
++          thumbnailPath: rendered.assets?.thumbnail?.path || ""
++        });
++        rendered.publish = { ...(rendered.publish || {}), youtube: { ...published, publishedAt: new Date().toISOString() } };
++        await saveItem(rendered);
++        log(`Publish US ke YouTube selesai: ${published.url}`);
++      } catch (error) {
++        log(`Publish US ke YouTube gagal: ${error.message}`);
++        rendered.publish = { ...(rendered.publish || {}), errors: { ...(rendered.publish?.errors || {}), youtube: error.message } };
++        await saveItem(rendered);
++      }
++    } else {
++      log("YOUTUBE_UPLOAD_ENABLED=false — versi US dirender tapi tidak dipublish (channel belum siap).");
++    }
++  } catch (error) {
++    log(`Auto-remake US gagal: ${error.message}`);
++  }
++}
++
++async function runTrendSync() {
++  log("Mulai refresh trend research (ID + US)...");
++  try {
++    const idSnapshot = await refreshTrendSnapshot("ID");
++    log(`Trend ID diperbarui. errors=${idSnapshot.errors?.length || 0}`);
++  } catch (error) {
++    log(`Trend research ID gagal: ${error.message}`);
++  }
++  try {
++    const usSnapshot = await refreshTrendSnapshot("US");
++    log(`Trend US diperbarui. errors=${usSnapshot.errors?.length || 0}`);
++  } catch (error) {
++    log(`Trend research US gagal: ${error.message}`);
++  }
++}
++
+ async function runAnalyticsSync() {
+   log("Mulai sinkronisasi analytics...");
+   try {
+@@ -159,8 +241,11 @@ if (!times.length) {
+ }
+ 
+ scheduleDaily(analyticsSyncTime, runAnalyticsSync, "analytics sync");
++scheduleDaily(trendSyncTime, runTrendSync, "trend research sync (ID + US)");
+ 
+-log(`Scheduler aktif. runsPerDayCap=${maxRunsPerDay} categories=${categories.join(",") || "random"}`);
++log(`Scheduler aktif. runsPerDayCap=${maxRunsPerDay} categories=${categories.join(",") || "random"} usRemake=${usRemakeEnabled}`);
++log("Menjalankan trend research awal (agar data tersedia sebelum run pertama)...");
++runTrendSync();
+ log("Proses ini harus tetap berjalan (pakai pm2 / systemd / screen agar tidak mati saat terminal ditutup).");
+ 
+ // Keep the process alive; cron.schedule already does this via its internal
+diff --git a/src/server.js b/src/server.js
+index 838b4bb..14deb03 100644
+--- a/src/server.js
++++ b/src/server.js
+@@ -15,7 +15,8 @@ import {
+ } from "./pipeline.js";
+ import { listItems, saveItem, mergeMemoryItems } from "./storage.js";
+ import { createIdeaRecommendations, createKnowledgeDraft } from "./story-engine.js";
+-import { getPerformanceNotesText, getPerformanceSummary, syncAllAnalytics } from "./analytics.js";
++import { getPerformanceNotesText, getPerformanceSummary, syncAllAnalytics } from "./analytics.js";
++import { refreshTrendSnapshot, getLatestSnapshot } from "./trend-research.js";
+ import { nowIso } from "./util.js";
+ import { runPreflight } from "./preflight.js";
+ import { publishToFacebook, publishToInstagram, socialDescription } from "./facebook.js";
+@@ -100,6 +101,30 @@ app.post("/api/analytics/sync", async (req, res, next) => {
+   }
+ });
+ 
++app.get("/api/trends/:region", async (req, res, next) => {
++  try {
++    const region = String(req.params.region || "ID").toUpperCase();
++    if (!["ID", "US"].includes(region)) {
++      return res.status(400).json({ error: "Region harus 'ID' atau 'US'." });
++    }
++    res.json({ snapshot: await getLatestSnapshot(region) });
++  } catch (error) {
++    next(error);
++  }
++});
++
++app.post("/api/trends/:region/refresh", async (req, res, next) => {
++  try {
++    const region = String(req.params.region || "ID").toUpperCase();
++    if (!["ID", "US"].includes(region)) {
++      return res.status(400).json({ error: "Region harus 'ID' atau 'US'." });
++    }
++    res.json({ snapshot: await refreshTrendSnapshot(region) });
++  } catch (error) {
++    next(error);
++  }
++});
++
+ app.post("/api/settings", async (req, res, next) => {
+   try {
+     res.json({ config: await updateRuntimeSettings(req.body || {}) });
+diff --git a/src/story-engine.js b/src/story-engine.js
+index be7d283..972a86f 100644
+--- a/src/story-engine.js
++++ b/src/story-engine.js
+@@ -114,6 +114,7 @@ function buildIdeaPrompt(input, context) {
+     `Kategori prioritas: ${input.category}`,
+     `Durasi target: ${input.durationSec} detik`,
+     recent.length ? `Hindari duplikasi dari riwayat ini:\n${recent.join("\n")}` : "",
++    context.trendNotes ? `\n${context.trendNotes}` : "",
+     context.performanceNotes ? `\n${context.performanceNotes}` : ""
+   ].filter(Boolean).join("\n");
+ }
+diff --git a/src/trend-research.js b/src/trend-research.js
+new file mode 100644
+index 0000000..c749ba7
+--- /dev/null
++++ b/src/trend-research.js
+@@ -0,0 +1,169 @@
++import fs from "node:fs/promises";
++import path from "node:path";
++import { config, paths } from "./config.js";
++
++const trendsFile = path.join(paths.dataDir, "trends.json");
++const API_URL = "https://www.googleapis.com/youtube/v3";
++
++// Maps this project's content categories to YouTube's official category
++// taxonomy, so we can pull "what's trending right now" per topic area
++// instead of one undifferentiated firehose.
++const CATEGORY_TO_YT_ID = {
++  "sains": "28",
++  "penemuan": "28",
++  "sejarah": "27",
++  "tokoh dunia": "27",
++  "tubuh manusia": "26",
++  "alam semesta": "28",
++  "teknologi": "28",
++  "benda sehari-hari": "26",
++  "random": "27"
++};
++
++const STOPWORDS = new Set([
++  // Indonesian
++  "yang", "dan", "di", "ke", "dari", "ini", "itu", "untuk", "dengan", "adalah",
++  "kenapa", "kok", "bisa", "apa", "gak", "tidak", "saja", "juga", "pada", "ada",
++  "the", "a", "an", "of", "to", "in", "on", "for", "and", "is", "are", "you",
++  "this", "that", "with", "how", "why", "what", "vs", "official", "video"
++]);
++
++function clean(value) {
++  return String(value || "").trim();
++}
++
++async function readTrends() {
++  try {
++    return JSON.parse(await fs.readFile(trendsFile, "utf8"));
++  } catch (error) {
++    if (error.code === "ENOENT") return { version: 1, regions: {} };
++    throw error;
++  }
++}
++
++async function writeTrends(value) {
++  await fs.mkdir(path.dirname(trendsFile), { recursive: true });
++  const tmp = `${trendsFile}.tmp`;
++  await fs.writeFile(tmp, `${JSON.stringify(value, null, 2)}\n`);
++  await fs.rename(tmp, trendsFile);
++}
++
++function tokenizeTitles(titles) {
++  const freq = new Map();
++  for (const title of titles) {
++    const words = clean(title)
++      .toLowerCase()
++      .replace(/[^\p{L}\p{N}\s]/gu, " ")
++      .split(/\s+/)
++      .filter((word) => word.length > 3 && !STOPWORDS.has(word));
++    for (const word of words) {
++      freq.set(word, (freq.get(word) || 0) + 1);
++    }
++  }
++  return [...freq.entries()]
++    .sort((a, b) => b[1] - a[1])
++    .slice(0, 15)
++    .map(([word, count]) => ({ word, count }));
++}
++
++// Pulls the official "most popular" chart for a single YouTube category in a
++// region. This is public aggregate data (title, tags, view count) — we only
++// ever extract keyword-level signal from it, never a specific video's script
++// or structure, and we never attribute ideas to a specific source video.
++async function fetchCategorySnapshot(regionCode, ytCategoryId) {
++  if (!config.youtube.dataApiKey) {
++    throw new Error("YOUTUBE_DATA_API_KEY belum diisi di .env — trend research butuh API key read-only dari Google Cloud Console (aktifkan YouTube Data API v3, buat API key biasa, tidak perlu OAuth).");
++  }
++  const url = `${API_URL}/videos?part=snippet,statistics&chart=mostPopular&regionCode=${regionCode}&videoCategoryId=${ytCategoryId}&maxResults=25&key=${config.youtube.dataApiKey}`;
++  const response = await fetch(url);
++  const data = await response.json();
++  if (!response.ok) {
++    throw new Error(`YouTube trending fetch gagal (${regionCode}/${ytCategoryId}): ${data?.error?.message || response.statusText}`);
++  }
++  const items = data.items || [];
++  const titles = items.map((item) => item.snippet?.title || "");
++  const tagFreq = new Map();
++  for (const item of items) {
++    for (const tag of item.snippet?.tags || []) {
++      const key = clean(tag).toLowerCase();
++      if (!key || key.length < 3) continue;
++      tagFreq.set(key, (tagFreq.get(key) || 0) + 1);
++    }
++  }
++  const topTags = [...tagFreq.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10).map(([tag]) => tag);
++  const avgViews = items.length
++    ? Math.round(items.reduce((sum, item) => sum + Number(item.statistics?.viewCount || 0), 0) / items.length)
++    : 0;
++
++  return {
++    ytCategoryId,
++    sampleSize: items.length,
++    avgViews,
++    topKeywords: tokenizeTitles(titles),
++    topTags
++  };
++}
++
++// Refreshes the trend snapshot for a market (ID or US) across all mapped
++// categories. Intended to run at most once or twice a day (see scheduler.js)
++// — trending charts don't move fast enough to justify more, and it keeps
++// API quota usage low.
++export async function refreshTrendSnapshot(regionCode) {
++  const categories = [...new Set(Object.values(CATEGORY_TO_YT_ID))];
++  const byCategory = {};
++  const errors = [];
++
++  for (const ytCategoryId of categories) {
++    try {
++      byCategory[ytCategoryId] = await fetchCategorySnapshot(regionCode, ytCategoryId);
++    } catch (error) {
++      errors.push(error.message);
++    }
++  }
++
++  const store = await readTrends();
++  store.regions = store.regions || {};
++  store.regions[regionCode] = {
++    fetchedAt: new Date().toISOString(),
++    byYtCategoryId: byCategory,
++    errors
++  };
++  await writeTrends(store);
++  return store.regions[regionCode];
++}
++
++// Returns the most recent snapshot for a region without hitting the API,
++// or null if none has been fetched yet.
++export async function getLatestSnapshot(regionCode) {
++  const store = await readTrends();
++  return store.regions?.[regionCode] || null;
++}
++
++// Turns a snapshot into a short, plain-language block appended to the idea
++// generation prompt. Explicitly framed as directional keyword signal, not
++// as a video to imitate — the model is told to use it for topic selection,
++// not structural cloning.
++export async function getTrendNotesText(regionCode, category = "random") {
++  const snapshot = await getLatestSnapshot(regionCode);
++  if (!snapshot) return "";
++
++  const ytCategoryId = CATEGORY_TO_YT_ID[String(category).toLowerCase()] || CATEGORY_TO_YT_ID.random;
++  const data = snapshot.byYtCategoryId?.[ytCategoryId];
++  if (!data || !data.topKeywords?.length) return "";
++
++  const ageHours = (Date.now() - new Date(snapshot.fetchedAt).getTime()) / 3_600_000;
++  if (ageHours > 48) return ""; // stale, don't mislead the model
++
++  const marketLabel = regionCode === "US" ? "US" : "Indonesia";
++  const keywords = data.topKeywords.slice(0, 10).map((k) => k.word).join(", ");
++  const tags = data.topTags.slice(0, 8).join(", ");
++
++  const lines = [
++    `Sinyal trending di YouTube ${marketLabel} untuk kategori ini (data agregat, per ${new Date(snapshot.fetchedAt).toLocaleDateString("id-ID")}):`,
++    `Kata kunci yang sering muncul di video populer: ${keywords || "-"}`,
++    tags ? `Tag terkait yang sering dipakai: ${tags}` : "",
++    "Gunakan ini hanya sebagai sinyal arah topik/kata kunci yang sedang diminati audiens — JANGAN meniru video tertentu, buat ide dan sudut pandang orisinal sendiri."
++  ].filter(Boolean);
++
++  return lines.join("\n");
++}

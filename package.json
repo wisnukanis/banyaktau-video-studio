@@ -9,15 +9,18 @@
     "start": "node src/server.js",
     "preflight": "node src/preflight.js",
     "run:once": "node src/run-once.js",
+    "schedule": "node src/scheduler.js",
+    "analytics:sync": "node -e \"import('./src/analytics.js').then(m => m.syncAllAnalytics()).then(r => console.log(JSON.stringify(r, null, 2)))\"",
     "download:music": "node src/download-music.js",
     "remote:cleanup": "node src/cleanup-remote.js",
     "remote:cleanup:dry": "node src/cleanup-remote.js --dry-run",
-    "check": "node --check src/server.js && node --check src/story-engine.js && node --check src/render.js && node --check src/openai.js && node --check src/elevenlabs.js && node --check src/video-provider.js && node --check src/facebook.js && node --check src/pipeline.js && node --check src/remote.js && node --check src/run-once.js && node --check src/preflight.js && node --check src/thumbnail.js && node --check src/cleanup-remote.js"
+    "check": "node --check src/server.js && node --check src/story-engine.js && node --check src/render.js && node --check src/openai.js && node --check src/elevenlabs.js && node --check src/video-provider.js && node --check src/facebook.js && node --check src/pipeline.js && node --check src/remote.js && node --check src/run-once.js && node --check src/preflight.js && node --check src/thumbnail.js && node --check src/cleanup-remote.js && node --check src/youtube.js && node --check src/analytics.js && node --check src/scheduler.js && node --check src/trend-research.js && node --check src/quality-check.js && node --check src/modules/us_generator.js"
   },
   "dependencies": {
     "basic-ftp": "^5.3.1",
     "dotenv": "^16.4.7",
     "express": "^5.2.1",
+    "node-cron": "^3.0.3",
     "ssh2-sftp-client": "^12.1.1"
   }
 }

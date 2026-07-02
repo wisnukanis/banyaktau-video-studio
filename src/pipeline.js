@@ -10,6 +10,8 @@ import { renderKnowledgeVideo } from "./render.js";
 import { generateThumbnail } from "./thumbnail.js";
 import { getItem, listContextItems, saveItem } from "./storage.js";
 import { createIdeaRecommendations, createKnowledgeDraft, getToneStyleGuidelines } from "./story-engine.js";
+import { getPerformanceNotesText } from "./analytics.js";
+import { getTrendNotesText } from "./trend-research.js";
 import { nowIso } from "./util.js";
 import { generateVideoClip } from "./video-provider.js";
 import { fetchStockClip, extractSearchQuery } from "./stock.js";
@@ -20,11 +22,23 @@ export async function generateFullItem(input = {}, options = {}) {
   let payload = { ...input };
   const existingItems = await listContextItems();
   if (!payload.selectedIdea) {
+    let performanceNotes = "";
+    try {
+      performanceNotes = await getPerformanceNotesText();
+    } catch (error) {
+      warnings.push(`Analytics performance notes dilewati: ${error.message}`);
+    }
+    let trendNotes = "";
+    try {
+      trendNotes = await getTrendNotesText("ID", payload.category || "random");
+    } catch (error) {
+      warnings.push(`Trend research dilewati: ${error.message}`);
+    }
     const ideas = await createIdeaRecommendations({
       seed: payload.topic || "",
       category: payload.category || "random",
       durationSec: payload.durationSec || 90
-    }, { existingItems });
+    }, { existingItems, performanceNotes, trendNotes });
     payload = {
       ...payload,
       selectedIdea: ideas.ideas?.[0] || null,
@@ -34,12 +48,26 @@ export async function generateFullItem(input = {}, options = {}) {
 
   const item = await createKnowledgeDraft(payload, { existingItems });
   await saveItem(item);
-  await ensureImages(item, { warnings, strict: true });
+
+  const visualSource = item.input.visualSource || "stock";
+  const wantsClips = options.withClip !== false;
+
+  if (wantsClips && visualSource !== "ai") {
+    // Cost optimization: try stock footage (Pexels/Pixabay, free/licensed)
+    // first. Only pay for AI-generated images on scenes where stock
+    // genuinely has no match, instead of generating an AI image for every
+    // scene "just in case" and then throwing most of them away.
+    await ensureVisualClips(item, { warnings, strict: Boolean(options.requireClip) });
+    await ensureImages(item, { warnings, strict: true, onlyMissingClips: true });
+  } else {
+    await ensureImages(item, { warnings, strict: true });
+    if (wantsClips) {
+      await ensureVisualClips(item, { warnings, strict: options.requireClip });
+    }
+  }
+
   await ensureAudio(item, { provider: item.input.ttsProvider, warnings, force: true, strict: true });
   await ensureThumbnail(item, { warnings });
-  if (options.withClip !== false) {
-    await ensureVisualClips(item, { warnings, strict: options.requireClip });
-  }
   await renderAndPersist(item);
   return { item, warnings };
 }
@@ -173,7 +201,12 @@ export async function ensureImages(item, options = {}) {
   const size = item.input.imageSize || config.openai.imageSize;
   const quality = item.input.imageQuality || config.openai.imageQuality;
 
-  for (const scene of item.plan.scenes) {
+  const clipSceneIndexes = new Set((item.assets.clips || []).map((clip) => Number(clip.sceneIndex)));
+  const scenesToProcess = options.onlyMissingClips
+    ? item.plan.scenes.filter((scene) => !clipSceneIndexes.has(Number(scene.index)))
+    : item.plan.scenes;
+
+  for (const scene of scenesToProcess) {
     const existing = images.find((image) => Number(image.sceneIndex) === Number(scene.index));
     if (existing?.path) continue;
     try {

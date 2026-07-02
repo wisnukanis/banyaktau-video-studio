@@ -105,6 +105,19 @@ export const config = {
     apiKey: process.env.GEMINI_API_KEY || "",
     baseUrl: trimSlash(process.env.GEMINI_BASE_URL || "https://generativelanguage.googleapis.com")
   },
+  youtube: {
+    enabled: bool(process.env.YOUTUBE_UPLOAD_ENABLED),
+    clientId: clean(process.env.YOUTUBE_CLIENT_ID),
+    clientSecret: clean(process.env.YOUTUBE_CLIENT_SECRET),
+    refreshToken: clean(process.env.YOUTUBE_REFRESH_TOKEN),
+    categoryId: clean(process.env.YOUTUBE_CATEGORY_ID || "27"),
+    privacyStatus: clean(process.env.YOUTUBE_PRIVACY_STATUS || "public").toLowerCase(),
+    madeForKids: bool(process.env.YOUTUBE_MADE_FOR_KIDS || "false"),
+    titlePrefix: clean(process.env.YOUTUBE_TITLE_PREFIX || ""),
+    // Read-only public API key (no OAuth) used only for trend research
+    // (videos.list?chart=mostPopular). Separate from the upload credentials.
+    dataApiKey: clean(process.env.YOUTUBE_DATA_API_KEY)
+  },
   elevenlabs: {
     apiKey: process.env.ELEVENLABS_API_KEY || "",
     model: clean(process.env.ELEVENLABS_MODEL || "eleven_multilingual_v2"),
@@ -173,6 +186,10 @@ export function publicConfig() {
       instagramAccessTokenSet: bool(config.instagram.accessToken),
       geminiApiKeySet: bool(config.gemini.apiKey),
       geminiBaseUrl: config.gemini.baseUrl,
+      youtubeUploadEnabled: config.youtube.enabled,
+      youtubeClientIdSet: bool(config.youtube.clientId),
+      youtubeRefreshTokenSet: bool(config.youtube.refreshToken),
+      youtubePrivacyStatus: config.youtube.privacyStatus,
       openaiApiKeySet: bool(config.openai.apiKey),
       openaiTtsModel: config.openai.ttsModel,
       openaiTtsVoice: config.openai.ttsVoice,

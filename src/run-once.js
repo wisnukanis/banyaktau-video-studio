@@ -102,14 +102,17 @@ function normalizeMemoryPayload(value) {
 }
 
 async function publishSocialsIfEnabled(result) {
-  if (!config.facebook.enabled && !config.instagram.enabled) return;
+  if (!config.facebook.enabled && !config.instagram.enabled && !config.youtube.enabled) return;
   try {
     const item = result.item;
     const published = await publishToSocials({
       videoUrl: item.assets?.video?.url || "",
+      videoPath: item.assets?.video?.path || "",
       title: item.title,
       description: socialDescription(item),
       coverUrl: item.assets?.thumbnail?.url || "",
+      thumbnailPath: item.assets?.thumbnail?.path || "",
+      tags: ["BanyakTau", "FaktaMenarik", item.input?.category || ""].filter(Boolean),
       durationSec: item.assets?.video?.durationSec || 0
     });
     const publishedAt = new Date().toISOString();
@@ -118,6 +121,7 @@ async function publishSocialsIfEnabled(result) {
     };
     if (published.facebook) item.publish.facebook = { ...published.facebook, publishedAt };
     if (published.instagram) item.publish.instagram = { ...published.instagram, publishedAt };
+    if (published.youtube) item.publish.youtube = { ...published.youtube, publishedAt };
     if (Object.keys(published.errors || {}).length) {
       item.publish.errors = {
         ...(item.publish.errors || {}),
@@ -143,6 +147,7 @@ function publishSummary(published) {
   const rows = [];
   if (published.facebook) rows.push(`facebook=${published.facebook.url || published.facebook.videoId || "ok"}`);
   if (published.instagram) rows.push(`instagram=${published.instagram.url || published.instagram.mediaId || "ok"}`);
+  if (published.youtube) rows.push(`youtube=${published.youtube.url || published.youtube.videoId || "ok"}`);
   if (Object.keys(published.errors || {}).length) rows.push(`errors=${Object.keys(published.errors).join(",")}`);
   return rows.join(" ") || "skipped";
 }

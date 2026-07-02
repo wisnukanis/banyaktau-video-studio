@@ -113,7 +113,9 @@ function buildIdeaPrompt(input, context) {
     input.seed ? `Arah topik dari user: ${input.seed}` : "Arah topik dari user: bebas, cari ide paling menarik.",
     `Kategori prioritas: ${input.category}`,
     `Durasi target: ${input.durationSec} detik`,
-    recent.length ? `Hindari duplikasi dari riwayat ini:\n${recent.join("\n")}` : ""
+    recent.length ? `Hindari duplikasi dari riwayat ini:\n${recent.join("\n")}` : "",
+    context.trendNotes ? `\n${context.trendNotes}` : "",
+    context.performanceNotes ? `\n${context.performanceNotes}` : ""
   ].filter(Boolean).join("\n");
 }
 
