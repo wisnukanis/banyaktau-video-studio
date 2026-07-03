@@ -4,6 +4,25 @@ import { requestIdeaJson, requestKnowledgeJson } from "./openai.js";
 import { clamp, cleanText, createId, nowIso } from "./util.js";
 import { ensureStrongHook } from "./hook-engine.js";
 
+// Short-form (default): YouTube Shorts / Reels pacing, 45s-2min.
+// Long-form: flexible documentary-length video, 3-20min, driven by
+// stock footage instead of per-scene AI images/video (cost reasons).
+const SHORT_FORM_BOUNDS = [45, 120];
+const LONG_FORM_BOUNDS = [180, 1200];
+const SHORT_FORM_SCENE_BOUNDS = [5, 10];
+const LONG_FORM_SCENE_BOUNDS = [15, 60];
+// Keep long-form scenes in the same 8-16s ballpark as short-form so a
+// looped stock clip rarely has to repeat more than once or twice.
+const LONG_FORM_SCENE_TARGET_SEC = 12;
+
+function durationBounds(input) {
+  return input?.longForm ? LONG_FORM_BOUNDS : SHORT_FORM_BOUNDS;
+}
+
+function sceneCountBounds(input) {
+  return input?.longForm ? LONG_FORM_SCENE_BOUNDS : SHORT_FORM_SCENE_BOUNDS;
+}
+
 const categories = [
   "sains",
   "penemuan",
@@ -370,8 +389,14 @@ function normalizeInput(input) {
   const category = cleanText(input.category || "random", 80);
   const randomCategory = categories[Math.floor(Math.random() * categories.length)];
   const chosenCategory = selectedIdea?.category || (category === "random" ? randomCategory : category);
-  const durationSec = clamp(Number(input.durationSec || 90), 45, 120);
-  const sceneCount = clamp(Number(input.sceneCount || Math.round(durationSec / 12)), 5, 10);
+  const longForm = Boolean(input.longForm);
+  const [minDur, maxDur] = durationBounds({ longForm });
+  const durationSec = clamp(Number(input.durationSec || (longForm ? 480 : 90)), minDur, maxDur);
+  const [minScenes, maxScenes] = sceneCountBounds({ longForm });
+  const defaultSceneCount = longForm
+    ? Math.round(durationSec / LONG_FORM_SCENE_TARGET_SEC)
+    : Math.round(durationSec / 12);
+  const sceneCount = clamp(Number(input.sceneCount || defaultSceneCount), minScenes, maxScenes);
   const catStyle = getToneStyleGuidelines(input.tone, chosenCategory);
 
   return {
@@ -380,6 +405,7 @@ function normalizeInput(input) {
     hookStyle: cleanText(selectedIdea?.hook || input.hookStyle || "", 180),
     selectedIdea,
     tone: cleanText(input.tone || catStyle.styleName, 180),
+    longForm,
     durationSec,
     sceneCount,
     ttsProvider: String(input.ttsProvider || "openai").toLowerCase() === "elevenlabs" ? "elevenlabs" : "openai",
@@ -394,6 +420,9 @@ function normalizeInput(input) {
       if (greenAvatars.includes(rawMode)) {
         return rawMode;
       }
+      // Long-form = one consistent "host" for the whole episode, so use a
+      // fixed default instead of the short-form per-topic rotation.
+      if (longForm) return greenAvatars[0];
       const seed = selectedIdea?.topic || input.topic || "default";
       let hash = 0;
       for (let i = 0; i < seed.length; i++) {
@@ -413,9 +442,24 @@ function buildPrompt(input, context) {
     : [];
   const idea = input.selectedIdea;
   const catStyle = getToneStyleGuidelines(input.tone, input.category);
+  const longForm = Boolean(input.longForm);
+
+  const formatLines = longForm
+    ? [
+        `Buat naskah video dokumenter Bahasa Indonesia berdurasi panjang (~${Math.round(input.durationSec / 60)} menit) untuk channel pengetahuan BanyakTau.`,
+        "Ini BUKAN format Shorts — ini video panjang yang ditonton duduk santai di YouTube. Boleh menjelaskan lebih dalam, memberi konteks, dan membangun beberapa sub-topik/babak berurutan, bukan cuma satu fakta cepat.",
+        "Struktur: buka dengan hook kuat (tetap penting di 15-30 detik pertama agar penonton tidak pergi), lalu bagi isi jadi beberapa segmen/babak yang mengalir (misalnya: asal-usul -> cara kerja -> dampak/fakta mengejutkan -> relevansi sekarang), lalu penutup yang memberi rangkuman rasa 'oh ternyata begitu' tanpa terasa seperti kelas.",
+        "Judul tetap harus menarik dan jelas dibaca di thumbnail, maksimal 90 karakter, tanpa clickbait kosong."
+      ]
+    : [
+        "Buat naskah video vertikal channel pengetahuan Bahasa Indonesia bernama BanyakTau.",
+        "Judul harus siap pakai untuk YouTube Shorts: singkat, jelas, maksimal 70 karakter, tanpa slang pembuka seperti 'gimana sih', dan kuat dibaca di thumbnail.",
+        "Awali dengan satu kalimat hook yang membuat orang berhenti scroll, lalu langsung masuk ke penjelasan.",
+        "Setelah hook, jelaskan isi video dengan alur: kejutan awal, penjelasan inti, analogi sederhana, bagian penting, lalu penutup yang membuat orang ingin tahu lebih banyak."
+      ];
 
   return [
-    "Buat naskah video vertikal channel pengetahuan Bahasa Indonesia bernama BanyakTau.",
+    ...formatLines,
     "Kontennya bergaya ensiklopedia ringan: ilmu, penemuan, sejarah, alam, tubuh manusia, teknologi, atau benda sehari-hari.",
     "Tujuan: penonton merasa 'oh ternyata begitu', bukan seperti kelas formal.",
     "Wajib faktual dan hati-hati. Jangan membuat klaim palsu, jangan menyebut angka spesifik jika tidak yakin, dan jangan memakai figur publik modern secara kontroversial.",
@@ -423,16 +467,15 @@ function buildPrompt(input, context) {
     `Gaya narasi kategori (${input.category}): ${catStyle.style}. Tone: ${catStyle.tone}. Aturan tambahan: ${catStyle.rules}`,
     "Gunakan tempo dan jeda alami sesuai dengan gaya kategori di atas. Tekankan kata kunci secara halus tanpa berlebihan atau berteriak. Hindari gaya heboh ala influencer YouTube atau emosi berlebih.",
     "Kamu yang membuat hook, judul, dan alur narasi. Jangan terasa seperti template.",
-    "Judul harus siap pakai untuk YouTube Shorts: singkat, jelas, maksimal 70 karakter, tanpa slang pembuka seperti 'gimana sih', dan kuat dibaca di thumbnail.",
-    "Awali dengan satu kalimat hook yang membuat orang berhenti scroll, lalu langsung masuk ke penjelasan.",
     idea ? "Pakai ide terpilih user sebagai sumber utama. Jangan mengganti topik atau angle utamanya." : "Jika user belum memilih ide, buat sendiri hook paling kuat dari topik yang tersedia.",
     idea ? `Ide terpilih:\n- Judul: ${idea.title}\n- Topik: ${idea.topic}\n- Hook: ${idea.hook}\n- Angle: ${idea.angle}\n- Alasan kuat: ${idea.whyGood}` : "",
-    "Setelah hook, jelaskan isi video dengan alur: kejutan awal, penjelasan inti, analogi sederhana, bagian penting, lalu penutup yang membuat orang ingin tahu lebih banyak.",
     "Field summary wajib meringkas inti video, bukan CTA. Tulis 1-2 kalimat lengkap, 110-170 karakter, menyebut penyebab/proses utama dan alasan kenapa fakta ini penting diingat. Jangan membuat kalimat menggantung.",
     "Field importantPoints wajib berisi 3-5 fakta inti dari video. Jangan isi dengan instruksi produksi seperti mulai dari contoh, gunakan analogi, atau akhiri dengan fakta.",
     "Jangan membuat scene atau screenText berjudul Kesimpulan, Kesimpulan Singkat, atau Summary. Pakai penutup natural tanpa label kesimpulan.",
     "Tulis narasi scene sebagai satu cerita utuh yang dibagi untuk visual, bukan potongan-potongan yang terasa terpisah.",
-    "Setiap scene harus punya visualPrompt berbeda: variasikan objek close-up, diagram konseptual tanpa teks, manusia belajar/mengamati, timeline, eksperimen sederhana, alam, arsip sejarah, atau visual makro.",
+    longForm
+      ? "Setiap scene mewakili sekitar 10-15 detik narasi. Karena jumlah scene banyak, variasikan visualPrompt seluas mungkin (jangan ulang tema visual yang sama berturut-turut) supaya B-roll stock footage yang dicari nanti juga bervariasi dan tidak terasa diulang-ulang."
+      : "Setiap scene harus punya visualPrompt berbeda: variasikan objek close-up, diagram konseptual tanpa teks, manusia belajar/mengamati, timeline, eksperimen sederhana, alam, arsip sejarah, atau visual makro.",
     "Jangan minta gambar berisi teks, logo, watermark, atau wajah tokoh nyata yang masih hidup.",
     "Untuk setiap scene, tentukan emosi/pose avatar di field 'avatarPose'. Pilihan yang valid hanya: 'thinking' (jika bertanya/misteri), 'surprised' (jika ada fakta unik/kejutan), 'pointing' (jika menekankan fakta penting), 'clipboard' (jika penjelas biasa), atau 'thumbs_up' (khusus scene penutup).",
     "Kembalikan JSON valid saja dengan shape:",
@@ -441,15 +484,16 @@ function buildPrompt(input, context) {
     `Kategori: ${input.category}`,
     input.hookStyle ? `Hook yang harus dipakai atau dijadikan dasar: ${input.hookStyle}` : "",
     `Tone suara: ${input.tone}`,
-    `Durasi maksimal: ${input.durationSec} detik`,
+    `Durasi ${longForm ? "target" : "maksimal"}: ${input.durationSec} detik`,
     `Jumlah scene: ${input.sceneCount}`,
-    `Target total narasi: sekitar ${wordTarget(input.durationSec)} kata, jangan lebih dari itu.`,
+    `Target total narasi: sekitar ${wordTarget(input.durationSec, longForm)} kata, jangan lebih dari itu.`,
     recent.length ? `Hindari duplikasi dari draft terbaru:\n${recent.join("\n")}` : ""
   ].filter(Boolean).join("\n");
 }
 
-function wordTarget(durationSec) {
-  return Math.round(clamp(durationSec, 45, 120) * 1.95);
+function wordTarget(durationSec, longForm = false) {
+  const [minDur, maxDur] = longForm ? LONG_FORM_BOUNDS : SHORT_FORM_BOUNDS;
+  return Math.round(clamp(durationSec, minDur, maxDur) * 1.95);
 }
 
 function normalizePlan(plan, input) {
@@ -540,7 +584,11 @@ function isProductionInstruction(value) {
 
 function distributeDurations(total, count) {
   const safeCount = Math.max(1, count);
-  const base = clamp(Number(total || 90), 45, 120) / safeCount;
+  // Duration bounds are already validated by normalizeInput() before this
+  // is called — just guard against garbage input, don't re-clamp to the
+  // short-form range (that used to silently truncate long-form videos).
+  const safeTotal = Number.isFinite(Number(total)) && Number(total) > 0 ? Number(total) : 90;
+  const base = safeTotal / safeCount;
   return Array.from({ length: safeCount }, (_, index) => {
     const emphasis = index === 0 ? 1.06 : index === safeCount - 1 ? 1.02 : 1;
     return Number((base * emphasis).toFixed(2));

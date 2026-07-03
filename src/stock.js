@@ -43,10 +43,10 @@ async function downloadFile(url, destPath) {
   await fs.writeFile(destPath, buffer);
 }
 
-async function searchPexels(query) {
+async function searchPexels(query, { perPage = 8 } = {}) {
   const apiKey = config.stock?.pexelsApiKey;
   if (!apiKey) return null;
-  const url = `https://api.pexels.com/videos/search?query=${encodeURIComponent(query)}&per_page=3`;
+  const url = `https://api.pexels.com/videos/search?query=${encodeURIComponent(query)}&per_page=${perPage}`;
   try {
     const res = await fetch(url, {
       headers: { Authorization: apiKey }
@@ -60,10 +60,10 @@ async function searchPexels(query) {
   }
 }
 
-async function searchPixabay(query) {
+async function searchPixabay(query, { perPage = 8 } = {}) {
   const apiKey = config.stock?.pixabayApiKey;
   if (!apiKey) return null;
-  const url = `https://pixabay.com/api/videos/?key=${apiKey}&q=${encodeURIComponent(query)}&per_page=3`;
+  const url = `https://pixabay.com/api/videos/?key=${apiKey}&q=${encodeURIComponent(query)}&per_page=${perPage}`;
   try {
     const res = await fetch(url);
     if (!res.ok) return null;
@@ -73,6 +73,23 @@ async function searchPixabay(query) {
     console.error("Pixabay API error:", error);
     return null;
   }
+}
+
+// Picks the clip whose native duration best covers the target scene length,
+// instead of always taking the first search result. A clip at or above the
+// target plays once with little/no visible loop; only when nothing is long
+// enough do we fall back to the longest available (which still loops
+// seamlessly via -stream_loop, just more times).
+function pickBestByDuration(candidates, targetDurationSec, getDuration) {
+  if (!candidates.length) return null;
+  const withDuration = candidates.map((item) => ({ item, duration: Number(getDuration(item) || 0) }));
+  const longEnough = withDuration.filter((entry) => entry.duration >= targetDurationSec);
+  if (longEnough.length) {
+    longEnough.sort((a, b) => a.duration - b.duration); // smallest that still covers it
+    return longEnough[0].item;
+  }
+  withDuration.sort((a, b) => b.duration - a.duration); // otherwise take the longest we have
+  return withDuration[0]?.item || candidates[0];
 }
 
 function selectPexelsFile(video) {
@@ -107,11 +124,14 @@ export async function extractSearchQuery(scene) {
 export async function fetchStockClip({ scene, query, format, itemId }) {
   await fs.mkdir(paths.clipDir, { recursive: true });
   await fs.mkdir(paths.workDir, { recursive: true });
-  
+
+  const targetDurationSec = Number(scene?.durationSec || 0) || 4;
+
   let downloadUrl = null;
   let provider = "pexels";
   let usedQuery = query;
-  
+  let nativeDurationSec = 0;
+
   const queries = [query];
   const words = query.split(/\s+/).filter(w => w && w.length > 2);
   if (words.length > 1) {
@@ -128,51 +148,60 @@ export async function fetchStockClip({ scene, query, format, itemId }) {
 
   for (const q of queries) {
     usedQuery = q;
-    // 1. Try Pexels first
-    console.log(`Searching Pexels for query: "${q}"`);
+    // 1. Try Pexels first — pick the result whose native duration best
+    // covers the scene, so long scenes don't visibly loop a short clip.
+    console.log(`Searching Pexels for query: "${q}" (target ${targetDurationSec}s)`);
     const pexelsVideos = await searchPexels(q);
     if (pexelsVideos && pexelsVideos.length) {
-      downloadUrl = selectPexelsFile(pexelsVideos[0]);
+      const best = pickBestByDuration(pexelsVideos, targetDurationSec, (v) => v.duration);
+      downloadUrl = best ? selectPexelsFile(best) : null;
       if (downloadUrl) {
         provider = "pexels";
+        nativeDurationSec = Number(best.duration || 0);
         break;
       }
     }
-    
+
     // 2. Try Pixabay
-    console.log(`Searching Pixabay for query: "${q}"`);
+    console.log(`Searching Pixabay for query: "${q}" (target ${targetDurationSec}s)`);
     const pixabayHits = await searchPixabay(q);
     if (pixabayHits && pixabayHits.length) {
-      downloadUrl = selectPixabayFile(pixabayHits[0]);
+      const best = pickBestByDuration(pixabayHits, targetDurationSec, (v) => v.duration);
+      downloadUrl = best ? selectPixabayFile(best) : null;
       if (downloadUrl) {
         provider = "pixabay";
+        nativeDurationSec = Number(best.duration || 0);
         break;
       }
     }
   }
-  
+
   if (!downloadUrl) {
     throw new Error(`Tidak menemukan stock video untuk kata kunci pencarian utama maupun cadangan di Pexels dan Pixabay.`);
   }
-  
+
   const tempFilename = `temp-raw-stock-${itemId}-${scene.index}.mp4`;
   const tempPath = path.join(paths.workDir, tempFilename);
   const finalFilename = `${itemId}-scene-${scene.index}-stock.mp4`;
   const finalPath = path.join(paths.clipDir, finalFilename);
-  
-  console.log(`Downloading stock video from: ${downloadUrl}`);
+
+  console.log(`Downloading stock video from: ${downloadUrl} (native ~${nativeDurationSec}s, need ${targetDurationSec}s)`);
   await downloadFile(downloadUrl, tempPath);
-  
+
   console.log(`Resizing and cropping stock video into ${format} format...`);
   await resizeStockVideo(tempPath, finalPath, format);
-  
+
   // Clean up raw temp file
   try {
     await fs.unlink(tempPath);
   } catch (err) {
     console.error("Could not delete temp raw clip:", err);
   }
-  
+
+  if (nativeDurationSec > 0 && nativeDurationSec < targetDurationSec) {
+    console.warn(`[Stock] Clip scene ${scene.index}: native duration ${nativeDurationSec}s < target ${targetDurationSec}s — akan di-loop mulus oleh renderer (bukan dipotong), tapi kalau ini kejadian di banyak scene, cari kata kunci yang lebih umum atau perpendek durasi scene.`);
+  }
+
   return {
     sceneIndex: scene.index,
     provider,
@@ -180,7 +209,8 @@ export async function fetchStockClip({ scene, query, format, itemId }) {
     path: finalPath,
     url: `/generated/clips/${finalFilename}`,
     prompt: usedQuery,
-    seconds: 4, // standard default segment duration
+    seconds: nativeDurationSec || targetDurationSec,
+    targetDurationSec,
     aspectRatio: format === "horizontal" ? "16:9" : "9:16",
     resolution: "720p"
   };

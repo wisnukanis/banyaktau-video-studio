@@ -21,7 +21,14 @@ export async function generateFullItem(input = {}, options = {}) {
   const warnings = [];
   let payload = { ...input };
   const existingItems = await listContextItems();
-  if (!payload.selectedIdea) {
+
+  if (payload.longForm && !payload.selectedIdea && !payload.topic) {
+    warnings.push(
+      "longForm=true tanpa 'topic' — memakai topik default placeholder. Untuk hasil bagus, selalu kirim 'topic' eksplisit untuk video long-form (generator ide otomatis di atas didesain untuk Shorts, bukan dipakai di sini)."
+    );
+  }
+
+  if (!payload.selectedIdea && !payload.longForm) {
     let performanceNotes = "";
     try {
       performanceNotes = await getPerformanceNotesText();
