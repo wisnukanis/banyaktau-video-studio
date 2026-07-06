@@ -8679,7 +8679,7 @@
   {
     "id": "tau_6b2a6ef3e180",
     "source": "openai",
-    "status": "rendered",
+    "status": "uploading",
     "project_id": "capybara_banyak_tau_id",
     "language": "id-ID",
     "market": "ID",
@@ -8816,7 +8816,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6b2a6ef3e180-scene-1-stock.mp4",
-          "url": "/generated/clips/tau_6b2a6ef3e180-scene-1-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_6b2a6ef3e180-scene-1-stock.mp4",
           "prompt": "Octopus footage",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -8827,7 +8827,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6b2a6ef3e180-scene-2-stock.mp4",
-          "url": "/generated/clips/tau_6b2a6ef3e180-scene-2-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_6b2a6ef3e180-scene-2-stock.mp4",
           "prompt": "Octopus sensory footage",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -8838,7 +8838,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6b2a6ef3e180-scene-3-stock.mp4",
-          "url": "/generated/clips/tau_6b2a6ef3e180-scene-3-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_6b2a6ef3e180-scene-3-stock.mp4",
           "prompt": "Octopus hunting footage",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -8849,7 +8849,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6b2a6ef3e180-scene-4-stock.mp4",
-          "url": "/generated/clips/tau_6b2a6ef3e180-scene-4-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_6b2a6ef3e180-scene-4-stock.mp4",
           "prompt": "Octopus color change",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -8860,7 +8860,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6b2a6ef3e180-scene-5-stock.mp4",
-          "url": "/generated/clips/tau_6b2a6ef3e180-scene-5-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_6b2a6ef3e180-scene-5-stock.mp4",
           "prompt": "Octopus underwater footage",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -8877,7 +8877,7 @@
       },
       "video": {
         "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_6b2a6ef3e180-openai-teknologi-luar-biasa-gurita-sensor-canggih-di-tubuhnya.mp4",
-        "url": "/generated/videos/tau_6b2a6ef3e180-openai-teknologi-luar-biasa-gurita-sensor-canggih-di-tubuhnya.mp4",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_6b2a6ef3e180-openai-teknologi-luar-biasa-gurita-sensor-canggih-di-tubuhnya.mp4",
         "provider": "openai",
         "durationSec": 38.5,
         "scenes": 5
@@ -8907,9 +8907,9 @@
       "videoUsd": 0
     },
     "progress": {
-      "percent": 100,
-      "stage": "completed",
-      "message": "Video final selesai dibuat!"
+      "percent": 30,
+      "stage": "remote_uploading",
+      "message": "Mengunggah video ke Remote Server (FTP/SFTP)..."
     }
   }
 ]
