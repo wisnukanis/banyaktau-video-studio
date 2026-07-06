@@ -25,22 +25,27 @@ const input = {
   category: argValue("--category", process.env.BANYAKTAU_CATEGORY || "random"),
   tone: argValue("--tone", process.env.BANYAKTAU_TONE || "narator dokumenter TV Indonesia pria dewasa, tenang, berwibawa, tempo sedang, cerdas, tepercaya, jeda alami, transisi halus, tanpa emosi berlebih"),
   ttsProvider: argValue("--tts-provider", process.env.BANYAKTAU_TTS_PROVIDER || "openai"),
+  longForm: boolValue(argValue("--long-form", process.env.BANYAKTAU_LONG_FORM || "false"), false),
   durationSec: Number(argValue("--duration", process.env.BANYAKTAU_DURATION || "90")),
   sceneCount: Number(argValue("--scenes", process.env.BANYAKTAU_SCENES || "7")),
   imageQuality: argValue("--image-quality", process.env.IMAGE_QUALITY || "low"),
-  imageSize: argValue("--image-size", process.env.IMAGE_SIZE || "1024x1792")
+  imageSize: argValue("--image-size", process.env.IMAGE_SIZE || "1024x1792"),
+  visualSource: argValue("--visual-source", process.env.DEFAULT_VISUAL_SOURCE || "stock"),
+  videoFormat: argValue("--video-format", process.env.DEFAULT_VIDEO_FORMAT || "vertical"),
+  avatarMode: argValue("--avatar-mode", process.env.BANYAKTAU_AVATAR_MODE || "random-green")
 };
 
-const withClip = boolValue(argValue("--with-clip", process.env.BANYAKTAU_WITH_CLIP || "false"), false);
+const withClip = boolValue(argValue("--with-clip", process.env.BANYAKTAU_WITH_CLIP || "true"), true);
+const requireClip = boolValue(argValue("--require-clip", process.env.BANYAKTAU_REQUIRE_CLIP || "false"), false);
 
 console.log("BanyakTau run started.");
-console.log(`Category=${input.category}, duration=${input.durationSec}, scenes=${input.sceneCount}, withClip=${withClip}`);
+console.log(`Category=${input.category}, longForm=${input.longForm}, duration=${input.durationSec}, scenes=${input.sceneCount}, visualSource=${input.visualSource}, avatarMode=${input.avatarMode}, withClip=${withClip}, requireClip=${requireClip}`);
 
 if (remoteEnabled()) {
   await importRemoteState();
 }
 
-const result = await generateFullItem(input, { withClip, requireClip: withClip });
+const result = await generateFullItem(input, { withClip, requireClip });
 if (remoteEnabled()) {
   result.item = absolutizeGeneratedUrls(result.item);
   await mergeMemoryItems([result.item]);

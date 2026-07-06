@@ -4,6 +4,62 @@ import { spawn } from "node:child_process";
 import { config, paths } from "./config.js";
 import { requestTextCompletion } from "./openai.js";
 
+const FALLBACK_QUERY = "education";
+const QUERY_STOPWORDS = new Set([
+  "yang", "dan", "atau", "ini", "itu", "untuk", "dari", "dalam", "dengan", "karena",
+  "jadi", "bisa", "akan", "adalah", "sebuah", "sebagai", "pada", "ke", "di", "ter",
+  "para", "saat", "ketika", "mengapa", "kenapa", "bagaimana", "fakta", "jarang",
+  "dibahas", "ternyata", "membuat", "punya", "lebih", "bukan", "hanya", "kamu",
+  "kita", "mereka", "ada", "tak", "tidak", "sangat", "hal", "bagian", "kisah"
+]);
+const QUERY_TRANSLATIONS = new Map([
+  ["sejarah", "history"],
+  ["sains", "science"],
+  ["ilmu", "science"],
+  ["pengetahuan", "knowledge"],
+  ["teknologi", "technology"],
+  ["alam", "nature"],
+  ["semesta", "space"],
+  ["luar", "space"],
+  ["angkasa", "space"],
+  ["bumi", "earth"],
+  ["laut", "ocean"],
+  ["samudra", "ocean"],
+  ["hutan", "forest"],
+  ["gunung", "mountain"],
+  ["manusia", "human"],
+  ["tubuh", "body"],
+  ["otak", "brain"],
+  ["jantung", "heart"],
+  ["darah", "blood"],
+  ["makanan", "food"],
+  ["kesehatan", "health"],
+  ["penyakit", "health"],
+  ["obat", "medicine"],
+  ["laboratorium", "laboratory"],
+  ["penemuan", "discovery"],
+  ["eksperimen", "experiment"],
+  ["benda", "object"],
+  ["mesin", "machine"],
+  ["listrik", "electricity"],
+  ["energi", "energy"],
+  ["cahaya", "light"],
+  ["air", "water"],
+  ["api", "fire"],
+  ["kota", "city"],
+  ["desa", "village"],
+  ["kerajaan", "kingdom"],
+  ["perang", "war"],
+  ["peta", "map"],
+  ["sekolah", "school"],
+  ["belajar", "education"],
+  ["pendidikan", "education"],
+  ["buku", "book"],
+  ["museum", "museum"],
+  ["arsip", "archive"],
+  ["dokumen", "document"]
+]);
+
 function runFfmpeg(args) {
   return new Promise((resolve, reject) => {
     const child = spawn("ffmpeg", args);
@@ -114,11 +170,46 @@ export async function extractSearchQuery(scene) {
   const userPrompt = `Narasi: ${scene.narration}\nTeks Layar: ${scene.screenText}`;
   try {
     const query = await requestTextCompletion(systemPrompt, userPrompt);
-    return query.replace(/["']/g, "").trim();
+    const cleaned = cleanQuery(query);
+    if (cleaned) return cleaned;
   } catch (error) {
     console.error("Gagal mengekstrak kata kunci:", error);
-    return scene.screenText || "knowledge";
   }
+  const fallback = fallbackSearchQuery(scene);
+  console.warn(`[Stock] Menggunakan fallback query tanpa OpenAI untuk scene ${scene.index}: "${fallback}"`);
+  return fallback;
+}
+
+function cleanQuery(value) {
+  return String(value || "")
+    .replace(/["']/g, "")
+    .replace(/[^\p{L}\p{N}\s-]/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 3)
+    .join(" ");
+}
+
+function fallbackSearchQuery(scene) {
+  const text = [scene.screenText, scene.narration, scene.imagePrompt]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+  const translated = [];
+  const keywords = [];
+
+  for (const raw of text.match(/[\p{L}\p{N}]+/gu) || []) {
+    if (raw.length < 3 || QUERY_STOPWORDS.has(raw)) continue;
+    const mapped = QUERY_TRANSLATIONS.get(raw);
+    if (mapped && !translated.includes(mapped)) translated.push(mapped);
+    else if (!mapped && /^[a-z0-9]+$/.test(raw) && !keywords.includes(raw)) keywords.push(raw);
+    if (translated.length >= 3) break;
+  }
+
+  const selected = translated.length ? translated : keywords.slice(0, 2);
+  return cleanQuery(selected.join(" ")) || FALLBACK_QUERY;
 }
 
 export async function fetchStockClip({ scene, query, format, itemId }) {
