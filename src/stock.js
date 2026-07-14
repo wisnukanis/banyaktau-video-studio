@@ -73,7 +73,7 @@ function runFfmpeg(args) {
 }
 
 // Resizes and crops a downloaded stock video to 9:16 or 16:9 and strips audio
-async function resizeStockVideo(inputPath, outputPath, format) {
+async function resizeStockVideo(inputPath, outputPath, format, durationSec) {
   const isHorizontal = format === "horizontal";
   const scaleFilter = isHorizontal
     ? "scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,format=yuv420p"
@@ -81,7 +81,9 @@ async function resizeStockVideo(inputPath, outputPath, format) {
     
   await runFfmpeg([
     "-y",
+    "-stream_loop", "-1",
     "-i", inputPath,
+    "-t", Number(durationSec || 4).toFixed(2),
     "-vf", scaleFilter,
     "-c:v", "libx264",
     "-preset", "veryfast",
@@ -148,24 +150,54 @@ function pickBestByDuration(candidates, targetDurationSec, getDuration) {
   return withDuration[0]?.item || candidates[0];
 }
 
-function selectPexelsFile(video) {
+function selectPexelsFile(video, format) {
   const files = video.video_files || [];
-  // Prefer HD files (under 4K to save bandwidth)
-  const filtered = files.filter(f => f.width && f.width <= 1920 && f.link);
-  if (filtered.length) return filtered[0].link;
+  // Prefer a source that matches the target orientation and resolution. This
+  // avoids heavily cropping a low-resolution landscape file for a Reel.
+  const filtered = files.filter((file) => file.width && file.height && file.link && Math.max(file.width, file.height) <= 2160);
+  const best = pickBestFileVariant(filtered, format);
+  if (best) return best.link;
   const anyFile = files.find(f => f.link);
   return anyFile ? anyFile.link : null;
 }
 
-function selectPixabayFile(hit) {
-  const videoObj = hit.videos || {};
-  if (videoObj.medium?.url) return videoObj.medium.url;
-  if (videoObj.large?.url) return videoObj.large.url;
-  if (videoObj.small?.url) return videoObj.small.url;
-  return null;
+export function stockProvidersAvailable() {
+  return Boolean(config.stock?.pexelsApiKey || config.stock?.pixabayApiKey);
+}
+
+function selectPixabayFile(hit, format) {
+  const variants = Object.values(hit.videos || {})
+    .filter((file) => file?.url)
+    .map((file) => ({ ...file, link: file.url }));
+  return pickBestFileVariant(variants, format)?.link || null;
+}
+
+function pickBestFileVariant(files, format) {
+  if (!files.length) return null;
+  const horizontal = format === "horizontal";
+  const targetWidth = horizontal ? 1920 : 1080;
+  const targetHeight = horizontal ? 1080 : 1920;
+  return [...files].sort((a, b) => fileVariantScore(b, targetWidth, targetHeight) - fileVariantScore(a, targetWidth, targetHeight))[0];
+}
+
+function fileVariantScore(file, targetWidth, targetHeight) {
+  const width = Number(file.width || 0);
+  const height = Number(file.height || 0);
+  if (!width || !height) return 0;
+  const orientationMatches = (width >= height) === (targetWidth >= targetHeight);
+  const coverage = Math.min(width / targetWidth, height / targetHeight);
+  const enoughResolution = coverage >= 1;
+  // Orientation and enough native pixels dominate; area only breaks ties.
+  return (orientationMatches ? 1_000_000 : 0)
+    + (enoughResolution ? 100_000 : 0)
+    + Math.min(coverage, 2) * 10_000
+    + Math.min(width * height, targetWidth * targetHeight * 2) / 1000;
 }
 
 export async function extractSearchQuery(scene) {
+  const plannedQuery = cleanQuery(scene?.stockQuery);
+  if (plannedQuery) return plannedQuery;
+
   const systemPrompt = "You are a professional video editor. Generate exactly ONE search query in English (maximum 3 words) to search for relevant B-roll stock footage. Output ONLY the search query, no quotes, no explanations.";
   const userPrompt = `Narasi: ${scene.narration}\nTeks Layar: ${scene.screenText}`;
   try {
@@ -213,6 +245,10 @@ function fallbackSearchQuery(scene) {
 }
 
 export async function fetchStockClip({ scene, query, format, itemId }) {
+  if (!stockProvidersAvailable()) {
+    throw new Error("PEXELS_API_KEY atau PIXABAY_API_KEY belum dikonfigurasi.");
+  }
+
   await fs.mkdir(paths.clipDir, { recursive: true });
   await fs.mkdir(paths.workDir, { recursive: true });
 
@@ -245,7 +281,7 @@ export async function fetchStockClip({ scene, query, format, itemId }) {
     const pexelsVideos = await searchPexels(q);
     if (pexelsVideos && pexelsVideos.length) {
       const best = pickBestByDuration(pexelsVideos, targetDurationSec, (v) => v.duration);
-      downloadUrl = best ? selectPexelsFile(best) : null;
+      downloadUrl = best ? selectPexelsFile(best, format) : null;
       if (downloadUrl) {
         provider = "pexels";
         nativeDurationSec = Number(best.duration || 0);
@@ -258,7 +294,7 @@ export async function fetchStockClip({ scene, query, format, itemId }) {
     const pixabayHits = await searchPixabay(q);
     if (pixabayHits && pixabayHits.length) {
       const best = pickBestByDuration(pixabayHits, targetDurationSec, (v) => v.duration);
-      downloadUrl = best ? selectPixabayFile(best) : null;
+      downloadUrl = best ? selectPixabayFile(best, format) : null;
       if (downloadUrl) {
         provider = "pixabay";
         nativeDurationSec = Number(best.duration || 0);
@@ -280,7 +316,7 @@ export async function fetchStockClip({ scene, query, format, itemId }) {
   await downloadFile(downloadUrl, tempPath);
 
   console.log(`Resizing and cropping stock video into ${format} format...`);
-  await resizeStockVideo(tempPath, finalPath, format);
+  await resizeStockVideo(tempPath, finalPath, format, targetDurationSec);
 
   // Clean up raw temp file
   try {

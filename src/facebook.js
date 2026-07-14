@@ -56,24 +56,38 @@ function assertInstagramVideo({ videoUrl, videoPath, durationSec }) {
   }
 }
 
-async function fetchJson(url, options = {}) {
-  const response = await fetch(url, options);
-  const text = await response.text();
-  let data = {};
-  try {
-    data = text ? JSON.parse(text) : {};
-  } catch {
-    data = { raw: text };
+async function fetchJson(url, options = {}, retry = {}) {
+  const attempts = Math.max(1, Number(retry.attempts || 1));
+  let lastError;
+
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      const response = await fetch(url, options);
+      const text = await response.text();
+      let data = {};
+      try {
+        data = text ? JSON.parse(text) : {};
+      } catch {
+        data = { raw: text };
+      }
+      if (response.ok) return data;
+
+      const apiError = data?.error || {};
+      const detail = apiError.message || data.raw || text || response.statusText;
+      const error = new Error(`${detail} [code ${apiError.code || response.status}]`);
+      error.apiCode = apiError.code;
+      error.apiSubcode = apiError.error_subcode;
+      error.httpStatus = response.status;
+      throw error;
+    } catch (error) {
+      lastError = error;
+      const transient = !error.httpStatus || error.httpStatus === 429 || error.httpStatus >= 500;
+      if (!transient || attempt === attempts) throw error;
+      await sleep(Math.min(15_000, attempt * 2500));
+    }
   }
-  if (!response.ok) {
-    const apiError = data?.error || {};
-    const detail = apiError.message || data.raw || text || response.statusText;
-    const error = new Error(`${detail} [code ${apiError.code || response.status}]`);
-    error.apiCode = apiError.code;
-    error.apiSubcode = apiError.error_subcode;
-    throw error;
-  }
-  return data;
+
+  throw lastError;
 }
 
 async function tokenIdentity(token) {
@@ -168,7 +182,7 @@ async function startFacebookReel(token) {
   const url = new URL(graphUrl(`${config.facebook.pageId}/video_reels`));
   url.searchParams.set("access_token", token);
   url.searchParams.set("upload_phase", "start");
-  const data = await fetchJson(url, { method: "POST" });
+  const data = await fetchJson(url, { method: "POST" }, { attempts: 3 });
   const videoId = clean(data.video_id);
   const uploadUrl = clean(data.upload_url);
   if (!videoId || !uploadUrl) {
@@ -184,27 +198,38 @@ async function uploadFacebookReelFromUrl({ token, uploadUrl, videoUrl }) {
       Authorization: `OAuth ${token}`,
       file_url: videoUrl
     }
-  });
+  }, { attempts: 3 });
 }
 
 async function uploadFacebookReelBinary({ token, uploadUrl, videoPath }) {
   const buffer = await fs.promises.readFile(videoPath);
-  const response = await fetch(uploadUrl, {
-    method: "POST",
-    headers: {
-      "Authorization": `OAuth ${token}`,
-      "offset": "0",
-      "file_size": String(buffer.length),
-      "Content-Length": String(buffer.length),
-      "Content-Type": "application/octet-stream"
-    },
-    body: buffer
-  });
-
-  if (!response.ok) {
-    const text = await response.text();
-    throw new Error(`Gagal mengunggah file biner FB Reel: ${text}`);
+  let lastError;
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      const response = await fetch(uploadUrl, {
+        method: "POST",
+        headers: {
+          "Authorization": `OAuth ${token}`,
+          "offset": "0",
+          "file_size": String(buffer.length),
+          "Content-Length": String(buffer.length),
+          "Content-Type": "application/octet-stream"
+        },
+        body: buffer
+      });
+      if (response.ok) return;
+      const text = await response.text();
+      const error = new Error(`Gagal mengunggah file biner FB Reel: ${text}`);
+      error.httpStatus = response.status;
+      throw error;
+    } catch (error) {
+      lastError = error;
+      const transient = !error.httpStatus || error.httpStatus === 429 || error.httpStatus >= 500;
+      if (!transient || attempt === 3) throw error;
+      await sleep(Math.min(15_000, attempt * 2500));
+    }
   }
+  throw lastError;
 }
 
 async function finishFacebookReel({ token, videoId, title, description }) {
@@ -215,7 +240,7 @@ async function finishFacebookReel({ token, videoId, title, description }) {
   url.searchParams.set("video_state", config.facebook.videoState || "PUBLISHED");
   url.searchParams.set("title", normalizeTitle(title));
   url.searchParams.set("description", normalizeDescription(description));
-  const data = await fetchJson(url, { method: "POST" });
+  const data = await fetchJson(url, { method: "POST" }, { attempts: 3 });
   return {
     ok: true,
     type: "facebook_reel",
@@ -227,7 +252,10 @@ async function finishFacebookReel({ token, videoId, title, description }) {
 
 async function publishFacebookReel({ token, videoUrl, videoPath, title, description }) {
   const started = await startFacebookReel(token);
-  if (videoUrl && videoUrl.startsWith("http")) {
+  if (videoPath && fs.existsSync(videoPath)) {
+    console.log(`Mengunggah biner FB Reel langsung dari path lokal: ${videoPath}`);
+    await uploadFacebookReelBinary({ token, uploadUrl: started.uploadUrl, videoPath });
+  } else if (videoUrl && videoUrl.startsWith("http")) {
     try {
       console.log(`Mengunggah FB Reel dari URL publik: ${videoUrl}`);
       await uploadFacebookReelFromUrl({ token, uploadUrl: started.uploadUrl, videoUrl });
@@ -236,9 +264,6 @@ async function publishFacebookReel({ token, videoUrl, videoPath, title, descript
       if (!videoPath) throw urlError;
       await uploadFacebookReelBinary({ token, uploadUrl: started.uploadUrl, videoPath });
     }
-  } else if (videoPath) {
-    console.log(`Mengunggah biner FB Reel dari path lokal: ${videoPath}`);
-    await uploadFacebookReelBinary({ token, uploadUrl: started.uploadUrl, videoPath });
   } else {
     throw new Error("Facebook Reel membutuhkan videoUrl publik atau videoPath lokal.");
   }
@@ -449,7 +474,7 @@ export async function publishToFacebook({ videoUrl, videoPath, title, descriptio
     return await publishFacebookReel({ token, videoUrl, videoPath, title, description });
   } catch (error) {
     console.warn(`Facebook Reel gagal, coba fallback Page video: ${error.message}`);
-    if (!videoUrl) throw error;
+    if (!videoUrl || !videoUrl.startsWith("http")) throw error;
     const fallback = await publishFacebookPageVideo({ token, videoUrl, title, description });
     return { ...fallback, fallbackFrom: "facebook_reel" };
   }

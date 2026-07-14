@@ -2,6 +2,7 @@ import { ensureProjectDirs } from "./config.js";
 import { config } from "./config.js";
 import { publishToSocials, socialDescription } from "./facebook.js";
 import { generateFullItem } from "./pipeline.js";
+import { verifyRenderedItem } from "./quality-check.js";
 import { absolutizeGeneratedUrls, publicBaseUrl, remoteEnabled, uploadGeneratedStateAndAssets } from "./remote.js";
 import { mergeMemoryItems, saveItem } from "./storage.js";
 
@@ -37,15 +38,26 @@ const input = {
 
 const withClip = boolValue(argValue("--with-clip", process.env.BANYAKTAU_WITH_CLIP || "true"), true);
 const requireClip = boolValue(argValue("--require-clip", process.env.BANYAKTAU_REQUIRE_CLIP || "false"), false);
+const strictAi = boolValue(argValue("--strict-ai", process.env.BANYAKTAU_STRICT_AI || "false"), false);
 
 console.log("BanyakTau run started.");
-console.log(`Category=${input.category}, longForm=${input.longForm}, duration=${input.durationSec}, scenes=${input.sceneCount}, visualSource=${input.visualSource}, avatarMode=${input.avatarMode}, withClip=${withClip}, requireClip=${requireClip}`);
+console.log(`Category=${input.category}, longForm=${input.longForm}, duration=${input.durationSec}, scenes=${input.sceneCount}, visualSource=${input.visualSource}, avatarMode=${input.avatarMode}, withClip=${withClip}, requireClip=${requireClip}, strictAi=${strictAi}`);
 
 if (remoteEnabled()) {
   await importRemoteState();
 }
 
-const result = await generateFullItem(input, { withClip, requireClip });
+const result = await generateFullItem(input, { withClip, requireClip, strictAi });
+const quality = await verifyRenderedItem(result.item);
+if (!quality.ok) {
+  throw new Error(`Quality gate gagal: ${quality.warnings.join(" | ") || "hasil render tidak valid"}`);
+}
+console.log(`Quality gate OK: durasi=${quality.actualDurationSec?.toFixed(1)}s target=${quality.targetDurationSec}s`);
+
+// Facebook Reels can upload the local binary directly. Keep publishing
+// independent from FTP/SFTP/GitHub storage so a storage outage never skips FB.
+await publishSocialsIfEnabled(result);
+
 if (remoteEnabled()) {
   result.item = absolutizeGeneratedUrls(result.item);
   await mergeMemoryItems([result.item]);
@@ -53,7 +65,6 @@ if (remoteEnabled()) {
   try {
     await uploadGeneratedStateAndAssets({ item: result.item });
     console.log("Remote upload complete.");
-    await publishSocialsIfEnabled(result);
   } catch (error) {
     const message = `Remote upload gagal: ${error.message}`;
     result.warnings.push(message);
@@ -67,6 +78,7 @@ console.log(JSON.stringify({
   id: result.item.id,
   title: result.item.title,
   videoUrl: result.item.assets?.video?.url || "",
+  quality,
   warnings: result.warnings
 }, null, 2));
 
@@ -138,8 +150,10 @@ async function publishSocialsIfEnabled(result) {
     }
     await saveItem(item);
     await mergeMemoryItems([item]);
-    await uploadGeneratedStateAndAssets({ item });
     console.log(`Social publish complete: ${publishSummary(published)}`);
+    if (config.facebook.enabled && !published.facebook?.ok && boolValue(process.env.FACEBOOK_STRICT_PUBLISH, false)) {
+      throw new Error(`Facebook wajib publish tetapi gagal: ${published.errors?.facebook || "hasil publish tidak valid"}`);
+    }
   } catch (error) {
     const message = `Social publish gagal: ${error.message}`;
     result.warnings.push(message);

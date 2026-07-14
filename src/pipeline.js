@@ -14,7 +14,7 @@ import { getPerformanceNotesText } from "./analytics.js";
 import { getTrendNotesText } from "./trend-research.js";
 import { nowIso } from "./util.js";
 import { generateVideoClip } from "./video-provider.js";
-import { fetchStockClip, extractSearchQuery } from "./stock.js";
+import { fetchStockClip, extractSearchQuery, stockProvidersAvailable } from "./stock.js";
 
 
 export async function generateFullItem(input = {}, options = {}) {
@@ -53,7 +53,10 @@ export async function generateFullItem(input = {}, options = {}) {
     };
   }
 
-  const item = await createKnowledgeDraft(payload, { existingItems });
+  const item = await createKnowledgeDraft(payload, {
+    existingItems,
+    strictAi: Boolean(options.strictAi)
+  });
   await saveItem(item);
 
   const visualSource = item.input.visualSource || "stock";
@@ -122,6 +125,13 @@ export async function ensureVisualClips(item, options = {}) {
   const warnings = options.warnings || [];
   const visualSource = item.input.visualSource || "stock";
   const format = item.input.videoFormat || "vertical";
+
+  if (visualSource !== "ai" && !stockProvidersAvailable()) {
+    const message = "Stock video dilewati karena PEXELS_API_KEY dan PIXABAY_API_KEY belum dikonfigurasi.";
+    warnings.push(message);
+    if (options.strict) throw new Error(message);
+    return;
+  }
   
   if (visualSource === "ai") {
     for (const scene of item.plan.scenes) {
@@ -337,9 +347,15 @@ export async function renderAndPersist(item) {
 }
 
 export function assertReadyToRender(item) {
-  const imageCount = item.assets.images?.length || 0;
-  if (imageCount < item.plan.scenes.length) {
-    const error = new Error("Gambar belum lengkap. Generate gambar dulu sampai semua scene siap.");
+  const images = item.assets.images || [];
+  const clips = item.assets.clips || [];
+  const missingVisualScenes = (item.plan.scenes || []).filter((scene) => {
+    const sceneIndex = Number(scene.index);
+    return !clips.some((clip) => Number(clip.sceneIndex) === sceneIndex && clip.path)
+      && !images.some((image) => Number(image.sceneIndex) === sceneIndex && image.path);
+  });
+  if (missingVisualScenes.length) {
+    const error = new Error("Visual belum lengkap. Generate stock clip atau gambar dulu sampai semua scene siap.");
     error.status = 409;
     throw error;
   }

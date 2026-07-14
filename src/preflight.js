@@ -12,14 +12,14 @@ export async function runPreflight() {
   checks.push(checkValue("OPENAI_API_KEY", Boolean(config.openai.apiKey), "Story, image, TTS, dan transkripsi butuh key ini."));
 
   const remote = remoteConfig();
-  const hasSocialPublish = config.facebook.enabled || config.instagram.enabled;
-  const needsPublicBaseUrl = remoteEnabled() || hasSocialPublish;
+  const needsPublicBaseUrl = remoteEnabled()
+    || (config.facebook.enabled && config.facebook.mediaType === "video");
   checks.push(checkValue(
     "PUBLIC_BASE_URL",
     Boolean(config.publicBaseUrl || process.env.PUBLIC_BASE_URL),
     needsPublicBaseUrl
-      ? "Wajib untuk URL asset publik saat upload remote atau publish sosial aktif."
-      : "Belum diisi. Aman jika hanya generate lokal tanpa upload/publish.",
+      ? "Wajib untuk URL asset publik saat upload remote atau Facebook Page Video aktif."
+      : "Belum diisi. Aman untuk upload biner Facebook Reel atau generate lokal.",
     needsPublicBaseUrl
   ));
 
@@ -29,6 +29,14 @@ export async function runPreflight() {
     remoteEnabled()
       ? `Driver aktif: ${remote.driver}`
       : "Tidak ada FTP/SFTP. Video tetap bisa dibuat, tapi tidak diupload sebagai asset publik.",
+    false
+  ));
+  checks.push(checkValue(
+    "STOCK_PROVIDER",
+    Boolean(config.stock.pexelsApiKey || config.stock.pixabayApiKey),
+    (config.stock.pexelsApiKey || config.stock.pixabayApiKey)
+      ? "Stock footage gratis aktif; gambar AI hanya dipakai sebagai fallback."
+      : "PEXELS_API_KEY/PIXABAY_API_KEY kosong; pipeline akan memakai gambar AI berbayar sebagai fallback.",
     false
   ));
   if (remoteEnabled() && remote.driver !== "github") {

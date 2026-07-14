@@ -8021,7 +8021,7 @@
   {
     "id": "tau_e1f194b9b924",
     "source": "openai",
-    "status": "rendered",
+    "status": "uploading",
     "project_id": "capybara_banyak_tau_id",
     "language": "id-ID",
     "market": "ID",
@@ -8157,63 +8157,63 @@
           "sceneIndex": 1,
           "provider": "openai",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e1f194b9b924-scene-1-fakta-yang-jarang-dibahas.jpg",
-          "url": "/generated/images/tau_e1f194b9b924-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_e1f194b9b924-scene-1-fakta-yang-jarang-dibahas.jpg",
           "prompt": "close-up Menara Eiffel di malam hari dengan lampu menyala, topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
         },
         {
           "sceneIndex": 2,
           "provider": "openai",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e1f194b9b924-scene-2-cara-kerjanya.jpg",
-          "url": "/generated/images/tau_e1f194b9b924-scene-2-cara-kerjanya.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_e1f194b9b924-scene-2-cara-kerjanya.jpg",
           "prompt": "ilustrasi diagram struktur rangka Menara Eiffel, topic: Sejarah, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
         },
         {
           "sceneIndex": 3,
           "provider": "openai",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e1f194b9b924-scene-3-contoh-sederhana.jpg",
-          "url": "/generated/images/tau_e1f194b9b924-scene-3-contoh-sederhana.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_e1f194b9b924-scene-3-contoh-sederhana.jpg",
           "prompt": "visualisasi angin yang mengalir di sekitar struktur, topic: Sejarah, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
         },
         {
           "sceneIndex": 4,
           "provider": "openai",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e1f194b9b924-scene-4-bagian-paling-penting.jpg",
-          "url": "/generated/images/tau_e1f194b9b924-scene-4-bagian-paling-penting.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_e1f194b9b924-scene-4-bagian-paling-penting.jpg",
           "prompt": "ilustrasi kualitas besi dalam konstruksi, topic: Sejarah, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
         },
         {
           "sceneIndex": 5,
           "provider": "openai",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e1f194b9b924-scene-5-kenapa-ini-menarik.jpg",
-          "url": "/generated/images/tau_e1f194b9b924-scene-5-kenapa-ini-menarik.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_e1f194b9b924-scene-5-kenapa-ini-menarik.jpg",
           "prompt": "ilustrasi Menara Eiffel bergetar lembut di tengah angin, topic: Sejarah, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
         },
         {
           "sceneIndex": 6,
           "provider": "openai",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e1f194b9b924-scene-6-yang-sering-salah-dipahami.jpg",
-          "url": "/generated/images/tau_e1f194b9b924-scene-6-yang-sering-salah-dipahami.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_e1f194b9b924-scene-6-yang-sering-salah-dipahami.jpg",
           "prompt": "ilustrasi waktu yang berlalu dengan Menara Eiffel di latar belakang, topic: Sejarah, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
         },
         {
           "sceneIndex": 7,
           "provider": "openai",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e1f194b9b924-scene-7-fakta-utama.jpg",
-          "url": "/generated/images/tau_e1f194b9b924-scene-7-fakta-utama.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_e1f194b9b924-scene-7-fakta-utama.jpg",
           "prompt": "kolase bangunan modern terinspirasi oleh Menara Eiffel, topic: Sejarah, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
         },
         {
           "sceneIndex": 8,
           "provider": "openai",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e1f194b9b924-scene-8-fakta-yang-jarang-dibahas.jpg",
-          "url": "/generated/images/tau_e1f194b9b924-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_e1f194b9b924-scene-8-fakta-yang-jarang-dibahas.jpg",
           "prompt": "close-up Menara Eiffel di siang hari, topic: Sejarah, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
         },
         {
           "sceneIndex": 9,
           "provider": "openai",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e1f194b9b924-scene-9-cara-kerjanya.jpg",
-          "url": "/generated/images/tau_e1f194b9b924-scene-9-cara-kerjanya.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_e1f194b9b924-scene-9-cara-kerjanya.jpg",
           "prompt": "visualisasi buku tentang arsitektur, topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
         }
       ],
@@ -8223,7 +8223,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e1f194b9b924-scene-1-stock.mp4",
-          "url": "/generated/clips/tau_e1f194b9b924-scene-1-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e1f194b9b924-scene-1-stock.mp4",
           "prompt": "Eiffel Tower B-roll",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -8234,7 +8234,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e1f194b9b924-scene-2-stock.mp4",
-          "url": "/generated/clips/tau_e1f194b9b924-scene-2-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e1f194b9b924-scene-2-stock.mp4",
           "prompt": "Steel construction footage",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -8245,7 +8245,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e1f194b9b924-scene-3-stock.mp4",
-          "url": "/generated/clips/tau_e1f194b9b924-scene-3-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e1f194b9b924-scene-3-stock.mp4",
           "prompt": "Open design footage",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -8256,7 +8256,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e1f194b9b924-scene-4-stock.mp4",
-          "url": "/generated/clips/tau_e1f194b9b924-scene-4-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e1f194b9b924-scene-4-stock.mp4",
           "prompt": "Durable steel footage",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -8267,7 +8267,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e1f194b9b924-scene-5-stock.mp4",
-          "url": "/generated/clips/tau_e1f194b9b924-scene-5-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e1f194b9b924-scene-5-stock.mp4",
           "prompt": "Windy tower movement",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -8278,7 +8278,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e1f194b9b924-scene-6-stock.mp4",
-          "url": "/generated/clips/tau_e1f194b9b924-scene-6-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e1f194b9b924-scene-6-stock.mp4",
           "prompt": "Eiffel Tower technology",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -8289,7 +8289,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e1f194b9b924-scene-7-stock.mp4",
-          "url": "/generated/clips/tau_e1f194b9b924-scene-7-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e1f194b9b924-scene-7-stock.mp4",
           "prompt": "Eiffel Tower B-roll",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -8300,7 +8300,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e1f194b9b924-scene-8-stock.mp4",
-          "url": "/generated/clips/tau_e1f194b9b924-scene-8-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e1f194b9b924-scene-8-stock.mp4",
           "prompt": "Eiffel Tower B-roll",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -8311,7 +8311,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e1f194b9b924-scene-9-stock.mp4",
-          "url": "/generated/clips/tau_e1f194b9b924-scene-9-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e1f194b9b924-scene-9-stock.mp4",
           "prompt": "Architecture history B-roll",
           "seconds": 4,
           "aspectRatio": "9:16",
@@ -8323,12 +8323,12 @@
         "model": "tts-1",
         "voice": "onyx",
         "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_e1f194b9b924-openai-natural-narration.mp3",
-        "url": "/generated/audio/tau_e1f194b9b924-openai-natural-narration.mp3",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/audio/tau_e1f194b9b924-openai-natural-narration.mp3",
         "characters": 1029
       },
       "video": {
         "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_e1f194b9b924-openai-mengapa-menara-eiffel-tidak-runtuh.mp4",
-        "url": "/generated/videos/tau_e1f194b9b924-openai-mengapa-menara-eiffel-tidak-runtuh.mp4",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_e1f194b9b924-openai-mengapa-menara-eiffel-tidak-runtuh.mp4",
         "provider": "openai",
         "durationSec": 60.87,
         "scenes": 9
@@ -8342,7 +8342,7 @@
       ],
       "thumbnail": {
         "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_e1f194b9b924-thumbnail-mengapa-menara-eiffel-tidak-runtuh.jpg",
-        "url": "/generated/thumbnails/tau_e1f194b9b924-thumbnail-mengapa-menara-eiffel-tidak-runtuh.jpg",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/thumbnails/tau_e1f194b9b924-thumbnail-mengapa-menara-eiffel-tidak-runtuh.jpg",
         "provider": "ffmpeg-collage"
       }
     },
@@ -8358,9 +8358,9 @@
       "videoUsd": 0
     },
     "progress": {
-      "percent": 100,
-      "stage": "completed",
-      "message": "Video final selesai dibuat!"
+      "percent": 30,
+      "stage": "remote_uploading",
+      "message": "Mengunggah video ke Remote Server (FTP/SFTP)..."
     }
   },
   {
@@ -8920,6 +8920,291 @@
         "url": "https://www.facebook.com/reel/2267439464013442",
         "publishedAt": "2026-07-06T05:14:01.447Z"
       }
+    }
+  },
+  {
+    "id": "tau_4a88b6935b76",
+    "source": "openai",
+    "status": "rendering",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-07-14T13:53:14.910Z",
+    "updatedAt": "2026-07-14T13:54:42.612Z",
+    "input": {
+      "topic": "sains",
+      "category": "sains",
+      "hookStyle": "Kecil tapi sangat berpengaruh, ini dia mikroorganisme yang mengubah dunia tanpa kita sadari.",
+      "selectedIdea": {
+        "id": "idea_ab1cacc0a318",
+        "title": "Mengapa Daun Berubah Warna Saat Musim Gugur",
+        "topic": "sains",
+        "hook": "Pernahkah kamu penasaran kenapa daun berubah warna di musim gugur? Yuk, kita cari tahu alasannya!",
+        "category": "sains",
+        "angle": "Menjelajahi proses fotosintesis dan perubahan kimia yang terjadi pada daun.",
+        "whyGood": "Membahas topik yang menarik secara visual dan mudah dipahami."
+      },
+      "tone": "science_documentary",
+      "longForm": false,
+      "durationSec": 120,
+      "sceneCount": 9,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1792",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 1.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "stock"
+    },
+    "title": "Mengapa Daun Berubah Warna Saat Musim Gugur",
+    "plan": {
+      "title": "Mengapa Daun Berubah Warna Saat Musim Gugur",
+      "hook": "Pernahkah kamu penasaran kenapa daun berubah warna di musim gugur? Yuk, kita cari tahu alasannya!",
+      "summary": "Perubahan warna daun saat musim gugur disebabkan oleh proses fotosintesis yang melibatkan klorofil, karotenoid, dan antosianin. Proses ini penting untuk memahami ekosistem dan adaptasi tanaman.",
+      "importantPoints": [
+        "Daun berwarna hijau karena klorofil, yang menyerap cahaya untuk fotosintesis.",
+        "Saat musim gugur, produksi klorofil menurun, memungkinkan warna lain muncul.",
+        "Karotenoid memberikan warna kuning dan oranye, sementara antosianin memberi warna merah.",
+        "Perubahan warna ini membantu tanaman beradaptasi dengan kondisi cuaca yang berubah.",
+        "Proses ini juga memberi pelajaran tentang siklus kehidupan dan ekosistem."
+      ],
+      "factCheckNote": "Informasi dalam video ini bersifat faktual dan didasarkan pada prinsip-prinsip biologis yang telah terbukti.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 14.13,
+          "narration": "Saat musim gugur tiba, kita sering melihat keindahan daun yang berubah warna. Fenomena ini bukanlah sekadar keindahan visual.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Close-up daun hijau yang mulai menunjukkan warna kuning dan merah., topic: sains, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "nature_closeup",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 2,
+          "durationSec": 13.33,
+          "narration": "Perubahan ini dipicu oleh penurunan produksi klorofil, pigmen utama yang memberi warna hijau pada daun. Tanpa klorofil, warna lain mulai tampak.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Diagram proses fotosintesis dengan fokus pada klorofil., topic: sains, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "conceptual_diagram",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 3,
+          "durationSec": 13.33,
+          "narration": "Karotenoid, yang sudah ada di daun sejak awal, memberikan warna kuning dan oranye. Ini adalah proses alami yang berlangsung selama musim gugur.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "Visual makro daun menunjukkan variasi warna kuning dan oranye., topic: sains, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "nature_macro",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 4,
+          "durationSec": 13.33,
+          "narration": "Sementara itu, antosianin, pigmen yang memberikan warna merah, tampaknya dihasilkan untuk melindungi daun dari kerusakan. Ini adalah cara tanaman beradaptasi.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "Close-up daun merah dengan latar belakang hijau., topic: sains, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "nature_closeup",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 5,
+          "durationSec": 13.33,
+          "narration": "Perubahan warna daun juga mengindikasikan bagaimana tanaman beradaptasi dengan cuaca yang lebih dingin dan cahaya yang lebih sedikit.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "Gambaran pohon dengan daun berwarna-warni di latar belakang., topic: sains, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "nature_landscape",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 6,
+          "durationSec": 13.33,
+          "narration": "Saat daun jatuh, mereka meninggalkan nutrisi yang kaya ke tanah, mendukung pertumbuhan tanaman baru di musim berikutnya.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "Proses daun jatuh ke tanah dengan latar belakang alam., topic: sains, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "nature_landscape",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 7,
+          "durationSec": 13.33,
+          "narration": "Proses ini adalah contoh sempurna dari siklus kehidupan tanaman, yang mengajarkan kita tentang keberlangsungan ekosistem.",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "Diagram siklus hidup tanaman sederhana., topic: sains, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "conceptual_diagram",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 8,
+          "durationSec": 13.33,
+          "narration": "Setiap perubahan ini, meski tampak sederhana, memiliki makna mendalam dalam ekosistem kita.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Pemandangan hutan di musim gugur dengan berbagai warna daun., topic: sains, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "nature_landscape",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 9,
+          "durationSec": 13.6,
+          "narration": "Dengan memahami proses ini, kita bisa lebih menghargai keindahan alam dan pentingnya setiap bagian dari siklus kehidupan.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Pemandangan indah alam musim gugur dengan daun berwarna-warni., topic: sains, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "nature_landscape",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_4a88b6935b76-scene-1-stock.mp4",
+          "url": "/generated/clips/tau_4a88b6935b76-scene-1-stock.mp4",
+          "prompt": "Autumn leaves footage",
+          "seconds": 16,
+          "targetDurationSec": 14.13,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_4a88b6935b76-scene-2-stock.mp4",
+          "url": "/generated/clips/tau_4a88b6935b76-scene-2-stock.mp4",
+          "prompt": "Chlorophyll production decline",
+          "seconds": 16,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_4a88b6935b76-scene-3-stock.mp4",
+          "url": "/generated/clips/tau_4a88b6935b76-scene-3-stock.mp4",
+          "prompt": "Autumn foliage footage",
+          "seconds": 18,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_4a88b6935b76-scene-4-stock.mp4",
+          "url": "/generated/clips/tau_4a88b6935b76-scene-4-stock.mp4",
+          "prompt": "Plant adaptation footage",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_4a88b6935b76-scene-5-stock.mp4",
+          "url": "/generated/clips/tau_4a88b6935b76-scene-5-stock.mp4",
+          "prompt": "Leaf color change",
+          "seconds": 21,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_4a88b6935b76-scene-6-stock.mp4",
+          "url": "/generated/clips/tau_4a88b6935b76-scene-6-stock.mp4",
+          "prompt": "Falling leaves nutrients",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_4a88b6935b76-scene-7-stock.mp4",
+          "url": "/generated/clips/tau_4a88b6935b76-scene-7-stock.mp4",
+          "prompt": "Plant life cycle",
+          "seconds": 28,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_4a88b6935b76-scene-8-stock.mp4",
+          "url": "/generated/clips/tau_4a88b6935b76-scene-8-stock.mp4",
+          "prompt": "Ecosystem changes B-roll",
+          "seconds": 19,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_4a88b6935b76-scene-9-stock.mp4",
+          "url": "/generated/clips/tau_4a88b6935b76-scene-9-stock.mp4",
+          "prompt": "Nature cycle footage",
+          "seconds": 20,
+          "targetDurationSec": 13.6,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "onyx",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_4a88b6935b76-openai-natural-narration.mp3",
+        "url": "/generated/audio/tau_4a88b6935b76-openai-natural-narration.mp3",
+        "characters": 1164
+      },
+      "video": null,
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Saat musim gugur tiba, kita sering melihat keindahan daun yang berubah warna. Fenomena ini bukanlah sekadar keindahan visual. Perubahan ini dipicu oleh penurunan produksi klorofil, pigment utama yang memberi warna hijau pada daun. Tanpa klorofil, warna lain mulai tampak. Karotenoid, yang sudah ada di daun sejak awal, memberikan warna kuning dan oranye. Ini adalah proses alami yang berlangsung selama musim gugur. Sementara itu, anthocyanin, pigment yang memberikan warna merah, tampaknya dihasilkan untuk melindungi daun dari kerusakan. Ini adalah cara tanaman beradaptasi. Perubahan warna daun juga mengindikasikan bagaimana tanaman beradaptasi dengan cuaca yang lebih dingin dan cahaya yang lebih sedikit. Saat daun jatuh, mereka meninggalkan nutrisi yang kaya ke tanah, mendukung pertumbuhan tanaman baru di musim berikutnya. Proses ini adalah contoh sempurna dari siklus kehidupan tanaman yang mengajarkan kita tentang keberlangsungan ekosistem. Setiap perubahan ini, meski tampak sederhana, memiliki makna mendalam dalam ekosistem kita. Dengan memahami proses ini, kita bisa lebih menghargai keindahan alam dan pentingnya setiap bagian dari siklus kehidupan."
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_4a88b6935b76-thumbnail-mengapa-daun-berubah-warna-saat-musim-gugur.jpg",
+        "url": "/generated/thumbnails/tau_4a88b6935b76-thumbnail-mengapa-daun-berubah-warna-saat-musim-gugur.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 2379,
+      "outputTokens": 1512,
+      "totalTokens": 3891,
+      "storyUsd": 0.00337,
+      "imageUnitUsd": 0.04,
+      "imageUsd": 0.36,
+      "ttsUsd": 0.01746,
+      "totalUsd": 0.38083,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 65,
+      "stage": "rendering_segments",
+      "message": "Merender segmen 11 dari 11..."
     }
   }
 ]
