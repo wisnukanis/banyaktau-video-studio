@@ -304,9 +304,11 @@ export async function createIdeaRecommendations(rawInput = {}, context = {}) {
       result = await requestIdeaJson(promptText);
       source = "openai";
     } catch (error) {
+      if (context.strictAi) throw error;
       result = { ideas: fallbackIdeas(input, error.message) };
     }
   } else {
+    if (context.strictAi) throw new Error("OPENAI_API_KEY belum aktif untuk membuat ide terjadwal.");
     result = { ideas: fallbackIdeas(input, "OPENAI_API_KEY belum aktif.") };
   }
 
@@ -321,7 +323,9 @@ export async function createIdeaRecommendations(rawInput = {}, context = {}) {
 export async function createKnowledgeDraft(rawInput, context = {}) {
   const input = normalizeInput(rawInput);
 
-  if (config.openai.apiKey) {
+  // The unattended pipeline already arrives with the selected idea's hook.
+  // Reusing it avoids another paid request without changing the final brief.
+  if (config.openai.apiKey && !input.hookStyle) {
     try {
       const hookResult = await ensureStrongHook(input, requestIdeaJson);
       if (hookResult?.best?.text) {
@@ -341,9 +345,11 @@ export async function createKnowledgeDraft(rawInput, context = {}) {
       plan = await requestKnowledgeJson(promptText);
       source = "openai";
     } catch (error) {
+      if (context.strictAi) throw error;
       plan = fallbackPlan(input, error.message);
     }
   } else {
+    if (context.strictAi) throw new Error("OPENAI_API_KEY belum aktif untuk membuat naskah terjadwal.");
     plan = fallbackPlan(input, "OPENAI_API_KEY belum aktif.");
   }
 
@@ -477,9 +483,10 @@ function buildPrompt(input, context) {
       ? "Setiap scene mewakili sekitar 10-15 detik narasi. Karena jumlah scene banyak, variasikan visualPrompt seluas mungkin (jangan ulang tema visual yang sama berturut-turut) supaya B-roll stock footage yang dicari nanti juga bervariasi dan tidak terasa diulang-ulang."
       : "Setiap scene harus punya visualPrompt berbeda: variasikan objek close-up, diagram konseptual tanpa teks, manusia belajar/mengamati, timeline, eksperimen sederhana, alam, arsip sejarah, atau visual makro.",
     "Jangan minta gambar berisi teks, logo, watermark, atau wajah tokoh nyata yang masih hidup.",
+    "Untuk setiap scene, isi stockQuery dengan kata kunci pencarian B-roll dalam Bahasa Inggris, maksimal 3 kata, spesifik ke subjek scene, tanpa merek atau nama tokoh.",
     "Untuk setiap scene, tentukan emosi/pose avatar di field 'avatarPose'. Pilihan yang valid hanya: 'thinking' (jika bertanya/misteri), 'surprised' (jika ada fakta unik/kejutan), 'pointing' (jika menekankan fakta penting), 'clipboard' (jika penjelas biasa), atau 'thumbs_up' (khusus scene penutup).",
     "Kembalikan JSON valid saja dengan shape:",
-    "{ title, hook, summary, importantPoints:[string], factCheckNote, scenes:[{ index, durationSec, narration, screenText, imagePrompt, visualStyle, avatarPose }] }",
+    "{ title, hook, summary, importantPoints:[string], factCheckNote, scenes:[{ index, durationSec, narration, screenText, imagePrompt, stockQuery, visualStyle, avatarPose }] }",
     `Topik: ${input.topic}`,
     `Kategori: ${input.category}`,
     input.hookStyle ? `Hook yang harus dipakai atau dijadikan dasar: ${input.hookStyle}` : "",
@@ -536,9 +543,22 @@ function normalizeScene(scene, index, input, durationSec) {
     narration,
     screenText,
     imagePrompt: enhanceImagePrompt(scene?.imagePrompt || `${screenText}. ${narration}`, input, index),
+    stockQuery: cleanStockQuery(scene?.stockQuery),
     visualStyle: cleanText(scene?.visualStyle || visualStyle(index), 120),
     avatarPose
   };
+}
+
+function cleanStockQuery(value) {
+  return String(value || "")
+    .replace(/["']/g, "")
+    .replace(/[^a-zA-Z0-9\s-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 3)
+    .join(" ");
 }
 
 function cleanSceneText(value) {

@@ -8361,6 +8361,11 @@
       "percent": 30,
       "stage": "remote_uploading",
       "message": "Mengunggah video ke Remote Server (FTP/SFTP)..."
+    },
+    "publish": {
+      "errors": {
+        "facebook": "fetch failed"
+      }
     }
   },
   {
