@@ -155,6 +155,12 @@ jobs:
       - name: Preflight
         run: npm run preflight
 
+      - name: Refresh trend research
+        if: env.YOUTUBE_DATA_API_KEY != ''
+        continue-on-error: true
+        run: |
+          node -e "import('./src/trend-research.js').then(async (m) => { const result = await m.refreshTrendSnapshot('ID'); console.log(JSON.stringify({ fetchedAt: result.fetchedAt, errors: result.errors || [] }, null, 2)); })"
+
       - name: Generate, verify, and publish Facebook
         id: generate_video
         run: |
