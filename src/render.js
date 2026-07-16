@@ -278,17 +278,20 @@ export async function renderKnowledgeVideo(item) {
 }
 
 function buildTiming(item, narrationDuration) {
-  const requestedTotal = clamp(Number(item.input?.durationSec || 90), 45, 120);
-  const maxTotal = 120;
+  const longForm = Boolean(item.input?.longForm);
+  const minTotal = longForm ? 180 : 45;
+  const maxTotal = longForm ? 1200 : 120;
+  const requestedTotal = clamp(Number(item.input?.durationSec || (longForm ? 480 : 90)), minTotal, maxTotal);
   const maxContent = maxTotal - introDuration - outroDuration;
   const requestedContent = requestedTotal - introDuration - outroDuration;
   const relaxedFastTempo = clamp(Number(config.render.speechTempo || 1.15), 0.9, 1.3);
   const forcedTempo = narrationDuration > maxContent ? narrationDuration / maxContent : 1;
   const narrationTempo = clamp(Math.max(relaxedFastTempo, forcedTempo), 0.9, 1.3);
   const adjustedNarration = narrationDuration ? narrationDuration / narrationTempo : 0;
+  const minContent = Math.max(1, minTotal - introDuration - outroDuration);
   const contentDuration = narrationDuration
-    ? clamp(Math.max(adjustedNarration + 0.35, 34), 34, maxContent)
-    : clamp(Math.max(requestedContent, 34), 34, maxContent);
+    ? clamp(Math.max(adjustedNarration + 0.35, minContent), minContent, maxContent)
+    : clamp(Math.max(requestedContent, minContent), minContent, maxContent);
   return {
     contentDuration,
     totalDuration: Number((contentDuration + introDuration + outroDuration).toFixed(2)),
@@ -333,10 +336,8 @@ function resolveSceneMedia(item, scene) {
     return { type: "image", path: item.assets.thumbnail.path };
   }
   const sourceIndex = scene.imageSourceSceneIndex || scene.index;
-  if (!scene.kind) {
-    const clip = item.assets?.clips?.find((entry) => Number(entry.sceneIndex) === Number(sourceIndex));
-    if (clip?.path) return { type: "clip", path: clip.path };
-  }
+  const clip = item.assets?.clips?.find((entry) => Number(entry.sceneIndex) === Number(sourceIndex));
+  if (clip?.path) return { type: "clip", path: clip.path };
   const image = item.assets?.images?.find((entry) => Number(entry.sceneIndex) === Number(sourceIndex));
   if (!image?.path) throw new Error(`Gambar untuk scene ${sourceIndex} belum tersedia.`);
   return { type: "image", path: image.path };
