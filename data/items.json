@@ -9576,7 +9576,7 @@
   {
     "id": "tau_6d4f9ad4373e",
     "source": "openai",
-    "status": "uploading",
+    "status": "ready",
     "project_id": "capybara_banyak_tau_id",
     "language": "id-ID",
     "market": "ID",
@@ -9922,9 +9922,19 @@
       "totalUsd": 0.38174
     },
     "progress": {
-      "percent": 30,
-      "stage": "remote_uploading",
-      "message": "Mengunggah video ke Remote Server (FTP/SFTP)..."
+      "percent": 100,
+      "stage": "upload_success",
+      "message": "Video berhasil di-publish ke facebook!"
+    },
+    "publish": {
+      "facebook": {
+        "ok": true,
+        "type": "facebook_reel",
+        "videoId": "2226044198152696",
+        "postId": "122121428217342479",
+        "url": "https://www.facebook.com/reel/2226044198152696",
+        "publishedAt": "2026-07-16T04:47:35.158Z"
+      }
     }
   }
 ]
