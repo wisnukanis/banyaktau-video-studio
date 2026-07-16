@@ -101,7 +101,7 @@ async function downloadFile(url, destPath) {
   await fs.writeFile(destPath, buffer);
 }
 
-async function searchPexels(query, { perPage = 8 } = {}) {
+async function searchPexels(query, { perPage = 18 } = {}) {
   const apiKey = config.stock?.pexelsApiKey;
   if (!apiKey) return null;
   const url = `https://api.pexels.com/videos/search?query=${encodeURIComponent(query)}&per_page=${perPage}`;
@@ -118,7 +118,7 @@ async function searchPexels(query, { perPage = 8 } = {}) {
   }
 }
 
-async function searchPixabay(query, { perPage = 8 } = {}) {
+async function searchPixabay(query, { perPage = 18 } = {}) {
   const apiKey = config.stock?.pixabayApiKey;
   if (!apiKey) return null;
   const url = `https://pixabay.com/api/videos/?key=${apiKey}&q=${encodeURIComponent(query)}&per_page=${perPage}`;
@@ -259,19 +259,7 @@ export async function fetchStockClip({ scene, query, format, itemId }) {
   let usedQuery = query;
   let nativeDurationSec = 0;
 
-  const queries = [query];
-  const words = query.split(/\s+/).filter(w => w && w.length > 2);
-  if (words.length > 1) {
-    // Fall back to individual words
-    for (const word of words) {
-      if (!queries.includes(word)) queries.push(word);
-    }
-  }
-  // Generic safe fallbacks
-  const genericFallbacks = ["history", "science", "knowledge", "education", "abstract"];
-  for (const fallback of genericFallbacks) {
-    if (!queries.includes(fallback)) queries.push(fallback);
-  }
+  const queries = buildStockQueries(query, scene);
 
   for (const q of queries) {
     usedQuery = q;
@@ -341,4 +329,36 @@ export async function fetchStockClip({ scene, query, format, itemId }) {
     aspectRatio: format === "horizontal" ? "16:9" : "9:16",
     resolution: "720p"
   };
+}
+
+function buildStockQueries(query, scene) {
+  const queries = [];
+  const add = (value) => {
+    const cleaned = cleanQuery(value);
+    if (cleaned && !queries.includes(cleaned)) queries.push(cleaned);
+  };
+
+  add(query);
+  add(fallbackSearchQuery(scene));
+
+  for (const word of cleanQuery(query).split(/\s+/).filter((entry) => entry.length > 2)) {
+    add(word);
+  }
+
+  // Broad, high-hit B-roll searches keep the pipeline moving when a specific
+  // factual topic has no matching stock footage.
+  for (const fallback of [
+    "documentary",
+    "education",
+    "science",
+    "technology",
+    "nature",
+    "history",
+    "abstract background",
+    "learning"
+  ]) {
+    add(fallback);
+  }
+
+  return queries;
 }
