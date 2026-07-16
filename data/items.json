@@ -9219,5 +9219,712 @@
       "stage": "rendering_segments",
       "message": "Merender segmen 11 dari 11..."
     }
+  },
+  {
+    "id": "tau_9d4ab45dc7ba",
+    "source": "openai",
+    "status": "rendered",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-07-15T04:05:42.702Z",
+    "updatedAt": "2026-07-15T04:10:11.963Z",
+    "input": {
+      "topic": "Sejarah",
+      "category": "Sejarah",
+      "hookStyle": "Sejarah seringkali terlihat membosankan, tapi ada kejadian yang mengubah arah dunia hanya dalam sekejap.",
+      "selectedIdea": {
+        "id": "idea_8d39322905de",
+        "title": "Kota Hilang: Mengapa Petra Tersembunyi",
+        "topic": "Sejarah",
+        "hook": "Pernah dengar tentang Petra, kota kuno yang hilang di gurun? Apa yang membuatnya bisa tersembunyi selama berabad-abad?",
+        "category": "Sejarah",
+        "angle": "Menggali misteri Petra dan alasan di balik tersembunyinya kota tersebut.",
+        "whyGood": "Misteri dan keindahan arsitektur Petra menimbulkan rasa ingin tahu yang tinggi."
+      },
+      "tone": "historical_storytelling",
+      "longForm": false,
+      "durationSec": 120,
+      "sceneCount": 9,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1792",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 1.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "ai"
+    },
+    "title": "Kota Hilang: Mengapa Petra Tersembunyi",
+    "plan": {
+      "title": "Kota Hilang: Mengapa Petra Tersembunyi",
+      "hook": "Pernah dengar tentang Petra, kota kuno yang hilang di gurun? Apa yang membuatnya bisa tersembunyi selama berabad-abad?",
+      "summary": "Petra, kota kuno yang tersembunyi di Yordania, terlindungi oleh pegunungan dan pasir, menjadikannya misteri yang menarik bagi peneliti dan pengunjung.",
+      "importantPoints": [
+        "Petra ditemukan kembali pada tahun 1812 oleh Johann Ludwig Burckhardt.",
+        "Kota ini dibangun oleh orang Nabataean sekitar abad ke-5 SM sebagai pusat perdagangan.",
+        "Struktur arsitektur Petra terbuat dari batu pasir, sehingga menyatu dengan lanskap sekitarnya.",
+        "Misteri tersembunyinya Petra berkaitan dengan lokasi geografis dan kondisi alam yang sulit dijangkau."
+      ],
+      "factCheckNote": "Informasi tentang Petra diambil dari berbagai sumber sejarah yang dapat dipercaya.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 14.13,
+          "narration": "Petra, kota kuno yang terletak di Yordania, pernah menjadi pusat peradaban yang megah. Namun, mengapa kota ini bisa terlupakan selama berabad-abad?",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Gambaran umum Petra yang menunjukkan arsitektur dan pegunungan di sekitarnya., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "wide shot",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 13.33,
+          "narration": "Ditemukan kembali pada tahun 1812 oleh Johann Ludwig Burckhardt, Petra adalah kota yang dibangun sekitar abad ke-5 SM oleh suku Nabataean.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Gambaran Johann Ludwig Burckhardt meneliti Petra., topic: Sejarah, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "historical archive",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 3,
+          "durationSec": 13.33,
+          "narration": "Petra dikenal karena arsitekturnya yang megah, terbuat dari batu pasir yang anggun, membuatnya seolah menyatu dengan alam sekitarnya.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "Close-up pada struktur batu pasir Petra., topic: Sejarah, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "macro shot",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 4,
+          "durationSec": 13.33,
+          "narration": "Lokasi Petra yang terletak di ngarai sempit menjadikannya sulit dijangkau, melindungi kota ini dari pengaruh luar dan perubahan zaman.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "Pemandangan ngarai yang mengarah ke Petra., topic: Sejarah, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "landscape view",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 5,
+          "durationSec": 13.33,
+          "narration": "Keindahan arsitektur dan misteri lokasinya membuat Petra menjadi daya tarik bagi para arkeolog dan wisatawan hingga hari ini.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "Para wisatawan menjelajahi Petra., topic: Sejarah, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "people exploring",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 6,
+          "durationSec": 13.33,
+          "narration": "Misteri tersembunyinya Petra berkaitan erat dengan kondisi geografi yang kompleks, membuatnya terlindungi dari penemuan selama berabad-abad.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "Diagram yang menunjukkan lokasi Petra di peta Yordania., topic: Sejarah, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "conceptual diagram",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 7,
+          "durationSec": 13.33,
+          "narration": "Dengan semua keindahan dan keunikan yang dimilikinya, Petra tetap menjadi salah satu situs bersejarah paling menarik di dunia.",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "Pemandangan indah Petra saat matahari terbenam., topic: Sejarah, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "cinematic shot",
+          "avatarPose": "thumbs_up"
+        },
+        {
+          "index": 8,
+          "durationSec": 13.33,
+          "narration": "Mengapa kota kuno ini begitu penting? Mari kita terus gali kisah dan misteri yang menyelubungi Petra.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Gambaran kota Petra dengan fokus pada keindahan arsitektur., topic: Sejarah, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "wide shot",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 9,
+          "durationSec": 13.6,
+          "narration": "Setiap sudut Petra menyimpan cerita, dan penemuan baru selalu menantikan untuk diungkap. Apakah ada yang ingin kamu ketahui lebih lanjut?",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Close-up pada detail arsitektur Petra., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "macro shot",
+          "avatarPose": "surprised"
+        }
+      ]
+    },
+    "assets": {
+      "images": [
+        {
+          "sceneIndex": 1,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_9d4ab45dc7ba-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "url": "/generated/images/tau_9d4ab45dc7ba-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "Gambaran umum Petra yang menunjukkan arsitektur dan pegunungan di sekitarnya., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_9d4ab45dc7ba-scene-2-cara-kerjanya.jpg",
+          "url": "/generated/images/tau_9d4ab45dc7ba-scene-2-cara-kerjanya.jpg",
+          "prompt": "Gambaran Johann Ludwig Burckhardt meneliti Petra., topic: Sejarah, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_9d4ab45dc7ba-scene-3-contoh-sederhana.jpg",
+          "url": "/generated/images/tau_9d4ab45dc7ba-scene-3-contoh-sederhana.jpg",
+          "prompt": "Close-up pada struktur batu pasir Petra., topic: Sejarah, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_9d4ab45dc7ba-scene-4-bagian-paling-penting.jpg",
+          "url": "/generated/images/tau_9d4ab45dc7ba-scene-4-bagian-paling-penting.jpg",
+          "prompt": "Pemandangan ngarai yang mengarah ke Petra., topic: Sejarah, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_9d4ab45dc7ba-scene-5-kenapa-ini-menarik.jpg",
+          "url": "/generated/images/tau_9d4ab45dc7ba-scene-5-kenapa-ini-menarik.jpg",
+          "prompt": "Para wisatawan menjelajahi Petra., topic: Sejarah, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_9d4ab45dc7ba-scene-6-yang-sering-salah-dipahami.jpg",
+          "url": "/generated/images/tau_9d4ab45dc7ba-scene-6-yang-sering-salah-dipahami.jpg",
+          "prompt": "Diagram yang menunjukkan lokasi Petra di peta Yordania., topic: Sejarah, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_9d4ab45dc7ba-scene-7-fakta-utama.jpg",
+          "url": "/generated/images/tau_9d4ab45dc7ba-scene-7-fakta-utama.jpg",
+          "prompt": "Pemandangan indah Petra saat matahari terbenam., topic: Sejarah, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_9d4ab45dc7ba-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "url": "/generated/images/tau_9d4ab45dc7ba-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "Gambaran kota Petra dengan fokus pada keindahan arsitektur., topic: Sejarah, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_9d4ab45dc7ba-scene-9-cara-kerjanya.jpg",
+          "url": "/generated/images/tau_9d4ab45dc7ba-scene-9-cara-kerjanya.jpg",
+          "prompt": "Close-up pada detail arsitektur Petra., topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_9d4ab45dc7ba-scene-1-stock.mp4",
+          "url": "/generated/clips/tau_9d4ab45dc7ba-scene-1-stock.mp4",
+          "prompt": "Petra ancient city",
+          "seconds": 15,
+          "targetDurationSec": 14.13,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_9d4ab45dc7ba-scene-2-stock.mp4",
+          "url": "/generated/clips/tau_9d4ab45dc7ba-scene-2-stock.mp4",
+          "prompt": "Petra historical footage",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_9d4ab45dc7ba-scene-3-stock.mp4",
+          "url": "/generated/clips/tau_9d4ab45dc7ba-scene-3-stock.mp4",
+          "prompt": "Petra architecture B-roll",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_9d4ab45dc7ba-scene-4-stock.mp4",
+          "url": "/generated/clips/tau_9d4ab45dc7ba-scene-4-stock.mp4",
+          "prompt": "Petra canyon footage",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_9d4ab45dc7ba-scene-5-stock.mp4",
+          "url": "/generated/clips/tau_9d4ab45dc7ba-scene-5-stock.mp4",
+          "prompt": "Petra architecture footage",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_9d4ab45dc7ba-scene-6-stock.mp4",
+          "url": "/generated/clips/tau_9d4ab45dc7ba-scene-6-stock.mp4",
+          "prompt": "Petra landscape footage",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_9d4ab45dc7ba-scene-7-stock.mp4",
+          "url": "/generated/clips/tau_9d4ab45dc7ba-scene-7-stock.mp4",
+          "prompt": "Petra historical site",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_9d4ab45dc7ba-scene-8-stock.mp4",
+          "url": "/generated/clips/tau_9d4ab45dc7ba-scene-8-stock.mp4",
+          "prompt": "Petra ancient city",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_9d4ab45dc7ba-scene-9-stock.mp4",
+          "url": "/generated/clips/tau_9d4ab45dc7ba-scene-9-stock.mp4",
+          "prompt": "Petra archaeological site",
+          "seconds": 14,
+          "targetDurationSec": 13.6,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "onyx",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_9d4ab45dc7ba-openai-natural-narration.mp3",
+        "url": "/generated/audio/tau_9d4ab45dc7ba-openai-natural-narration.mp3",
+        "characters": 1189
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_9d4ab45dc7ba-openai-kota-hilang-mengapa-petra-tersembunyi.mp4",
+        "url": "/generated/videos/tau_9d4ab45dc7ba-openai-kota-hilang-mengapa-petra-tersembunyi.mp4",
+        "provider": "openai",
+        "durationSec": 70.47,
+        "scenes": 9
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Petra, kota kuno yang terletak di Jordania, pernah menjadi pusat peradaban yang megah. Namun, mengapa kota ini bisa terlupakan selama berabad-abad? Ditemukan kembali pada tahun Sifdu Blabats Dubluas oleh Johan Ludwig Burckhardt, Petra adalah kota yang guna sekitar abad ke-5 SM oleh suku Nabataean. Petra dikenal karena arsitekturnya yang megah, terbuat dari batu pasir yang anggun, membuatnya seolah menyatu dengan alam sekitarnya. Lokasi Petra yang terletak di ngarai sempit menjadikannya sulit dijangkau, melindungi kota ini dari pengaruh luar dan perubahan zaman. Keindahan arsitektur dan misteri lokasinya membuat Petra menjadi daya tarik bagi para arkeolog dan wisatawan hingga hari ini. Misteri tersembunyinya Petra berkaitan erat dengan kondisi geografi yang kompleks, membuatnya terlindungi dari penemuan selama berabad-abad. Dengan semua keindahan dan keunikan yang dimilikinya, Petra tetap menjadi salah satu situs bersejarah paling menarik di dunia. Mengapa kota kuno ini begitu penting? Mari kita terus gali kisah dan misteri yang menyelubungi Petra. Setiap sudut Petra menyimpan cerita dan penemuan baru selalu menantikan untuk diungkap. Apakah ada yang ingin kamu ketahui lebih lanjut?"
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_9d4ab45dc7ba-thumbnail-kota-hilang-mengapa-petra-tersembunyi.jpg",
+        "url": "/generated/thumbnails/tau_9d4ab45dc7ba-thumbnail-kota-hilang-mengapa-petra-tersembunyi.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 2424,
+      "outputTokens": 1475,
+      "totalTokens": 3899,
+      "storyUsd": 0.00333,
+      "imageUnitUsd": 0.04,
+      "imageUsd": 0.36,
+      "ttsUsd": 0.01784,
+      "totalUsd": 0.38117
+    },
+    "progress": {
+      "percent": 100,
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
+    }
+  },
+  {
+    "id": "tau_6d4f9ad4373e",
+    "source": "openai",
+    "status": "uploading",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-07-15T07:23:43.877Z",
+    "updatedAt": "2026-07-15T07:28:22.874Z",
+    "input": {
+      "topic": "alam semesta",
+      "category": "alam semesta",
+      "hookStyle": "Sangat luas tapi bisa diukur, begitulah alam semesta yang kita huni.",
+      "selectedIdea": {
+        "id": "idea_611ed824d174",
+        "title": "Kenapa Bulan Terlihat Berubah-ubah",
+        "topic": "alam semesta",
+        "hook": "Pernahkah kamu bertanya-tanya kenapa bulan bisa terlihat berbeda setiap bulan? Yuk, kita telusuri fenomena ini!",
+        "category": "alam semesta",
+        "angle": "Fenomena fase bulan",
+        "whyGood": "Membahas fenomena yang sering dilihat orang, namun banyak yang tidak tahu penyebabnya."
+      },
+      "tone": "tech_explainer",
+      "longForm": false,
+      "durationSec": 120,
+      "sceneCount": 9,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1792",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 1.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "ai"
+    },
+    "title": "Kenapa Bulan Terlihat Berubah-ubah",
+    "plan": {
+      "title": "Kenapa Bulan Terlihat Berubah-ubah",
+      "hook": "Pernahkah kamu bertanya-tanya kenapa bulan bisa terlihat berbeda setiap bulan? Yuk, kita telusuri fenomena ini!",
+      "summary": "Bulan mengalami fase berubah-ubah karena posisi relatifnya terhadap Bumi dan Matahari. Memahami fase bulan penting untuk navigasi dan penentuan waktu.",
+      "importantPoints": [
+        "Bulan tidak memancarkan cahaya sendiri, melainkan memantulkan cahaya matahari.",
+        "Fase bulan terdiri dari bulan baru, bulan sabit, bulan purnama, dan bulan setengah.",
+        "Perubahan fase bulan terjadi setiap 29,5 hari.",
+        "Posisi Bumi, Bulan, dan Matahari mempengaruhi penampakan bulan.",
+        "Memahami fase bulan dapat membantu dalam pertanian dan perencanaan kegiatan."
+      ],
+      "factCheckNote": "Semua informasi yang disampaikan telah diverifikasi dan sesuai dengan pengetahuan ilmiah terbaru.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 14.13,
+          "narration": "Bulan, salah satu objek paling akrab di langit kita, memiliki siklus yang menakjubkan. Setiap bulan, penampilannya berubah secara signifikan.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Close-up bulan yang berbeda fase., topic: alam semesta, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "natural",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 13.33,
+          "narration": "Ternyata, perubahan ini disebabkan oleh posisi relatif Bulan, Bumi, dan Matahari. Saat Bulan bergerak mengelilingi Bumi, kita melihat berbagai fase bulan.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Diagram posisi Bulan, Bumi, dan Matahari., topic: alam semesta, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "conceptual",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 3,
+          "durationSec": 13.33,
+          "narration": "Bulan baru menandakan bahwa Bulan berada di antara Bumi dan Matahari. Kita tidak dapat melihatnya karena sisi yang diterangi matahari menghadap jauh dari kita.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "Visual bulan baru dengan ilustrasi., topic: alam semesta, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "conceptual",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 4,
+          "durationSec": 13.33,
+          "narration": "Selanjutnya, kita melihat bulan sabit ketika Bulan bergerak sedikit lebih jauh. Ini adalah fase yang paling sederhana untuk dikenali.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "Bulan sabit di langit., topic: alam semesta, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "natural",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 5,
+          "durationSec": 13.33,
+          "narration": "Ketika Bulan berada di sisi berlawanan dari Bumi terhadap Matahari, kita melihat bulan purnama yang indah. Ini adalah saat Bulan sepenuhnya diterangi.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "Bulan purnama yang cerah di langit malam., topic: alam semesta, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "natural",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 6,
+          "durationSec": 13.33,
+          "narration": "Fase bulan ini berulang setiap 29,5 hari, menciptakan siklus yang dapat diprediksi. Ini sangat penting dalam tradisi dan pertanian.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "Kalender menunjukkan siklus fase bulan., topic: alam semesta, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "conceptual",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 7,
+          "durationSec": 13.33,
+          "narration": "Setiap fase bulan memiliki makna dan dampak tersendiri, dari penentuan waktu hingga pengaruhnya terhadap pasang surut laut.",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "Ilustrasi pasang surut laut., topic: alam semesta, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "natural",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 8,
+          "durationSec": 13.33,
+          "narration": "Dengan memahami fase bulan, kita dapat merencanakan banyak aspek kehidupan, mulai dari pertanian hingga kegiatan sosial.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Orang-orang merayakan kegiatan di bawah cahaya bulan., topic: alam semesta, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "natural",
+          "avatarPose": "thumbs_up"
+        },
+        {
+          "index": 9,
+          "durationSec": 13.6,
+          "narration": "Jadi, lain kali saat kamu melihat bulan, ingatlah bahwa setiap fase membawa cerita dan keajaiban alam semesta.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Pemandangan malam dengan bulan yang indah., topic: alam semesta, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "visualStyle": "natural",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [
+        {
+          "sceneIndex": 1,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_6d4f9ad4373e-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_6d4f9ad4373e-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "Close-up bulan yang berbeda fase., topic: alam semesta, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_6d4f9ad4373e-scene-2-cara-kerjanya.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_6d4f9ad4373e-scene-2-cara-kerjanya.jpg",
+          "prompt": "Diagram posisi Bulan, Bumi, dan Matahari., topic: alam semesta, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_6d4f9ad4373e-scene-3-contoh-sederhana.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_6d4f9ad4373e-scene-3-contoh-sederhana.jpg",
+          "prompt": "Visual bulan baru dengan ilustrasi., topic: alam semesta, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_6d4f9ad4373e-scene-4-bagian-paling-penting.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_6d4f9ad4373e-scene-4-bagian-paling-penting.jpg",
+          "prompt": "Bulan sabit di langit., topic: alam semesta, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_6d4f9ad4373e-scene-5-kenapa-ini-menarik.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_6d4f9ad4373e-scene-5-kenapa-ini-menarik.jpg",
+          "prompt": "Bulan purnama yang cerah di langit malam., topic: alam semesta, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_6d4f9ad4373e-scene-6-yang-sering-salah-dipahami.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_6d4f9ad4373e-scene-6-yang-sering-salah-dipahami.jpg",
+          "prompt": "Kalender menunjukkan siklus fase bulan., topic: alam semesta, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_6d4f9ad4373e-scene-7-fakta-utama.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_6d4f9ad4373e-scene-7-fakta-utama.jpg",
+          "prompt": "Ilustrasi pasang surut laut., topic: alam semesta, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_6d4f9ad4373e-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_6d4f9ad4373e-scene-8-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "Orang-orang merayakan kegiatan di bawah cahaya bulan., topic: alam semesta, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_6d4f9ad4373e-scene-9-cara-kerjanya.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_6d4f9ad4373e-scene-9-cara-kerjanya.jpg",
+          "prompt": "Pemandangan malam dengan bulan yang indah., topic: alam semesta, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6d4f9ad4373e-scene-1-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_6d4f9ad4373e-scene-1-stock.mp4",
+          "prompt": "Moon phases footage",
+          "seconds": 16,
+          "targetDurationSec": 14.13,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6d4f9ad4373e-scene-2-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_6d4f9ad4373e-scene-2-stock.mp4",
+          "prompt": "Moon phases footage",
+          "seconds": 16,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6d4f9ad4373e-scene-3-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_6d4f9ad4373e-scene-3-stock.mp4",
+          "prompt": "New moon footage",
+          "seconds": 16,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6d4f9ad4373e-scene-4-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_6d4f9ad4373e-scene-4-stock.mp4",
+          "prompt": "Crescent moon footage",
+          "seconds": 19,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6d4f9ad4373e-scene-5-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_6d4f9ad4373e-scene-5-stock.mp4",
+          "prompt": "Full moon footage",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6d4f9ad4373e-scene-6-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_6d4f9ad4373e-scene-6-stock.mp4",
+          "prompt": "Moon phases cycle",
+          "seconds": 16,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6d4f9ad4373e-scene-7-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_6d4f9ad4373e-scene-7-stock.mp4",
+          "prompt": "Moon phases B-roll",
+          "seconds": 16,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6d4f9ad4373e-scene-8-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_6d4f9ad4373e-scene-8-stock.mp4",
+          "prompt": "Moon phases B-roll",
+          "seconds": 16,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6d4f9ad4373e-scene-9-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_6d4f9ad4373e-scene-9-stock.mp4",
+          "prompt": "Moon phases footage",
+          "seconds": 16,
+          "targetDurationSec": 13.6,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "onyx",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_6d4f9ad4373e-openai-natural-narration.mp3",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/audio/tau_6d4f9ad4373e-openai-natural-narration.mp3",
+        "characters": 1229
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_6d4f9ad4373e-openai-kenapa-bulan-terlihat-berubah-ubah.mp4",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_6d4f9ad4373e-openai-kenapa-bulan-terlihat-berubah-ubah.mp4",
+        "provider": "openai",
+        "durationSec": 71.67,
+        "scenes": 9
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Bulan, salah satu objek paling akrab di langit kita, memiliki siklus yang menakjubkan. Setiap bulan, penampilannya berubah secara signifikan. Ternyata, perubahan ini disebabkan oleh posisi relatif bulan, bumi, dan matahari. Saat bulan bergerak mengelilingi bumi, kita melihat berbagai fase bulan. Bulan baru menandakan bahwa bulan berada di antara bumi dan matahari. Kita tidak dapat melihatnya karena sisi yang diterangi matahari menghadap jauh dari kita. Selanjutnya, kita melihat bulan sabit ketika bulan bergerak sedikit lebih jauh. Ini adalah fase yang paling sederhana untuk dikenali. Ketika bulan berada di sisi berlawanan dari bumi terhadap matahari, kita melihat bulan purnama yang indah. Ini adalah saat bulan sepenuhnya diterangi. Fase bulan ini berulang setiap 29,5 hari, menciptakan siklus yang dapat diprediksi. Ini sangat penting dalam tradisi dan pertanian. Setiap fase bulan memiliki makna dan dampak tersendiri, dari penentuan waktu hingga pengaruhnya terhadap pasang surut laut. Dengan memahami fase bulan, kita dapat merencanakan banyak aspek kehidupan, mulai dari pertanian hingga kegiatan sosial. Jadi lain kali saat kamu melihat bulan, ingatlah bahwa setiap fase membawa cerita dan keajaiban alam semesta."
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_6d4f9ad4373e-thumbnail-kenapa-bulan-terlihat-berubah-ubah.jpg",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/thumbnails/tau_6d4f9ad4373e-thumbnail-kenapa-bulan-terlihat-berubah-ubah.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 2441,
+      "outputTokens": 1459,
+      "totalTokens": 3900,
+      "storyUsd": 0.00331,
+      "imageUnitUsd": 0.04,
+      "imageUsd": 0.36,
+      "ttsUsd": 0.01843,
+      "totalUsd": 0.38174
+    },
+    "progress": {
+      "percent": 30,
+      "stage": "remote_uploading",
+      "message": "Mengunggah video ke Remote Server (FTP/SFTP)..."
+    }
   }
 ]
