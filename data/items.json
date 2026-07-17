@@ -9936,5 +9936,607 @@
         "publishedAt": "2026-07-16T04:47:35.158Z"
       }
     }
+  },
+  {
+    "id": "tau_e712dfdfdff2",
+    "source": "openai",
+    "status": "uploading",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-07-16T05:21:57.293Z",
+    "updatedAt": "2026-07-16T05:25:39.103Z",
+    "input": {
+      "topic": "Benda Sehari-hari",
+      "category": "Benda Sehari-hari",
+      "hookStyle": "Pernahkah kamu bertanya-tanya kenapa kaca bisa bening? Yuk, kita cari tahu proses di balik kejernihan kaca!",
+      "selectedIdea": {
+        "id": "idea_613ea2e31e98",
+        "title": "Kenapa Kaca Diciptakan Transparan",
+        "topic": "Benda Sehari-hari",
+        "hook": "Pernahkah kamu bertanya-tanya kenapa kaca bisa bening? Yuk, kita cari tahu proses di balik kejernihan kaca!",
+        "category": "Benda Sehari-hari",
+        "angle": "Menjelaskan proses pembuatan kaca dan sifat-sifat fisiknya.",
+        "whyGood": "Kaca adalah benda yang sering kita lihat, tetapi asal-usul dan prosesnya jarang dibahas."
+      },
+      "tone": "adaptive",
+      "longForm": false,
+      "durationSec": 90,
+      "sceneCount": 7,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1792",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pFZP5JQG7iQjIQuC4Bku",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 1.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "ai"
+    },
+    "title": "Kenapa Kaca Diciptakan Transparan",
+    "plan": {
+      "title": "Kenapa Kaca Diciptakan Transparan",
+      "hook": "Pernahkah kamu bertanya-tanya kenapa kaca bisa bening? Yuk, kita cari tahu proses di balik kejernihan kaca!",
+      "summary": "Kaca diciptakan transparan berkat proses peleburan silika dan sifat fisiknya. Pemahaman ini penting karena kaca menjadi bagian penting dalam kehidupan sehari-hari.",
+      "importantPoints": [
+        "Kaca umumnya dibuat dari silika yang dipanaskan hingga meleleh.",
+        "Proses pendinginan kaca yang tepat membuatnya tetap bening.",
+        "Sifat transparan kaca memungkinkan cahaya melewati, membuatnya ideal untuk jendela dan alat optik."
+      ],
+      "factCheckNote": "Semua informasi yang disampaikan sudah diverifikasi dan berdasarkan fakta ilmiah.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 13.63,
+          "narration": "Kaca, benda yang kita lihat setiap hari, ternyata memiliki proses pembuatan yang menarik.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "close-up of glass pieces, topic: Benda Sehari-hari, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "glass manufacturing",
+          "visualStyle": "documentary",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 12.86,
+          "narration": "Kebanyakan kaca terbuat dari silika, yang dipanaskan hingga suhu sangat tinggi sampai meleleh.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "diagram of silica melting, topic: Benda Sehari-hari, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "silica melting process",
+          "visualStyle": "conceptual diagram",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 3,
+          "durationSec": 12.86,
+          "narration": "Kejernihan kaca berasal dari proses pendinginan yang hati-hati, yang menjaga struktur molekulnya.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "cooling glass process, topic: Benda Sehari-hari, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "glass cooling process",
+          "visualStyle": "documentary",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 4,
+          "durationSec": 12.86,
+          "narration": "Bayangkan cahaya seperti aliran sungai. Ketika aliran ini bertemu kaca, sebagian besar bisa melewatinya. Hal ini membuat kaca transparan.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "light passing through glass, topic: Benda Sehari-hari, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "light passing glass",
+          "visualStyle": "conceptual diagram",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 5,
+          "durationSec": 12.86,
+          "narration": "Sifat transparan ini sangat krusial, karena memungkinkan kita melihat keluar dari rumah, atau menggunakan alat optik.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "windows and optical instruments, topic: Benda Sehari-hari, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "windows and optical",
+          "visualStyle": "documentary",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 6,
+          "durationSec": 12.86,
+          "narration": "Dari jendela hingga alat-alat canggih, kaca menjadi bagian penting dalam kehidupan sehari-hari.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "everyday objects with glass, topic: Benda Sehari-hari, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "everyday glass objects",
+          "visualStyle": "documentary",
+          "avatarPose": "thumbs_up"
+        },
+        {
+          "index": 7,
+          "durationSec": 13.11,
+          "narration": "Dengan memahami proses dan sifat kaca, kita bisa lebih menghargai benda yang tampak biasa ini. Apa lagi yang ingin kamu ketahui?",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "curious person looking at glass, topic: Benda Sehari-hari, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "curious person glass",
+          "visualStyle": "documentary",
+          "avatarPose": "thinking"
+        }
+      ]
+    },
+    "assets": {
+      "images": [
+        {
+          "sceneIndex": 1,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e712dfdfdff2-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_e712dfdfdff2-scene-1-fakta-yang-jarang-dibahas.jpg",
+          "prompt": "close-up of glass pieces, topic: Benda Sehari-hari, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e712dfdfdff2-scene-2-cara-kerjanya.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_e712dfdfdff2-scene-2-cara-kerjanya.jpg",
+          "prompt": "diagram of silica melting, topic: Benda Sehari-hari, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e712dfdfdff2-scene-3-contoh-sederhana.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_e712dfdfdff2-scene-3-contoh-sederhana.jpg",
+          "prompt": "cooling glass process, topic: Benda Sehari-hari, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e712dfdfdff2-scene-4-bagian-paling-penting.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_e712dfdfdff2-scene-4-bagian-paling-penting.jpg",
+          "prompt": "light passing through glass, topic: Benda Sehari-hari, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e712dfdfdff2-scene-5-kenapa-ini-menarik.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_e712dfdfdff2-scene-5-kenapa-ini-menarik.jpg",
+          "prompt": "windows and optical instruments, topic: Benda Sehari-hari, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e712dfdfdff2-scene-6-yang-sering-salah-dipahami.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_e712dfdfdff2-scene-6-yang-sering-salah-dipahami.jpg",
+          "prompt": "everyday objects with glass, topic: Benda Sehari-hari, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e712dfdfdff2-scene-7-fakta-utama.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_e712dfdfdff2-scene-7-fakta-utama.jpg",
+          "prompt": "curious person looking at glass, topic: Benda Sehari-hari, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e712dfdfdff2-scene-1-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e712dfdfdff2-scene-1-stock.mp4",
+          "prompt": "glass manufacturing",
+          "seconds": 16,
+          "targetDurationSec": 13.63,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e712dfdfdff2-scene-2-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e712dfdfdff2-scene-2-stock.mp4",
+          "prompt": "silica melting process",
+          "seconds": 14,
+          "targetDurationSec": 12.86,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e712dfdfdff2-scene-3-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e712dfdfdff2-scene-3-stock.mp4",
+          "prompt": "glass cooling process",
+          "seconds": 20,
+          "targetDurationSec": 12.86,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e712dfdfdff2-scene-4-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e712dfdfdff2-scene-4-stock.mp4",
+          "prompt": "light passing glass",
+          "seconds": 13,
+          "targetDurationSec": 12.86,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e712dfdfdff2-scene-5-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e712dfdfdff2-scene-5-stock.mp4",
+          "prompt": "windows and optical",
+          "seconds": 15,
+          "targetDurationSec": 12.86,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e712dfdfdff2-scene-6-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e712dfdfdff2-scene-6-stock.mp4",
+          "prompt": "everyday glass objects",
+          "seconds": 14,
+          "targetDurationSec": 12.86,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e712dfdfdff2-scene-7-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e712dfdfdff2-scene-7-stock.mp4",
+          "prompt": "curious person glass",
+          "seconds": 14,
+          "targetDurationSec": 13.11,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "onyx",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_e712dfdfdff2-openai-natural-narration.mp3",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/audio/tau_e712dfdfdff2-openai-natural-narration.mp3",
+        "characters": 763
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_e712dfdfdff2-openai-kenapa-kaca-diciptakan-transparan.mp4",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_e712dfdfdff2-openai-kenapa-kaca-diciptakan-transparan.mp4",
+        "provider": "openai",
+        "durationSec": 46.2,
+        "scenes": 7
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Kaca, benda yang kita lihat setiap hari, ternyata memiliki proses pembuatan yang menarik. Kebanyakan kaca terbuat dari silika, yang dipanaskan hingga suhu sangat tinggi sampai meleleh. Kejernihan kaca berasal dari proses pendinginan yang hati-hati, yang menjaga struktur molekulnya. Bayangkankan cahaya seperti aliran sungai. Ketika aliran ini bertemu kaca, sebagian besar bisa melewatinya. Hal ini membuat kaca transparan. Sifat transparan ini sangat krusial karena memungkinkan kita melihat keluar dari rumah atau menggunakan alat optik. Dari jendela hingga alat-alat canggih, kaca menjadi bagian penting dalam kehidupan sehari-hari. Dengan memahami proses dan sifat kaca, kita bisa lebih menghargai benda yang tampak biasa ini. Apa lagi yang ingin kamu ketahui?"
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_e712dfdfdff2-thumbnail-kenapa-kaca-diciptakan-transparan.jpg",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/thumbnails/tau_e712dfdfdff2-thumbnail-kenapa-kaca-diciptakan-transparan.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 2555,
+      "outputTokens": 1161,
+      "totalTokens": 3716,
+      "storyUsd": 0.00288,
+      "imageUnitUsd": 0.04,
+      "imageUsd": 0.28,
+      "ttsUsd": 0.01145,
+      "totalUsd": 0.29433
+    },
+    "progress": {
+      "percent": 30,
+      "stage": "remote_uploading",
+      "message": "Mengunggah video ke Remote Server (FTP/SFTP)..."
+    }
+  },
+  {
+    "id": "tau_acff7c5e3b20",
+    "source": "openai",
+    "status": "rendered",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-07-16T07:08:48.831Z",
+    "updatedAt": "2026-07-16T07:11:00.592Z",
+    "input": {
+      "topic": "Teknologi",
+      "category": "teknologi",
+      "hookStyle": "Tahukah kamu bahwa pencetakan 3D bisa mencetak hampir semua hal? Yuk, kita lihat prosesnya!",
+      "selectedIdea": {
+        "id": "idea_73912b9604f2",
+        "title": "Rahasia Teknologi 3D Printing",
+        "topic": "Teknologi",
+        "hook": "Tahukah kamu bahwa pencetakan 3D bisa mencetak hampir semua hal? Yuk, kita lihat prosesnya!",
+        "category": "teknologi",
+        "angle": "Menjelaskan bagaimana teknologi 3D printing bekerja dan aplikasinya dalam kehidupan sehari-hari.",
+        "whyGood": "Membuka wawasan tentang masa depan produksi dan inovasi yang mungkin tidak dikenal banyak orang."
+      },
+      "tone": "tech_explainer",
+      "longForm": false,
+      "durationSec": 120,
+      "sceneCount": 9,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1792",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 1.mp4",
+      "videoFormat": "horizontal",
+      "visualSource": "stock"
+    },
+    "title": "Rahasia Teknologi 3D Printing",
+    "plan": {
+      "title": "Rahasia Teknologi 3D Printing",
+      "hook": "Tahukah kamu bahwa pencetakan 3D bisa mencetak hampir semua hal? Yuk, kita lihat prosesnya!",
+      "summary": "Teknologi pencetakan 3D memungkinkan pembuatan objek dari desain digital, merevolusi cara kita memproduksi barang. Ini penting untuk inovasi dan efisiensi produksi.",
+      "importantPoints": [
+        "Pencetakan 3D menggunakan desain digital untuk membuat objek fisik.",
+        "Proses ini sering menggunakan material seperti plastik, logam, dan keramik.",
+        "Teknologi ini mempercepat produksi dan mengurangi limbah.",
+        "Inovasi ini membuka peluang baru dalam desain dan produksi barang."
+      ],
+      "factCheckNote": "Semua informasi yang disajikan telah diverifikasi dan akurat sesuai dengan perkembangan teknologi terkini.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 14.13,
+          "narration": "Pencetakan 3D telah merevolusi cara kita memproduksi barang. Dari prototipe hingga bagian mesin, teknologi ini bisa mencetak hampir semua hal.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "3D printing process close-up, topic: Teknologi, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "3D printing process",
+          "visualStyle": "close-up",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 2,
+          "durationSec": 13.33,
+          "narration": "Di balik teknologi ini, ada proses yang dikenal dengan additive manufacturing. Proses ini membuat objek layer demi layer berdasarkan desain digital.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "3D printer working, topic: Teknologi, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "3D printer",
+          "visualStyle": "diagram conceptual",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 3,
+          "durationSec": 13.33,
+          "narration": "Material yang digunakan bervariasi. Mulai dari plastik yang ringan, logam yang kuat, hingga keramik halus, semuanya memungkinkan pencetakan objek yang berbeda.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "various 3D printing materials, topic: Teknologi, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "3D printing materials",
+          "visualStyle": "close-up",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 4,
+          "durationSec": 13.33,
+          "narration": "Aplikasi teknologi ini sangat luas. Di dunia medis, misalnya, 3D printing digunakan untuk membuat prostetik yang sesuai dengan bentuk tubuh pasien.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "3D printed medical prosthetic, topic: Teknologi, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "3D printed prosthetic",
+          "visualStyle": "human observing",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 5,
+          "durationSec": 13.33,
+          "narration": "Di sektor otomotif, perusahaan menggunakan 3D printing untuk membuat bagian mobil dengan lebih cepat dan efisien, mengurangi waktu produksi secara signifikan.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "3D printed car parts, topic: Teknologi, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "3D printed car",
+          "visualStyle": "human learning",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 6,
+          "durationSec": 13.33,
+          "narration": "Teknologi ini tidak hanya mempercepat produksi, tetapi juga mengurangi limbah, karena hanya material yang dibutuhkan yang digunakan dalam proses.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "eco-friendly 3D printing, topic: Teknologi, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "eco-friendly 3D printing",
+          "visualStyle": "conceptual diagram",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 7,
+          "durationSec": 13.33,
+          "narration": "Dengan kemajuan terus menerus, 3D printing membuka pintu untuk inovasi baru dalam desain dan produksi barang. Masa depan manufaktur terlihat lebih cerah.",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "future of manufacturing, topic: Teknologi, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "future of manufacturing",
+          "visualStyle": "macro",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 8,
+          "durationSec": 13.33,
+          "narration": "Seiring teknologi ini berkembang, kita akan melihat lebih banyak kemungkinan baru yang mungkin selama ini tidak terpikirkan. Apa lagi yang bisa kita cetak?",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "3D printing possibilities, topic: Teknologi, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "3D printing future",
+          "visualStyle": "archive history",
+          "avatarPose": "thumbs_up"
+        },
+        {
+          "index": 9,
+          "durationSec": 13.6,
+          "narration": "Bagian pentingnya adalah proses ini tidak berdiri sendiri. Ada banyak faktor kecil yang saling membantu sampai hasilnya terlihat alami.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Cara Kerjanya, educational visual about Teknologi, bright editorial illustration, topic: Teknologi, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "",
+          "visualStyle": "slow push-in, clean editorial title layer",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_acff7c5e3b20-scene-1-stock.mp4",
+          "url": "/generated/clips/tau_acff7c5e3b20-scene-1-stock.mp4",
+          "prompt": "3D printing process",
+          "seconds": 15,
+          "targetDurationSec": 14.13,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_acff7c5e3b20-scene-2-stock.mp4",
+          "url": "/generated/clips/tau_acff7c5e3b20-scene-2-stock.mp4",
+          "prompt": "3D printer",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_acff7c5e3b20-scene-3-stock.mp4",
+          "url": "/generated/clips/tau_acff7c5e3b20-scene-3-stock.mp4",
+          "prompt": "3D printing materials",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_acff7c5e3b20-scene-4-stock.mp4",
+          "url": "/generated/clips/tau_acff7c5e3b20-scene-4-stock.mp4",
+          "prompt": "3D printed prosthetic",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_acff7c5e3b20-scene-5-stock.mp4",
+          "url": "/generated/clips/tau_acff7c5e3b20-scene-5-stock.mp4",
+          "prompt": "3D printed car",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_acff7c5e3b20-scene-6-stock.mp4",
+          "url": "/generated/clips/tau_acff7c5e3b20-scene-6-stock.mp4",
+          "prompt": "eco-friendly 3D printing",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_acff7c5e3b20-scene-7-stock.mp4",
+          "url": "/generated/clips/tau_acff7c5e3b20-scene-7-stock.mp4",
+          "prompt": "future of manufacturing",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_acff7c5e3b20-scene-8-stock.mp4",
+          "url": "/generated/clips/tau_acff7c5e3b20-scene-8-stock.mp4",
+          "prompt": "3D printing future",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_acff7c5e3b20-scene-9-stock.mp4",
+          "url": "/generated/clips/tau_acff7c5e3b20-scene-9-stock.mp4",
+          "prompt": "Natural process footage",
+          "seconds": 33,
+          "targetDurationSec": 13.6,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "onyx",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_acff7c5e3b20-openai-natural-narration.mp3",
+        "url": "/generated/audio/tau_acff7c5e3b20-openai-natural-narration.mp3",
+        "characters": 1350
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_acff7c5e3b20-openai-rahasia-teknologi-3d-printing.mp4",
+        "url": "/generated/videos/tau_acff7c5e3b20-openai-rahasia-teknologi-3d-printing.mp4",
+        "provider": "openai",
+        "durationSec": 78.96,
+        "scenes": 9
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Pencetakan 3D telah merevolusi cara kita memproduksi barang. Dari prototipe hingga bagian mesin, teknologi ini bisa mencetak hampir semua hal. Di balik teknologi ini, ada proses yang dikenal dengan Additive Manufacturing. Proses ini membuat objek layer demi layer berdasarkan desain digital. Material yang digunakan bervariasi. Mulai dari plastik yang ringan, logam yang kuat, hingga keramik halus, semuanya memungkinkan pencetakan objek yang berbeda. Aplikasi teknologi ini sangat luas. Di dunia medis, misalnya, 3D printing digunakan untuk membuat prostetik yang sesuai dengan bentuk tubuh pasien. Di sektor otomotif, perusahaan menggunakan 3D printing untuk membuat bagian mobil dengan lebih cepat dan efisien, mengurangi waktu produksi secara signifikan. Teknologi ini tidak hanya mempercepat produksi, tetapi juga mengurangi limbah, karena hanya material yang dibutuhkan yang digunakan dalam proses. Dengan kemajuan terus menerus, 3D printing membuka pintu untuk inovasi baru dalam desain dan produksi barang. Masa depan manufaktur terlihat lebih cerah. Seiring teknologi ini berkembang, kita akan melihat lebih banyak kemungkinan baru yang mungkin selama ini tidak terpikirkan. Apalagi yang bisa kita cetak. Bagian pentingnya adalah proses ini tidak berdiri sendiri. Ada banyak faktor kecil yang saling membantu sampai hasilnya terlihat alami."
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_acff7c5e3b20-thumbnail-rahasia-teknologi-3d-printing.jpg",
+        "url": "/generated/thumbnails/tau_acff7c5e3b20-thumbnail-rahasia-teknologi-3d-printing.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 2577,
+      "outputTokens": 1538,
+      "totalTokens": 4115,
+      "storyUsd": 0.00349,
+      "imageUnitUsd": 0.04,
+      "imageUsd": 0.36,
+      "ttsUsd": 0.02025,
+      "totalUsd": 0.38374,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 100,
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
+    }
   }
 ]
