@@ -10253,7 +10253,7 @@
   {
     "id": "tau_acff7c5e3b20",
     "source": "openai",
-    "status": "rendered",
+    "status": "uploading",
     "project_id": "capybara_banyak_tau_id",
     "language": "id-ID",
     "market": "ID",
@@ -10400,7 +10400,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_acff7c5e3b20-scene-1-stock.mp4",
-          "url": "/generated/clips/tau_acff7c5e3b20-scene-1-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_acff7c5e3b20-scene-1-stock.mp4",
           "prompt": "3D printing process",
           "seconds": 15,
           "targetDurationSec": 14.13,
@@ -10412,7 +10412,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_acff7c5e3b20-scene-2-stock.mp4",
-          "url": "/generated/clips/tau_acff7c5e3b20-scene-2-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_acff7c5e3b20-scene-2-stock.mp4",
           "prompt": "3D printer",
           "seconds": 14,
           "targetDurationSec": 13.33,
@@ -10424,7 +10424,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_acff7c5e3b20-scene-3-stock.mp4",
-          "url": "/generated/clips/tau_acff7c5e3b20-scene-3-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_acff7c5e3b20-scene-3-stock.mp4",
           "prompt": "3D printing materials",
           "seconds": 15,
           "targetDurationSec": 13.33,
@@ -10436,7 +10436,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_acff7c5e3b20-scene-4-stock.mp4",
-          "url": "/generated/clips/tau_acff7c5e3b20-scene-4-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_acff7c5e3b20-scene-4-stock.mp4",
           "prompt": "3D printed prosthetic",
           "seconds": 14,
           "targetDurationSec": 13.33,
@@ -10448,7 +10448,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_acff7c5e3b20-scene-5-stock.mp4",
-          "url": "/generated/clips/tau_acff7c5e3b20-scene-5-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_acff7c5e3b20-scene-5-stock.mp4",
           "prompt": "3D printed car",
           "seconds": 14,
           "targetDurationSec": 13.33,
@@ -10460,7 +10460,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_acff7c5e3b20-scene-6-stock.mp4",
-          "url": "/generated/clips/tau_acff7c5e3b20-scene-6-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_acff7c5e3b20-scene-6-stock.mp4",
           "prompt": "eco-friendly 3D printing",
           "seconds": 14,
           "targetDurationSec": 13.33,
@@ -10472,7 +10472,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_acff7c5e3b20-scene-7-stock.mp4",
-          "url": "/generated/clips/tau_acff7c5e3b20-scene-7-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_acff7c5e3b20-scene-7-stock.mp4",
           "prompt": "future of manufacturing",
           "seconds": 15,
           "targetDurationSec": 13.33,
@@ -10484,7 +10484,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_acff7c5e3b20-scene-8-stock.mp4",
-          "url": "/generated/clips/tau_acff7c5e3b20-scene-8-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_acff7c5e3b20-scene-8-stock.mp4",
           "prompt": "3D printing future",
           "seconds": 15,
           "targetDurationSec": 13.33,
@@ -10496,7 +10496,7 @@
           "provider": "pexels",
           "model": "stock-footage",
           "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_acff7c5e3b20-scene-9-stock.mp4",
-          "url": "/generated/clips/tau_acff7c5e3b20-scene-9-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_acff7c5e3b20-scene-9-stock.mp4",
           "prompt": "Natural process footage",
           "seconds": 33,
           "targetDurationSec": 13.6,
@@ -10509,12 +10509,12 @@
         "model": "tts-1",
         "voice": "onyx",
         "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_acff7c5e3b20-openai-natural-narration.mp3",
-        "url": "/generated/audio/tau_acff7c5e3b20-openai-natural-narration.mp3",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/audio/tau_acff7c5e3b20-openai-natural-narration.mp3",
         "characters": 1350
       },
       "video": {
         "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_acff7c5e3b20-openai-rahasia-teknologi-3d-printing.mp4",
-        "url": "/generated/videos/tau_acff7c5e3b20-openai-rahasia-teknologi-3d-printing.mp4",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_acff7c5e3b20-openai-rahasia-teknologi-3d-printing.mp4",
         "provider": "openai",
         "durationSec": 78.96,
         "scenes": 9
@@ -10528,7 +10528,7 @@
       ],
       "thumbnail": {
         "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_acff7c5e3b20-thumbnail-rahasia-teknologi-3d-printing.jpg",
-        "url": "/generated/thumbnails/tau_acff7c5e3b20-thumbnail-rahasia-teknologi-3d-printing.jpg",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/thumbnails/tau_acff7c5e3b20-thumbnail-rahasia-teknologi-3d-printing.jpg",
         "provider": "ffmpeg-collage"
       }
     },
@@ -10544,9 +10544,9 @@
       "videoUsd": 0
     },
     "progress": {
-      "percent": 100,
-      "stage": "completed",
-      "message": "Video final selesai dibuat!"
+      "percent": 30,
+      "stage": "remote_uploading",
+      "message": "Mengunggah video ke Remote Server (FTP/SFTP)..."
     }
   }
 ]
