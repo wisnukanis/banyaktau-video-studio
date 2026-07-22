@@ -10558,5 +10558,1170 @@
         "publishedAt": "2026-07-20T12:43:05.106Z"
       }
     }
+  },
+  {
+    "id": "tau_6c42daf981b1",
+    "source": "offline",
+    "status": "draft",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-07-20T12:47:55.260Z",
+    "updatedAt": "2026-07-20T12:48:59.160Z",
+    "input": {
+      "topic": "kapal besar bisa mengambang meski terbuat dari besi",
+      "category": "sains",
+      "hookStyle": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?",
+      "selectedIdea": {
+        "id": "idea_41cbf20d36b2",
+        "title": "Kenapa Kapal Besi Tidak Tenggelam",
+        "topic": "kapal besar bisa mengambang meski terbuat dari besi",
+        "hook": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?",
+        "category": "sains",
+        "angle": "Mulai dari benda berat yang terlihat mustahil mengambang, lalu masuk ke prinsip daya apung.",
+        "whyGood": "Dekat dengan pengalaman sehari-hari dan visualnya jelas. Catatan: You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs:"
+      },
+      "tone": "science_documentary",
+      "longForm": false,
+      "durationSec": 120,
+      "sceneCount": 9,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1792",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 1.mp4",
+      "videoFormat": "horizontal",
+      "visualSource": "stock"
+    },
+    "title": "Kenapa Kapal Besi Tidak Tenggelam",
+    "plan": {
+      "title": "Kenapa Kapal Besi Tidak Tenggelam",
+      "hook": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?: kapal besar bisa mengambang meski terbuat dari besi",
+      "summary": "Intinya, kapal besar bisa mengambang meski terbuat dari besi menarik karena hal yang tampak sederhana biasanya terjadi dari beberapa faktor yang bekerja bersama. Saat bentuk, gaya, energi, dan waktu saling memengaruhi, hasil akhirnya bisa berbeda dari dugaan kita.",
+      "importantPoints": [
+        "Ubah konsep rumit menjadi analogi sederhana."
+      ],
+      "factCheckNote": "Fallback offline karena: You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors..",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 14.13,
+          "narration": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?: kapal besar bisa mengambang meski terbuat dari besi. Kelihatannya sederhana, tapi di balik hal ini ada prinsip yang membuat dunia bekerja dengan cara yang rapi.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Fakta yang Jarang Dibahas, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "",
+          "visualStyle": "slow push-in, clean editorial title layer",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 13.33,
+          "narration": "Intinya, kapal besar bisa mengambang meski terbuat dari besi bisa dipahami kalau kita melihat hubungan antara bentuk, gaya, energi, dan waktu.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Cara Kerjanya, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "",
+          "visualStyle": "gentle pan, object callout feeling",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 3,
+          "durationSec": 13.33,
+          "narration": "Bayangkan sebuah benda sehari-hari. Saat satu bagian berubah sedikit saja, hasil akhirnya bisa berbeda jauh dari yang kita kira.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "Contoh Sederhana, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "",
+          "visualStyle": "soft zoom-out, documentary mood",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 4,
+          "durationSec": 13.33,
+          "narration": "Bagian pentingnya adalah proses ini tidak berdiri sendiri. Ada banyak faktor kecil yang saling membantu sampai hasilnya terlihat alami.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "Bagian Paling Penting, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "",
+          "visualStyle": "light parallax, modern knowledge-card layout",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 5,
+          "durationSec": 13.33,
+          "narration": "Jadi, hal yang sering kita anggap biasa sebenarnya menyimpan penjelasan yang cukup dalam, dan itu yang membuatnya menarik untuk dipelajari.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "Kenapa Ini Menarik, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "",
+          "visualStyle": "slow push-in, clean editorial title layer",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 6,
+          "durationSec": 13.33,
+          "narration": "Kapal sebesar gedung bisa mengapung, padahal bahannya besi. Kok bisa?: kapal besar bisa mengambang meski terbuat dari besi. Kelihatannya sederhana, tapi di balik hal ini ada prinsip yang membuat dunia bekerja dengan cara yang rapi.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "Yang Sering Salah Dipahami, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "",
+          "visualStyle": "gentle pan, object callout feeling",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 7,
+          "durationSec": 13.33,
+          "narration": "Intinya, kapal besar bisa mengambang meski terbuat dari besi bisa dipahami kalau kita melihat hubungan antara bentuk, gaya, energi, dan waktu.",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "Fakta Utama, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "",
+          "visualStyle": "soft zoom-out, documentary mood",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 8,
+          "durationSec": 13.33,
+          "narration": "Bayangkan sebuah benda sehari-hari. Saat satu bagian berubah sedikit saja, hasil akhirnya bisa berbeda jauh dari yang kita kira.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "Fakta yang Jarang Dibahas, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "",
+          "visualStyle": "light parallax, modern knowledge-card layout",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 9,
+          "durationSec": 13.6,
+          "narration": "Bagian pentingnya adalah proses ini tidak berdiri sendiri. Ada banyak faktor kecil yang saling membantu sampai hasilnya terlihat alami.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Cara Kerjanya, educational visual about kapal besar bisa mengambang meski terbuat dari besi, bright editorial illustration, topic: kapal besar bisa mengambang meski terbuat dari besi, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "",
+          "visualStyle": "slow push-in, clean editorial title layer",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6c42daf981b1-scene-1-stock.mp4",
+          "url": "/generated/clips/tau_6c42daf981b1-scene-1-stock.mp4",
+          "prompt": "kapal sebesar",
+          "seconds": 15,
+          "targetDurationSec": 14.13,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6c42daf981b1-scene-2-stock.mp4",
+          "url": "/generated/clips/tau_6c42daf981b1-scene-2-stock.mp4",
+          "prompt": "energy",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6c42daf981b1-scene-3-stock.mp4",
+          "url": "/generated/clips/tau_6c42daf981b1-scene-3-stock.mp4",
+          "prompt": "object museum",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6c42daf981b1-scene-4-stock.mp4",
+          "url": "/generated/clips/tau_6c42daf981b1-scene-4-stock.mp4",
+          "prompt": "paling penting",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6c42daf981b1-scene-5-stock.mp4",
+          "url": "/generated/clips/tau_6c42daf981b1-scene-5-stock.mp4",
+          "prompt": "menarik sering",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6c42daf981b1-scene-6-stock.mp4",
+          "url": "/generated/clips/tau_6c42daf981b1-scene-6-stock.mp4",
+          "prompt": "sering salah",
+          "seconds": 16,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6c42daf981b1-scene-7-stock.mp4",
+          "url": "/generated/clips/tau_6c42daf981b1-scene-7-stock.mp4",
+          "prompt": "energy",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6c42daf981b1-scene-8-stock.mp4",
+          "url": "/generated/clips/tau_6c42daf981b1-scene-8-stock.mp4",
+          "prompt": "object",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_6c42daf981b1-scene-9-stock.mp4",
+          "url": "/generated/clips/tau_6c42daf981b1-scene-9-stock.mp4",
+          "prompt": "cara kerjanya",
+          "seconds": 16,
+          "targetDurationSec": 13.6,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        }
+      ],
+      "audio": null,
+      "video": null
+    },
+    "cost": {
+      "inputTokens": 2649,
+      "outputTokens": 1883,
+      "totalTokens": 4532,
+      "storyUsd": 0.00407,
+      "imageUnitUsd": 0.04,
+      "imageUsd": 0.36,
+      "ttsUsd": 0.02128,
+      "totalUsd": 0.38535
+    }
+  },
+  {
+    "id": "tau_a065a4bb5fe6",
+    "source": "openai",
+    "status": "rendered",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-07-20T16:14:09.192Z",
+    "updatedAt": "2026-07-20T16:16:46.255Z",
+    "input": {
+      "topic": "Sains",
+      "category": "Sains",
+      "hookStyle": "Pernahkah kamu melihat awan dan bertanya-tanya bagaimana bisa terbentuk? Yuk, kita telusuri prosesnya!",
+      "selectedIdea": {
+        "id": "idea_0d60040df90d",
+        "title": "Bagaimana Awan Terbentuk di Langit",
+        "topic": "Sains",
+        "hook": "Pernahkah kamu melihat awan dan bertanya-tanya bagaimana bisa terbentuk? Yuk, kita telusuri prosesnya!",
+        "category": "Sains",
+        "angle": "Menjelaskan proses pembentukan awan dengan visualisasi yang menarik.",
+        "whyGood": "Membuat penonton penasaran tentang fenomena alam yang sering mereka lihat."
+      },
+      "tone": "science_documentary",
+      "longForm": false,
+      "durationSec": 120,
+      "sceneCount": 9,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1792",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 1.mp4",
+      "videoFormat": "horizontal",
+      "visualSource": "stock"
+    },
+    "title": "Proses Menakjubkan Pembentukan Awan",
+    "plan": {
+      "title": "Proses Menakjubkan Pembentukan Awan",
+      "hook": "Pernahkah kamu melihat awan dan bertanya-tanya bagaimana bisa terbentuk? Yuk, kita telusuri prosesnya!",
+      "summary": "Awan terbentuk melalui proses penguapan dan kondensasi, menghasilkan fenomena yang indah dan penting bagi ekosistem kita. Memahami ini membantu kita menghargai alam.",
+      "importantPoints": [
+        "Awan terbentuk saat uap air di atmosfer mendingin dan mengembun.",
+        "Kondensasi terjadi pada partikel kecil yang disebut nukleus kondensasi.",
+        "Awan memiliki berbagai bentuk dan jenis, tergantung pada suhu dan kelembapan udara.",
+        "Proses ini berperan penting dalam siklus air dan iklim global.",
+        "Memahami awan dapat membantu kita memprediksi cuaca."
+      ],
+      "factCheckNote": "Semua informasi yang disajikan berdasarkan ilmu meteorologi yang teruji.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 14.13,
+          "narration": "Langit sering kali dihiasi awan yang beraneka ragam. Namun, bagaimana sebenarnya awan terbentuk di langit kita?",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "clouds in the sky, topic: Sains, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "cloud formation",
+          "visualStyle": "nature",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 13.33,
+          "narration": "Proses awalnya dimulai ketika air di lautan, sungai, dan danau menguap menjadi uap air. Uap ini kemudian naik ke atmosfer.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "water vapor rising, topic: Sains, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "water vapor",
+          "visualStyle": "nature",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 3,
+          "durationSec": 13.33,
+          "narration": "Ketika uap air mencapai ketinggian tertentu, suhu udara mulai menurun. Pada titik ini, uap akan mulai mendingin dan mengembun.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "cooling water vapor, topic: Sains, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "cooling vapor",
+          "visualStyle": "science",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 4,
+          "durationSec": 13.33,
+          "narration": "Proses ini disebut kondensasi, di mana uap air berkumpul di sekitar partikel kecil, membentuk tetesan air. Partikel ini dikenal sebagai nukleus kondensasi.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "condensation process, topic: Sains, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "condensation",
+          "visualStyle": "science",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 5,
+          "durationSec": 13.33,
+          "narration": "Seiring waktu, tetesan air ini akan berkumpul dan membentuk awan. Bentuk dan jenis awan sangat bervariasi, tergantung pada suhu dan kelembapan.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "different types of clouds, topic: Sains, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "types of clouds",
+          "visualStyle": "nature",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 6,
+          "durationSec": 13.33,
+          "narration": "Awan bukan hanya indah, tetapi juga sangat penting. Mereka berfungsi sebagai bagian dari siklus air, yang mendukung kehidupan di Bumi.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "water cycle, topic: Sains, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "water cycle",
+          "visualStyle": "nature",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 7,
+          "durationSec": 13.33,
+          "narration": "Kita dapat melihat banyak jenis awan, dari awan cumulus yang lembut hingga awan cumulonimbus yang menakutkan. Setiap bentuk mencerminkan kondisi atmosfer yang berbeda.",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "cumulus and cumulonimbus clouds, topic: Sains, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "cumulus clouds",
+          "visualStyle": "nature",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 8,
+          "durationSec": 13.33,
+          "narration": "Memahami proses pembentukan awan bisa membantu kita memprediksi cuaca dan menghargai keindahan alam. Awan adalah bagian penting dari ekosistem kita.",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "cloudy sky, topic: Sains, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "cloudy sky",
+          "visualStyle": "nature",
+          "avatarPose": "thumbs_up"
+        },
+        {
+          "index": 9,
+          "durationSec": 13.6,
+          "narration": "Jadi, lain kali kamu melihat awan, ingatlah, mereka adalah hasil dari proses fisik yang menakjubkan dan sangat vital bagi kehidupan di Bumi.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "beautiful clouds, topic: Sains, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "beautiful clouds",
+          "visualStyle": "nature",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_a065a4bb5fe6-scene-1-stock.mp4",
+          "url": "/generated/clips/tau_a065a4bb5fe6-scene-1-stock.mp4",
+          "prompt": "cloud formation",
+          "seconds": 15,
+          "targetDurationSec": 14.13,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_a065a4bb5fe6-scene-2-stock.mp4",
+          "url": "/generated/clips/tau_a065a4bb5fe6-scene-2-stock.mp4",
+          "prompt": "water vapor",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_a065a4bb5fe6-scene-3-stock.mp4",
+          "url": "/generated/clips/tau_a065a4bb5fe6-scene-3-stock.mp4",
+          "prompt": "cooling vapor",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_a065a4bb5fe6-scene-4-stock.mp4",
+          "url": "/generated/clips/tau_a065a4bb5fe6-scene-4-stock.mp4",
+          "prompt": "condensation",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_a065a4bb5fe6-scene-5-stock.mp4",
+          "url": "/generated/clips/tau_a065a4bb5fe6-scene-5-stock.mp4",
+          "prompt": "types of clouds",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_a065a4bb5fe6-scene-6-stock.mp4",
+          "url": "/generated/clips/tau_a065a4bb5fe6-scene-6-stock.mp4",
+          "prompt": "water cycle",
+          "seconds": 16,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_a065a4bb5fe6-scene-7-stock.mp4",
+          "url": "/generated/clips/tau_a065a4bb5fe6-scene-7-stock.mp4",
+          "prompt": "cumulus clouds",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_a065a4bb5fe6-scene-8-stock.mp4",
+          "url": "/generated/clips/tau_a065a4bb5fe6-scene-8-stock.mp4",
+          "prompt": "cloudy sky",
+          "seconds": 21,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_a065a4bb5fe6-scene-9-stock.mp4",
+          "url": "/generated/clips/tau_a065a4bb5fe6-scene-9-stock.mp4",
+          "prompt": "beautiful clouds",
+          "seconds": 14,
+          "targetDurationSec": 13.6,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "onyx",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_a065a4bb5fe6-openai-natural-narration.mp3",
+        "url": "/generated/audio/tau_a065a4bb5fe6-openai-natural-narration.mp3",
+        "characters": 1254
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_a065a4bb5fe6-openai-proses-menakjubkan-pembentukan-awan.mp4",
+        "url": "/generated/videos/tau_a065a4bb5fe6-openai-proses-menakjubkan-pembentukan-awan.mp4",
+        "provider": "openai",
+        "durationSec": 72.77,
+        "scenes": 9
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Langit seringkali dihiasi awan yang beraneka ragam. Namun bagaimana sebenarnya awan terbentuk di langit kita? Proses awalnya dimulai ketika air di lautan, sungai, dan danau menguap menjadi uap air. Uap ini kemudian naik ke atmosfer. Ketika uap air mencapai ketinggian tertentu, suhu udara mulai menurun. Pada titik ini, uap akan mulai mendingin dan mengembun. Proses ini disebut kondensasi, di mana uap air berkumpul di sekitar partikel kecil membentuk tetesan air. Partikel ini dikenal sebagai nukleus kondensasi. Seiring waktu, tetesan air ini akan berkumpul dan membentuk awan. Bentuk dan jenis awan sangat bervariasi tergantung pada suhu dan kelembapan. Awan bukan hanya indah, tetapi juga sangat penting. Mereka berfungsi sebagai bagian dari siklus air yang mendukung kehidupan di bumi. Kita dapat melihat banyak jenis awan, dari awan cumulus yang lembut hingga awan cumulonimbus yang menakutkan. Setiap bentuk mencerminkan kondisi atmosfer yang berbeda. Memahami proses pembentukan awan bisa membantu kita memprediksi cuaca dan menghargai keindahan alam. Awan adalah bagian penting dari ekosistem kita. Jadi, lain kali kamu melihat awan, ingatlah, mereka adalah hasil dari proses fisik yang menakjubkan dan sangat vital bagi kehidupan di bumi."
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_a065a4bb5fe6-thumbnail-proses-menakjubkan-pembentukan-awan.jpg",
+        "url": "/generated/thumbnails/tau_a065a4bb5fe6-thumbnail-proses-menakjubkan-pembentukan-awan.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 2596,
+      "outputTokens": 1461,
+      "totalTokens": 4057,
+      "storyUsd": 0.00338,
+      "imageUnitUsd": 0.04,
+      "imageUsd": 0.36,
+      "ttsUsd": 0.01881,
+      "totalUsd": 0.38219,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 100,
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
+    }
+  },
+  {
+    "id": "tau_8bec02d08db9",
+    "source": "openai",
+    "status": "rendered",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-07-22T10:15:55.032Z",
+    "updatedAt": "2026-07-22T10:17:58.913Z",
+    "input": {
+      "topic": "Hewan",
+      "category": "sains",
+      "hookStyle": "Ular bergerak tanpa kaki, tapi bagaimana cara mereka melakukannya?",
+      "selectedIdea": {
+        "id": "idea_48674fb7b0a4",
+        "title": "Mengapa Ular Bisa Berjalan Tanpa Kaki",
+        "topic": "Hewan",
+        "hook": "Ular bergerak tanpa kaki, tapi bagaimana cara mereka melakukannya?",
+        "category": "sains",
+        "angle": "Menggali cara unik ular beradaptasi dan bergerak.",
+        "whyGood": "Memberikan wawasan menarik tentang adaptasi hewan yang tidak biasa."
+      },
+      "tone": "science_documentary",
+      "longForm": false,
+      "durationSec": 120,
+      "sceneCount": 9,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1792",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 2.mp4",
+      "videoFormat": "horizontal",
+      "visualSource": "stock"
+    },
+    "title": "Mengapa Ular Bisa Berjalan Tanpa Kaki",
+    "plan": {
+      "title": "Mengapa Ular Bisa Berjalan Tanpa Kaki",
+      "hook": "Ular bergerak tanpa kaki, tapi bagaimana cara mereka melakukannya?",
+      "summary": "Ular menggunakan otot dan sisiknya untuk bergerak, beradaptasi dengan lingkungan. Adaptasi ini memungkinkan mereka menjelajah dan berburu dengan efektif.",
+      "importantPoints": [
+        "Ular bergerak menggunakan kontraksi otot dan sisik.",
+        "Gerakan ular bisa berupa gelombang, lurus, atau zigzag.",
+        "Sisik mereka memberikan traksi pada berbagai permukaan.",
+        "Ular mampu menyesuaikan diri dengan lingkungan untuk berburu.",
+        "Kemampuan bergerak tanpa kaki adalah contoh adaptasi hewan yang unik."
+      ],
+      "factCheckNote": "Informasi ini didasarkan pada pemahaman umum tentang fisiologi ular dan adaptasi hewan.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 14.13,
+          "narration": "Ular bergerak tanpa kaki, tapi bagaimana cara mereka melakukannya?",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "close-up of snake moving, topic: Hewan, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "snake moving",
+          "visualStyle": "nature documentary",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 13.33,
+          "narration": "Ular menggunakan kontraksi otot yang kuat dan struktur sisik untuk bergerak. Tanpa kaki, mereka mengandalkan teknik gerakan khusus.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "diagram of snake muscle movement, topic: Hewan, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "snake muscle movement",
+          "visualStyle": "educational diagram",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 3,
+          "durationSec": 13.33,
+          "narration": "Gerakan ini dapat berupa gelombang, lurus, atau zigzag, tergantung pada kebutuhan dan lingkungan mereka.",
+          "screenText": "Contoh Sederhana",
+          "imagePrompt": "snake slithering in different directions, topic: Hewan, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "snake slithering",
+          "visualStyle": "nature action",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 4,
+          "durationSec": 13.33,
+          "narration": "Sisik mereka memberi traksi pada berbagai permukaan, sehingga ular dapat menjelajah tanah, pohon, bahkan air.",
+          "screenText": "Bagian Paling Penting",
+          "imagePrompt": "close-up of snake scales, topic: Hewan, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "snake scales close-up",
+          "visualStyle": "macro nature",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 5,
+          "durationSec": 13.33,
+          "narration": "Kemampuan ini sangat penting untuk berburu dan menghindari predator. Ular bisa bergerak cepat dan efisien.",
+          "screenText": "Kenapa Ini Menarik",
+          "imagePrompt": "snake hunting, topic: Hewan, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "snake hunting",
+          "visualStyle": "nature action",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 6,
+          "durationSec": 13.33,
+          "narration": "Adaptasi ini mencerminkan kemampuan ular untuk menyesuaikan diri dengan lingkungan mereka, menjadikan mereka predator yang efisien.",
+          "screenText": "Yang Sering Salah Dipahami",
+          "imagePrompt": "snake in its environment, topic: Hewan, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "snake in environment",
+          "visualStyle": "nature documentary",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 7,
+          "durationSec": 13.33,
+          "narration": "Dengan tanpa kaki, ular menunjukkan bagaimana evolusi bisa menciptakan berbagai metode bertahan hidup.",
+          "screenText": "Fakta Utama",
+          "imagePrompt": "evolution of animals, topic: Hewan, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "animal evolution",
+          "visualStyle": "educational infographic",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 8,
+          "durationSec": 13.33,
+          "narration": "Ular bergerak tanpa kaki, tapi bagaimana cara mereka melakukannya?",
+          "screenText": "Fakta yang Jarang Dibahas",
+          "imagePrompt": "snake moving in different terrains, topic: Hewan, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "snake moving terrains",
+          "visualStyle": "nature action",
+          "avatarPose": "thumbs_up"
+        },
+        {
+          "index": 9,
+          "durationSec": 13.6,
+          "narration": "Bagian pentingnya adalah proses ini tidak berdiri sendiri. Ada banyak faktor kecil yang saling membantu sampai hasilnya terlihat alami.",
+          "screenText": "Cara Kerjanya",
+          "imagePrompt": "Cara Kerjanya, educational visual about Hewan, bright editorial illustration, topic: Hewan, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "",
+          "visualStyle": "slow push-in, clean editorial title layer",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_8bec02d08db9-scene-1-stock.mp4",
+          "url": "/generated/clips/tau_8bec02d08db9-scene-1-stock.mp4",
+          "prompt": "snake moving",
+          "seconds": 15,
+          "targetDurationSec": 14.13,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_8bec02d08db9-scene-2-stock.mp4",
+          "url": "/generated/clips/tau_8bec02d08db9-scene-2-stock.mp4",
+          "prompt": "snake muscle movement",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_8bec02d08db9-scene-3-stock.mp4",
+          "url": "/generated/clips/tau_8bec02d08db9-scene-3-stock.mp4",
+          "prompt": "snake slithering",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_8bec02d08db9-scene-4-stock.mp4",
+          "url": "/generated/clips/tau_8bec02d08db9-scene-4-stock.mp4",
+          "prompt": "snake scales close-up",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_8bec02d08db9-scene-5-stock.mp4",
+          "url": "/generated/clips/tau_8bec02d08db9-scene-5-stock.mp4",
+          "prompt": "snake hunting",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_8bec02d08db9-scene-6-stock.mp4",
+          "url": "/generated/clips/tau_8bec02d08db9-scene-6-stock.mp4",
+          "prompt": "snake in environment",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_8bec02d08db9-scene-7-stock.mp4",
+          "url": "/generated/clips/tau_8bec02d08db9-scene-7-stock.mp4",
+          "prompt": "animal evolution",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_8bec02d08db9-scene-8-stock.mp4",
+          "url": "/generated/clips/tau_8bec02d08db9-scene-8-stock.mp4",
+          "prompt": "snake moving terrains",
+          "seconds": 16,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_8bec02d08db9-scene-9-stock.mp4",
+          "url": "/generated/clips/tau_8bec02d08db9-scene-9-stock.mp4",
+          "prompt": "Natural process footage",
+          "seconds": 16,
+          "targetDurationSec": 13.6,
+          "aspectRatio": "16:9",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "onyx",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_8bec02d08db9-openai-natural-narration.mp3",
+        "url": "/generated/audio/tau_8bec02d08db9-openai-natural-narration.mp3",
+        "characters": 958
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_8bec02d08db9-openai-mengapa-ular-bisa-berjalan-tanpa-kaki.mp4",
+        "url": "/generated/videos/tau_8bec02d08db9-openai-mengapa-ular-bisa-berjalan-tanpa-kaki.mp4",
+        "provider": "openai",
+        "durationSec": 64.68,
+        "scenes": 9
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Ular bergerak tanpa kaki, tapi bagaimana cara mereka melakukannya? Ular menggunakan kontraksi otot yang kuat dan struktur sisik untuk bergerak. Tanpa kaki, mereka mengandalkan teknik gerakan khusus. Gerakan ini dapat berupa gelombang, lurus, atau zigzag, tergantung pada kebutuhan dan lingkungan mereka. Sisik mereka memberi traksi pada berbagai permukaan, sehingga ular dapat menjelajah tanah, pohon, bahkan air. Kemampuan ini sangat penting untuk berburu dan menghindari predator. Ular bisa bergerak cepat dan efisien. Adaptasi ini mencerminkan kemampuan ular untuk menyesuaikan diri dengan lingkungan mereka, menjadikan mereka predator yang efisien. Dengan tanpa kaki, ular menunjukkan bagaimana evolusi bisa menciptakan berbagai metode bertahan hidup. Ular bergerak tanpa kaki, tapi bagaimana cara mereka melakukannya? Bagian pentingnya adalah proses ini tidak berdiri sendiri. Ada banyak faktor kecil yang saling membantu sampai hasilnya terlihat alami."
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_8bec02d08db9-thumbnail-mengapa-ular-bisa-berjalan-tanpa-kaki.jpg",
+        "url": "/generated/thumbnails/tau_8bec02d08db9-thumbnail-mengapa-ular-bisa-berjalan-tanpa-kaki.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 2823,
+      "outputTokens": 1433,
+      "totalTokens": 4256,
+      "storyUsd": 0.00342,
+      "imageUnitUsd": 0.04,
+      "imageUsd": 0.36,
+      "ttsUsd": 0.01437,
+      "totalUsd": 0.37779,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 100,
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
+    }
+  },
+  {
+    "id": "tau_e22ffbdb9b9d",
+    "source": "openai",
+    "status": "uploading",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-07-22T11:02:12.616Z",
+    "updatedAt": "2026-07-22T11:03:49.310Z",
+    "input": {
+      "topic": "Sejarah",
+      "category": "penemuan",
+      "hookStyle": "Kertas yang kita gunakan sehari-hari berasal dari mana, ya? Ternyata, penemuan kertas mengubah sejarah komunikasi manusia!",
+      "selectedIdea": {
+        "id": "idea_4484f6f91df2",
+        "title": "Misteri Penemuan Kertas Pertama",
+        "topic": "Sejarah",
+        "hook": "Kertas yang kita gunakan sehari-hari berasal dari mana, ya? Ternyata, penemuan kertas mengubah sejarah komunikasi manusia!",
+        "category": "penemuan",
+        "angle": "Menjelajahi asal usul kertas dan dampaknya pada peradaban.",
+        "whyGood": "Kertas adalah benda sehari-hari yang sering dianggap remeh, tapi memiliki sejarah yang menarik."
+      },
+      "tone": "discovery_suspense",
+      "longForm": false,
+      "durationSec": 120,
+      "sceneCount": 9,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1792",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 3.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "stock"
+    },
+    "title": "Misteri Penemuan Kertas Pertama",
+    "plan": {
+      "title": "Misteri Penemuan Kertas Pertama",
+      "hook": "Kertas yang kita gunakan sehari-hari berasal dari mana, ya? Ternyata, penemuan kertas mengubah sejarah komunikasi manusia!",
+      "summary": "Kertas, benda sepele yang kita gunakan setiap hari, memiliki sejarah menarik yang dimulai dari bahan alami, hingga mengubah cara manusia berkomunikasi.",
+      "importantPoints": [
+        "Kertas pertama kali ditemukan di Tiongkok sekitar 105 Masehi.",
+        "Bahan awal kertas adalah serat tanaman, seperti bambu dan rami.",
+        "Penemuan kertas memungkinkan penyebaran pengetahuan yang lebih luas.",
+        "Revolusi kertas memicu perkembangan sastra dan pendidikan di berbagai peradaban.",
+        "Kertas menjadi simbol kemajuan teknologi dalam komunikasi manusia."
+      ],
+      "factCheckNote": "Semua informasi yang disampaikan dalam video ini adalah fakta sejarah yang telah diteliti.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 14.13,
+          "narration": "Kertas yang kita gunakan sehari-hari berasal dari mana, ya?",
+          "screenText": "Asal Usul Kertas",
+          "imagePrompt": "Close-up of ancient paper, topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "ancient paper",
+          "visualStyle": "dramatic lighting",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 13.33,
+          "narration": "Ternyata, penemuan kertas mengubah sejarah komunikasi manusia!",
+          "screenText": "Sejarah Komunikasi",
+          "imagePrompt": "Illustration of communication evolution, topic: Sejarah, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "communication evolution",
+          "visualStyle": "conceptual diagram",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 3,
+          "durationSec": 13.33,
+          "narration": "Kertas pertama kali ditemukan di Tiongkok sekitar 105 Masehi, dari serat tanaman.",
+          "screenText": "Penemuan di Tiongkok",
+          "imagePrompt": "Ancient Chinese parchment, topic: Sejarah, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "ancient Chinese parchment",
+          "visualStyle": "historical context",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 4,
+          "durationSec": 13.33,
+          "narration": "Bambu dan rami menjadi bahan awal yang digunakan untuk membuat kertas.",
+          "screenText": "Bahan Awal Kertas",
+          "imagePrompt": "Bamboo and ramie fibers, topic: Sejarah, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "bamboo ramie fibers",
+          "visualStyle": "macro shot",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 5,
+          "durationSec": 13.33,
+          "narration": "Kertas memungkinkan penyebaran pengetahuan yang lebih luas, menggantikan media sebelumnya.",
+          "screenText": "Penyebaran Pengetahuan",
+          "imagePrompt": "Books and scrolls, topic: Sejarah, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "books and scrolls",
+          "visualStyle": "action shot",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 6,
+          "durationSec": 13.33,
+          "narration": "Revolusi kertas memicu perkembangan sastra dan pendidikan di berbagai peradaban.",
+          "screenText": "Revolusi Kertas",
+          "imagePrompt": "Classroom with students, topic: Sejarah, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "students classroom",
+          "visualStyle": "dynamic angle",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 7,
+          "durationSec": 13.33,
+          "narration": "Kertas juga menjadi simbol kemajuan teknologi yang tak terpisahkan dari manusia.",
+          "screenText": "Simbol Kemajuan",
+          "imagePrompt": "Technology timeline, topic: Sejarah, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "technology timeline",
+          "visualStyle": "infographic style",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 8,
+          "durationSec": 13.33,
+          "narration": "Tanpa kertas, sejarah komunikasi seperti yang kita kenal saat ini tidak akan ada.",
+          "screenText": "Tanpa Kertas, Tanpa Sejarah",
+          "imagePrompt": "Diverse communication methods, topic: Sejarah, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "communication methods",
+          "visualStyle": "collage",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 9,
+          "durationSec": 13.6,
+          "narration": "Apakah kamu pernah berpikir seberapa penting kertas dalam hidupmu?",
+          "screenText": "Kertas dan Kehidupan",
+          "imagePrompt": "Close-up of writing on paper, topic: Sejarah, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "writing on paper",
+          "visualStyle": "intimate shot",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e22ffbdb9b9d-scene-1-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e22ffbdb9b9d-scene-1-stock.mp4",
+          "prompt": "ancient paper",
+          "seconds": 15,
+          "targetDurationSec": 14.13,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e22ffbdb9b9d-scene-2-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e22ffbdb9b9d-scene-2-stock.mp4",
+          "prompt": "communication evolution",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e22ffbdb9b9d-scene-3-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e22ffbdb9b9d-scene-3-stock.mp4",
+          "prompt": "ancient Chinese parchment",
+          "seconds": 16,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e22ffbdb9b9d-scene-4-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e22ffbdb9b9d-scene-4-stock.mp4",
+          "prompt": "bamboo ramie fibers",
+          "seconds": 20,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e22ffbdb9b9d-scene-5-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e22ffbdb9b9d-scene-5-stock.mp4",
+          "prompt": "books and scrolls",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e22ffbdb9b9d-scene-6-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e22ffbdb9b9d-scene-6-stock.mp4",
+          "prompt": "students classroom",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e22ffbdb9b9d-scene-7-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e22ffbdb9b9d-scene-7-stock.mp4",
+          "prompt": "technology timeline",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e22ffbdb9b9d-scene-8-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e22ffbdb9b9d-scene-8-stock.mp4",
+          "prompt": "communication methods",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e22ffbdb9b9d-scene-9-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e22ffbdb9b9d-scene-9-stock.mp4",
+          "prompt": "writing on paper",
+          "seconds": 16,
+          "targetDurationSec": 13.6,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "onyx",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_e22ffbdb9b9d-openai-natural-narration.mp3",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/audio/tau_e22ffbdb9b9d-openai-natural-narration.mp3",
+        "characters": 677
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_e22ffbdb9b9d-openai-misteri-penemuan-kertas-pertama.mp4",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_e22ffbdb9b9d-openai-misteri-penemuan-kertas-pertama.mp4",
+        "provider": "openai",
+        "durationSec": 47.17,
+        "scenes": 9
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Kertas yang kita gunakan sehari-hari berasal dari mana ya? Ternyata, penemuan kertas mengubah sejarah komunikasi manusia. Kertas pertama kali ditemukan di Tiongkok sekitar 105 masehi dari serat tanaman. Bambu dan rami menjadi bahan awal yang digunakan untuk membuat kertas. Kertas memungkinkan penyebaran pengetahuan yang lebih luas, menggantikan media sebelumnya. Revolusi kertas memicu perkembangan sastra dan pendidikan di berbagai peradaban. Kertas juga menjadi simbol kemajuan teknologi yang tak terpisahkan dari manusia. Tanpa kertas, sejarah komunikasi seperti yang kita kenal saat ini tidak akan ada. Apakah kamu pernah berpikir seberapa penting kertas dalam hidupmu?"
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_e22ffbdb9b9d-thumbnail-misteri-penemuan-kertas-pertama.jpg",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/thumbnails/tau_e22ffbdb9b9d-thumbnail-misteri-penemuan-kertas-pertama.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 2840,
+      "outputTokens": 1374,
+      "totalTokens": 4214,
+      "storyUsd": 0.00333,
+      "imageUnitUsd": 0.04,
+      "imageUsd": 0.36,
+      "ttsUsd": 0.01015,
+      "totalUsd": 0.37348,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 30,
+      "stage": "remote_uploading",
+      "message": "Mengunggah video ke Remote Server (FTP/SFTP)..."
+    }
   }
 ]
