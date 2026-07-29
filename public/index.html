@@ -20,6 +20,7 @@
 
         <form id="generateForm" class="form-stack">
           <input name="topic" type="hidden" value="">
+          <input name="longForm" type="hidden" value="false">
           <button id="fullBtn" class="primary make-video-btn" type="submit">Buat Video</button>
           <p class="one-click-copy">Auto storyboard, gambar, suara, subtitle, dan video final. PIN: 123456.</p>
           <div id="selectedIdea" class="selected-idea">Belum ada ide terpilih.</div>
@@ -30,22 +31,28 @@
               <label>
                 <span>Kategori</span>
                 <select name="category">
-                  <option value="random">Random</option>
+                  <option value="random">Acak otomatis</option>
+                  <option value="hewan">Fakta hewan</option>
+                  <option value="tubuh manusia">Tubuh manusia</option>
+                  <option value="fenomena alam">Fenomena alam</option>
+                  <option value="alam semesta">Alam semesta</option>
+                  <option value="psikologi">Psikologi</option>
+                  <option value="benda sehari-hari">Benda sehari-hari</option>
                   <option value="sains">Sains</option>
                   <option value="penemuan">Penemuan</option>
                   <option value="sejarah">Sejarah</option>
-                  <option value="tubuh manusia">Tubuh manusia</option>
-                  <option value="alam semesta">Alam semesta</option>
                   <option value="teknologi">Teknologi</option>
-                  <option value="benda sehari-hari">Benda sehari-hari</option>
                 </select>
               </label>
 
               <label>
-                <span>Durasi maks.</span>
+                <span>Durasi</span>
                 <select name="durationSec">
+                  <option value="15">15 detik (Reels Cepat)</option>
+                  <option value="18">18 detik (Reels Cepat)</option>
+                  <option value="20">20 detik (Reels Cepat)</option>
                   <option value="75">75 detik</option>
-                  <option value="90" selected>90 detik</option>
+                  <option value="90" selected>90 detik (Default)</option>
                   <option value="110">110 detik</option>
                   <option value="120">120 detik</option>
                 </select>
@@ -91,7 +98,11 @@
               <label>
                 <span>Model Avatar</span>
                 <select name="avatarMode" id="avatarModeSelect">
-                  <option value="image" selected>Capybara Static (Flapping)</option>
+                  <option value="random-green" selected>Avatar Hijau Random</option>
+                  <option value="avatar hijau 1.mp4">Avatar Hijau 1</option>
+                  <option value="avatar hijau 2.mp4">Avatar Hijau 2</option>
+                  <option value="avatar hijau 3.mp4">Avatar Hijau 3</option>
+                  <option value="image">Capybara Static (Flapping)</option>
                   <option value="video1">Capybara Goggles (Video 1)</option>
                   <option value="video2">Capybara Glasses (Video 2)</option>
                 </select>

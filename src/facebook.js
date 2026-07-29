@@ -571,8 +571,15 @@ export function cleanCaptionLine(value) {
 
 export function socialQuestion(item) {
   const topic = cleanCaptionLine(item.input?.topic || item.title).replace(/[?.!]+$/g, "");
-  if (!topic) return "Menurut kamu, fakta mana yang paling bikin kaget?";
-  return `Menurut kamu, bagian paling menarik dari ${topic} apa? Tulis di komentar.`;
+  const questions = [
+    `Kamu pernah mengalami hal soal ${topic} ini juga? Tulis di komentar!`,
+    `Dari fakta ${topic} di atas, mana yang paling bikin kamu kaget?`,
+    `Menurutmu ini wajar atau cuma kebetulan? Tulis pendapatmu!`,
+    `Kirim video ini ke temanmu yang perlu tahu tentang ${topic}!`,
+    `Tim mana kamu soal ${topic}? Tulis di bawah!`
+  ];
+  const hash = Math.abs((topic || "default").split("").reduce((acc, c) => acc + c.charCodeAt(0), 0));
+  return questions[hash % questions.length];
 }
 
 export function socialDescription(item) {

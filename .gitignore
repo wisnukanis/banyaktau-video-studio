@@ -18,5 +18,7 @@ generated/work/
 .DS_Store
 Thumbs.db
 
+scratch/
+
 .vercel
 .vercel-pin.tmp

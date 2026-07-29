@@ -1,7 +1,104 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-23T07:37:24.319Z",
+  "updatedAt": "2026-07-29T06:52:25.042Z",
   "items": [
+    {
+      "id": "tau_ac25b1f2f448",
+      "title": "Kucing Melihat Dunia Dengan Berbeda",
+      "topic": "Hewan",
+      "category": "Hewan",
+      "hook": "Kucing ternyata melihat dunia dengan cara yang sangat berbeda!",
+      "summary": "Penglihatan kucing berbeda dari manusia, dengan kemampuan melihat dalam gelap dan mendeteksi gerakan cepat. Ini penting untuk memahami perilaku mereka.",
+      "importantPoints": [
+        "Kucing dapat melihat dalam cahaya redup hingga enam kali lebih baik daripada manusia.",
+        "Mata kucing memiliki lebih banyak sel batang, yang meningkatkan sensitivitas terhadap cahaya.",
+        "Kucing tidak dapat melihat warna dengan baik, tetapi mereka sangat peka terhadap gerakan.",
+        "Faktor reflektif di mata kucing, disebut tapetum lucidum, memberikan efek 'mata bersinar'.",
+        "Penglihatan kucing membantu mereka berburu di malam hari, menciptakan keunggulan dalam ekosistem."
+      ],
+      "createdAt": "2026-07-29T06:49:45.434Z",
+      "updatedAt": "2026-07-29T06:51:27.527Z",
+      "videoUrl": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_ac25b1f2f448-openai-kucing-melihat-dunia-dengan-berbeda.mp4",
+      "facebookUrl": "https://www.facebook.com/reel/1589038679299904",
+      "instagramUrl": "https://www.instagram.com/reel/DbXg1DmE61J/"
+    },
+    {
+      "id": "tau_e22ffbdb9b9d",
+      "title": "Misteri Penemuan Kertas Pertama",
+      "topic": "Sejarah",
+      "category": "penemuan",
+      "hook": "Kertas yang kita gunakan sehari-hari berasal dari mana, ya? Ternyata, penemuan kertas mengubah sejarah komunikasi manusia!",
+      "summary": "Kertas, benda sepele yang kita gunakan setiap hari, memiliki sejarah menarik yang dimulai dari bahan alami, hingga mengubah cara manusia berkomunikasi.",
+      "importantPoints": [
+        "Kertas pertama kali ditemukan di Tiongkok sekitar 105 Masehi.",
+        "Bahan awal kertas adalah serat tanaman, seperti bambu dan rami.",
+        "Penemuan kertas memungkinkan penyebaran pengetahuan yang lebih luas.",
+        "Revolusi kertas memicu perkembangan sastra dan pendidikan di berbagai peradaban.",
+        "Kertas menjadi simbol kemajuan teknologi dalam komunikasi manusia."
+      ],
+      "createdAt": "2026-07-22T11:02:12.616Z",
+      "updatedAt": "2026-07-22T11:03:49.310Z",
+      "videoUrl": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_e22ffbdb9b9d-openai-misteri-penemuan-kertas-pertama.mp4",
+      "facebookUrl": "https://www.facebook.com/reel/1709769166740731",
+      "instagramUrl": ""
+    },
+    {
+      "id": "tau_acff7c5e3b20",
+      "title": "Rahasia Teknologi 3D Printing",
+      "topic": "Teknologi",
+      "category": "teknologi",
+      "hook": "Tahukah kamu bahwa pencetakan 3D bisa mencetak hampir semua hal? Yuk, kita lihat prosesnya!",
+      "summary": "Teknologi pencetakan 3D memungkinkan pembuatan objek dari desain digital, merevolusi cara kita memproduksi barang. Ini penting untuk inovasi dan efisiensi produksi.",
+      "importantPoints": [
+        "Pencetakan 3D menggunakan desain digital untuk membuat objek fisik.",
+        "Proses ini sering menggunakan material seperti plastik, logam, dan keramik.",
+        "Teknologi ini mempercepat produksi dan mengurangi limbah.",
+        "Inovasi ini membuka peluang baru dalam desain dan produksi barang."
+      ],
+      "createdAt": "2026-07-16T07:08:48.831Z",
+      "updatedAt": "2026-07-16T07:11:00.592Z",
+      "videoUrl": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_acff7c5e3b20-openai-rahasia-teknologi-3d-printing.mp4",
+      "facebookUrl": "https://www.facebook.com/reel/1595170895604325",
+      "instagramUrl": ""
+    },
+    {
+      "id": "tau_e712dfdfdff2",
+      "title": "Kenapa Kaca Diciptakan Transparan",
+      "topic": "Benda Sehari-hari",
+      "category": "Benda Sehari-hari",
+      "hook": "Pernahkah kamu bertanya-tanya kenapa kaca bisa bening? Yuk, kita cari tahu proses di balik kejernihan kaca!",
+      "summary": "Kaca diciptakan transparan berkat proses peleburan silika dan sifat fisiknya. Pemahaman ini penting karena kaca menjadi bagian penting dalam kehidupan sehari-hari.",
+      "importantPoints": [
+        "Kaca umumnya dibuat dari silika yang dipanaskan hingga meleleh.",
+        "Proses pendinginan kaca yang tepat membuatnya tetap bening.",
+        "Sifat transparan kaca memungkinkan cahaya melewati, membuatnya ideal untuk jendela dan alat optik."
+      ],
+      "createdAt": "2026-07-16T05:21:57.293Z",
+      "updatedAt": "2026-07-16T05:25:39.103Z",
+      "videoUrl": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_e712dfdfdff2-openai-kenapa-kaca-diciptakan-transparan.mp4",
+      "facebookUrl": "https://www.facebook.com/reel/1333448388949177",
+      "instagramUrl": ""
+    },
+    {
+      "id": "tau_6d4f9ad4373e",
+      "title": "Kenapa Bulan Terlihat Berubah-ubah",
+      "topic": "alam semesta",
+      "category": "alam semesta",
+      "hook": "Pernahkah kamu bertanya-tanya kenapa bulan bisa terlihat berbeda setiap bulan? Yuk, kita telusuri fenomena ini!",
+      "summary": "Bulan mengalami fase berubah-ubah karena posisi relatifnya terhadap Bumi dan Matahari. Memahami fase bulan penting untuk navigasi dan penentuan waktu.",
+      "importantPoints": [
+        "Bulan tidak memancarkan cahaya sendiri, melainkan memantulkan cahaya matahari.",
+        "Fase bulan terdiri dari bulan baru, bulan sabit, bulan purnama, dan bulan setengah.",
+        "Perubahan fase bulan terjadi setiap 29,5 hari.",
+        "Posisi Bumi, Bulan, dan Matahari mempengaruhi penampakan bulan.",
+        "Memahami fase bulan dapat membantu dalam pertanian dan perencanaan kegiatan."
+      ],
+      "createdAt": "2026-07-15T07:23:43.877Z",
+      "updatedAt": "2026-07-15T07:28:22.874Z",
+      "videoUrl": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_6d4f9ad4373e-openai-kenapa-bulan-terlihat-berubah-ubah.mp4",
+      "facebookUrl": "https://www.facebook.com/reel/2226044198152696",
+      "instagramUrl": ""
+    },
     {
       "id": "tau_6b2a6ef3e180",
       "title": "Teknologi Luar Biasa Gurita: Sensor Canggih di Tubuhnya",
@@ -16,10 +113,10 @@
         "Kemampuan sensorik ini memungkinkan gurita berburu dan menghindari predator dengan efektif."
       ],
       "createdAt": "2026-06-23T07:33:52.858Z",
-      "updatedAt": "2026-06-23T07:35:58.079Z",
+      "updatedAt": "2026-06-23T07:37:39.334Z",
       "videoUrl": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_6b2a6ef3e180-openai-teknologi-luar-biasa-gurita-sensor-canggih-di-tubuhnya.mp4",
-      "facebookUrl": "https://www.facebook.com/reel/1407942421158183",
-      "instagramUrl": "https://www.instagram.com/reel/DZ65V7GgU_G/"
+      "facebookUrl": "https://www.facebook.com/reel/2267439464013442",
+      "instagramUrl": ""
     },
     {
       "id": "tau_030cdfb445ef",
@@ -40,6 +137,26 @@
       "videoUrl": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_030cdfb445ef-openai-misteri-penemuan-gula-dari-mana-sumbernya.mp4",
       "facebookUrl": "https://www.facebook.com/reel/1311766621105874",
       "instagramUrl": "https://www.instagram.com/reel/DZ62D-fETw8/"
+    },
+    {
+      "id": "tau_e1f194b9b924",
+      "title": "Mengapa Menara Eiffel Tidak Runtuh",
+      "topic": "Sejarah",
+      "category": "Sejarah",
+      "hook": "Pernahkah kamu bingung kenapa Menara Eiffel masih berdiri kokoh hingga kini? Yuk, kita telusuri rahasianya!",
+      "summary": "Menara Eiffel tetap berdiri kuat berkat teknik dan bahan konstruksi inovatif yang digunakan di abad ke-19, membuatnya menjadi simbol arsitektur dunia.",
+      "importantPoints": [
+        "Menara Eiffel dirancang oleh Gustave Eiffel dengan teknik balok besi yang cerdas.",
+        "Penggunaan struktur rangka yang terbuka membuatnya mampu menahan angin.",
+        "Besi yang digunakan berasal dari sumber berkualitas tinggi, meningkatkan daya tahan.",
+        "Desainnya memungkinkan pergerakan tanpa merusak struktur utama.",
+        "Menara ini merupakan contoh arsitektur modern yang menginspirasi banyak bangunan masa kini."
+      ],
+      "createdAt": "2026-06-22T11:11:30.393Z",
+      "updatedAt": "2026-06-22T11:17:25.744Z",
+      "videoUrl": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_e1f194b9b924-openai-mengapa-menara-eiffel-tidak-runtuh.mp4",
+      "facebookUrl": "https://www.facebook.com/reel/1396538735712792",
+      "instagramUrl": ""
     },
     {
       "id": "tau_bfb2002091fc",

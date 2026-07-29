@@ -22,13 +22,7 @@ export async function generateFullItem(input = {}, options = {}) {
   let payload = { ...input };
   const existingItems = await listContextItems();
 
-  if (payload.longForm && !payload.selectedIdea && !payload.topic) {
-    warnings.push(
-      "longForm=true tanpa 'topic' — memakai topik default placeholder. Untuk hasil bagus, selalu kirim 'topic' eksplisit untuk video long-form (generator ide otomatis di atas didesain untuk Shorts, bukan dipakai di sini)."
-    );
-  }
-
-  if (!payload.selectedIdea && !payload.longForm) {
+  if (!payload.selectedIdea) {
     let performanceNotes = "";
     try {
       performanceNotes = await getPerformanceNotesText();
@@ -44,8 +38,9 @@ export async function generateFullItem(input = {}, options = {}) {
     const ideas = await createIdeaRecommendations({
       seed: payload.topic || "",
       category: payload.category || "random",
-      durationSec: payload.durationSec || 90
-    }, { existingItems, performanceNotes, trendNotes });
+      durationSec: payload.durationSec || (payload.longForm ? 480 : 90),
+      longForm: Boolean(payload.longForm)
+    }, { existingItems, performanceNotes, trendNotes, strictAi: Boolean(options.strictAi) });
     payload = {
       ...payload,
       selectedIdea: ideas.ideas?.[0] || null,
@@ -147,7 +142,7 @@ export async function ensureVisualClips(item, options = {}) {
         const msg = `AI Video gagal untuk scene ${scene.index}: ${error.message}. Mencoba fallback ke stock video...`;
         console.warn(msg);
         try {
-          const query = await extractSearchQuery(scene);
+          const query = await extractSearchQuery(scene, item.input.topic);
           const clip = await fetchStockClip({ scene, query, format, itemId: item.id });
           const clips = [...(item.assets.clips || [])];
           const idx = clips.findIndex(c => Number(c.sceneIndex) === Number(scene.index));
@@ -173,7 +168,7 @@ export async function ensureVisualClips(item, options = {}) {
     if (existing?.path) continue;
     
     try {
-      const query = await extractSearchQuery(scene);
+      const query = await extractSearchQuery(scene, item.input.topic);
       const clip = await fetchStockClip({ scene, query, format, itemId: item.id });
       
       const idx = clips.findIndex(c => Number(c.sceneIndex) === Number(scene.index));
@@ -372,14 +367,18 @@ export function ffmpegAvailable() {
 }
 
 function buildClipPrompt(item, scene) {
+  const visualConcept = scene.imagePrompt
+    ? scene.imagePrompt.split(",").slice(0, 3).join(",").trim()
+    : "";
   return [
     `Topic: ${item.input?.topic || item.title}.`,
     `Scene: ${scene.screenText}.`,
-    `Narration meaning: ${scene.narration}.`,
+    `Narration: ${scene.narration}.`,
+    visualConcept ? `Visual concept for this scene: ${visualConcept}.` : "",
     "Create a short vertical educational B-roll clip that directly supports this scene.",
     "Use realistic, clean, bright documentary style with one clear subject and smooth motion.",
     "Do not include written text, subtitles, logos, watermarks, gore, injuries, or a recognizable public figure."
-  ].join(" ");
+  ].filter(Boolean).join(" ");
 }
 
 async function generateImageWithRetry({ item, scene, size, quality }) {

@@ -194,12 +194,12 @@ function fileVariantScore(file, targetWidth, targetHeight) {
     + Math.min(width * height, targetWidth * targetHeight * 2) / 1000;
 }
 
-export async function extractSearchQuery(scene) {
+export async function extractSearchQuery(scene, topic) {
   const plannedQuery = cleanQuery(scene?.stockQuery);
   if (plannedQuery) return plannedQuery;
 
-  const systemPrompt = "You are a professional video editor. Generate exactly ONE search query in English (maximum 3 words) to search for relevant B-roll stock footage. Output ONLY the search query, no quotes, no explanations.";
-  const userPrompt = `Narasi: ${scene.narration}\nTeks Layar: ${scene.screenText}`;
+  const systemPrompt = "You are a professional video editor. Generate exactly ONE search query in English (maximum 3 words) to search for relevant B-roll stock footage. The query must directly represent the specific VISUAL CONTENT of the scene narration, NOT the general video topic. Output ONLY the search query, no quotes, no explanations.";
+  const userPrompt = `Video topic: ${topic || ""}\nScene narration: ${scene.narration}\nScreen text: ${scene.screenText}\nGenerate a specific visual search query for THIS scene (not the general topic):`;
   try {
     const query = await requestTextCompletion(systemPrompt, userPrompt);
     const cleaned = cleanQuery(query);
@@ -338,15 +338,31 @@ function buildStockQueries(query, scene) {
     if (cleaned && !queries.includes(cleaned)) queries.push(cleaned);
   };
 
+  // 1. Primary: the stockQuery from the scenario (most specific)
   add(query);
+
+  // 2. Derived from imagePrompt — usually contains specific visual nouns
+  //    that are better B-roll keywords than narration text
+  if (scene?.imagePrompt) {
+    const promptWords = scene.imagePrompt
+      .split(",")
+      .slice(0, 2)
+      .map((part) => cleanQuery(part.trim()))
+      .filter(Boolean);
+    for (const w of promptWords) add(w);
+  }
+
+  // 3. Offline fallback from narration/screenText (translated to English)
   add(fallbackSearchQuery(scene));
 
+  // 4. Single words from the primary query
   for (const word of cleanQuery(query).split(/\s+/).filter((entry) => entry.length > 2)) {
     add(word);
   }
 
-  // Broad, high-hit B-roll searches keep the pipeline moving when a specific
-  // factual topic has no matching stock footage.
+  // 5. Broad, high-hit B-roll searches keep the pipeline moving when a
+  // specific factual topic has no matching stock footage. These are last
+  // resort — prefer any topic-specific result above.
   for (const fallback of [
     "documentary",
     "education",

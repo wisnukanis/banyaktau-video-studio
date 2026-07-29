@@ -7,9 +7,9 @@ import { ensureStrongHook } from "./hook-engine.js";
 // Short-form (default): YouTube Shorts / Reels pacing, 45s-2min.
 // Long-form: flexible documentary-length video, 3-20min, driven by
 // stock footage instead of per-scene AI images/video (cost reasons).
-const SHORT_FORM_BOUNDS = [45, 120];
+const SHORT_FORM_BOUNDS = [12, 120];
 const LONG_FORM_BOUNDS = [180, 1200];
-const SHORT_FORM_SCENE_BOUNDS = [5, 10];
+const SHORT_FORM_SCENE_BOUNDS = [4, 10];
 const LONG_FORM_SCENE_BOUNDS = [15, 60];
 // Keep long-form scenes in the same 8-16s ballpark as short-form so a
 // looped stock clip rarely has to repeat more than once or twice.
@@ -24,17 +24,70 @@ function sceneCountBounds(input) {
 }
 
 const categories = [
+  "hewan",
+  "tubuh manusia",
+  "fenomena alam",
+  "alam semesta",
+  "psikologi",
+  "benda sehari-hari",
   "sains",
   "penemuan",
   "sejarah",
-  "tubuh manusia",
-  "alam semesta",
   "teknologi",
-  "benda sehari-hari",
   "tokoh dunia"
 ];
 
+function selectRandomCategory() {
+  const rand = Math.random();
+  if (rand < 0.50) {
+    return Math.random() < 0.6 ? "hewan" : "tubuh manusia";
+  } else if (rand < 0.75) {
+    return Math.random() < 0.5 ? "fenomena alam" : "alam semesta";
+  } else if (rand < 0.90) {
+    return Math.random() < 0.5 ? "psikologi" : "benda sehari-hari";
+  } else {
+    const list = ["sains", "teknologi", "sejarah", "penemuan"];
+    return list[Math.floor(Math.random() * list.length)];
+  }
+}
+
 export const categoryStyles = {
+  "hewan": {
+    styleName: "animal_facts",
+    tone: "engaging, surprising, fast-paced",
+    style: "nature documentary",
+    rules: "Focus on surprising animal behaviors, sharp contrasts, and eye-opening facts."
+  },
+  "tubuh manusia": {
+    styleName: "medical_soft",
+    tone: "educational, soft, precise",
+    style: "medical documentary but simple",
+    rules: "Avoid drama. Focus on clarity. Use gentle explanation style."
+  },
+  "fenomena alam": {
+    styleName: "nature_mysteries",
+    tone: "intriguing, dramatic, visual",
+    style: "nature mystery",
+    rules: "Highlight extreme weather, weird locations, and rare natural phenomena."
+  },
+  "alam semesta": {
+    styleName: "cosmic_deep",
+    tone: "deep, awe, slow pacing",
+    style: "cosmic documentary",
+    rules: "Longer pauses. Slightly more mysterious tone."
+  },
+  "psikologi": {
+    styleName: "mind_facts",
+    tone: "relatable, thought-provoking",
+    style: "psychology explainer",
+    rules: "Connect directly to everyday human habits, brain tricks, and social behavior."
+  },
+  "benda sehari-hari": {
+    styleName: "relatable_doc",
+    tone: "simple, friendly documentary",
+    style: "relatable explanation",
+    rules: "More casual but still documentary."
+  },
   "sains": {
     styleName: "science_documentary",
     tone: "analytical, clear, slightly curious",
@@ -59,29 +112,11 @@ export const categoryStyles = {
     style: "chronological narration",
     rules: "Use slightly slower pacing. Emphasize dates, events, transitions."
   },
-  "tubuh manusia": {
-    styleName: "medical_soft",
-    tone: "educational, soft, precise",
-    style: "medical documentary but simple",
-    rules: "Avoid drama. Focus on clarity. Use gentle explanation style."
-  },
-  "alam semesta": {
-    styleName: "cosmic_deep",
-    tone: "deep, awe, slow pacing",
-    style: "cosmic documentary",
-    rules: "Longer pauses. Slightly more mysterious tone."
-  },
   "teknologi": {
     styleName: "tech_explainer",
     tone: "modern, confident, explanatory",
     style: "tech documentary",
     rules: "Slightly faster than history/science. Focus on function and impact."
-  },
-  "benda sehari-hari": {
-    styleName: "relatable_doc",
-    tone: "simple, friendly documentary",
-    style: "relatable explanation",
-    rules: "More casual but still documentary."
   },
   "random": {
     styleName: "adaptive",
@@ -105,11 +140,14 @@ export function getToneStyleGuidelines(tone, category) {
 
 function normalizeIdeaInput(input) {
   const category = cleanText(input.category || "random", 80);
-  const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+  const randomCategory = selectRandomCategory();
+  const longForm = Boolean(input.longForm);
+  const [minDur, maxDur] = longForm ? LONG_FORM_BOUNDS : SHORT_FORM_BOUNDS;
   return {
     seed: cleanText(input.seed || input.topic || "", 260),
     category: category === "random" ? randomCategory : category,
-    durationSec: clamp(Number(input.durationSec || 90), 45, 120)
+    durationSec: clamp(Number(input.durationSec || (longForm ? 480 : 90)), minDur, maxDur),
+    longForm
   };
 }
 
@@ -119,12 +157,21 @@ function buildIdeaPrompt(input, context) {
     : [];
 
   return [
-    "Buat 8 rekomendasi ide video pendek untuk channel BanyakTau.",
-    "Channel ini berisi pengetahuan ringan: sains, sejarah, penemuan, tubuh manusia, alam semesta, teknologi, benda sehari-hari, dan tokoh dunia.",
+    input.longForm
+      ? "Buat 8 rekomendasi ide video dokumenter panjang untuk channel BanyakTau."
+      : "Buat 8 rekomendasi ide video pendek untuk channel BanyakTau.",
+    "Channel ini berisi pengetahuan ringan: hewan, tubuh manusia, fenomena alam, alam semesta, psikologi, benda sehari-hari, sains, sejarah, penemuan, dan teknologi.",
     "Kamu yang menentukan hook dan judul; jangan beri template kosong dan jangan meminta user mengisi hook sendiri.",
-    "Judul harus siap pakai untuk YouTube Shorts: singkat, jelas, maksimal 70 karakter, tanpa slang pembuka seperti 'gimana sih', dan kuat dibaca di thumbnail.",
-    "Setiap ide harus punya rasa penasaran kuat, mudah divisualkan dengan gambar AI, dan bisa dijelaskan faktual dalam maksimal 2 menit.",
-    "Pilih ide yang hemat produksi: cukup gambar AI + TTS; jika memakai cuplikan video AI, cukup satu clip pendek sebagai sisipan.",
+    "DILARANG KERAS membuat judul atau hook yang diawali kata 'Pernahkah kamu...' atau 'Tahukah kamu...'. Gunakan hook spesifik yang langsung membawa konflik atau fakta mencolok sejak kata pertama (contoh: 'Kucing ternyata melihat dunia dengan cara yang sangat berbeda', 'Benda ini ada di rumah semua orang tapi jarang dibersihkan').",
+    input.longForm
+      ? "Judul harus siap pakai untuk YouTube long-form: jelas, kuat untuk thumbnail, maksimal 90 karakter, dan punya rasa penasaran yang bisa ditahan 5-10 menit."
+      : "Judul harus siap pakai untuk YouTube Shorts/Reels: singkat, jelas, maksimal 70 karakter, tanpa slang pembuka seperti 'gimana sih', dan kuat dibaca di thumbnail.",
+    input.longForm
+      ? "Setiap ide harus punya hook viral, konflik rasa penasaran, beberapa babak/subtopik, dan mudah divisualkan dengan B-roll stock dari Pexels/Pixabay."
+      : "Setiap ide harus punya rasa penasaran kuat, mudah divisualkan dengan gambar AI/stock video, dan bisa dijelaskan faktual secara cepat.",
+    input.longForm
+      ? "Pilih ide yang hemat produksi untuk long-form: utamakan visual dunia nyata, eksperimen, alam, arsip, objek, kota, teknologi, atau ilustrasi konseptual yang mudah dicari sebagai stock footage."
+      : "Pilih ide yang hemat produksi: cukup gambar AI / stock footage gratis + TTS.",
     "Jangan pilih klaim medis/keuangan/hukum yang berisiko, teori konspirasi, atau topik yang butuh wajah figur publik modern.",
     "Bahasa hook harus natural seperti kreator Indonesia, bukan judul artikel kaku. Hindari kata yang terlalu lebay seperti ajaib, tergila-gila, dan klaim bombastis tanpa dasar.",
     "Kembalikan JSON valid saja dengan shape:",
@@ -132,6 +179,7 @@ function buildIdeaPrompt(input, context) {
     input.seed ? `Arah topik dari user: ${input.seed}` : "Arah topik dari user: bebas, cari ide paling menarik.",
     `Kategori prioritas: ${input.category}`,
     `Durasi target: ${input.durationSec} detik`,
+    input.longForm ? "Gunakan sinyal tren/performa hanya untuk memilih angle dan kata kunci yang diminati audiens; jangan meniru struktur atau naskah video tertentu." : "",
     recent.length ? `Hindari duplikasi dari riwayat ini:\n${recent.join("\n")}` : "",
     context.trendNotes ? `\n${context.trendNotes}` : "",
     context.performanceNotes ? `\n${context.performanceNotes}` : ""
@@ -452,24 +500,26 @@ function buildPrompt(input, context) {
 
   const formatLines = longForm
     ? [
-        `Buat naskah video dokumenter Bahasa Indonesia berdurasi panjang (~${Math.round(input.durationSec / 60)} menit) untuk channel pengetahuan BanyakTau.`,
-        "Ini BUKAN format Shorts — ini video panjang yang ditonton duduk santai di YouTube. Boleh menjelaskan lebih dalam, memberi konteks, dan membangun beberapa sub-topik/babak berurutan, bukan cuma satu fakta cepat.",
-        "Struktur: buka dengan hook kuat (tetap penting di 15-30 detik pertama agar penonton tidak pergi), lalu bagi isi jadi beberapa segmen/babak yang mengalir (misalnya: asal-usul -> cara kerja -> dampak/fakta mengejutkan -> relevansi sekarang), lalu penutup yang memberi rangkuman rasa 'oh ternyata begitu' tanpa terasa seperti kelas.",
-        "Judul tetap harus menarik dan jelas dibaca di thumbnail, maksimal 90 karakter, tanpa clickbait kosong."
-      ]
+      `Buat naskah video dokumenter Bahasa Indonesia berdurasi panjang (~${Math.round(input.durationSec / 60)} menit) untuk channel pengetahuan BanyakTau.`,
+      "Ini BUKAN format Shorts — ini video panjang yang ditonton duduk santai di YouTube. Boleh menjelaskan lebih dalam, memberi konteks, dan membangun beberapa sub-topik/babak berurutan, bukan cuma satu fakta cepat.",
+      "Struktur: buka dengan hook kuat (tetap penting di 15-30 detik pertama agar penonton tidak pergi), lalu bagi isi jadi beberapa segmen/babak yang mengalir (misalnya: asal-usul -> cara kerja -> dampak/fakta mengejutkan -> relevansi sekarang), lalu penutup yang memberi rangkuman rasa 'oh ternyata begitu' tanpa terasa seperti kelas.",
+      "Judul tetap harus menarik dan jelas dibaca di thumbnail, maksimal 90 karakter, tanpa clickbait kosong."
+    ]
     : [
-        "Buat naskah video vertikal channel pengetahuan Bahasa Indonesia bernama BanyakTau.",
-        "Judul harus siap pakai untuk YouTube Shorts: singkat, jelas, maksimal 70 karakter, tanpa slang pembuka seperti 'gimana sih', dan kuat dibaca di thumbnail.",
-        "Awali dengan satu kalimat hook yang membuat orang berhenti scroll, lalu langsung masuk ke penjelasan.",
-        "Setelah hook, jelaskan isi video dengan alur: kejutan awal, penjelasan inti, analogi sederhana, bagian penting, lalu penutup yang membuat orang ingin tahu lebih banyak."
-      ];
+      "Buat naskah video vertikal channel pengetahuan Bahasa Indonesia bernama BanyakTau.",
+      "Judul harus siap pakai untuk Reels/Shorts: singkat, jelas, maksimal 70 karakter, tanpa slang pembuka seperti 'gimana sih', dan kuat dibaca di thumbnail.",
+      "DILARANG KERAS membuka dengan kata 'Pernahkah kamu...' atau 'Tahukah kamu...'. Buka langsung sejak kata pertama dengan fakta kontras, kejutan visual, atau konflik spesifik di frame pertama (contoh: 'Kucing ternyata melihat dunia dengan cara yang sangat berbeda', 'Benda ini ada di rumah semua orang tapi jarang dibersihkan').",
+      "Struktur Reels cepat (12-30 detik): Detik 0-1 hook visual & kalimat paling mencolok, detik 1-6 penjelasan inti & alasan, detik 6-12 fakta kejutan atau jawaban (jangan menahan jawaban terlalu lama).",
+      "Kalimat di scene terakhir (penutup) HARUS dibuat menyambung kembali secara mulus (seamless loop) ke kalimat hook pembuka, agar video terasa berulang tanpa terputus saat diputar ulang terus-menerus di Reels.",
+      "Di scene penutup atau narasi akhir, berikan pertanyaan biner/pilihan mudah untuk memancing komentar (misal: 'Kamu pernah mengalami ini juga?', 'Tim A atau tim B?', 'Menurutmu ini nyata atau kebetulan?', 'Kirim ke temanmu yang selalu begini')."
+    ];
 
   return [
     ...formatLines,
-    "Kontennya bergaya ensiklopedia ringan: ilmu, penemuan, sejarah, alam, tubuh manusia, teknologi, atau benda sehari-hari.",
+    "Kontennya bergaya ensiklopedia ringan: hewan, tubuh manusia, fenomena alam, alam semesta, psikologi, benda sehari-hari, sains, sejarah, penemuan, atau teknologi.",
     "Tujuan: penonton merasa 'oh ternyata begitu', bukan seperti kelas formal.",
     "Wajib faktual dan hati-hati. Jangan membuat klaim palsu, jangan menyebut angka spesifik jika tidak yakin, dan jangan memakai figur publik modern secara kontroversial.",
-    "Gaya narasi harus mengikuti gaya narator dokumenter Indonesia: suara pria dewasa yang tenang, berwibawa, cerdas, tepercaya, dan memikat. Bahasa harus natural, menyambung, dan enak dibacakan TTS dengan aksen Indonesia netral.",
+    "Gaya narasi harus mengikuti gaya narator dokumenter Indonesia: suara pria dewasa yang tenang, berwibawa, cerdas, tepercaya, dan memikat. Pengucapan harus sangat jelas, artikulatif, tertata rapi, dan menarik tanpa terdengar terburu-buru atau cepat seperti kumur-kumur. Bahasa harus natural dan enak dibacakan TTS dengan aksen Indonesia netral.",
     `Gaya narasi kategori (${input.category}): ${catStyle.style}. Tone: ${catStyle.tone}. Aturan tambahan: ${catStyle.rules}`,
     "Gunakan tempo dan jeda alami sesuai dengan gaya kategori di atas. Tekankan kata kunci secara halus tanpa berlebihan atau berteriak. Hindari gaya heboh ala influencer YouTube atau emosi berlebih.",
     "Kamu yang membuat hook, judul, dan alur narasi. Jangan terasa seperti template.",
@@ -479,11 +529,12 @@ function buildPrompt(input, context) {
     "Field importantPoints wajib berisi 3-5 fakta inti dari video. Jangan isi dengan instruksi produksi seperti mulai dari contoh, gunakan analogi, atau akhiri dengan fakta.",
     "Jangan membuat scene atau screenText berjudul Kesimpulan, Kesimpulan Singkat, atau Summary. Pakai penutup natural tanpa label kesimpulan.",
     "Tulis narasi scene sebagai satu cerita utuh yang dibagi untuk visual, bukan potongan-potongan yang terasa terpisah.",
+    "Field imagePrompt harus menggambarkan visual yang LANGSUNG dan SPESIFIK merepresentasikan poin utama narasi scene tersebut — bukan visual generik atau simbolik. Contoh: jika narasi membahas 'sel darah merah membawa oksigen', imagePrompt harus tentang sel darah merah di pembuluh darah, bukan gambar manusia berlari atau tubuh manusia secara umum.",
     longForm
-      ? "Setiap scene mewakili sekitar 10-15 detik narasi. Karena jumlah scene banyak, variasikan visualPrompt seluas mungkin (jangan ulang tema visual yang sama berturut-turut) supaya B-roll stock footage yang dicari nanti juga bervariasi dan tidak terasa diulang-ulang."
-      : "Setiap scene harus punya visualPrompt berbeda: variasikan objek close-up, diagram konseptual tanpa teks, manusia belajar/mengamati, timeline, eksperimen sederhana, alam, arsip sejarah, atau visual makro.",
+      ? "Setiap scene mewakili sekitar 10-15 detik narasi. Karena jumlah scene banyak, variasikan visualPrompt seluas mungkin (jangan ulang tema visual yang sama berturut-turut) supaya B-roll stock footage yang dicari nanti juga bervariasi dan tidak terasa diulang-ulang. Jangan gunakan stockQuery yang sama atau hampir sama di dua scene berturut-turut."
+      : "Setiap scene harus punya imagePrompt & stockQuery yang berbeda dan unik: variasikan objek close-up, diagram konseptual tanpa teks, aksi/gerakan menonjol, sudut pandang ekstrem, atau visual makro. Jangan gunakan stockQuery yang sama atau hampir sama di dua scene berturut-turut.",
     "Jangan minta gambar berisi teks, logo, watermark, atau wajah tokoh nyata yang masih hidup.",
-    "Untuk setiap scene, isi stockQuery dengan kata kunci pencarian B-roll dalam Bahasa Inggris, maksimal 3 kata, spesifik ke subjek scene, tanpa merek atau nama tokoh.",
+    "Untuk setiap scene, isi stockQuery dengan kata kunci pencarian B-roll dalam Bahasa Inggris (WAJIB bahasa Inggris), maksimal 3 kata, SANGAT SPESIFIK ke subjek visual utama yang dinarasikan di scene itu — bukan tema besar video secara umum. Contoh BAIK: 'red blood cells', 'iron ship hull', 'light refraction', 'ancient cave painting', 'honey crystallization'. Contoh BURUK: 'education', 'science', 'documentary', 'knowledge', 'interesting facts'. Pastikan stockQuery mencerminkan APA yang terlihat di video untuk scene itu, bukan TENTANG APA video itu.",
     "Untuk setiap scene, tentukan emosi/pose avatar di field 'avatarPose'. Pilihan yang valid hanya: 'thinking' (jika bertanya/misteri), 'surprised' (jika ada fakta unik/kejutan), 'pointing' (jika menekankan fakta penting), 'clipboard' (jika penjelas biasa), atau 'thumbs_up' (khusus scene penutup).",
     "Kembalikan JSON valid saja dengan shape:",
     "{ title, hook, summary, importantPoints:[string], factCheckNote, scenes:[{ index, durationSec, narration, screenText, imagePrompt, stockQuery, visualStyle, avatarPose }] }",
@@ -493,14 +544,15 @@ function buildPrompt(input, context) {
     `Tone suara: ${input.tone}`,
     `Durasi ${longForm ? "target" : "maksimal"}: ${input.durationSec} detik`,
     `Jumlah scene: ${input.sceneCount}`,
-    `Target total narasi: sekitar ${wordTarget(input.durationSec, longForm)} kata, jangan lebih dari itu.`,
+    `Target total narasi: sekitar ${wordTarget(input.durationSec, longForm)} kata, pas dengan target durasi.`,
     recent.length ? `Hindari duplikasi dari draft terbaru:\n${recent.join("\n")}` : ""
   ].filter(Boolean).join("\n");
 }
 
 function wordTarget(durationSec, longForm = false) {
   const [minDur, maxDur] = longForm ? LONG_FORM_BOUNDS : SHORT_FORM_BOUNDS;
-  return Math.round(clamp(durationSec, minDur, maxDur) * 1.95);
+  const rate = longForm ? 2.2 : 2.35;
+  return Math.round(clamp(durationSec, minDur, maxDur) * rate);
 }
 
 function normalizePlan(plan, input) {

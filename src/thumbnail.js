@@ -7,8 +7,11 @@ import { safeFilename } from "./util.js";
 
 export async function generateThumbnail(item) {
   await fs.mkdir(paths.thumbnailDir, { recursive: true });
-  const images = (item.assets?.images || []).filter((image) => image.path).slice(0, 1);
-  if (!images.length) throw new Error("Gambar belum tersedia untuk thumbnail.");
+  const media = [
+    ...(item.assets?.images || []).filter((image) => image.path),
+    ...(item.assets?.clips || []).filter((clip) => clip.path)
+  ].slice(0, 1);
+  if (!media.length) throw new Error("Visual belum tersedia untuk thumbnail.");
 
   const filename = `${item.id}-thumbnail-${safeFilename(item.title)}.jpg`;
   const outputPath = path.join(paths.thumbnailDir, filename);
@@ -39,7 +42,7 @@ export async function generateThumbnail(item) {
 
   const args = [
     "-y",
-    "-i", images[0].path,
+    "-i", media[0].path,
     "-filter_complex", filter,
     "-frames:v", "1",
     "-q:v", "2",

@@ -19,6 +19,8 @@ const HOOK_PATTERNS = [
 // Frasa generik/lebay yang harus dihindari — termasuk pola fallback lama yang terlalu sering kepakai
 const BANNED_PATTERNS = [
   /punya cerita yang jarang dibahas/i,
+  /^(pernahkah|tahukah)\s+(kamu|anda)?/i,
+  /\b(pernahkah|tahukah)\s+(kamu|anda)\b/i,
   /\bajaib\b/i,
   /\btergila-gila\b/i,
   /tidak akan (percaya|menyangka)/i,
@@ -32,6 +34,7 @@ export function buildHookPrompt(input) {
   return [
     "Buat 3 opsi hook (kalimat pembuka) untuk video pendek channel pengetahuan BanyakTau, Bahasa Indonesia natural seperti kreator, bukan judul artikel.",
     "Setiap opsi maksimal 140 karakter, satu kalimat, tanpa tanda kutip, tanpa emoji.",
+    "JANGAN PERNAH membuka kalimat dengan 'Pernahkah kamu...' atau 'Tahukah kamu...'. Buka langsung dengan konflik spesifik, fakta kontras, atau kalimat mengejutkan di kata pertama (contoh: 'Kucing ternyata melihat dunia dengan cara yang sangat berbeda', 'Benda ini ada di rumah semua orang tapi jarang dibersihkan').",
     "Hindari kata lebay seperti ajaib, tergila-gila, tidak akan percaya, sungguh luar biasa.",
     "Jangan pakai pola template umum seperti 'X punya cerita yang jarang dibahas'.",
     ...HOOK_PATTERNS.map((p, i) => `Opsi ${i + 1} (pola: ${p.id}) — ${p.instruction}`),
@@ -70,9 +73,9 @@ function capitalize(value) {
 function fallbackHookOptions(input) {
   const topic = input.topic || "topik ini";
   return [
-    { pattern: "curiosity_gap", text: `Ada satu hal soal ${topic.toLowerCase()} yang jarang orang sadari sampai sekarang.` },
+    { pattern: "curiosity_gap", text: `Ada alasan unik di balik ${topic.toLowerCase()} yang jarang disadari.` },
     { pattern: "shock_contrast", text: `${capitalize(topic)} kelihatan biasa, tapi prosesnya jauh lebih rumit dari yang dikira.` },
-    { pattern: "relatable_question", text: `Pernah kepikiran kenapa ${topic.toLowerCase()} bisa begitu? Ini jawabannya.` }
+    { pattern: "relatable_question", text: `Benda atau proses ${topic.toLowerCase()} ini bekerja dengan cara yang tidak kita bayangkan.` }
   ];
 }
 

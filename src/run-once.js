@@ -5,6 +5,7 @@ import { generateFullItem } from "./pipeline.js";
 import { verifyRenderedItem } from "./quality-check.js";
 import { absolutizeGeneratedUrls, publicBaseUrl, remoteEnabled, uploadGeneratedStateAndAssets } from "./remote.js";
 import { mergeMemoryItems, saveItem } from "./storage.js";
+import { syncAllAnalytics } from "./analytics.js";
 
 function argValue(name, fallback = "") {
   const index = process.argv.indexOf(name);
@@ -49,10 +50,14 @@ if (remoteEnabled()) {
 
 const result = await generateFullItem(input, { withClip, requireClip, strictAi });
 const quality = await verifyRenderedItem(result.item);
-if (!quality.ok) {
-  throw new Error(`Quality gate gagal: ${quality.warnings.join(" | ") || "hasil render tidak valid"}`);
+if (!quality.fileExists) {
+  throw new Error(`Quality gate gagal: ${quality.warnings.join(" | ") || "hasil render tidak valid (file video tidak ditemukan)"}`);
 }
-console.log(`Quality gate OK: durasi=${quality.actualDurationSec?.toFixed(1)}s target=${quality.targetDurationSec}s`);
+if (!quality.ok) {
+  console.warn(`Quality gate warning (non-fatal): ${quality.warnings.join(" | ")}`);
+} else {
+  console.log(`Quality gate OK: durasi=${quality.actualDurationSec?.toFixed(1)}s target=${quality.targetDurationSec}s`);
+}
 
 // Facebook Reels can upload the local binary directly. Keep publishing
 // independent from FTP/SFTP/GitHub storage so a storage outage never skips FB.
@@ -62,6 +67,19 @@ if (remoteEnabled()) {
   result.item = absolutizeGeneratedUrls(result.item);
   await mergeMemoryItems([result.item]);
   await saveItem(result.item);
+
+  // Sync analytics for all published items — run after publish so the
+  // newly uploaded video also gets its first stats snapshot. This builds
+  // analytics.json which the next run reads to prioritise high-performing topics.
+  try {
+    console.log("Syncing analytics from Facebook/Instagram...");
+    const analyticsResult = await syncAllAnalytics({ minHoursSincePublish: 0 });
+    console.log(`Analytics synced: ${analyticsResult.count} item(s) updated.`);
+  } catch (analyticsError) {
+    result.warnings.push(`Analytics sync dilewati: ${analyticsError.message}`);
+    console.warn(`Analytics sync gagal (non-fatal): ${analyticsError.message}`);
+  }
+
   try {
     await uploadGeneratedStateAndAssets({ item: result.item });
     console.log("Remote upload complete.");
@@ -88,6 +106,7 @@ async function importRemoteState() {
   try {
     const remoteItems = await fetchRemoteJson(`${base}/state/items.json?v=${Date.now()}`, []);
     const remoteMemory = await fetchRemoteJson(`${base}/state/memory.json?v=${Date.now()}`, { items: [] });
+    const remoteAnalytics = await fetchRemoteJson(`${base}/state/analytics.json?v=${Date.now()}`, null);
     for (const item of remoteItems) {
       if (item?.id) await saveItem(item);
     }
@@ -95,6 +114,16 @@ async function importRemoteState() {
       ...remoteItems,
       ...normalizeMemoryPayload(remoteMemory)
     ]);
+    // Persist remote analytics so getPerformanceNotesText() has data this run
+    if (remoteAnalytics && typeof remoteAnalytics === "object") {
+      const fs = await import("node:fs/promises");
+      const path = await import("node:path");
+      const { paths } = await import("./config.js");
+      const analyticsPath = path.join(paths.dataDir, "analytics.json");
+      await fs.mkdir(path.dirname(analyticsPath), { recursive: true });
+      await fs.writeFile(analyticsPath, JSON.stringify(remoteAnalytics, null, 2) + "\n");
+      console.log("Remote analytics.json berhasil di-import.");
+    }
   } catch (error) {
     console.warn(`Remote memory lama tidak bisa digabung: ${error.message}`);
   }

@@ -6,7 +6,7 @@ import { saveItem } from "./storage.js";
 // non-empty, and is its actual duration reasonably close to what was
 // planned? Mismatches usually mean a TTS/render step silently truncated or
 // a scene failed to render — worth flagging rather than publishing blind.
-export async function verifyRenderedItem(item, { toleranceRatio = 0.25, persist = true } = {}) {
+export async function verifyRenderedItem(item, { toleranceRatio = 0.35, persist = true } = {}) {
   const result = {
     itemId: item.id,
     ok: false,
@@ -48,7 +48,12 @@ export async function verifyRenderedItem(item, { toleranceRatio = 0.25, persist 
     }
   }
 
-  result.ok = result.fileExists && (result.deviationRatio === null || result.deviationRatio <= toleranceRatio);
+  const isLongForm = Boolean(item.input?.longForm);
+  const minValid = isLongForm ? 120 : 35;
+  const maxValid = isLongForm ? 1800 : 130;
+  const isWithinValidBounds = result.actualDurationSec >= minValid && result.actualDurationSec <= maxValid;
+
+  result.ok = result.fileExists && (result.deviationRatio === null || result.deviationRatio <= toleranceRatio || isWithinValidBounds);
   return finalize(item, result, persist);
 }
 

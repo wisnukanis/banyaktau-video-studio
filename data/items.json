@@ -11733,5 +11733,295 @@
         "publishedAt": "2026-07-22T15:30:54.184Z"
       }
     }
+  },
+  {
+    "id": "tau_ac25b1f2f448",
+    "source": "openai",
+    "status": "rendered",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-07-29T06:49:45.434Z",
+    "updatedAt": "2026-07-29T06:51:27.527Z",
+    "input": {
+      "topic": "Hewan",
+      "category": "Hewan",
+      "hookStyle": "Kucing ternyata melihat dunia dengan cara yang sangat berbeda!",
+      "selectedIdea": {
+        "id": "idea_a84b38ec5277",
+        "title": "Kucing Melihat Dunia Dengan Berbeda",
+        "topic": "Hewan",
+        "hook": "Kucing ternyata melihat dunia dengan cara yang sangat berbeda!",
+        "category": "Hewan",
+        "angle": "Menjelaskan bagaimana penglihatan kucing berbeda dari manusia.",
+        "whyGood": "Fakta menarik tentang penglihatan hewan yang sering diabaikan."
+      },
+      "tone": "narator dokumenter TV Indonesia pria dewasa, tenang, berwibawa, tempo sedang, cerdas, tepercaya, jeda alami, transisi halus, tanpa emosi berlebih",
+      "longForm": false,
+      "durationSec": 90,
+      "sceneCount": 7,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1792",
+      "imageQuality": "standard",
+      "elevenlabsVoiceId": "",
+      "elevenlabsModel": "",
+      "openaiTtsVoice": "",
+      "avatarMode": "avatar hijau 2.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "stock"
+    },
+    "title": "Kucing Melihat Dunia Dengan Berbeda",
+    "plan": {
+      "title": "Kucing Melihat Dunia Dengan Berbeda",
+      "hook": "Kucing ternyata melihat dunia dengan cara yang sangat berbeda!",
+      "summary": "Penglihatan kucing berbeda dari manusia, dengan kemampuan melihat dalam gelap dan mendeteksi gerakan cepat. Ini penting untuk memahami perilaku mereka.",
+      "importantPoints": [
+        "Kucing dapat melihat dalam cahaya redup hingga enam kali lebih baik daripada manusia.",
+        "Mata kucing memiliki lebih banyak sel batang, yang meningkatkan sensitivitas terhadap cahaya.",
+        "Kucing tidak dapat melihat warna dengan baik, tetapi mereka sangat peka terhadap gerakan.",
+        "Faktor reflektif di mata kucing, disebut tapetum lucidum, memberikan efek 'mata bersinar'.",
+        "Penglihatan kucing membantu mereka berburu di malam hari, menciptakan keunggulan dalam ekosistem."
+      ],
+      "factCheckNote": "Semua informasi berdasarkan penelitian tentang fisiologi mata kucing.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 13.63,
+          "narration": "Kucing ternyata melihat dunia dengan cara yang sangat berbeda!",
+          "screenText": "Kucing Melihat Dengan Berbeda!",
+          "imagePrompt": "close-up eyes of a cat reflecting light, topic: Hewan, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "cat eyes reflection",
+          "visualStyle": "high-contrast close-up",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 2,
+          "durationSec": 12.86,
+          "narration": "Penglihatan mereka dalam cahaya redup hingga enam kali lebih baik dibandingkan manusia.",
+          "screenText": "Penglihatan dalam Gelap",
+          "imagePrompt": "cat in dim light seeing, topic: Hewan, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "cat vision dark",
+          "visualStyle": "dimly lit environment",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 3,
+          "durationSec": 12.86,
+          "narration": "Dengan lebih banyak sel batang di matanya, kucing dapat mendeteksi gerakan dengan cepat.",
+          "screenText": "Deteksi Gerakan Cepat",
+          "imagePrompt": "cat stalking prey, topic: Hewan, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "cat stalking",
+          "visualStyle": "action shot",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 4,
+          "durationSec": 12.86,
+          "narration": "Namun, kucing tidak bisa melihat warna seperti manusia, hanya bayangan dan gerakan.",
+          "screenText": "Persepsi Warna Kucing",
+          "imagePrompt": "cat looking at colorful object, topic: Hewan, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "cat color perception",
+          "visualStyle": "vibrant colors",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 5,
+          "durationSec": 12.86,
+          "narration": "Mata kucing memiliki tapetum lucidum, yang membuat mata mereka bersinar saat gelap.",
+          "screenText": "Mata yang Bersinar",
+          "imagePrompt": "cat eyes glowing in dark, topic: Hewan, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "cat glowing eyes",
+          "visualStyle": "night vision",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 6,
+          "durationSec": 12.86,
+          "narration": "Kemampuan ini sangat berguna untuk berburu di malam hari.",
+          "screenText": "Keunggulan Berburu",
+          "imagePrompt": "cat hunting at night, topic: Hewan, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "cat hunting night",
+          "visualStyle": "dark atmosphere",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 7,
+          "durationSec": 13.11,
+          "narration": "Jadi, bagaimana cara kucing melihat dunia yang penuh warna ini? Kucing atau manusia, siapa yang lebih peka?",
+          "screenText": "Kucing atau Manusia?",
+          "imagePrompt": "cat and human eye comparison, topic: Hewan, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "cat human eye",
+          "visualStyle": "split view",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_ac25b1f2f448-scene-1-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_ac25b1f2f448-scene-1-stock.mp4",
+          "prompt": "cat eyes reflection",
+          "seconds": 14,
+          "targetDurationSec": 13.63,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_ac25b1f2f448-scene-2-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_ac25b1f2f448-scene-2-stock.mp4",
+          "prompt": "cat vision dark",
+          "seconds": 15,
+          "targetDurationSec": 12.86,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_ac25b1f2f448-scene-3-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_ac25b1f2f448-scene-3-stock.mp4",
+          "prompt": "cat stalking",
+          "seconds": 14,
+          "targetDurationSec": 12.86,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_ac25b1f2f448-scene-4-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_ac25b1f2f448-scene-4-stock.mp4",
+          "prompt": "cat color perception",
+          "seconds": 14,
+          "targetDurationSec": 12.86,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_ac25b1f2f448-scene-5-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_ac25b1f2f448-scene-5-stock.mp4",
+          "prompt": "cat glowing eyes",
+          "seconds": 14,
+          "targetDurationSec": 12.86,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_ac25b1f2f448-scene-6-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_ac25b1f2f448-scene-6-stock.mp4",
+          "prompt": "cat hunting night",
+          "seconds": 14,
+          "targetDurationSec": 12.86,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_ac25b1f2f448-scene-7-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_ac25b1f2f448-scene-7-stock.mp4",
+          "prompt": "cat human eye",
+          "seconds": 15,
+          "targetDurationSec": 13.11,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "onyx",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_ac25b1f2f448-openai-natural-narration.mp3",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/audio/tau_ac25b1f2f448-openai-natural-narration.mp3",
+        "characters": 573
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_ac25b1f2f448-openai-kucing-melihat-dunia-dengan-berbeda.mp4",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_ac25b1f2f448-openai-kucing-melihat-dunia-dengan-berbeda.mp4",
+        "provider": "openai",
+        "durationSec": 45.02,
+        "scenes": 7
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Kucing ternyata melihat dunia dengan cara yang sangat berbeda. Penglihatan mereka dalam cahaya redup hingga enam kali lebih baik dibandingkan manusia. Dengan lebih banyak sel batang di matanya, kucing dapat mendeteksi gerakan dengan cepat. Namun, kucing tidak bisa melihat warna seperti manusia. Hanya bayangan dan gerakan. Mata kucing memiliki tapetum lucidum yang membuat mata mereka bersinar saat gelap. Kemampuan ini sangat berguna untuk berburu di malam hari. Jadi, bagaimana kita bisa mengatakan bahwa ini adalah versi yang terbaik? Kucing, silakan berlangganan. Amin."
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_ac25b1f2f448-thumbnail-kucing-melihat-dunia-dengan-berbeda.jpg",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/thumbnails/tau_ac25b1f2f448-thumbnail-kucing-melihat-dunia-dengan-berbeda.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 2994,
+      "outputTokens": 1136,
+      "totalTokens": 4130,
+      "storyUsd": 0.00302,
+      "imageUnitUsd": 0.04,
+      "imageUsd": 0.28,
+      "ttsUsd": 0.0086,
+      "totalUsd": 0.29162,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 100,
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
+    },
+    "quality_notes": {
+      "fact_safety_score": 0,
+      "hook_score": 0,
+      "caption_readability_score": 0,
+      "visual_reuse_score": 0,
+      "warnings": [
+        "Durasi hasil render (45.0s) meleset 50% dari target (90s)."
+      ],
+      "lastRenderCheck": {
+        "at": "2026-07-29T06:51:27.665Z",
+        "ok": true,
+        "actualDurationSec": 45.021,
+        "targetDurationSec": 90
+      }
+    },
+    "publish": {
+      "facebook": {
+        "ok": true,
+        "type": "facebook_reel",
+        "videoId": "1589038679299904",
+        "postId": "122123836497342479",
+        "url": "https://www.facebook.com/reel/1589038679299904",
+        "publishedAt": "2026-07-29T06:52:25.026Z"
+      },
+      "instagram": {
+        "ok": true,
+        "type": "instagram_reel",
+        "mediaId": "18050008604569934",
+        "containerId": "18119548846779157",
+        "igUserId": "17841423374699740",
+        "url": "https://www.instagram.com/reel/DbXg1DmE61J/",
+        "publishedAt": "2026-07-29T06:52:25.026Z"
+      }
+    }
   }
 ]

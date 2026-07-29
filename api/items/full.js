@@ -9,8 +9,10 @@ export default async function handler(req, res) {
     const dispatch = await dispatchWorkflow({
       topic: clean(body.topic || body.selectedIdea?.topic || ""),
       category: clean(body.category || body.selectedIdea?.category || "random"),
-      duration: String(body.durationSec || 90),
-      scenes: String(body.sceneCount || 7),
+      long_form: "false",
+      duration: String(Math.min(Math.max(Number(body.durationSec || 90), 12), 120)),
+      scenes: String(Math.min(Number(body.sceneCount || 7), 7)),
+      avatar_mode: clean(body.avatarMode || "random-green"),
       tts_provider: clean(body.ttsProvider || "openai"),
       image_quality: clean(body.imageQuality || "low"),
       with_clip: "true"

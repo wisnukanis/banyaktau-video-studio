@@ -18,7 +18,12 @@ ensureProjectDirs();
 // SCHEDULE_TIMES="08:00,13:00,19:00"  (24h, local to SCHEDULE_TIMEZONE)
 // SCHEDULE_TIMEZONE="Asia/Jakarta"
 // SCHEDULE_CATEGORIES="random"  or "sains,sejarah,teknologi" to rotate through
-// SCHEDULE_WITH_CLIP="false"
+// SCHEDULE_WITH_CLIP="true"
+// SCHEDULE_REQUIRE_CLIP="false"  (gambar AI tetap menjadi fallback agar jadwal tidak putus)
+// SCHEDULE_STRICT_AI="true"      (jangan publish naskah fallback generik saat provider gagal)
+// SCHEDULE_LONG_FORM="false"
+// SCHEDULE_DURATION="90"
+// SCHEDULE_SCENES="7"
 // SCHEDULE_ANALYTICS_SYNC_TIME="03:30"  (once daily)
 // SCHEDULE_TREND_SYNC_TIME="03:00"  (once daily, before analytics sync)
 // SCHEDULE_MAX_RUNS_PER_DAY="3"  (safety cap, independent of how many times are listed)
@@ -28,7 +33,12 @@ ensureProjectDirs();
 const times = parseTimes(process.env.SCHEDULE_TIMES || "08:00,13:00,19:00");
 const timezone = process.env.SCHEDULE_TIMEZONE || "Asia/Jakarta";
 const categories = parseList(process.env.SCHEDULE_CATEGORIES || "random");
-const withClip = boolEnv(process.env.SCHEDULE_WITH_CLIP, false);
+const withClip = boolEnv(process.env.SCHEDULE_WITH_CLIP, true);
+const requireClip = boolEnv(process.env.SCHEDULE_REQUIRE_CLIP, false);
+const strictAi = boolEnv(process.env.SCHEDULE_STRICT_AI, true);
+const longForm = boolEnv(process.env.SCHEDULE_LONG_FORM, false);
+const scheduledDuration = Number(process.env.SCHEDULE_DURATION || "90");
+const scheduledScenes = Number(process.env.SCHEDULE_SCENES || "7");
 const analyticsSyncTime = process.env.SCHEDULE_ANALYTICS_SYNC_TIME || "03:30";
 const trendSyncTime = process.env.SCHEDULE_TREND_SYNC_TIME || "03:00";
 const maxRunsPerDay = Math.max(1, Number(process.env.SCHEDULE_MAX_RUNS_PER_DAY || times.length || 3));
@@ -91,26 +101,29 @@ async function runOnce() {
   }
 
   const category = nextCategory();
-  log(`Mulai generate item baru. category=${category} withClip=${withClip}`);
+  log(`Mulai generate item baru. category=${category} longForm=${longForm} duration=${scheduledDuration} scenes=${scheduledScenes} withClip=${withClip}`);
 
   try {
-    const result = await generateFullItem({ category }, { withClip, requireClip: withClip });
+    const result = await generateFullItem({
+      category,
+      longForm,
+      durationSec: scheduledDuration,
+      sceneCount: scheduledScenes,
+      visualSource: "stock",
+      videoFormat: config.stock?.defaultVideoFormat || "vertical",
+      avatarMode: "random-green"
+    }, { withClip, requireClip, strictAi });
     let item = result.item;
     log(`Item selesai dirender: ${item.id} — "${item.title}"`);
 
     const check = await verifyRenderedItem(item);
+    if (!check.fileExists) {
+      throw new Error(`Quality gate gagal: ${check.warnings.join(" | ") || "hasil render tidak valid (file video tidak ditemukan)"}`);
+    }
     if (!check.ok) {
-      log(`Peringatan kualitas render (ID): ${check.warnings.join(" | ")}`);
+      log(`Quality gate warning (non-fatal): ${check.warnings.join(" | ")}`);
     } else {
       log(`Cek render OK. Durasi aktual ${check.actualDurationSec?.toFixed(1)}s (target ${check.targetDurationSec}s).`);
-    }
-
-    if (remoteEnabled()) {
-      item = absolutizeGeneratedUrls(item);
-      await saveItem(item);
-      await mergeMemoryItems([item]);
-      await uploadGeneratedStateAndAssets({ item });
-      log("Upload remote selesai.");
     }
 
     if (config.facebook.enabled || config.instagram.enabled) {
@@ -137,10 +150,20 @@ async function runOnce() {
       }
       await saveItem(item);
       await mergeMemoryItems([item]);
-      if (remoteEnabled()) await uploadGeneratedStateAndAssets({ item });
       log(`Publish ID selesai. facebook=${Boolean(published.facebook?.ok)} instagram=${Boolean(published.instagram?.ok)}`);
+      if (config.facebook.enabled && !published.facebook?.ok && boolEnv(process.env.FACEBOOK_STRICT_PUBLISH, false)) {
+        throw new Error(`Facebook wajib publish tetapi gagal: ${published.errors?.facebook || "hasil publish tidak valid"}`);
+      }
     } else {
       log("Tidak ada platform ID (Facebook/Instagram) yang aktif. Item ID hanya dirender lokal.");
+    }
+
+    if (remoteEnabled()) {
+      item = absolutizeGeneratedUrls(item);
+      await saveItem(item);
+      await mergeMemoryItems([item]);
+      await uploadGeneratedStateAndAssets({ item });
+      log("Upload remote selesai.");
     }
 
     if (usRemakeEnabled) {

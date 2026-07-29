@@ -356,7 +356,8 @@ async function generateIdeas() {
       body: JSON.stringify({
         seed: form.get("topic"),
         category: form.get("category"),
-        durationSec: Number(form.get("durationSec"))
+        durationSec: Number(form.get("durationSec")),
+        longForm: String(form.get("longForm") || "false").toLowerCase() === "true"
       })
     });
     state.ideas = data.ideas || [];
@@ -550,7 +551,7 @@ async function renderVideo() {
   const isUs = state.current.project_id === "curious_capybara_us";
   const form = new FormData(els.form);
   const provider = form.get("ttsProvider");
-  const avatarMode = form.get("avatarMode") || "image";
+  const avatarMode = form.get("avatarMode") || "random-green";
   const videoFormat = form.get("videoFormat") || "vertical";
   const visualSource = form.get("visualSource") || "stock";
   const formatLabel = videoFormat === "horizontal" ? "horizontal" : "vertikal";
@@ -586,11 +587,12 @@ function formPayload() {
     selectedIdea: null,
     tone: form.get("tone"),
     ttsProvider: form.get("ttsProvider"),
+    longForm: String(form.get("longForm") || "false").toLowerCase() === "true",
     durationSec: Number(form.get("durationSec")),
     sceneCount: Number(form.get("sceneCount")),
     imageQuality: form.get("imageQuality"),
     imageSize: state.config?.providers?.imageSize || "1024x1792",
-    avatarMode: form.get("avatarMode") || "image",
+    avatarMode: form.get("avatarMode") || "random-green",
     videoFormat: form.get("videoFormat") || "vertical",
     visualSource: form.get("visualSource") || "stock",
     openaiTtsVoice: settingsForm.get("openaiTtsVoice"),

@@ -71,10 +71,10 @@ export function publicConfig() {
     providers: {
       openai: Boolean(process.env.OPENAI_API_KEY),
       openaiBaseUrl: cleanBaseUrl(process.env.OPENAI_BASE_URL || "https://api.openai.com/v1"),
-      storyModel: clean(process.env.STORY_MODEL || "gpt-4o-mini"),
-      imageModel: clean(process.env.IMAGE_MODEL || "dall-e-3"),
-      imageSize: clean(process.env.IMAGE_SIZE || "1024x1792"),
-      imageQuality: clean(process.env.IMAGE_QUALITY || "standard"),
+      storyModel: clean(process.env.STORY_MODEL || "gpt-4.1-mini"),
+      imageModel: clean(process.env.IMAGE_MODEL || "gpt-image-1-mini"),
+      imageSize: clean(process.env.IMAGE_SIZE || "1024x1536"),
+      imageQuality: clean(process.env.IMAGE_QUALITY || "low"),
       videoProvider: clean(process.env.VIDEO_PROVIDER || "gemini-veo"),
       videoBaseUrl: cleanBaseUrl(process.env.VIDEO_BASE_URL || process.env.GEMINI_BASE_URL || "https://generativelanguage.googleapis.com"),
       videoEndpointMode: clean(process.env.VIDEO_ENDPOINT_MODE || "gemini"),
@@ -107,7 +107,7 @@ export function publicConfig() {
       elevenlabsVoiceId: clean(process.env.ELEVENLABS_VOICE_ID || "")
     },
     render: {
-      speechTempo: Number(process.env.SPEECH_TEMPO || 1.15)
+      speechTempo: Number(process.env.SPEECH_TEMPO || 1.0)
     },
     pricing: {
       videoUsdPerSecond: Number(process.env.VIDEO_USD_PER_SECOND || 0.03)

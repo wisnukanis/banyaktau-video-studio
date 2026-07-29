@@ -55,7 +55,7 @@ export async function uploadGeneratedStateAndAssets(options = {}) {
     try {
       console.log("Staging generated assets to Git...");
       
-      let filesToAdd = ["data/items.json"];
+      let filesToAdd = ["data/items.json", "data/analytics.json"];
       if (options.item) {
         const item = options.item;
         const assets = [
@@ -111,6 +111,10 @@ export async function uploadGeneratedStateAndAssets(options = {}) {
       await uploadDir(client, paths.audioDir, "audio");
     }
     await uploadJsonFile(client, path.join(paths.dataDir, "items.json"), "state/items.json");
+    const analyticsPath = path.join(paths.dataDir, "analytics.json");
+    if (await fileExists(analyticsPath)) {
+      await uploadJsonFile(client, analyticsPath, "state/analytics.json");
+    }
     const memoryPath = path.join(paths.dataDir, "memory.json");
     if (await fileExists(memoryPath)) {
       await uploadJsonFile(client, memoryPath, "state/memory.json");
