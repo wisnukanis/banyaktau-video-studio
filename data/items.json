@@ -12027,13 +12027,13 @@
   {
     "id": "tau_52682ce14c59",
     "source": "openai",
-    "status": "rendering",
+    "status": "uploading",
     "project_id": "capybara_banyak_tau_id",
     "language": "id-ID",
     "market": "ID",
     "version_type": "original",
     "createdAt": "2026-07-29T08:57:33.995Z",
-    "updatedAt": "2026-07-29T08:58:48.611Z",
+    "updatedAt": "2026-07-29T09:32:08.994Z",
     "input": {
       "topic": "Sains",
       "category": "sains",
@@ -12057,7 +12057,7 @@
       "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
       "elevenlabsModel": "eleven_multilingual_v2",
       "openaiTtsVoice": "shimmer",
-      "avatarMode": "avatar hijau 2.mp4",
+      "avatarMode": "avatar hijau 1.mp4",
       "videoFormat": "vertical",
       "visualSource": "stock"
     },
@@ -12168,7 +12168,462 @@
       ]
     },
     "assets": {
-      "images": [],
+      "images": [
+        {
+          "sceneIndex": 1,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_52682ce14c59-scene-1-air-laut-tidak-membeku.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_52682ce14c59-scene-1-air-laut-tidak-membeku.jpg",
+          "prompt": "close-up of ocean waves in cold weather, topic: Sains, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_52682ce14c59-scene-2-titik-beku-air-laut-lebih-rendah.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_52682ce14c59-scene-2-titik-beku-air-laut-lebih-rendah.jpg",
+          "prompt": "frozen saltwater sample under microscope, topic: Sains, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_52682ce14c59-scene-3-garam-lemahkan-ikatan-molekul.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_52682ce14c59-scene-3-garam-lemahkan-ikatan-molekul.jpg",
+          "prompt": "sodium chloride crystals dissolving in water, topic: Sains, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_52682ce14c59-scene-4-air-laut-tetap-cair.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_52682ce14c59-scene-4-air-laut-tetap-cair.jpg",
+          "prompt": "ocean surface in winter weather, topic: Sains, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_52682ce14c59-scene-5-kehidupan-laut-bergantung-pada-air-cair.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_52682ce14c59-scene-5-kehidupan-laut-bergantung-pada-air-cair.jpg",
+          "prompt": "marine life in cold ocean, topic: Sains, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_52682ce14c59-scene-6-lautan-kutub-tetap-tidak-beku.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_52682ce14c59-scene-6-lautan-kutub-tetap-tidak-beku.jpg",
+          "prompt": "polar ocean with icebergs, topic: Sains, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_52682ce14c59-scene-7-pahami-salinitas-hargai-alam.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_52682ce14c59-scene-7-pahami-salinitas-hargai-alam.jpg",
+          "prompt": "scientists studying ocean water, topic: Sains, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_52682ce14c59-scene-8-terima-kasih-garam.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_52682ce14c59-scene-8-terima-kasih-garam.jpg",
+          "prompt": "ocean with sunset, topic: Sains, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_52682ce14c59-scene-9-menarik-atau-biasa-saja.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_52682ce14c59-scene-9-menarik-atau-biasa-saja.jpg",
+          "prompt": "question mark over ocean, topic: Sains, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_52682ce14c59-scene-1-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_52682ce14c59-scene-1-stock.mp4",
+          "prompt": "ocean waves",
+          "seconds": 15,
+          "targetDurationSec": 14.13,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_52682ce14c59-scene-2-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_52682ce14c59-scene-2-stock.mp4",
+          "prompt": "frozen saltwater",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_52682ce14c59-scene-3-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_52682ce14c59-scene-3-stock.mp4",
+          "prompt": "salt dissolving in",
+          "seconds": 17,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_52682ce14c59-scene-4-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_52682ce14c59-scene-4-stock.mp4",
+          "prompt": "ocean in winter",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_52682ce14c59-scene-5-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_52682ce14c59-scene-5-stock.mp4",
+          "prompt": "marine life",
+          "seconds": 16,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_52682ce14c59-scene-6-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_52682ce14c59-scene-6-stock.mp4",
+          "prompt": "polar ocean",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_52682ce14c59-scene-7-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_52682ce14c59-scene-7-stock.mp4",
+          "prompt": "scientists ocean study",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_52682ce14c59-scene-8-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_52682ce14c59-scene-8-stock.mp4",
+          "prompt": "sunset ocean",
+          "seconds": 16,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_52682ce14c59-scene-9-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_52682ce14c59-scene-9-stock.mp4",
+          "prompt": "ocean question mark",
+          "seconds": 15,
+          "targetDurationSec": 13.6,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "onyx",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_52682ce14c59-openai-natural-narration.mp3",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/audio/tau_52682ce14c59-openai-natural-narration.mp3",
+        "characters": 803
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_52682ce14c59-openai-mengapa-air-laut-tidak-pernah-membeku.mp4",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_52682ce14c59-openai-mengapa-air-laut-tidak-pernah-membeku.mp4",
+        "provider": "openai",
+        "durationSec": 54.7,
+        "scenes": 9
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Air laut memiliki sifat unik yang menjadikannya tidak membeku di suhu dingin ekstrem. Kenapa bisa gitu? Sementara air tawar membeku pada suhu 0 derajat Celsius, air laut memiliki titik beku yang jauh lebih rendah. Ini terjadi karena adanya garam dalam air laut. Garam menyebabkan ikatan antar molekul air menjadi lebih lemah. Akibatnya, meski suhu lingkungan sangat dingin, air laut tetap dalam keadaan cair. Fenomena ini sangat penting. Kehidupan laut bergantung pada ekosistem yang stabil, bahkan dalam cuaca ekstrem. Sekaligus, ini menjelaskan mengapa bagian laut tidak beku di belahan bumi kutub. Dengan memahami salinitas, kita bisa lebih menghargai proses alami yang terjadi di lautan. Jadi, air laut tidak membeku berkat garam yang ada di dalamnya. Menurutmu fakta ini menarik atau biasa saja?"
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_52682ce14c59-thumbnail-mengapa-air-laut-tidak-pernah-membeku.jpg",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/thumbnails/tau_52682ce14c59-thumbnail-mengapa-air-laut-tidak-pernah-membeku.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 2962,
+      "outputTokens": 1440,
+      "totalTokens": 4402,
+      "storyUsd": 0.00349,
+      "imageUnitUsd": 0.04,
+      "imageUsd": 0.36,
+      "ttsUsd": 0.01205,
+      "totalUsd": 0.37554,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 60,
+      "stage": "platform_uploading",
+      "message": "Mengirim video ke facebook..."
+    },
+    "publish": {}
+  },
+  {
+    "id": "tau_52682ce14c59_us",
+    "title": "Why Doesn’t Ocean Water Freeze?",
+    "status": "rendered",
+    "createdAt": "2026-07-29T09:33:08.874Z",
+    "updatedAt": "2026-07-29T09:34:18.385Z",
+    "source_video_id": "tau_52682ce14c59",
+    "project_id": "curious_capybara_us",
+    "language": "en-US",
+    "market": "US",
+    "version_type": "localized_remake",
+    "input": {
+      "topic": "Sains",
+      "category": "sains",
+      "hookStyle": "Air laut memiliki sifat unik yang menjadikannya tidak membeku di suhu dingin ekstrem. Kenapa bisa gitu?",
+      "selectedIdea": {
+        "id": "idea_f5dd282d1e5c",
+        "title": "Mengapa Air Laut Tidak Pernah Membeku",
+        "topic": "Sains",
+        "hook": "Air laut memiliki sifat unik yang menjadikannya tidak membeku di suhu dingin ekstrem. Kenapa bisa gitu?",
+        "category": "sains",
+        "angle": "Membahas salinitas dan pengaruhnya terhadap titik beku air.",
+        "whyGood": "Membuat orang penasaran tentang fenomena alam yang tampak sederhana namun kompleks."
+      },
+      "tone": "science_documentary",
+      "longForm": false,
+      "durationSec": 120,
+      "sceneCount": 9,
+      "ttsProvider": "edge_tts",
+      "imageSize": "1024x1792",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 1.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "stock",
+      "voiceId": "en-GB-RyanNeural"
+    },
+    "plan": {
+      "title": "Why Doesn’t Ocean Water Freeze?",
+      "hook": "Ever wonder why ocean water never freezes?",
+      "summary": "Ever wondered why ocean water doesn't freeze in the cold? 🌊❄️ #OceanScience #Salinity",
+      "importantPoints": [
+        "#OceanScience",
+        "#Salinity",
+        "#MarineLife",
+        "#ScienceFacts"
+      ],
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 6.69,
+          "narration": "Ocean water has a unique property. It doesn’t freeze in extreme cold. Why is that?",
+          "screenText": "Ocean water never freezes!",
+          "imagePrompt": "close-up of ocean waves in cold weather",
+          "visualStyle": "simple",
+          "avatarPose": "thinking",
+          "purpose": "hook",
+          "visual_asset": "tau_52682ce14c59-scene-1-stock.mp4",
+          "reuse_visual": true,
+          "replace_visual_reason": ""
+        },
+        {
+          "index": 2,
+          "durationSec": 6.69,
+          "narration": "Freshwater freezes at zero degrees Celsius. But ocean water has a much lower freezing point.",
+          "screenText": "Ocean water's freezing point is lower.",
+          "imagePrompt": "frozen saltwater sample under microscope",
+          "visualStyle": "simple",
+          "avatarPose": "clipboard",
+          "purpose": "explanation",
+          "visual_asset": "tau_52682ce14c59-scene-2-stock.mp4",
+          "reuse_visual": true,
+          "replace_visual_reason": ""
+        },
+        {
+          "index": 3,
+          "durationSec": 7.58,
+          "narration": "This is due to the salt in the water. The salt weakens the bonds between water molecules.",
+          "screenText": "Salt weakens water bonds.",
+          "imagePrompt": "sodium chloride crystals dissolving in water",
+          "visualStyle": "simple",
+          "avatarPose": "clipboard",
+          "purpose": "explanation",
+          "visual_asset": "tau_52682ce14c59-scene-3-stock.mp4",
+          "reuse_visual": true,
+          "replace_visual_reason": ""
+        },
+        {
+          "index": 4,
+          "durationSec": 4.01,
+          "narration": "So, even when temperatures drop, ocean water stays liquid.",
+          "screenText": "Ocean water stays liquid!",
+          "imagePrompt": "ocean surface in winter weather",
+          "visualStyle": "simple",
+          "avatarPose": "clipboard",
+          "purpose": "explanation",
+          "visual_asset": "tau_52682ce14c59-scene-4-stock.mp4",
+          "reuse_visual": true,
+          "replace_visual_reason": ""
+        },
+        {
+          "index": 5,
+          "durationSec": 7.58,
+          "narration": "This is crucial for marine life. A stable ecosystem relies on liquid water, even in harsh conditions.",
+          "screenText": "Marine life depends on liquid water.",
+          "imagePrompt": "marine life in cold ocean",
+          "visualStyle": "simple",
+          "avatarPose": "clipboard",
+          "purpose": "explanation",
+          "visual_asset": "tau_52682ce14c59-scene-5-stock.mp4",
+          "reuse_visual": true,
+          "replace_visual_reason": ""
+        },
+        {
+          "index": 6,
+          "durationSec": 2.68,
+          "narration": "That’s why polar oceans don’t freeze.",
+          "screenText": "Polar oceans remain unfrozen.",
+          "imagePrompt": "polar ocean with icebergs",
+          "visualStyle": "simple",
+          "avatarPose": "clipboard",
+          "purpose": "explanation",
+          "visual_asset": "tau_52682ce14c59-scene-6-stock.mp4",
+          "reuse_visual": true,
+          "replace_visual_reason": ""
+        },
+        {
+          "index": 7,
+          "durationSec": 5.35,
+          "narration": "By understanding salinity, we can appreciate the natural processes in our oceans.",
+          "screenText": "Understand salinity, appreciate nature.",
+          "imagePrompt": "scientists studying ocean water",
+          "visualStyle": "simple",
+          "avatarPose": "clipboard",
+          "purpose": "explanation",
+          "visual_asset": "tau_52682ce14c59-scene-7-stock.mp4",
+          "reuse_visual": true,
+          "replace_visual_reason": ""
+        },
+        {
+          "index": 8,
+          "durationSec": 4.9,
+          "narration": "So, ocean water doesn’t freeze because of the salt it contains.",
+          "screenText": "Thanks, salt!",
+          "imagePrompt": "ocean with sunset",
+          "visualStyle": "simple",
+          "avatarPose": "thumbs_up",
+          "purpose": "explanation",
+          "visual_asset": "tau_52682ce14c59-scene-8-stock.mp4",
+          "reuse_visual": true,
+          "replace_visual_reason": ""
+        },
+        {
+          "index": 9,
+          "durationSec": 4.01,
+          "narration": "Do you find this fact interesting or just ordinary?",
+          "screenText": "Interesting or ordinary?",
+          "imagePrompt": "question mark over ocean",
+          "visualStyle": "simple",
+          "avatarPose": "thinking",
+          "purpose": "closing",
+          "visual_asset": "tau_52682ce14c59-scene-9-stock.mp4",
+          "reuse_visual": true,
+          "replace_visual_reason": ""
+        }
+      ]
+    },
+    "assets": {
+      "images": [
+        {
+          "sceneIndex": 1,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_52682ce14c59-scene-1-air-laut-tidak-membeku.jpg",
+          "url": "/generated/images/tau_52682ce14c59-scene-1-air-laut-tidak-membeku.jpg",
+          "prompt": "close-up of ocean waves in cold weather, topic: Sains, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_52682ce14c59-scene-2-titik-beku-air-laut-lebih-rendah.jpg",
+          "url": "/generated/images/tau_52682ce14c59-scene-2-titik-beku-air-laut-lebih-rendah.jpg",
+          "prompt": "frozen saltwater sample under microscope, topic: Sains, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_52682ce14c59-scene-3-garam-lemahkan-ikatan-molekul.jpg",
+          "url": "/generated/images/tau_52682ce14c59-scene-3-garam-lemahkan-ikatan-molekul.jpg",
+          "prompt": "sodium chloride crystals dissolving in water, topic: Sains, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_52682ce14c59-scene-4-air-laut-tetap-cair.jpg",
+          "url": "/generated/images/tau_52682ce14c59-scene-4-air-laut-tetap-cair.jpg",
+          "prompt": "ocean surface in winter weather, topic: Sains, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_52682ce14c59-scene-5-kehidupan-laut-bergantung-pada-air-cair.jpg",
+          "url": "/generated/images/tau_52682ce14c59-scene-5-kehidupan-laut-bergantung-pada-air-cair.jpg",
+          "prompt": "marine life in cold ocean, topic: Sains, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_52682ce14c59-scene-6-lautan-kutub-tetap-tidak-beku.jpg",
+          "url": "/generated/images/tau_52682ce14c59-scene-6-lautan-kutub-tetap-tidak-beku.jpg",
+          "prompt": "polar ocean with icebergs, topic: Sains, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_52682ce14c59-scene-7-pahami-salinitas-hargai-alam.jpg",
+          "url": "/generated/images/tau_52682ce14c59-scene-7-pahami-salinitas-hargai-alam.jpg",
+          "prompt": "scientists studying ocean water, topic: Sains, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_52682ce14c59-scene-8-terima-kasih-garam.jpg",
+          "url": "/generated/images/tau_52682ce14c59-scene-8-terima-kasih-garam.jpg",
+          "prompt": "ocean with sunset, topic: Sains, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_52682ce14c59-scene-9-menarik-atau-biasa-saja.jpg",
+          "url": "/generated/images/tau_52682ce14c59-scene-9-menarik-atau-biasa-saja.jpg",
+          "prompt": "question mark over ocean, topic: Sains, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
       "clips": [
         {
           "sceneIndex": 1,
@@ -12280,42 +12735,62 @@
         }
       ],
       "audio": {
-        "provider": "openai",
-        "model": "tts-1",
-        "voice": "onyx",
-        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_52682ce14c59-openai-natural-narration.mp3",
-        "url": "/generated/audio/tau_52682ce14c59-openai-natural-narration.mp3",
-        "characters": 803
+        "provider": "edge_tts",
+        "model": "edge-tts-cli",
+        "voice": "en-GB-RyanNeural",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_52682ce14c59_us.mp3",
+        "url": "/generated/audio/tau_52682ce14c59_us.mp3",
+        "characters": 662
       },
-      "video": null,
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_52682ce14c59_us-edge_tts-why-doesn-t-ocean-water-freeze.mp4",
+        "url": "/generated/videos/tau_52682ce14c59_us-edge_tts-why-doesn-t-ocean-water-freeze.mp4",
+        "provider": "edge_tts",
+        "durationSec": 54.33,
+        "scenes": 9
+      },
       "captions": [
         {
           "start": 0,
           "end": 0,
-          "text": "Air laut memiliki sifat unik yang menjadikannya tidak membeku di suhu dingin ekstrem. Kenapa bisa gitu? Sementara air tawar membeku pada suhu 0 derajat Celsius, air laut memiliki titik beku yang jauh lebih rendah. Ini terjadi karena adanya garam dalam air laut. Garam menyebabkan ikatan antar molekul air menjadi lebih lemah. Akibatnya, meski suhu lingkungan sangat dingin, air laut tetap dalam keadaan cair. Fenomena ini sangat penting. Kehidupan laut bergantung pada ekosistem yang stabil, bahkan dalam cuaca ekstrem. Sekaligus, ini menjelaskan mengapa bagian laut tidak beku di belahan bumi kutub. Dengan memahami salinitas, kita bisa lebih menghargai proses alami yang terjadi di lautan. Jadi, air laut tidak membeku berkat garam yang ada di dalamnya. Menurutmu fakta ini menarik atau biasa saja?"
+          "text": "Ocean water has a unique property. It doesn't freeze in extreme cold. Why is that? Fresh water freezes at zero degrees Celsius. But ocean water has a much lower freezing point. This is due to the salt in the water. The salt weakens the bonds between water molecules. So, even when temperatures drop, ocean water stays liquid. This is crucial for marine life. A stable ecosystem relies on liquid water, even in harsh conditions. That's why polar oceans don't freeze. By understanding salinity, we can appreciate the natural processes in our oceans. So, ocean water doesn't freeze because of the salt it contains. Do you find this fact interesting or just ordinary?"
         }
+      ]
+    },
+    "publish_pack_us": {
+      "youtube_title": "Why Doesn’t Ocean Water Freeze?",
+      "youtube_description": "Discover the science behind why ocean water remains liquid even in extreme cold. Learn about salinity and its impact on freezing points.",
+      "instagram_caption": "Ever wondered why ocean water doesn't freeze in the cold? 🌊❄️ #OceanScience #Salinity",
+      "facebook_caption": "Why doesn’t ocean water freeze? Explore the fascinating science behind it! 🌊 #OceanFacts",
+      "tiktok_caption": "Ocean water stays liquid in the cold! Learn why! 🌊❄️ #ScienceFacts",
+      "hashtags": [
+        "#OceanScience",
+        "#Salinity",
+        "#MarineLife",
+        "#ScienceFacts"
       ],
-      "thumbnail": {
-        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_52682ce14c59-thumbnail-mengapa-air-laut-tidak-pernah-membeku.jpg",
-        "url": "/generated/thumbnails/tau_52682ce14c59-thumbnail-mengapa-air-laut-tidak-pernah-membeku.jpg",
-        "provider": "ffmpeg-collage"
-      }
+      "pinned_comment": "What other ocean facts do you find interesting?",
+      "thumbnail_text": "Why Doesn’t Ocean Water Freeze?",
+      "recommended_posting_time": "Tuesday at 2 PM"
+    },
+    "quality_notes": {
+      "fact_safety_score": 0,
+      "hook_score": 0,
+      "caption_readability_score": 0,
+      "visual_reuse_score": 0,
+      "warnings": []
     },
     "cost": {
-      "inputTokens": 2962,
-      "outputTokens": 1440,
-      "totalTokens": 4402,
-      "storyUsd": 0.00349,
-      "imageUnitUsd": 0.04,
-      "imageUsd": 0.36,
-      "ttsUsd": 0.01205,
-      "totalUsd": 0.37554,
-      "videoUsd": 0
+      "storyUsd": 0,
+      "imageUsd": 0,
+      "ttsUsd": 0,
+      "videoUsd": 0,
+      "totalUsd": 0
     },
     "progress": {
-      "percent": 65,
-      "stage": "rendering_segments",
-      "message": "Merender segmen 11 dari 11..."
+      "percent": 100,
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
     }
   }
 ]

@@ -389,7 +389,10 @@ export async function renderUsVideo(itemId) {
 
   // Copy final video to outputs/videos/
   const outputVideoPath = path.join(paths.rootDir, "outputs", "videos", `${itemId}.mp4`);
-  await fs.copyFile(renderResult.path, outputVideoPath);
+  const finalVideoPath = renderResult.assets?.video?.path || item.assets?.video?.path;
+  if (finalVideoPath) {
+    await fs.copyFile(finalVideoPath, outputVideoPath);
+  }
 
   // Set state
   item.status = "ready";

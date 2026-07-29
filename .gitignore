@@ -20,5 +20,7 @@ Thumbs.db
 
 scratch/
 
+outputs/
+
 .vercel
 .vercel-pin.tmp
