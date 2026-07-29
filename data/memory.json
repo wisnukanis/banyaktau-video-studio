@@ -1,7 +1,27 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-29T06:52:25.042Z",
+  "updatedAt": "2026-07-29T09:36:34.846Z",
   "items": [
+    {
+      "id": "tau_52682ce14c59",
+      "title": "Mengapa Air Laut Tidak Pernah Membeku",
+      "topic": "Sains",
+      "category": "sains",
+      "hook": "Air laut memiliki sifat unik yang menjadikannya tidak membeku di suhu dingin ekstrem. Kenapa bisa gitu?",
+      "summary": "Salinitas air laut menurunkan titik beku air, menjadikannya tetap cair meski dalam suhu dingin. Ini penting dalam memahami ekosistem laut.",
+      "importantPoints": [
+        "Salinitas air laut mempengaruhi titik beku air.",
+        "Air laut memiliki kandungan garam yang tinggi.",
+        "Kandungan garam menyebabkan air laut tetap cair meski suhu turun drastis.",
+        "Fenomena ini penting untuk menjaga kehidupan di lautan.",
+        "Air tawar memiliki titik beku berbeda dibandingkan dengan air laut."
+      ],
+      "createdAt": "2026-07-29T08:57:33.995Z",
+      "updatedAt": "2026-07-29T09:32:08.994Z",
+      "videoUrl": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_52682ce14c59-openai-mengapa-air-laut-tidak-pernah-membeku.mp4",
+      "facebookUrl": "https://www.facebook.com/reel/3526132777562682",
+      "instagramUrl": ""
+    },
     {
       "id": "tau_ac25b1f2f448",
       "title": "Kucing Melihat Dunia Dengan Berbeda",

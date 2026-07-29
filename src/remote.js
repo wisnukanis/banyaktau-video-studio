@@ -55,7 +55,7 @@ export async function uploadGeneratedStateAndAssets(options = {}) {
     try {
       console.log("Staging generated assets to Git...");
       
-      let filesToAdd = ["data/items.json", "data/analytics.json"];
+      let candidateFiles = ["data/items.json", "data/analytics.json", "data/memory.json"];
       if (options.item) {
         const item = options.item;
         const assets = [
@@ -67,22 +67,39 @@ export async function uploadGeneratedStateAndAssets(options = {}) {
         ].filter((asset) => asset?.path);
         
         for (const asset of assets) {
-          filesToAdd.push(asset.path);
+          candidateFiles.push(asset.path);
         }
       } else {
-        filesToAdd.push("generated/");
+        candidateFiles.push("generated/");
       }
       
       // Map to relative paths and filter duplicates
       const relPaths = Array.from(new Set(
-        filesToAdd.map(p => {
+        candidateFiles.map(p => {
           if (p.startsWith("data/") || p.startsWith("generated/")) return p;
           return path.relative(paths.rootDir, p).replace(/\\/g, "/");
         })
       ));
+
+      // Filter only files that actually exist on disk
+      const existingRelPaths = [];
+      for (const relP of relPaths) {
+        const absP = path.resolve(paths.rootDir, relP);
+        try {
+          await fs.stat(absP);
+          existingRelPaths.push(relP);
+        } catch {
+          // File does not exist yet, skip git add for this path
+        }
+      }
+
+      if (existingRelPaths.length === 0) {
+        console.log("No existing files to stage for GitHub auto-push.");
+        return;
+      }
       
-      console.log("Staging specific files to Git:", relPaths);
-      await execPromise(`git add -f ${relPaths.map(p => `"${p}"`).join(" ")}`, { cwd: paths.rootDir });
+      console.log("Staging specific files to Git:", existingRelPaths);
+      await execPromise(`git add -f ${existingRelPaths.map(p => `"${p}"`).join(" ")}`, { cwd: paths.rootDir });
       
       const { stdout: status } = await execPromise("git status --porcelain", { cwd: paths.rootDir });
       if (status.trim()) {
