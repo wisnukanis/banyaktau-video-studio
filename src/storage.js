@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { paths } from "./config.js";
+import { safeWriteJson } from "./util.js";
 
 const itemsFile = path.join(paths.dataDir, "items.json");
 const memoryFile = path.join(paths.dataDir, "memory.json");
@@ -15,10 +16,7 @@ async function readJson(file, fallback) {
 }
 
 async function writeJson(file, value) {
-  await fs.mkdir(path.dirname(file), { recursive: true });
-  const tmp = `${file}.tmp`;
-  await fs.writeFile(tmp, `${JSON.stringify(value, null, 2)}\n`);
-  await fs.rename(tmp, file);
+  await safeWriteJson(file, value);
 }
 
 export async function listItems() {

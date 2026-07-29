@@ -4,6 +4,7 @@ import { paths } from "./config.js";
 import { listItems } from "./storage.js";
 import { fetchFacebookVideoInsights, fetchInstagramMediaInsights } from "./facebook.js";
 import { fetchYoutubeVideoStats } from "./youtube.js";
+import { safeWriteJson } from "./util.js";
 
 const analyticsFile = path.join(paths.dataDir, "analytics.json");
 
@@ -17,10 +18,7 @@ async function readAnalytics() {
 }
 
 async function writeAnalytics(value) {
-  await fs.mkdir(path.dirname(analyticsFile), { recursive: true });
-  const tmp = `${analyticsFile}.tmp`;
-  await fs.writeFile(tmp, `${JSON.stringify(value, null, 2)}\n`);
-  await fs.rename(tmp, analyticsFile);
+  await safeWriteJson(analyticsFile, value);
 }
 
 // A simple, transparent engagement score so different platforms can be

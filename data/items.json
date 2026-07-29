@@ -12023,5 +12023,299 @@
         "publishedAt": "2026-07-29T06:52:25.026Z"
       }
     }
+  },
+  {
+    "id": "tau_52682ce14c59",
+    "source": "openai",
+    "status": "rendering",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-07-29T08:57:33.995Z",
+    "updatedAt": "2026-07-29T08:58:48.611Z",
+    "input": {
+      "topic": "Sains",
+      "category": "sains",
+      "hookStyle": "Air laut memiliki sifat unik yang menjadikannya tidak membeku di suhu dingin ekstrem. Kenapa bisa gitu?",
+      "selectedIdea": {
+        "id": "idea_f5dd282d1e5c",
+        "title": "Mengapa Air Laut Tidak Pernah Membeku",
+        "topic": "Sains",
+        "hook": "Air laut memiliki sifat unik yang menjadikannya tidak membeku di suhu dingin ekstrem. Kenapa bisa gitu?",
+        "category": "sains",
+        "angle": "Membahas salinitas dan pengaruhnya terhadap titik beku air.",
+        "whyGood": "Membuat orang penasaran tentang fenomena alam yang tampak sederhana namun kompleks."
+      },
+      "tone": "science_documentary",
+      "longForm": false,
+      "durationSec": 120,
+      "sceneCount": 9,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1792",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 2.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "stock"
+    },
+    "title": "Mengapa Air Laut Tidak Pernah Membeku",
+    "plan": {
+      "title": "Mengapa Air Laut Tidak Pernah Membeku",
+      "hook": "Air laut memiliki sifat unik yang menjadikannya tidak membeku di suhu dingin ekstrem. Kenapa bisa gitu?",
+      "summary": "Salinitas air laut menurunkan titik beku air, menjadikannya tetap cair meski dalam suhu dingin. Ini penting dalam memahami ekosistem laut.",
+      "importantPoints": [
+        "Salinitas air laut mempengaruhi titik beku air.",
+        "Air laut memiliki kandungan garam yang tinggi.",
+        "Kandungan garam menyebabkan air laut tetap cair meski suhu turun drastis.",
+        "Fenomena ini penting untuk menjaga kehidupan di lautan.",
+        "Air tawar memiliki titik beku berbeda dibandingkan dengan air laut."
+      ],
+      "factCheckNote": "Informasi diambil dari penelitian tentang pengaruh salinitas terhadap titik beku air laut.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 14.13,
+          "narration": "Air laut memiliki sifat unik yang menjadikannya tidak membeku di suhu dingin ekstrem. Kenapa bisa gitu?",
+          "screenText": "Air laut tidak membeku!",
+          "imagePrompt": "close-up of ocean waves in cold weather, topic: Sains, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "ocean waves",
+          "visualStyle": "high contrast, dramatic lighting",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 13.33,
+          "narration": "Sementara air tawar membeku pada suhu nol derajat Celsius, air laut memiliki titik beku yang jauh lebih rendah.",
+          "screenText": "Titik beku air laut lebih rendah.",
+          "imagePrompt": "frozen saltwater sample under microscope, topic: Sains, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "frozen saltwater",
+          "visualStyle": "macro shot, scientific focus",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 3,
+          "durationSec": 13.33,
+          "narration": "Ini terjadi karena adanya garam dalam air laut. Garam menyebabkan ikatan antar molekul air menjadi lebih lemah.",
+          "screenText": "Garam lemahkan ikatan molekul.",
+          "imagePrompt": "sodium chloride crystals dissolving in water, topic: Sains, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "salt dissolving in",
+          "visualStyle": "close-up, slow motion",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 4,
+          "durationSec": 13.33,
+          "narration": "Akibatnya, meski suhu lingkungan sangat dingin, air laut tetap dalam keadaan cair.",
+          "screenText": "Air laut tetap cair!",
+          "imagePrompt": "ocean surface in winter weather, topic: Sains, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "ocean in winter",
+          "visualStyle": "wide shot, serene atmosphere",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 5,
+          "durationSec": 13.33,
+          "narration": "Fenomena ini sangat penting. Kehidupan laut bergantung pada ekosistem yang stabil, bahkan dalam cuaca ekstrem.",
+          "screenText": "Kehidupan laut bergantung pada air cair.",
+          "imagePrompt": "marine life in cold ocean, topic: Sains, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "marine life",
+          "visualStyle": "underwater shot, vibrant colors",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 6,
+          "durationSec": 13.33,
+          "narration": "Sekaligus, ini menjelaskan mengapa bagian laut tidak beku di belahan bumi kutub.",
+          "screenText": "Lautan kutub tetap tidak beku.",
+          "imagePrompt": "polar ocean with icebergs, topic: Sains, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "polar ocean",
+          "visualStyle": "dramatic, icy landscape",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 7,
+          "durationSec": 13.33,
+          "narration": "Dengan memahami salinitas, kita bisa lebih menghargai proses alami yang terjadi di lautan.",
+          "screenText": "Pahami salinitas, hargai alam.",
+          "imagePrompt": "scientists studying ocean water, topic: Sains, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "scientists ocean study",
+          "visualStyle": "documentary style, focused research",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 8,
+          "durationSec": 13.33,
+          "narration": "Jadi, air laut tidak membeku berkat garam yang ada di dalamnya.",
+          "screenText": "Terima kasih, garam!",
+          "imagePrompt": "ocean with sunset, topic: Sains, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "sunset ocean",
+          "visualStyle": "beautiful sunset, warm colors",
+          "avatarPose": "thumbs_up"
+        },
+        {
+          "index": 9,
+          "durationSec": 13.6,
+          "narration": "Menurutmu, fakta ini menarik atau biasa saja?",
+          "screenText": "Menarik atau biasa saja?",
+          "imagePrompt": "question mark over ocean, topic: Sains, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "ocean question mark",
+          "visualStyle": "thoughtful, questioning atmosphere",
+          "avatarPose": "thinking"
+        }
+      ]
+    },
+    "assets": {
+      "images": [],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_52682ce14c59-scene-1-stock.mp4",
+          "url": "/generated/clips/tau_52682ce14c59-scene-1-stock.mp4",
+          "prompt": "ocean waves",
+          "seconds": 15,
+          "targetDurationSec": 14.13,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_52682ce14c59-scene-2-stock.mp4",
+          "url": "/generated/clips/tau_52682ce14c59-scene-2-stock.mp4",
+          "prompt": "frozen saltwater",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_52682ce14c59-scene-3-stock.mp4",
+          "url": "/generated/clips/tau_52682ce14c59-scene-3-stock.mp4",
+          "prompt": "salt dissolving in",
+          "seconds": 17,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_52682ce14c59-scene-4-stock.mp4",
+          "url": "/generated/clips/tau_52682ce14c59-scene-4-stock.mp4",
+          "prompt": "ocean in winter",
+          "seconds": 15,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_52682ce14c59-scene-5-stock.mp4",
+          "url": "/generated/clips/tau_52682ce14c59-scene-5-stock.mp4",
+          "prompt": "marine life",
+          "seconds": 16,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_52682ce14c59-scene-6-stock.mp4",
+          "url": "/generated/clips/tau_52682ce14c59-scene-6-stock.mp4",
+          "prompt": "polar ocean",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_52682ce14c59-scene-7-stock.mp4",
+          "url": "/generated/clips/tau_52682ce14c59-scene-7-stock.mp4",
+          "prompt": "scientists ocean study",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_52682ce14c59-scene-8-stock.mp4",
+          "url": "/generated/clips/tau_52682ce14c59-scene-8-stock.mp4",
+          "prompt": "sunset ocean",
+          "seconds": 16,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_52682ce14c59-scene-9-stock.mp4",
+          "url": "/generated/clips/tau_52682ce14c59-scene-9-stock.mp4",
+          "prompt": "ocean question mark",
+          "seconds": 15,
+          "targetDurationSec": 13.6,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "onyx",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_52682ce14c59-openai-natural-narration.mp3",
+        "url": "/generated/audio/tau_52682ce14c59-openai-natural-narration.mp3",
+        "characters": 803
+      },
+      "video": null,
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Air laut memiliki sifat unik yang menjadikannya tidak membeku di suhu dingin ekstrem. Kenapa bisa gitu? Sementara air tawar membeku pada suhu 0 derajat Celsius, air laut memiliki titik beku yang jauh lebih rendah. Ini terjadi karena adanya garam dalam air laut. Garam menyebabkan ikatan antar molekul air menjadi lebih lemah. Akibatnya, meski suhu lingkungan sangat dingin, air laut tetap dalam keadaan cair. Fenomena ini sangat penting. Kehidupan laut bergantung pada ekosistem yang stabil, bahkan dalam cuaca ekstrem. Sekaligus, ini menjelaskan mengapa bagian laut tidak beku di belahan bumi kutub. Dengan memahami salinitas, kita bisa lebih menghargai proses alami yang terjadi di lautan. Jadi, air laut tidak membeku berkat garam yang ada di dalamnya. Menurutmu fakta ini menarik atau biasa saja?"
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_52682ce14c59-thumbnail-mengapa-air-laut-tidak-pernah-membeku.jpg",
+        "url": "/generated/thumbnails/tau_52682ce14c59-thumbnail-mengapa-air-laut-tidak-pernah-membeku.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 2962,
+      "outputTokens": 1440,
+      "totalTokens": 4402,
+      "storyUsd": 0.00349,
+      "imageUnitUsd": 0.04,
+      "imageUsd": 0.36,
+      "ttsUsd": 0.01205,
+      "totalUsd": 0.37554,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 65,
+      "stage": "rendering_segments",
+      "message": "Merender segmen 11 dari 11..."
+    }
   }
 ]

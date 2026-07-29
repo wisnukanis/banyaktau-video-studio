@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { config, paths } from "./config.js";
+import { safeWriteJson } from "./util.js";
 
 const trendsFile = path.join(paths.dataDir, "trends.json");
 const API_URL = "https://www.googleapis.com/youtube/v3";
@@ -42,10 +43,7 @@ async function readTrends() {
 }
 
 async function writeTrends(value) {
-  await fs.mkdir(path.dirname(trendsFile), { recursive: true });
-  const tmp = `${trendsFile}.tmp`;
-  await fs.writeFile(tmp, `${JSON.stringify(value, null, 2)}\n`);
-  await fs.rename(tmp, trendsFile);
+  await safeWriteJson(trendsFile, value);
 }
 
 function tokenizeTitles(titles) {
