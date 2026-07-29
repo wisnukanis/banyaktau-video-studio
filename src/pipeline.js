@@ -400,12 +400,16 @@ async function generateImageWithRetry({ item, scene, size, quality }) {
 }
 
 function narrationText(item) {
-  return item.plan.scenes
+  const text = item.plan.scenes
     .map((scene) => String(scene.narration || "").trim())
     .filter(Boolean)
     .join(" ")
     .replace(/\s+/g, " ")
     .trim();
+  if (text && !/[.!?]$/.test(text)) {
+    return text + ".";
+  }
+  return text;
 }
 
 function updateTotalCost(item) {

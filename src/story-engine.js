@@ -544,7 +544,7 @@ function buildPrompt(input, context) {
     `Tone suara: ${input.tone}`,
     `Durasi ${longForm ? "target" : "maksimal"}: ${input.durationSec} detik`,
     `Jumlah scene: ${input.sceneCount}`,
-    `Target total narasi: sekitar ${wordTarget(input.durationSec, longForm)} kata, pas dengan target durasi.`,
+    `Target total narasi: WAJIB sekitar ${wordTarget(input.durationSec, longForm)} kata (sekitar ${Math.max(15, Math.round(wordTarget(input.durationSec, longForm) / input.sceneCount))} kata per scene). Buat narasi yang padat, kaya informasi, dan lengkap agar pas memenuhi durasi ${input.durationSec} detik tanpa terasa terlalu pendek.`,
     recent.length ? `Hindari duplikasi dari draft terbaru:\n${recent.join("\n")}` : ""
   ].filter(Boolean).join("\n");
 }

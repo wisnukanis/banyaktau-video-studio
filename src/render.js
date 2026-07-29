@@ -284,7 +284,7 @@ function buildTiming(item, narrationDuration) {
   const requestedTotal = clamp(Number(item.input?.durationSec || (longForm ? 480 : 90)), minTotal, maxTotal);
   const maxContent = maxTotal - introDuration - outroDuration;
   const requestedContent = requestedTotal - introDuration - outroDuration;
-  const relaxedFastTempo = clamp(Number(config.render.speechTempo || 1.15), 0.9, 1.3);
+  const relaxedFastTempo = clamp(Number(config.render?.speechTempo ?? 1.0), 0.9, 1.3);
   const forcedTempo = narrationDuration > maxContent ? narrationDuration / maxContent : 1;
   const narrationTempo = clamp(Math.max(relaxedFastTempo, forcedTempo), 0.9, 1.3);
   const adjustedNarration = narrationDuration ? narrationDuration / narrationTempo : 0;
