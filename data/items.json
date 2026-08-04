@@ -12801,5 +12801,605 @@
       "stage": "completed",
       "message": "Video final selesai dibuat!"
     }
+  },
+  {
+    "id": "tau_a3493a7813b1",
+    "source": "openai",
+    "status": "rendered",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-07-30T03:52:01.514Z",
+    "updatedAt": "2026-07-30T03:54:22.565Z",
+    "input": {
+      "topic": "teknologi",
+      "category": "teknologi",
+      "hookStyle": "Teknologi nirkabel kini menjadi bagian penting dari kehidupan sehari-hari, tapi apa alasan di balik popularitasnya?",
+      "selectedIdea": {
+        "id": "idea_b026ecc756ff",
+        "title": "Mengapa Teknologi Nirkabel Sangat Penting",
+        "topic": "teknologi",
+        "hook": "Teknologi nirkabel kini menjadi bagian penting dari kehidupan sehari-hari, tapi apa alasan di balik popularitasnya?",
+        "category": "teknologi",
+        "angle": "Menjelaskan bagaimana teknologi nirkabel mempengaruhi kehidupan modern dan kemudahan yang ditawarkan.",
+        "whyGood": "Menargetkan audiens yang tertarik pada teknologi dan inovasi, serta membahas dampaknya secara praktis."
+      },
+      "tone": "tech_explainer",
+      "longForm": false,
+      "durationSec": 90,
+      "sceneCount": 9,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1792",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 1.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "stock"
+    },
+    "title": "Mengapa Teknologi Nirkabel Sangat Penting",
+    "plan": {
+      "title": "Mengapa Teknologi Nirkabel Sangat Penting",
+      "hook": "Teknologi nirkabel kini menjadi bagian penting dari kehidupan sehari-hari, tapi apa alasan di balik popularitasnya?",
+      "summary": "Teknologi nirkabel memudahkan komunikasi dan akses informasi tanpa batas. Inovasi ini mengubah cara kita berinteraksi dalam kehidupan sehari-hari.",
+      "importantPoints": [
+        "Teknologi nirkabel memungkinkan koneksi instan tanpa kabel.",
+        "Penggunaan perangkat nirkabel meningkatkan mobilitas dan fleksibilitas.",
+        "Teknologi ini mendukung pengembangan IoT yang menghubungkan jutaan perangkat.",
+        "Nirkabel memberikan akses internet di daerah terpencil.",
+        "Keamanan data yang lebih baik menjadi fokus dalam teknologi nirkabel."
+      ],
+      "factCheckNote": "Informasi yang disajikan didasarkan pada perkembangan teknologi terkini hingga Oktober 2023.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 10.6,
+          "narration": "Teknologi nirkabel memungkinkan kita berkomunikasi tanpa batasan fisik. Cobalah bayangkan hidup tanpa koneksi instan ini.",
+          "screenText": "Hidup Tanpa Koneksi Nirkabel?",
+          "imagePrompt": "people using wireless devices in a cafe, topic: teknologi, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "wireless devices usage",
+          "visualStyle": "modern",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 10,
+          "narration": "Koneksi nirkabel memberikan kemudahan akses informasi di mana saja dan kapan saja. Ini mendukung gaya hidup yang lebih mobile.",
+          "screenText": "Akses Informasi Tanpa Batas",
+          "imagePrompt": "a person using smartphone in a park, topic: teknologi, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "smartphone outdoor usage",
+          "visualStyle": "bright",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 3,
+          "durationSec": 10,
+          "narration": "Dengan teknologi ini, IoT berkembang pesat. Jutaan perangkat kini dapat saling terhubung, menciptakan dunia yang lebih pintar.",
+          "screenText": "IoT Membangun Dunia Pintar",
+          "imagePrompt": "smart home devices interconnected, topic: teknologi, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "IoT smart home",
+          "visualStyle": "high-tech",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 4,
+          "durationSec": 10,
+          "narration": "Teknologi nirkabel juga memperluas akses internet ke daerah terpencil, mengurangi kesenjangan digital di masyarakat.",
+          "screenText": "Internet Untuk Semua",
+          "imagePrompt": "a rural area with internet access, topic: teknologi, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "rural internet connection",
+          "visualStyle": "inspiring",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 5,
+          "durationSec": 10,
+          "narration": "Keamanan menjadi fokus utama dalam pengembangan teknologi nirkabel. Perlindungan data pribadi sangat penting di era digital ini.",
+          "screenText": "Keamanan Data Dalam Nirkabel",
+          "imagePrompt": "cybersecurity concept with wireless network, topic: teknologi, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "wireless network security",
+          "visualStyle": "serious",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 6,
+          "durationSec": 10,
+          "narration": "Kehadiran teknologi nirkabel telah merubah cara kita berinteraksi dan mengakses informasi secara cepat dan efisien.",
+          "screenText": "Interaksi Cepat dan Efisien",
+          "imagePrompt": "people interacting with technology, topic: teknologi, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "interactive technology usage",
+          "visualStyle": "dynamic",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 7,
+          "durationSec": 10,
+          "narration": "Inovasi terus berlanjut, mendorong batasan dan menciptakan peluang baru dalam komunikasi dan teknologi.",
+          "screenText": "Inovasi Tanpa Henti",
+          "imagePrompt": "futuristic technology development, topic: teknologi, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "technology innovation concepts",
+          "visualStyle": "futuristic",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 8,
+          "durationSec": 10,
+          "narration": "Apa yang bisa kita bayangkan di masa depan untuk teknologi nirkabel? Mari kita eksplorasi kemungkinan-kemungkinan baru bersama.",
+          "screenText": "Masa Depan Teknologi Nirkabel",
+          "imagePrompt": "futuristic wireless technology concept, topic: teknologi, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "future wireless technology",
+          "visualStyle": "visionary",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 9,
+          "durationSec": 10.2,
+          "narration": "Apakah kamu sudah merasakan dampak dari teknologi nirkabel dalam kehidupan sehari-hari? Yuk, bagikan pengalamanmu di komentar!",
+          "screenText": "Bagikan Pengalamanmu!",
+          "imagePrompt": "people discussing technology, topic: teknologi, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "people discussing technology",
+          "visualStyle": "engaging",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_a3493a7813b1-scene-1-stock.mp4",
+          "url": "/generated/clips/tau_a3493a7813b1-scene-1-stock.mp4",
+          "prompt": "wireless devices usage",
+          "seconds": 11,
+          "targetDurationSec": 10.6,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_a3493a7813b1-scene-2-stock.mp4",
+          "url": "/generated/clips/tau_a3493a7813b1-scene-2-stock.mp4",
+          "prompt": "smartphone outdoor usage",
+          "seconds": 10,
+          "targetDurationSec": 10,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_a3493a7813b1-scene-3-stock.mp4",
+          "url": "/generated/clips/tau_a3493a7813b1-scene-3-stock.mp4",
+          "prompt": "IoT smart home",
+          "seconds": 10,
+          "targetDurationSec": 10,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_a3493a7813b1-scene-4-stock.mp4",
+          "url": "/generated/clips/tau_a3493a7813b1-scene-4-stock.mp4",
+          "prompt": "rural internet connection",
+          "seconds": 10,
+          "targetDurationSec": 10,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_a3493a7813b1-scene-5-stock.mp4",
+          "url": "/generated/clips/tau_a3493a7813b1-scene-5-stock.mp4",
+          "prompt": "wireless network security",
+          "seconds": 10,
+          "targetDurationSec": 10,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_a3493a7813b1-scene-6-stock.mp4",
+          "url": "/generated/clips/tau_a3493a7813b1-scene-6-stock.mp4",
+          "prompt": "interactive technology usage",
+          "seconds": 10,
+          "targetDurationSec": 10,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_a3493a7813b1-scene-7-stock.mp4",
+          "url": "/generated/clips/tau_a3493a7813b1-scene-7-stock.mp4",
+          "prompt": "technology innovation concepts",
+          "seconds": 10,
+          "targetDurationSec": 10,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_a3493a7813b1-scene-8-stock.mp4",
+          "url": "/generated/clips/tau_a3493a7813b1-scene-8-stock.mp4",
+          "prompt": "future wireless technology",
+          "seconds": 10,
+          "targetDurationSec": 10,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_a3493a7813b1-scene-9-stock.mp4",
+          "url": "/generated/clips/tau_a3493a7813b1-scene-9-stock.mp4",
+          "prompt": "people discussing technology",
+          "seconds": 14,
+          "targetDurationSec": 10.2,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "onyx",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_a3493a7813b1-openai-natural-narration.mp3",
+        "url": "/generated/audio/tau_a3493a7813b1-openai-natural-narration.mp3",
+        "characters": 1096
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_a3493a7813b1-openai-mengapa-teknologi-nirkabel-sangat-penting.mp4",
+        "url": "/generated/videos/tau_a3493a7813b1-openai-mengapa-teknologi-nirkabel-sangat-penting.mp4",
+        "provider": "openai",
+        "durationSec": 72.93,
+        "scenes": 9
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Teknologi Near Cable memungkinkan kita berkomunikasi tanpa batasan fisik. Cobalah bayangkan hidup tanpa koneksi instant ini. Koneksi Near Cable memberikan kemudahan akses informasi di mana saja dan kapan saja. Ini mendukung gaya hidup yang lebih mobil. Dengan teknologi ini, IoT berkembang pesat. Jutaan perangkat kini dapat saling terhubung, menciptakan dunia yang lebih pintar. Teknologi Near Cable juga memperluas akses internet ke daerah terpencil, mengurangi kesenjangan digital di masyarakat. Keamanan menjadi fokus utama dalam pengembangan teknologi Near Cable. Perlindungan data pribadi sangat penting di era digital ini. Kehadiran teknologi Near Cable telah merubah cara kita berinteraksi dan mengakses informasi secara cepat dan efisien. Inovasi terus berlanjut, mendorong batasan dan menciptakan peluang baru dalam komunikasi dan teknologi. Apa yang bisa kita bayangkan di masa depan untuk teknologi Near Cable? Mari kita eksplorasi kemungkinan-kemungkinan baru bersama. Apakah kamu sudah merasakan dampak teknologi Near Cable dalam kehidupan sehari-hari? Yuk bagikan pengalamanmu di komentar."
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_a3493a7813b1-thumbnail-mengapa-teknologi-nirkabel-sangat-penting.jpg",
+        "url": "/generated/thumbnails/tau_a3493a7813b1-thumbnail-mengapa-teknologi-nirkabel-sangat-penting.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 2961,
+      "outputTokens": 1511,
+      "totalTokens": 4472,
+      "storyUsd": 0.0036,
+      "imageUnitUsd": 0.04,
+      "imageUsd": 0.36,
+      "ttsUsd": 0.01644,
+      "totalUsd": 0.38004,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 100,
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
+    }
+  },
+  {
+    "id": "tau_98842fdcfc5f",
+    "source": "openai",
+    "status": "rendered",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-07-30T04:09:01.901Z",
+    "updatedAt": "2026-07-30T04:11:12.885Z",
+    "input": {
+      "topic": "Hewan",
+      "category": "sains",
+      "hookStyle": "Tumbuhan ini bisa menangkap serangga hidup-hidup, apa rahasianya?",
+      "selectedIdea": {
+        "id": "idea_cca0ef83698c",
+        "title": "Keajaiban Tumbuhan Pemakan Daging",
+        "topic": "Hewan",
+        "hook": "Tumbuhan ini bisa menangkap serangga hidup-hidup, apa rahasianya?",
+        "category": "sains",
+        "angle": "Membahas cara kerja dan mekanisme tumbuhan pemakan daging.",
+        "whyGood": "Menarik perhatian dengan fakta unik tentang tumbuhan yang tidak biasa."
+      },
+      "tone": "science_documentary",
+      "longForm": false,
+      "durationSec": 120,
+      "sceneCount": 9,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1792",
+      "imageQuality": "low",
+      "elevenlabsVoiceId": "pNInz6obpgfrhhF21cjL",
+      "elevenlabsModel": "eleven_multilingual_v2",
+      "openaiTtsVoice": "shimmer",
+      "avatarMode": "avatar hijau 1.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "stock"
+    },
+    "title": "Keajaiban Tumbuhan Pemakan Daging",
+    "plan": {
+      "title": "Keajaiban Tumbuhan Pemakan Daging",
+      "hook": "Tumbuhan ini bisa menangkap serangga hidup-hidup, apa rahasianya?",
+      "summary": "Tumbuhan pemakan daging memiliki mekanisme unik untuk menangkap serangga. Mereka beradaptasi dengan lingkungannya untuk bertahan hidup dalam kondisi tanah yang kurang nutrisi.",
+      "importantPoints": [
+        "Tumbuhan pemakan daging menggunakan mekanisme khusus untuk menangkap serangga.",
+        "Ada berbagai jenis tumbuhan pemakan daging, seperti Venus flytrap dan sundew.",
+        "Mereka beradaptasi untuk mendapatkan nutrisi dari serangga karena tanahnya kurang subur.",
+        "Ketika serangga terjebak, tumbuhan ini mencerna mereka dengan sekresi enzim.",
+        "Proses ini adalah contoh menarik dari adaptasi evolusioner dalam dunia tumbuhan."
+      ],
+      "factCheckNote": "Semua informasi yang disajikan dalam video ini adalah berdasarkan fakta ilmiah yang dapat dipercaya.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 14.13,
+          "narration": "Tumbuhan ini bisa menangkap serangga hidup-hidup, apa rahasianya?",
+          "screenText": "Keajaiban Tumbuhan Pemakan Daging",
+          "imagePrompt": "close-up of carnivorous plant catching insect, topic: Hewan, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "carnivorous plant insect",
+          "visualStyle": "macro shot",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 13.33,
+          "narration": "Tumbuhan pemakan daging, seperti Venus flytrap, memiliki mekanisme unik untuk menangkap mangsa.",
+          "screenText": "Mekanisme Unik",
+          "imagePrompt": "Venus flytrap open close action, topic: Hewan, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "Venus flytrap action",
+          "visualStyle": "slow motion",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 3,
+          "durationSec": 13.33,
+          "narration": "Mereka telah beradaptasi untuk mendapatkan nutrisi tambahan dari serangga karena tanah di habitatnya kurang subur.",
+          "screenText": "Adaptasi Nutrisi",
+          "imagePrompt": "carnivorous plant in nutrient-poor soil, topic: Hewan, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "carnivorous plant habitat",
+          "visualStyle": "natural setting",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 4,
+          "durationSec": 13.33,
+          "narration": "Saat serangga terjebak, tumbuhan ini mengeluarkan enzim untuk mencerna mangsanya.",
+          "screenText": "Proses Pencernaan",
+          "imagePrompt": "enzymes digesting insect in plant, topic: Hewan, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "digestive enzymes carnivorous",
+          "visualStyle": "close-up action",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 5,
+          "durationSec": 13.33,
+          "narration": "Setiap jenis tumbuhan pemakan daging memiliki teknik menangkap yang berbeda, seperti perangkap lengket atau perangkap penjepit.",
+          "screenText": "Teknik Menangkap Berbeda",
+          "imagePrompt": "different types of carnivorous plants, topic: Hewan, visual approach: soft 3D cutaway style illustration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "types of carnivorous",
+          "visualStyle": "comparative",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 6,
+          "durationSec": 13.33,
+          "narration": "Fakta menarik, meski tampak menakutkan, tumbuhan ini sangat penting untuk ekosistemnya.",
+          "screenText": "Penting untuk Ekosistem",
+          "imagePrompt": "carnivorous plant ecosystem role, topic: Hewan, visual approach: natural documentary moment, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "carnivorous plant ecosystem",
+          "visualStyle": "ecosystem interaction",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 7,
+          "durationSec": 13.33,
+          "narration": "Mereka membantu mengontrol populasi serangga dan memastikan keseimbangan alam.",
+          "screenText": "Mengontrol Populasi Serangga",
+          "imagePrompt": "carnivorous plant feeding on insect, topic: Hewan, visual approach: timeline-like scene without text, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "carnivorous plant feeding",
+          "visualStyle": "dynamic action",
+          "avatarPose": "clipboard"
+        },
+        {
+          "index": 8,
+          "durationSec": 13.33,
+          "narration": "Menarik untuk dicatat, tumbuhan ini adalah contoh luar biasa dari adaptasi evolusi.",
+          "screenText": "Contoh Adaptasi Evolusi",
+          "imagePrompt": "evolutionary adaptation of plants, topic: Hewan, visual approach: conceptual diagram style without labels, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "plant evolution adaptation",
+          "visualStyle": "scientific illustration",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 9,
+          "durationSec": 13.6,
+          "narration": "Apakah kamu juga terpesona dengan keajaiban tumbuhan ini? Komentar di bawah!",
+          "screenText": "Kamu Terpesona?",
+          "imagePrompt": "engaging viewer with plant, topic: Hewan, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "engaging viewer plant",
+          "visualStyle": "inviting",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_98842fdcfc5f-scene-1-stock.mp4",
+          "url": "/generated/clips/tau_98842fdcfc5f-scene-1-stock.mp4",
+          "prompt": "carnivorous plant insect",
+          "seconds": 15,
+          "targetDurationSec": 14.13,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_98842fdcfc5f-scene-2-stock.mp4",
+          "url": "/generated/clips/tau_98842fdcfc5f-scene-2-stock.mp4",
+          "prompt": "Venus flytrap action",
+          "seconds": 17,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_98842fdcfc5f-scene-3-stock.mp4",
+          "url": "/generated/clips/tau_98842fdcfc5f-scene-3-stock.mp4",
+          "prompt": "carnivorous plant habitat",
+          "seconds": 18,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_98842fdcfc5f-scene-4-stock.mp4",
+          "url": "/generated/clips/tau_98842fdcfc5f-scene-4-stock.mp4",
+          "prompt": "digestive enzymes carnivorous",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_98842fdcfc5f-scene-5-stock.mp4",
+          "url": "/generated/clips/tau_98842fdcfc5f-scene-5-stock.mp4",
+          "prompt": "types of carnivorous",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_98842fdcfc5f-scene-6-stock.mp4",
+          "url": "/generated/clips/tau_98842fdcfc5f-scene-6-stock.mp4",
+          "prompt": "carnivorous plant ecosystem",
+          "seconds": 16,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_98842fdcfc5f-scene-7-stock.mp4",
+          "url": "/generated/clips/tau_98842fdcfc5f-scene-7-stock.mp4",
+          "prompt": "carnivorous plant feeding",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 8,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_98842fdcfc5f-scene-8-stock.mp4",
+          "url": "/generated/clips/tau_98842fdcfc5f-scene-8-stock.mp4",
+          "prompt": "plant evolution adaptation",
+          "seconds": 14,
+          "targetDurationSec": 13.33,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 9,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_98842fdcfc5f-scene-9-stock.mp4",
+          "url": "/generated/clips/tau_98842fdcfc5f-scene-9-stock.mp4",
+          "prompt": "engaging viewer plant",
+          "seconds": 14,
+          "targetDurationSec": 13.6,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "onyx",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_98842fdcfc5f-openai-natural-narration.mp3",
+        "url": "/generated/audio/tau_98842fdcfc5f-openai-natural-narration.mp3",
+        "characters": 814
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_98842fdcfc5f-openai-keajaiban-tumbuhan-pemakan-daging.mp4",
+        "url": "/generated/videos/tau_98842fdcfc5f-openai-keajaiban-tumbuhan-pemakan-daging.mp4",
+        "provider": "openai",
+        "durationSec": 55.77,
+        "scenes": 9
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Tumbuhan ini bisa menangkap serangga hidup-hidup. Apa rahasianya? Tumbuhan pemakan daging, seperti Venus Flytrap, memiliki mekanisme unik untuk menangkap mangsa. Mereka telah beradaptasi untuk mendapatkan nutrisi tambahan dari serangga karena tanah di habitatnya kurang subur. Saat serangga terjebak, tumbuhan ini mengeluarkan enzim untuk mencerna mangsanya. Setiap jenis tumbuhan pemakan daging memiliki teknik menangkap yang berbeda, seperti perangkap lengket atau perangkap penjepit. Fakta menarik, meski tampak menakutkan, tumbuhan ini sangat penting untuk ekosistemnya. Mereka membantu mengontrol populasi serangga dan memastikan keseimbangan alam. Menarik untuk dicatat, tumbuhan ini adalah contoh luar biasa dari adaptasi evolusi. Apakah kamu juga terpesona dengan keajaiban tumbuhan ini? Komentar di bawah."
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_98842fdcfc5f-thumbnail-keajaiban-tumbuhan-pemakan-daging.jpg",
+        "url": "/generated/thumbnails/tau_98842fdcfc5f-thumbnail-keajaiban-tumbuhan-pemakan-daging.jpg",
+        "provider": "ffmpeg-collage"
+      }
+    },
+    "cost": {
+      "inputTokens": 2918,
+      "outputTokens": 1453,
+      "totalTokens": 4371,
+      "storyUsd": 0.00349,
+      "imageUnitUsd": 0.04,
+      "imageUsd": 0.36,
+      "ttsUsd": 0.01221,
+      "totalUsd": 0.3757,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 100,
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
+    }
   }
 ]

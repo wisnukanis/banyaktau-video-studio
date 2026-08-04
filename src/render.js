@@ -756,10 +756,10 @@ async function muxVideoAudio({ videoPath, audioPath, outputPath }) {
 async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, narrationTempo, totalDuration }) {
   const events = [];
   const isHorizontal = item.input?.videoFormat === "horizontal";
-  const hookText = splitLines(item.plan?.hook || item.title || "BanyakTau", isHorizontal ? 28 : 18, 2).join("\\N");
+  const hookText = splitLines(item.plan?.hook || item.title || "BanyakTau", isHorizontal ? 32 : 24, 4).join("\\N");
   events.push(dialogue(0.05, introDuration - 0.05, "Hook", `{\\fad(150,150)}${assEscape(hookText)}`));
 
-  const titleText = splitLines(item.title || item.plan?.title || "BanyakTau", isHorizontal ? 32 : 18, 2).join("\\N");
+  const titleText = splitLines(item.title || item.plan?.title || "BanyakTau", isHorizontal ? 36 : 26, 3).join("\\N");
   events.push(dialogue(introDuration + 0.05, Math.max(introDuration + 0.1, totalDuration - outroDuration), "SceneTitle", `{\\fad(140,160)}${assEscape(titleText)}`));
 
   let cursor = introDuration;
@@ -784,12 +784,12 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
   const playResX = isHorizontal ? 1920 : 1080;
   const playResY = isHorizontal ? 1080 : 1920;
 
-  const hookFontsize = isHorizontal ? 72 : 96;
+  const hookFontsize = isHorizontal ? 64 : 76;
   const hookMarginV = isHorizontal ? 120 : 180;
   
-  const titleFontsize = isHorizontal ? 48 : 58;
+  const titleFontsize = isHorizontal ? 44 : 52;
   const titleMarginL = isHorizontal ? 80 : 54;
-  const titleMarginR = isHorizontal ? 600 : 340;
+  const titleMarginR = isHorizontal ? 400 : 120;
   const titleMarginV = isHorizontal ? 60 : 78;
 
   const subFontsize = isHorizontal ? 56 : 88;
@@ -834,7 +834,9 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
 function generateKaraokeCaptionEvents(item, timing, subtitleEnd) {
   const events = [];
   const transcript = Array.isArray(item.assets?.captions) ? item.assets.captions : [];
-  
+  const tempo = Math.max(0.1, Number(timing?.tempo || 1));
+  const timingStart = Number(timing?.start || 0);
+
   let allWords = [];
   for (const segment of transcript) {
     const words = Array.isArray(segment.words) && segment.words.length
@@ -842,13 +844,33 @@ function generateKaraokeCaptionEvents(item, timing, subtitleEnd) {
       : estimateWordTimings(segment);
     allWords.push(...words);
   }
-  
-  // If no transcript, estimate words from scene narration
-  if (!allWords.length) {
+
+  // Validate if allWords has valid, non-zero monotonically increasing timestamps
+  const isValidWordTimings = (words) => {
+    if (!words || words.length === 0) return false;
+    let hasNonZero = false;
+    let maxEnd = 0;
+    let minStart = Infinity;
+    for (const w of words) {
+      const s = Number(w.start);
+      const e = Number(w.end);
+      if (s > 0 || e > 0) hasNonZero = true;
+      if (e > maxEnd) maxEnd = e;
+      if (s < minStart) minStart = s;
+    }
+    if (!hasNonZero) return false;
+    if (maxEnd <= minStart || (maxEnd - minStart < 0.5)) return false;
+    return true;
+  };
+
+  // If word timings are invalid or missing, build estimated word timings from scenes or narration
+  if (!isValidWordTimings(allWords)) {
+    allWords = [];
     const scenes = item.plan?.scenes || [];
     let segmentStart = 0;
+
     for (const scene of scenes) {
-      const duration = scene.durationSec || 6;
+      const duration = Number(scene.durationSec) || 6;
       const segmentEnd = segmentStart + duration;
       const text = String(scene.narration || "").trim();
       if (text) {
@@ -857,31 +879,38 @@ function generateKaraokeCaptionEvents(item, timing, subtitleEnd) {
       }
       segmentStart = segmentEnd;
     }
+
+    if (!allWords.length && transcript.length) {
+      const fullText = transcript.map(s => String(s.text || "").trim()).filter(Boolean).join(" ");
+      const totalDur = Math.max(1, Number(timing.duration) || 30);
+      const estSegment = { start: 0, end: totalDur, text: fullText };
+      allWords.push(...estimateWordTimings(estSegment));
+    }
   }
-  
+
   if (!allWords.length) return [];
-  
+
   const toTimelineTime = (t) => {
-    return timing.start + Number(t) / timing.tempo;
+    return timingStart + Number(t) / tempo;
   };
-  
+
   const chunks = [];
   let currentChunk = [];
-  
+
   for (let i = 0; i < allWords.length; i++) {
     const word = allWords[i];
     const prevWord = allWords[i - 1];
-    
+
     let startNew = false;
     if (currentChunk.length >= 3) {
       startNew = true;
     } else if (prevWord) {
-      const gap = word.start - prevWord.end;
+      const gap = Number(word.start) - Number(prevWord.end);
       if (gap > 0.4) {
         startNew = true;
       }
     }
-    
+
     if (startNew && currentChunk.length > 0) {
       chunks.push(currentChunk);
       currentChunk = [];
@@ -891,26 +920,26 @@ function generateKaraokeCaptionEvents(item, timing, subtitleEnd) {
   if (currentChunk.length > 0) {
     chunks.push(currentChunk);
   }
-  
+
   for (const chunk of chunks) {
     const chunkStart = toTimelineTime(chunk[0].start);
     const chunkEnd = toTimelineTime(chunk[chunk.length - 1].end);
     const wordsText = chunk.map(w => normalizeSubtitleText(w.word).toUpperCase());
-    
+
     for (let i = 0; i < chunk.length; i++) {
       const activeWord = chunk[i];
       const eventStart = toTimelineTime(activeWord.start);
       let eventEnd = (i === chunk.length - 1)
         ? chunkEnd
         : toTimelineTime(chunk[i + 1].start);
-        
+
       if (eventEnd - eventStart < 0.05) {
         eventEnd = eventStart + 0.1;
       }
-      
+
       const startTimeline = Math.min(eventStart, subtitleEnd);
       const endTimeline = Math.min(eventEnd, subtitleEnd);
-      
+
       if (endTimeline - startTimeline >= 0.05) {
         const textParts = wordsText.map((word, idx) => {
           if (idx === i) {
@@ -923,19 +952,24 @@ function generateKaraokeCaptionEvents(item, timing, subtitleEnd) {
       }
     }
   }
-  
+
   return events;
 }
 
 function estimateWordTimings(segment) {
   const words = String(segment.text || "").replace(/\s+/g, " ").trim().split(" ").filter(Boolean);
   if (!words.length) return [];
-  const duration = segment.end - segment.start;
+  const start = Number(segment.start) || 0;
+  const end = Number(segment.end) || 0;
+  const duration = end - start;
+  if (duration <= 0) {
+    return words.map((word) => ({ word, start, end: start }));
+  }
   const wordDuration = duration / words.length;
   return words.map((word, index) => ({
     word,
-    start: segment.start + index * wordDuration,
-    end: segment.start + (index + 1) * wordDuration
+    start: start + index * wordDuration,
+    end: start + (index + 1) * wordDuration
   }));
 }
 
@@ -1084,11 +1118,7 @@ function wrapOutroLines(value, maxChars, maxLines, options = {}) {
 }
 
 function shortenOverlayLine(value) {
-  const text = polishOverlayLine(normalizeSubtitleText(value));
-  if (text.length <= 34) return text;
-  const clipped = text.slice(0, 34);
-  const atSpace = clipped.lastIndexOf(" ");
-  return clipped.slice(0, atSpace > 20 ? atSpace : clipped.length).trim();
+  return polishOverlayLine(normalizeSubtitleText(value));
 }
 
 function polishOverlayLine(value) {

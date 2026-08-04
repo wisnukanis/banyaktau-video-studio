@@ -62,8 +62,9 @@ export function safeFilename(value) {
   return slugify(value).slice(0, 70);
 }
 
-export function splitLines(value, maxChars = 34, maxLines = 4) {
-  const words = cleanText(value, 500).split(" ").filter(Boolean);
+export function splitLines(value, maxChars = 34, maxLines = 0) {
+  const words = cleanText(value, 1000).split(" ").filter(Boolean);
+  if (!words.length) return [];
   const lines = [];
   let line = "";
   for (const word of words) {
@@ -76,5 +77,11 @@ export function splitLines(value, maxChars = 34, maxLines = 4) {
     }
   }
   if (line) lines.push(line);
-  return lines.slice(0, maxLines);
+
+  if (maxLines > 0 && lines.length > maxLines) {
+    const head = lines.slice(0, maxLines - 1);
+    const tail = lines.slice(maxLines - 1).join(" ");
+    return [...head, tail];
+  }
+  return lines;
 }

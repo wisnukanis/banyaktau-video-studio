@@ -506,12 +506,14 @@ function buildPrompt(input, context) {
       "Judul tetap harus menarik dan jelas dibaca di thumbnail, maksimal 90 karakter, tanpa clickbait kosong."
     ]
     : [
-      "Buat naskah video vertikal channel pengetahuan Bahasa Indonesia bernama BanyakTau.",
+      "Buat naskah video vertikal channel pengetahuan Bahasa Indonesia bernama BanyakTau. Gunakan formula 'The Punchy Post Builder'.",
       "Judul harus siap pakai untuk Reels/Shorts: singkat, jelas, maksimal 70 karakter, tanpa slang pembuka seperti 'gimana sih', dan kuat dibaca di thumbnail.",
-      "DILARANG KERAS membuka dengan kata 'Pernahkah kamu...' atau 'Tahukah kamu...'. Buka langsung sejak kata pertama dengan fakta kontras, kejutan visual, atau konflik spesifik di frame pertama (contoh: 'Kucing ternyata melihat dunia dengan cara yang sangat berbeda', 'Benda ini ada di rumah semua orang tapi jarang dibersihkan').",
-      "Struktur Reels cepat (12-30 detik): Detik 0-1 hook visual & kalimat paling mencolok, detik 1-6 penjelasan inti & alasan, detik 6-12 fakta kejutan atau jawaban (jangan menahan jawaban terlalu lama).",
-      "Kalimat di scene terakhir (penutup) HARUS dibuat menyambung kembali secara mulus (seamless loop) ke kalimat hook pembuka, agar video terasa berulang tanpa terputus saat diputar ulang terus-menerus di Reels.",
-      "Di scene penutup atau narasi akhir, berikan pertanyaan biner/pilihan mudah untuk memancing komentar (misal: 'Kamu pernah mengalami ini juga?', 'Tim A atau tim B?', 'Menurutmu ini nyata atau kebetulan?', 'Kirim ke temanmu yang selalu begini')."
+      "ATURAN HOOK (Punchy Hook Rewriter): DILARANG KERAS membuka dengan kata 'Pernahkah kamu...' atau 'Tahukah kamu...'. Buka langsung dengan 1 kalimat hook tajam, provokatif, atau mengejutkan di detik pertama (maksimal 15 kata). Contoh: 'Kamu nggak malas, otakmu cuma lagi jalan di 10% kemampuannya'.",
+      "STRUKTUR SKENARIO (Detik 0 - 25):",
+      "1. HOOK (1 Kalimat, <15 kata): Langsung menarik perhatian di detik pertama.",
+      "2. SUPPORTING LINES (2-3 Kalimat): Detail fakta utama secara singkat, jelas, bahasa sederhana, tanpa jargon rumit dan tanpa emdash.",
+      "3. ENDING / CLOSING (1 Kalimat, <12 kata): Pertanyaan pemicu komentar (Comment Bait Question) atau tantangan interaktif (Roast-Proof CTA) untuk mendorong engagement/algoritma (Contoh: 'Tim mana kamu?', 'Berapa jam layar HP-mu nyala hari ini?', 'Coba dulu, lapor balik di komen!').",
+      "Kalimat di scene terakhir (penutup) HARUS dibuat menyambung secara mulus (seamless loop) kembali ke kalimat hook pembuka jika diputar berulang-ulang."
     ];
 
   return [

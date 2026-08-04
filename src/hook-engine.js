@@ -4,15 +4,15 @@ import { cleanText, clamp } from "./util.js";
 const HOOK_PATTERNS = [
   {
     id: "curiosity_gap",
-    instruction: "Buka loop penasaran tanpa jawab langsung — bikin orang harus nonton biar tahu jawabannya."
+    instruction: "Buka loop penasaran tanpa jawab langsung — ubah fakta kaku jadi 1 kalimat menohok (<15 kata) yang bikin penonton kaget atau penasaran."
   },
   {
     id: "shock_contrast",
-    instruction: "Pasangkan dua hal yang kelihatan kontradiktif dari topik ini (contoh: kecil tapi berdampak besar, biasa tapi rumit di baliknya)."
+    instruction: "Pasangkan dua hal kontradiktif (misal: 'Kamu nggak malas, otakmu cuma lagi jalan di 10% kemampuannya'). Langsung di kata pertama."
   },
   {
-    id: "relatable_question",
-    instruction: "Mulai dari pengalaman/benda sehari-hari yang familiar, baru disambungkan ke topik."
+    id: "relatable_provocation",
+    instruction: "Mulai dari sanggahan kebiasaan sehari-hari penonton yang kontroversial tapi relatable (<15 kata, tajam, no fluff)."
   }
 ];
 
@@ -32,11 +32,12 @@ const BANNED_PATTERNS = [
 
 export function buildHookPrompt(input) {
   return [
-    "Buat 3 opsi hook (kalimat pembuka) untuk video pendek channel pengetahuan BanyakTau, Bahasa Indonesia natural seperti kreator, bukan judul artikel.",
-    "Setiap opsi maksimal 140 karakter, satu kalimat, tanpa tanda kutip, tanpa emoji.",
-    "JANGAN PERNAH membuka kalimat dengan 'Pernahkah kamu...' atau 'Tahukah kamu...'. Buka langsung dengan konflik spesifik, fakta kontras, atau kalimat mengejutkan di kata pertama (contoh: 'Kucing ternyata melihat dunia dengan cara yang sangat berbeda', 'Benda ini ada di rumah semua orang tapi jarang dibersihkan').",
-    "Hindari kata lebay seperti ajaib, tergila-gila, tidak akan percaya, sungguh luar biasa.",
-    "Jangan pakai pola template umum seperti 'X punya cerita yang jarang dibahas'.",
+    "Buat 3 opsi hook (kalimat pembuka video pendek) untuk channel pengetahuan BanyakTau. Gunakan gaya The Punchy Hook Rewriter.",
+    "ATURAN KETAT HOOK:",
+    "1. Maksimal 15 kata per opsi. No fluff, no hashtag, no intro bertele-tele.",
+    "2. Bahasa Indonesia natural & tajam ala kreator sosial media profesional.",
+    "3. JANGAN PERNAH buka dengan 'Pernahkah kamu...' atau 'Tahukah kamu...'. Langsung masuk ke konflik, sanggahan, atau fakta mengejutkan.",
+    "4. Hindari kata lebay (ajaib, tergila-gila, tidak akan percaya, luar biasa).",
     ...HOOK_PATTERNS.map((p, i) => `Opsi ${i + 1} (pola: ${p.id}) — ${p.instruction}`),
     "Kembalikan JSON valid saja dengan shape:",
     '{ hooks:[{ pattern, text }] }',
