@@ -373,6 +373,8 @@ async function refreshItems() {
 
 async function generateIdeas() {
   const form = new FormData(els.form);
+  const dur = Number(form.get("durationSec") || 90);
+  const isLong = String(form.get("longForm") || "false").toLowerCase() === "true" || dur >= 180;
   setBusy(true, "Mencari ide dan hook terbaik...");
   try {
     const data = await api("/api/ideas", {
@@ -380,8 +382,8 @@ async function generateIdeas() {
       body: JSON.stringify({
         seed: form.get("topic"),
         category: form.get("category"),
-        durationSec: Number(form.get("durationSec")),
-        longForm: String(form.get("longForm") || "false").toLowerCase() === "true"
+        durationSec: dur,
+        longForm: isLong
       })
     });
     state.ideas = data.ideas || [];
@@ -605,15 +607,19 @@ async function renderVideo() {
 function formPayload() {
   const form = new FormData(els.form);
   const settingsForm = new FormData(els.settingsForm);
+  const dur = Number(form.get("durationSec") || 90);
+  const isLong = String(form.get("longForm") || "false").toLowerCase() === "true" || dur >= 180;
+  const userScenes = Number(form.get("sceneCount") || 7);
+  const sceneCount = isLong ? Math.max(15, Math.round(dur / 12)) : userScenes;
   return {
     topic: form.get("topic"),
     category: form.get("category"),
     selectedIdea: null,
     tone: form.get("tone"),
     ttsProvider: form.get("ttsProvider"),
-    longForm: String(form.get("longForm") || "false").toLowerCase() === "true",
-    durationSec: Number(form.get("durationSec")),
-    sceneCount: Number(form.get("sceneCount")),
+    longForm: isLong,
+    durationSec: dur,
+    sceneCount,
     imageQuality: form.get("imageQuality"),
     imageSize: state.config?.providers?.imageSize || "1024x1792",
     avatarMode: form.get("avatarMode") || "random-green",
