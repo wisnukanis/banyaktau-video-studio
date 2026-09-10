@@ -62,7 +62,8 @@ async function writeTrends(value) {
 export async function fetchGoogleTrends(regionCode = "ID") {
   const url = `https://trends.google.com/trending/rss?geo=${encodeURIComponent(regionCode)}`;
   const response = await fetch(url, {
-    headers: { "User-Agent": "Mozilla/5.0 (compatible; BanyakTauStudio/1.0)" }
+    headers: { "User-Agent": "Mozilla/5.0 (compatible; BanyakTauStudio/1.0)" },
+    signal: AbortSignal.timeout(8000)
   });
   if (!response.ok) {
     throw new Error(`Google Trends fetch failed (${regionCode}): ${response.status} ${response.statusText}`);
@@ -85,7 +86,8 @@ export async function fetchGoogleTrends(regionCode = "ID") {
 export async function fetchGlobalScienceTrends() {
   const url = "https://www.sciencedaily.com/rss/all.xml";
   const response = await fetch(url, {
-    headers: { "User-Agent": "Mozilla/5.0 (compatible; BanyakTauStudio/1.0)" }
+    headers: { "User-Agent": "Mozilla/5.0 (compatible; BanyakTauStudio/1.0)" },
+    signal: AbortSignal.timeout(8000)
   });
   if (!response.ok) {
     throw new Error(`ScienceDaily fetch failed: ${response.status} ${response.statusText}`);
