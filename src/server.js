@@ -16,7 +16,7 @@ import {
 import { listItems, saveItem, mergeMemoryItems } from "./storage.js";
 import { createIdeaRecommendations, createKnowledgeDraft } from "./story-engine.js";
 import { getPerformanceNotesText, getPerformanceSummary, syncAllAnalytics } from "./analytics.js";
-import { refreshTrendSnapshot, getLatestSnapshot } from "./trend-research.js";
+import { refreshTrendSnapshot, getLatestSnapshot, getLiveViralData, getTrendNotesText } from "./trend-research.js";
 import { nowIso } from "./util.js";
 import { runPreflight } from "./preflight.js";
 import { publishToFacebook, publishToInstagram, socialDescription } from "./facebook.js";
@@ -79,7 +79,9 @@ app.post("/api/progress/reset", (_req, res) => {
 app.post("/api/ideas", async (req, res, next) => {
   try {
     const performanceNotes = await getPerformanceNotesText().catch(() => "");
-    res.json(await createIdeaRecommendations(req.body || {}, { existingItems: await listItems(), performanceNotes }));
+    const region = req.body?.region || "ID";
+    const trendNotes = await getTrendNotesText(region, req.body?.category || "random").catch(() => "");
+    res.json(await createIdeaRecommendations(req.body || {}, { existingItems: await listItems(), performanceNotes, trendNotes }));
   } catch (error) {
     next(error);
   }
@@ -107,7 +109,11 @@ app.get("/api/trends/:region", async (req, res, next) => {
     if (!["ID", "US"].includes(region)) {
       return res.status(400).json({ error: "Region harus 'ID' atau 'US'." });
     }
-    res.json({ snapshot: await getLatestSnapshot(region) });
+    const [live, snapshot] = await Promise.all([
+      getLiveViralData(region).catch(() => ({ googleTrends: [], globalScience: [] })),
+      getLatestSnapshot(region).catch(() => null)
+    ]);
+    res.json({ live, snapshot });
   } catch (error) {
     next(error);
   }
@@ -119,7 +125,12 @@ app.post("/api/trends/:region/refresh", async (req, res, next) => {
     if (!["ID", "US"].includes(region)) {
       return res.status(400).json({ error: "Region harus 'ID' atau 'US'." });
     }
-    res.json({ snapshot: await refreshTrendSnapshot(region) });
+    await refreshTrendSnapshot(region);
+    const [live, snapshot] = await Promise.all([
+      getLiveViralData(region, 0).catch(() => ({ googleTrends: [], globalScience: [] })),
+      getLatestSnapshot(region).catch(() => null)
+    ]);
+    res.json({ ok: true, live, snapshot });
   } catch (error) {
     next(error);
   }

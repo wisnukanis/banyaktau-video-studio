@@ -181,7 +181,7 @@ function buildIdeaPrompt(input, context) {
     `Durasi target: ${input.durationSec} detik`,
     input.longForm ? "Gunakan sinyal tren/performa hanya untuk memilih angle dan kata kunci yang diminati audiens; jangan meniru struktur atau naskah video tertentu." : "",
     recent.length ? `Hindari duplikasi dari riwayat ini:\n${recent.join("\n")}` : "",
-    context.trendNotes ? `\n${context.trendNotes}` : "",
+    context.trendNotes ? `\n${context.trendNotes}\nPrioritaskan merekomendasikan ide yang mengangkat atau terinspirasi langsung dari tren/penemuan viral di atas, kemas dengan rasa ingin tahu khas BanyakTau.` : "",
     context.performanceNotes ? `\n${context.performanceNotes}` : ""
   ].filter(Boolean).join("\n");
 }

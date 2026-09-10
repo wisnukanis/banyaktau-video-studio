@@ -19,10 +19,16 @@
         </div>
 
         <form id="generateForm" class="form-stack">
-          <input name="topic" type="hidden" value="">
           <input name="longForm" type="hidden" value="false">
-          <button id="fullBtn" class="primary make-video-btn" type="submit">Buat Video</button>
-          <p class="one-click-copy">Auto storyboard, gambar, suara, subtitle, dan video final. PIN: 123456.</p>
+          <label class="topic-field">
+            <span>Topik Video</span>
+            <input name="topic" type="text" placeholder="Ketik topik atau klik tren viral..." autocomplete="off">
+          </label>
+          <div class="two-col form-action-row" style="margin-bottom: 6px;">
+            <button id="ideaBtn" class="ghost" type="button">💡 Rekomendasi Ide</button>
+            <button id="fullBtn" class="primary make-video-btn" type="submit">🎬 Buat Video</button>
+          </div>
+          <p class="one-click-copy">Auto storyboard, gambar/stock, suara, subtitle, dan video final. PIN: 123456.</p>
           <div id="selectedIdea" class="selected-idea">Belum ada ide terpilih.</div>
 
           <details class="advanced-fields">
@@ -214,6 +220,23 @@
         </div>
 
         <div id="studioView" class="workspace-view active" data-workspace-view="studio">
+          <section id="trendsPanel" class="trends-panel">
+            <div class="section-head wide">
+              <strong>🔥 Tren & Penemuan Viral Hari Ini</strong>
+              <div class="trends-actions">
+                <button id="refreshTrendsBtn" class="mini-action subtle" type="button">🔄 Refresh Tren</button>
+              </div>
+            </div>
+            <div class="trends-tabs-bar">
+              <button type="button" class="trends-tab-btn active" data-trend-tab="global">🌍 Penemuan Sains & Dunia (Global)</button>
+              <button type="button" class="trends-tab-btn" data-trend-tab="id">🇮🇩 Google Trending (Indonesia)</button>
+              <button type="button" class="trends-tab-btn" data-trend-tab="us">🇺🇸 Google Trending (US)</button>
+            </div>
+            <div id="trendsList" class="trends-chips-grid">
+              <div class="trend-loading">Memuat sinyal tren viral...</div>
+            </div>
+          </section>
+
           <section id="ideaPanel" class="idea-panel d-none">
             <div class="section-head wide">
               <strong>Rekomendasi Ide</strong>

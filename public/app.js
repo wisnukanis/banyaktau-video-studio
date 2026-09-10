@@ -11,7 +11,13 @@ const state = {
   historyExpanded: false,
   galleryExpanded: false,
   logs: [],
-  projectFilter: "capybara_banyak_tau_id"
+  projectFilter: "capybara_banyak_tau_id",
+  trends: {
+    globalScience: [],
+    googleTrends: { ID: [], US: [] },
+    activeTab: "global",
+    loading: false
+  }
 };
 
 const YOUTUBE_UPLOAD_URL = "https://www.youtube.com/upload";
@@ -20,6 +26,10 @@ const els = {
   form: document.querySelector("#generateForm"),
   settingsForm: document.querySelector("#settingsForm"),
   ideaBtn: document.querySelector("#ideaBtn"),
+  trendsPanel: document.querySelector("#trendsPanel"),
+  trendsList: document.querySelector("#trendsList"),
+  refreshTrendsBtn: document.querySelector("#refreshTrendsBtn"),
+  trendTabs: document.querySelectorAll("[data-trend-tab]"),
 
   fullBtn: document.querySelector("#fullBtn"),
   draftBtn: document.querySelector("#draftBtn"),
@@ -86,6 +96,7 @@ async function init() {
   fillSettingsForm();
   await loadAvatars();
   await refreshItems();
+  loadTrends();
   pushLog("Dashboard siap.");
   window.setInterval(() => {
     if (state.processStartedAt) renderAnalytics();
@@ -130,6 +141,19 @@ function bindEvents() {
   });
   els.workspaceTabs.forEach((tab) => {
     tab.addEventListener("click", () => showWorkspaceTab(tab.dataset.workspaceTab));
+  });
+  els.refreshTrendsBtn?.addEventListener("click", () => loadTrends(true));
+  els.trendTabs?.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      els.trendTabs.forEach((t) => t.classList.remove("active"));
+      tab.classList.add("active");
+      state.trends.activeTab = tab.dataset.trendTab;
+      if (state.trends.activeTab === "us" && !state.trends.googleTrends.US?.length) {
+        loadTrendsForRegion("US");
+      } else {
+        renderTrends();
+      }
+    });
   });
   els.menuBtn?.addEventListener("click", () => toggleSettingsDrawer(true));
   els.closeSettingsBtn?.addEventListener("click", () => toggleSettingsDrawer(false));
@@ -815,12 +839,15 @@ function renderAnalytics() {
 }
 
 function renderIdeas() {
+  const panel = document.querySelector("#ideaPanel");
   if (!state.ideas.length) {
-    els.ideaList.innerHTML = "";
-    els.ideaMeta.textContent = `Clip Veo Lite opsional: ${state.config?.providers?.videoSeconds || 4} detik kira-kira ${formatUsd(estimateClipCost())}`;
+    if (panel) panel.classList.add("d-none");
+    if (els.ideaList) els.ideaList.innerHTML = "";
+    if (els.ideaMeta) els.ideaMeta.textContent = `Clip Veo Lite opsional: ${state.config?.providers?.videoSeconds || 4} detik kira-kira ${formatUsd(estimateClipCost())}`;
     return;
   }
-  els.ideaMeta.textContent = "Pilih satu ide untuk storyboard";
+  if (panel) panel.classList.remove("d-none");
+  els.ideaMeta.textContent = `Pilih satu dari ${state.ideas.length} ide untuk storyboard`;
   els.ideaList.innerHTML = state.ideas.map((idea) => `
     <article class="idea-card ${state.selectedIdea?.id === idea.id ? "selected" : ""}">
       <button type="button" data-idea-id="${idea.id}">
@@ -833,6 +860,108 @@ function renderIdeas() {
   `).join("");
   els.ideaList.querySelectorAll("[data-idea-id]").forEach((button) => {
     button.addEventListener("click", () => selectIdea(button.dataset.ideaId));
+  });
+}
+
+async function loadTrends(refresh = false) {
+  state.trends.loading = true;
+  if (els.trendsList) {
+    els.trendsList.innerHTML = `<div class="trend-loading">${refresh ? "Memperbarui tren langsung dari Google & ScienceDaily..." : "Memuat tren viral terkini..."}</div>`;
+  }
+  try {
+    const endpoint = refresh ? "/api/trends/ID/refresh" : "/api/trends/ID";
+    const method = refresh ? "POST" : "GET";
+    const res = await api(endpoint, { method });
+    if (res.live) {
+      state.trends.globalScience = res.live.globalScience || [];
+      state.trends.googleTrends.ID = res.live.googleTrends || [];
+    }
+  } catch (err) {
+    console.error("Gagal memuat tren viral:", err);
+    if (els.trendsList) {
+      els.trendsList.innerHTML = `<div class="trend-loading" style="color:#ef4444;">Gagal memuat tren: ${escapeHtml(err.message)}</div>`;
+    }
+  } finally {
+    state.trends.loading = false;
+    renderTrends();
+  }
+}
+
+async function loadTrendsForRegion(region = "US") {
+  state.trends.loading = true;
+  if (els.trendsList) {
+    els.trendsList.innerHTML = `<div class="trend-loading">Memuat Google Trends ${region}...</div>`;
+  }
+  try {
+    const res = await api(`/api/trends/${region}`);
+    if (res.live) {
+      state.trends.googleTrends[region] = res.live.googleTrends || [];
+    }
+  } catch (err) {
+    console.error(`Gagal memuat tren ${region}:`, err);
+  } finally {
+    state.trends.loading = false;
+    renderTrends();
+  }
+}
+
+function renderTrends() {
+  if (!els.trendsList) return;
+  const tab = state.trends.activeTab || "global";
+  let items = [];
+
+  if (tab === "global") {
+    items = state.trends.globalScience || [];
+    if (!items.length) {
+      els.trendsList.innerHTML = '<div class="trend-loading">Belum ada data penemuan sains global. Klik Refresh Tren.</div>';
+      return;
+    }
+    els.trendsList.innerHTML = items.slice(0, 12).map((item) => `
+      <div class="trend-chip" data-topic="${escapeHtml(item.title)}">
+        <div class="trend-chip-header">
+          <span class="trend-chip-tag sci">Sains Dunia</span>
+        </div>
+        <strong>${escapeHtml(item.title)}</strong>
+        <p>${escapeHtml(item.description || "")}</p>
+        <div class="trend-chip-action">✨ Gunakan topik ini & cari ide &rarr;</div>
+      </div>
+    `).join("");
+  } else {
+    const reg = tab === "us" ? "US" : "ID";
+    items = state.trends.googleTrends[reg] || [];
+    if (!items.length) {
+      els.trendsList.innerHTML = `<div class="trend-loading">Belum ada data trending ${reg}. Klik Refresh Tren.</div>`;
+      return;
+    }
+    els.trendsList.innerHTML = items.slice(0, 12).map((item) => `
+      <div class="trend-chip" data-topic="${escapeHtml(item.title)}">
+        <div class="trend-chip-header">
+          <span class="trend-chip-tag">Trending ${reg}</span>
+          ${item.traffic ? `<span class="trend-chip-traffic">🔥 ${escapeHtml(item.traffic)}</span>` : ""}
+        </div>
+        <strong>${escapeHtml(item.title)}</strong>
+        <p>${escapeHtml(item.news?.[0]?.title || "Pencarian populer Google")}</p>
+        <div class="trend-chip-action">✨ Gunakan topik ini & cari ide &rarr;</div>
+      </div>
+    `).join("");
+  }
+
+  els.trendsList.querySelectorAll(".trend-chip").forEach((chip) => {
+    chip.addEventListener("click", async () => {
+      const topic = chip.dataset.topic;
+      if (!topic) return;
+      if (els.form.topic) {
+        els.form.topic.value = topic;
+      }
+      setStatus(`Topik viral dipilih: "${topic}". Mencari rekomendasi ide...`);
+      pushLog(`Topik viral dipilih: ${topic}`);
+      showToast(`Topik viral dipilih: "${topic}"`, "info");
+      await generateIdeas();
+      const panel = document.querySelector("#ideaPanel");
+      if (panel) {
+        panel.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
   });
 }
 
