@@ -527,6 +527,7 @@ function buildPrompt(input, context) {
     "Kamu yang membuat hook, judul, dan alur narasi. Jangan terasa seperti template.",
     idea ? "Pakai ide terpilih user sebagai sumber utama. Jangan mengganti topik atau angle utamanya." : "Jika user belum memilih ide, buat sendiri hook paling kuat dari topik yang tersedia.",
     idea ? `Ide terpilih:\n- Judul: ${idea.title}\n- Topik: ${idea.topic}\n- Hook: ${idea.hook}\n- Angle: ${idea.angle}\n- Alasan kuat: ${idea.whyGood}` : "",
+    context.researchFacts ? `\n${context.researchFacts}` : "",
     "Field summary wajib meringkas inti video, bukan CTA. Tulis 1-2 kalimat lengkap, 110-170 karakter, menyebut penyebab/proses utama dan alasan kenapa fakta ini penting diingat. Jangan membuat kalimat menggantung.",
     "Field importantPoints wajib berisi 3-5 fakta inti dari video. Jangan isi dengan instruksi produksi seperti mulai dari contoh, gunakan analogi, atau akhiri dengan fakta.",
     "Jangan membuat scene atau screenText berjudul Kesimpulan, Kesimpulan Singkat, atau Summary. Pakai penutup natural tanpa label kesimpulan.",

@@ -17,6 +17,7 @@ import { listItems, saveItem, mergeMemoryItems } from "./storage.js";
 import { createIdeaRecommendations, createKnowledgeDraft } from "./story-engine.js";
 import { getPerformanceNotesText, getPerformanceSummary, syncAllAnalytics } from "./analytics.js";
 import { refreshTrendSnapshot, getLatestSnapshot, getLiveViralData, getTrendNotesText } from "./trend-research.js";
+import { getTopicDeepResearch, searchWikipediaFact, searchGoogleNews } from "./research-scraper.js";
 import { nowIso } from "./util.js";
 import { runPreflight } from "./preflight.js";
 import { publishToFacebook, publishToInstagram, socialDescription } from "./facebook.js";
@@ -131,6 +132,22 @@ app.post("/api/trends/:region/refresh", async (req, res, next) => {
       getLatestSnapshot(region).catch(() => null)
     ]);
     res.json({ ok: true, live, snapshot });
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.get("/api/research", async (req, res, next) => {
+  try {
+    const topic = String(req.query.topic || req.query.q || "").trim();
+    if (!topic) return res.status(400).json({ error: "Parameter 'topic' diperlukan." });
+    const lang = String(req.query.lang || "id").toLowerCase();
+    const [wiki, news, researchText] = await Promise.all([
+      searchWikipediaFact(topic, lang).catch(() => null),
+      searchGoogleNews(topic, lang).catch(() => []),
+      getTopicDeepResearch(topic, lang).catch(() => "")
+    ]);
+    res.json({ topic, wiki, news, researchText });
   } catch (error) {
     next(error);
   }

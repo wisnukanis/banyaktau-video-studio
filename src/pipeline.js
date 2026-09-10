@@ -12,6 +12,7 @@ import { getItem, listContextItems, saveItem } from "./storage.js";
 import { createIdeaRecommendations, createKnowledgeDraft, getToneStyleGuidelines } from "./story-engine.js";
 import { getPerformanceNotesText } from "./analytics.js";
 import { getTrendNotesText } from "./trend-research.js";
+import { getTopicDeepResearch } from "./research-scraper.js";
 import { nowIso } from "./util.js";
 import { generateVideoClip } from "./video-provider.js";
 import { fetchStockClip, extractSearchQuery, stockProvidersAvailable } from "./stock.js";
@@ -48,8 +49,19 @@ export async function generateFullItem(input = {}, options = {}) {
     };
   }
 
+  let researchFacts = "";
+  const topicToResearch = payload.topic || payload.selectedIdea?.topic || "";
+  if (topicToResearch) {
+    try {
+      researchFacts = await getTopicDeepResearch(topicToResearch);
+    } catch (err) {
+      warnings.push(`Riset scraper dilewati: ${err.message}`);
+    }
+  }
+
   const item = await createKnowledgeDraft(payload, {
     existingItems,
+    researchFacts,
     strictAi: Boolean(options.strictAi)
   });
   await saveItem(item);

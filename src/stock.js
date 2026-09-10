@@ -3,6 +3,7 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 import { config, paths } from "./config.js";
 import { requestTextCompletion } from "./openai.js";
+import { searchWikimediaCommons } from "./research-scraper.js";
 
 const FALLBACK_QUERY = "education";
 const QUERY_STOPWORDS = new Set([
@@ -89,6 +90,27 @@ async function resizeStockVideo(inputPath, outputPath, format, durationSec) {
     "-preset", "veryfast",
     "-crf", "23",
     "-an", // Strip audio to prevent channel/codec issues during segment concatenation
+    outputPath
+  ]);
+}
+
+async function imageToVideoClip(inputPath, outputPath, format, durationSec) {
+  const isHorizontal = format === "horizontal";
+  const scaleFilter = isHorizontal
+    ? "scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,format=yuv420p"
+    : "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,format=yuv420p";
+
+  await runFfmpeg([
+    "-y",
+    "-loop", "1",
+    "-i", inputPath,
+    "-t", Number(durationSec || 4).toFixed(2),
+    "-vf", scaleFilter,
+    "-c:v", "libx264",
+    "-preset", "veryfast",
+    "-crf", "23",
+    "-pix_fmt", "yuv420p",
+    "-an",
     outputPath
   ]);
 }
@@ -258,6 +280,7 @@ export async function fetchStockClip({ scene, query, format, itemId }) {
   let provider = "pexels";
   let usedQuery = query;
   let nativeDurationSec = 0;
+  let isArchiveImage = false;
 
   const queries = buildStockQueries(query, scene);
 
@@ -289,22 +312,43 @@ export async function fetchStockClip({ scene, query, format, itemId }) {
         break;
       }
     }
+
+    // 3. Try Wikimedia Commons if no stock video found
+    console.log(`Searching Wikimedia Commons archive image for query: "${q}"`);
+    try {
+      const commonsHits = await searchWikimediaCommons(q, 3);
+      if (commonsHits && commonsHits.length) {
+        downloadUrl = commonsHits[0].url;
+        provider = "wikimedia";
+        isArchiveImage = true;
+        nativeDurationSec = targetDurationSec;
+        break;
+      }
+    } catch {
+      // Ignore commons search failure and try next query
+    }
   }
 
   if (!downloadUrl) {
-    throw new Error(`Tidak menemukan stock video untuk kata kunci pencarian utama maupun cadangan di Pexels dan Pixabay.`);
+    throw new Error(`Tidak menemukan stock video maupun foto arsip untuk kata kunci pencarian di Pexels, Pixabay, dan Wikimedia Commons.`);
   }
 
-  const tempFilename = `temp-raw-stock-${itemId}-${scene.index}.mp4`;
+  const tempFilename = `temp-raw-stock-${itemId}-${scene.index}${isArchiveImage ? ".jpg" : ".mp4"}`;
   const tempPath = path.join(paths.workDir, tempFilename);
   const finalFilename = `${itemId}-scene-${scene.index}-stock.mp4`;
   const finalPath = path.join(paths.clipDir, finalFilename);
 
-  console.log(`Downloading stock video from: ${downloadUrl} (native ~${nativeDurationSec}s, need ${targetDurationSec}s)`);
-  await downloadFile(downloadUrl, tempPath);
-
-  console.log(`Resizing and cropping stock video into ${format} format...`);
-  await resizeStockVideo(tempPath, finalPath, format, targetDurationSec);
+  if (isArchiveImage) {
+    console.log(`Downloading archive image from Wikimedia Commons: ${downloadUrl}`);
+    await downloadFile(downloadUrl, tempPath);
+    console.log(`Converting archive image to ${format} video clip...`);
+    await imageToVideoClip(tempPath, finalPath, format, targetDurationSec);
+  } else {
+    console.log(`Downloading stock video from: ${downloadUrl} (native ~${nativeDurationSec}s, need ${targetDurationSec}s)`);
+    await downloadFile(downloadUrl, tempPath);
+    console.log(`Resizing and cropping stock video into ${format} format...`);
+    await resizeStockVideo(tempPath, finalPath, format, targetDurationSec);
+  }
 
   // Clean up raw temp file
   try {
