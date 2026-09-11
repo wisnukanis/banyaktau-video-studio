@@ -13,36 +13,77 @@ export async function generateThumbnail(item) {
   ].slice(0, 1);
   if (!media.length) throw new Error("Visual belum tersedia untuk thumbnail.");
 
+  const isHorizontal = item.input?.videoFormat === "horizontal" || Boolean(item.input?.longForm);
   const filename = `${item.id}-thumbnail-${safeFilename(item.title)}.jpg`;
   const outputPath = path.join(paths.thumbnailDir, filename);
-  const titleLines = fitLines(shortTitle(item.title || item.plan?.hook || "BanyakTau"), {
-    maxChars: 14,
-    maxLines: 4
-  });
-  const titleSize = titleFontSize(titleLines);
-  const titleY = titleLines.length > 3 ? 1140 : 1220;
-  const titleStep = titleSize + 14;
-  const textFilters = [
-    ...drawLineFilters(titleLines, {
-      x: 74,
-      y: titleY,
-      step: titleStep,
-      fontsize: titleSize,
-      color: "0xFFF6D7",
-      borderw: 6
-    })
-  ];
-  const filter = [
-    "[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,eq=contrast=1.12:saturation=1.10:brightness=-0.01[hero]",
-    "[hero]drawbox=x=0:y=980:w=1080:h=940:color=black@0.64:t=fill[panel]",
-    "[panel]drawbox=x=0:y=980:w=1080:h=10:color=0xF5C84C@1:t=fill[accent]",
-    "[accent]drawbox=x=74:y=1052:w=156:h=12:color=0xF5C84C@1:t=fill[base]",
-    `[base]${textFilters.join(",")}`
-  ].filter(Boolean).join(";");
+
+  const isVideo = media[0].path.toLowerCase().endsWith(".mp4");
+  const inputArgs = isVideo ? ["-ss", "00:00:01.0", "-i", media[0].path] : ["-i", media[0].path];
+
+  let filter = "";
+
+  if (isHorizontal) {
+    // Format 16:9 YouTube Widescreen (1920x1080)
+    const titleLines = fitLines(shortTitle(item.title || item.plan?.hook || "BanyakTau").toUpperCase(), {
+      maxChars: 18,
+      maxLines: 3
+    });
+    const titleSize = titleFontSizeHorizontal(titleLines);
+    const titleY = 320;
+    const titleStep = titleSize + 22;
+    const badgeCategory = cleanDisplayText(item.input?.category || "BANYAKTAU").toUpperCase();
+
+    const textFilters = [
+      `drawtext=${thumbnailFontExpr()}:text='${drawtextEscape(badgeCategory)}':fontcolor=0xF5C84C:fontsize=36:bordercolor=black:borderw=5:x=74:y=180`,
+      ...drawLineFilters(titleLines, {
+        x: 74,
+        y: titleY,
+        step: titleStep,
+        fontsize: titleSize,
+        colors: ["0xFFD700", "0xFFFFFF", "0xFFD700"],
+        borderw: 8
+      })
+    ];
+
+    filter = [
+      "[0:v]scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,eq=contrast=1.15:saturation=1.15:brightness=-0.02[hero]",
+      "[hero]drawbox=x=0:y=0:w=1120:h=1080:color=black@0.65:t=fill[panel]",
+      "[panel]drawbox=x=0:y=0:w=16:h=1080:color=0xF5C84C@1:t=fill[border_l]",
+      "[border_l]drawbox=x=74:y=245:w=180:h=10:color=0xF5C84C@1:t=fill[accent]",
+      `[accent]${textFilters.join(",")}`
+    ].filter(Boolean).join(";");
+  } else {
+    // Format 9:16 Shorts/Reels Vertikal (1080x1920)
+    const titleLines = fitLines(shortTitle(item.title || item.plan?.hook || "BanyakTau"), {
+      maxChars: 14,
+      maxLines: 4
+    });
+    const titleSize = titleFontSize(titleLines);
+    const titleY = titleLines.length > 3 ? 1140 : 1220;
+    const titleStep = titleSize + 14;
+    const textFilters = [
+      ...drawLineFilters(titleLines, {
+        x: 74,
+        y: titleY,
+        step: titleStep,
+        fontsize: titleSize,
+        color: "0xFFF6D7",
+        borderw: 6
+      })
+    ];
+
+    filter = [
+      "[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,eq=contrast=1.12:saturation=1.10:brightness=-0.01[hero]",
+      "[hero]drawbox=x=0:y=980:w=1080:h=940:color=black@0.64:t=fill[panel]",
+      "[panel]drawbox=x=0:y=980:w=1080:h=10:color=0xF5C84C@1:t=fill[accent]",
+      "[accent]drawbox=x=74:y=1052:w=156:h=12:color=0xF5C84C@1:t=fill[base]",
+      `[base]${textFilters.join(",")}`
+    ].filter(Boolean).join(";");
+  }
 
   const args = [
     "-y",
-    "-i", media[0].path,
+    ...inputArgs,
     "-filter_complex", filter,
     "-frames:v", "1",
     "-q:v", "2",
@@ -54,14 +95,18 @@ export async function generateThumbnail(item) {
   return {
     path: outputPath,
     url: `/generated/thumbnails/${filename}`,
-    provider: "ffmpeg-collage"
+    provider: "ffmpeg-collage",
+    aspectRatio: isHorizontal ? "16:9" : "9:16"
   };
 }
 
 function drawLineFilters(lines, options) {
-  return lines.map((line, index) => (
-    `drawtext=${fontExpr()}:text='${drawtextEscape(line)}':fontcolor=${options.color}:fontsize=${options.fontsize}:bordercolor=black:borderw=${options.borderw}:x=${options.x}:y=${options.y + index * options.step}`
-  ));
+  return lines.map((line, index) => {
+    const color = Array.isArray(options.colors)
+      ? (options.colors[index % options.colors.length] || "0xFFF6D7")
+      : (options.color || "0xFFF6D7");
+    return `drawtext=${thumbnailFontExpr()}:text='${drawtextEscape(line)}':fontcolor=${color}:fontsize=${options.fontsize}:bordercolor=black:borderw=${options.borderw || 6}:x=${options.x}:y=${options.y + index * options.step}`;
+  });
 }
 
 function fitLines(value, options) {
@@ -91,6 +136,29 @@ function titleFontSize(lines) {
   if (lines.length >= 4 || longest > 16) return 88;
   if (lines.length === 3 || longest > 13) return 102;
   return 118;
+}
+
+function titleFontSizeHorizontal(lines) {
+  const longest = Math.max(...lines.map((line) => line.length), 1);
+  if (lines.length >= 3 || longest > 18) return 98;
+  if (lines.length === 2 || longest > 14) return 110;
+  return 122;
+}
+
+function thumbnailFontExpr() {
+  const candidates = process.platform === "win32"
+    ? [
+        "C:/Windows/Fonts/impact.ttf",
+        "C:/Windows/Fonts/arialbd.ttf",
+        "C:/Windows/Fonts/seguiemb.ttf"
+      ]
+    : [
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+        "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf"
+      ];
+  const found = candidates.find((c) => fsSync.existsSync(c))?.replace(/:/g, "\\:");
+  if (found) return `fontfile='${found}'`;
+  return fontExpr();
 }
 
 function fontExpr() {
