@@ -155,7 +155,7 @@ export async function ensureVisualClips(item, options = {}) {
         console.warn(msg);
         try {
           const query = await extractSearchQuery(scene, item.input.topic);
-          const clip = await fetchStockClip({ scene, query, format, itemId: item.id });
+          const clip = await fetchStockClip({ scene, query, format, itemId: item.id, topic: item.input?.topic || item.title });
           const clips = [...(item.assets.clips || [])];
           const idx = clips.findIndex(c => Number(c.sceneIndex) === Number(scene.index));
           if (idx >= 0) clips.splice(idx, 1, clip);
@@ -181,7 +181,7 @@ export async function ensureVisualClips(item, options = {}) {
     
     try {
       const query = await extractSearchQuery(scene, item.input.topic);
-      const clip = await fetchStockClip({ scene, query, format, itemId: item.id });
+      const clip = await fetchStockClip({ scene, query, format, itemId: item.id, topic: item.input?.topic || item.title });
       
       const idx = clips.findIndex(c => Number(c.sceneIndex) === Number(scene.index));
       if (idx >= 0) clips.splice(idx, 1, clip);

@@ -58,7 +58,40 @@ const QUERY_TRANSLATIONS = new Map([
   ["buku", "book"],
   ["museum", "museum"],
   ["arsip", "archive"],
-  ["dokumen", "document"]
+  ["dokumen", "document"],
+  ["sendok", "spoon"],
+  ["garpu", "fork"],
+  ["pisau", "knife"],
+  ["piring", "plate"],
+  ["makan", "eating"],
+  ["dapur", "kitchen"],
+  ["alat", "cutlery"],
+  ["baja", "steel spoon"],
+  ["besi", "iron"],
+  ["emas", "gold"],
+  ["perak", "silver"],
+  ["kaca", "glass"],
+  ["kertas", "paper"],
+  ["baterai", "battery"],
+  ["ban", "tire"],
+  ["roda", "wheel"],
+  ["kapal", "ship"],
+  ["pesawat", "airplane"],
+  ["mobil", "car"],
+  ["es", "ice"],
+  ["madu", "honey"],
+  ["roti", "bread"],
+  ["gula", "sugar"],
+  ["kopi", "coffee"],
+  ["gigi", "teeth"],
+  ["hewan", "animal"],
+  ["kucing", "cat"],
+  ["anjing", "dog"],
+  ["ular", "snake"],
+  ["burung", "bird"],
+  ["ikan", "fish"],
+  ["paus", "whale"],
+  ["gurita", "octopus"]
 ]);
 
 function runFfmpeg(args) {
@@ -155,21 +188,126 @@ async function searchPixabay(query, { perPage = 18 } = {}) {
   }
 }
 
-// Picks the clip whose native duration best covers the target scene length,
-// instead of always taking the first search result. A clip at or above the
-// target plays once with little/no visible loop; only when nothing is long
-// enough do we fall back to the longest available (which still loops
-// seamlessly via -stream_loop, just more times).
-function pickBestByDuration(candidates, targetDurationSec, getDuration) {
-  if (!candidates.length) return null;
-  const withDuration = candidates.map((item) => ({ item, duration: Number(getDuration(item) || 0) }));
-  const longEnough = withDuration.filter((entry) => entry.duration >= targetDurationSec);
-  if (longEnough.length) {
-    longEnough.sort((a, b) => a.duration - b.duration); // smallest that still covers it
-    return longEnough[0].item;
+const BARE_MATERIALS = new Set([
+  "stainless steel", "stainless", "steel", "metal", "iron", "gold", "silver",
+  "plastic", "glass", "rubber", "leather", "wooden", "wood", "aluminum",
+  "copper", "ceramic", "bronze", "liquid", "chemical", "durability", "material"
+]);
+
+function extractSubjectNoun(scene, topic = "") {
+  const combined = `${topic} ${scene?.screenText || ""} ${scene?.narration || ""}`.toLowerCase();
+  if (/sendok|spoon/i.test(combined)) return "spoon";
+  if (/garpu|fork/i.test(combined)) return "fork";
+  if (/pisau|knife/i.test(combined)) return "knife";
+  if (/piring|plate/i.test(combined)) return "plate";
+  if (/makan|eating|dining/i.test(combined)) return "eating";
+  if (/dapur|kitchen/i.test(combined)) return "kitchen";
+  if (/baterai|battery/i.test(combined)) return "battery";
+  if (/ban\b|tire/i.test(combined)) return "tire";
+  if (/kapal|ship/i.test(combined)) return "ship";
+  if (/pesawat|airplane|plane/i.test(combined)) return "airplane";
+  if (/madu|honey/i.test(combined)) return "honey";
+  if (/roti|bread/i.test(combined)) return "bread";
+  if (/gula|sugar/i.test(combined)) return "sugar";
+  if (/kopi|coffee/i.test(combined)) return "coffee";
+  if (/kertas|paper/i.test(combined)) return "paper";
+  if (/kucing|cat\b/i.test(combined)) return "cat";
+  if (/ular|snake/i.test(combined)) return "snake";
+  if (/paus|whale/i.test(combined)) return "whale";
+  if (/burung|bird/i.test(combined)) return "bird";
+  if (/ikan|fish/i.test(combined)) return "fish";
+  if (/es\b|ice\b/i.test(combined)) return "ice";
+  if (/gigi|tooth|teeth/i.test(combined)) return "teeth";
+  return "";
+}
+
+function ensureConcreteSubject(query, scene, topic = "") {
+  const q = cleanQuery(query).toLowerCase();
+  if (BARE_MATERIALS.has(q) || q.split(/\s+/).every((w) => BARE_MATERIALS.has(w))) {
+    const noun = extractSubjectNoun(scene, topic);
+    if (noun && !q.includes(noun)) {
+      return `${q} ${noun}`;
+    }
   }
-  withDuration.sort((a, b) => b.duration - a.duration); // otherwise take the longest we have
-  return withDuration[0]?.item || candidates[0];
+  return query;
+}
+
+function isMisleadingCandidate(candidate, scene, topic = "") {
+  const urlSlug = String(candidate.url || "").toLowerCase();
+  const tags = Array.isArray(candidate.tags)
+    ? candidate.tags.map((t) => String(t.name || t).toLowerCase()).join(" ")
+    : "";
+  const combined = `${urlSlug} ${tags}`;
+  const tokenSet = new Set(combined.split(/[^a-z0-9]+/));
+
+  const textContext = `${topic} ${scene?.narration || ""} ${scene?.screenText || ""}`;
+
+  // 1. Cutlery / Food / Kitchen
+  const isCutlery = /spoon|sendok|garpu|fork|pisau|knife|cutlery|kitchen|makan|food|dining|dapur/i.test(textContext);
+  if (isCutlery) {
+    const forbidden = ["watch", "wristwatch", "clock", "jewelry", "necklace", "bracelet", "ring", "earring", "smartwatch", "timepiece", "tumbler", "perfume", "motorcycle", "highway"];
+    if (forbidden.some((w) => tokenSet.has(w))) {
+      console.warn(`[Stock Filter] Video ditolak (mismatch objek): "${urlSlug}" mengandung jam/perhiasan untuk topik alat makan/sendok!`);
+      return true;
+    }
+  }
+
+  // 2. Animals / Nature
+  const isAnimal = /hewan|animal|kucing|cat|ular|snake|paus|whale|burung|bird|ikan|fish|gurita|octopus|satwa/i.test(textContext);
+  if (isAnimal) {
+    const forbidden = ["office", "laptop", "computer", "smartphone", "skyscraper", "cryptocurrency", "coding", "business", "meeting", "desk"];
+    if (forbidden.some((w) => tokenSet.has(w))) {
+      console.warn(`[Stock Filter] Video ditolak (mismatch objek): "${urlSlug}" mengandung gadget/kantor untuk topik hewan.`);
+      return true;
+    }
+  }
+
+  // 3. Astronomy / Space
+  const isSpace = /space|angkasa|planet|bintang|star|lubang hitam|black hole|galaxy|galaksi|bulan|moon|astronomy|nebula/i.test(textContext);
+  if (isSpace) {
+    const forbidden = ["underwater", "submarine", "coral", "aquarium", "swimming", "traffic"];
+    if (forbidden.some((w) => tokenSet.has(w))) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function pickBestCandidate(candidates, targetDurationSec, getDuration, scene, topic = "") {
+  if (!candidates.length) return null;
+  const valid = candidates.filter((c) => !isMisleadingCandidate(c, scene, topic));
+  if (!valid.length) {
+    console.warn(`[Stock] Semua ${candidates.length} kandidat video ditolak karena tidak relevan secara semantik dengan script.`);
+    return null;
+  }
+
+  const subjectNoun = extractSubjectNoun(scene, topic);
+  const scored = valid.map((item) => {
+    const urlSlug = String(item.url || "").toLowerCase();
+    const tags = Array.isArray(item.tags)
+      ? item.tags.map((t) => String(t.name || t).toLowerCase()).join(" ")
+      : "";
+    const combined = `${urlSlug} ${tags}`;
+    const tokenSet = new Set(combined.split(/[^a-z0-9]+/));
+    let score = 0;
+
+    if (subjectNoun && tokenSet.has(subjectNoun.toLowerCase())) {
+      score += 1000; // Strong match with exact subject noun
+    }
+
+    const duration = Number(getDuration(item) || 0);
+    if (duration >= targetDurationSec) {
+      score += 200 - Math.min(100, (duration - targetDurationSec) * 2);
+    } else {
+      score += duration * 5;
+    }
+
+    return { item, score };
+  });
+
+  scored.sort((a, b) => b.score - a.score);
+  return scored[0]?.item || valid[0];
 }
 
 function selectPexelsFile(video, format) {
@@ -266,7 +404,7 @@ function fallbackSearchQuery(scene) {
   return cleanQuery(selected.join(" ")) || FALLBACK_QUERY;
 }
 
-export async function fetchStockClip({ scene, query, format, itemId }) {
+export async function fetchStockClip({ scene, query, format, itemId, topic = "" }) {
   if (!stockProvidersAvailable()) {
     throw new Error("PEXELS_API_KEY atau PIXABAY_API_KEY belum dikonfigurasi.");
   }
@@ -282,16 +420,15 @@ export async function fetchStockClip({ scene, query, format, itemId }) {
   let nativeDurationSec = 0;
   let isArchiveImage = false;
 
-  const queries = buildStockQueries(query, scene);
+  const queries = buildStockQueries(query, scene, topic);
 
   for (const q of queries) {
     usedQuery = q;
-    // 1. Try Pexels first — pick the result whose native duration best
-    // covers the scene, so long scenes don't visibly loop a short clip.
+    // 1. Try Pexels first — strictly filter candidate videos so mismatched subjects (e.g. watch for spoon) are rejected
     console.log(`Searching Pexels for query: "${q}" (target ${targetDurationSec}s)`);
     const pexelsVideos = await searchPexels(q);
     if (pexelsVideos && pexelsVideos.length) {
-      const best = pickBestByDuration(pexelsVideos, targetDurationSec, (v) => v.duration);
+      const best = pickBestCandidate(pexelsVideos, targetDurationSec, (v) => v.duration, scene, topic);
       downloadUrl = best ? selectPexelsFile(best, format) : null;
       if (downloadUrl) {
         provider = "pexels";
@@ -300,11 +437,11 @@ export async function fetchStockClip({ scene, query, format, itemId }) {
       }
     }
 
-    // 2. Try Pixabay
+    // 2. Try Pixabay with strict candidate relevance check
     console.log(`Searching Pixabay for query: "${q}" (target ${targetDurationSec}s)`);
     const pixabayHits = await searchPixabay(q);
     if (pixabayHits && pixabayHits.length) {
-      const best = pickBestByDuration(pixabayHits, targetDurationSec, (v) => v.duration);
+      const best = pickBestCandidate(pixabayHits, targetDurationSec, (v) => v.duration, scene, topic);
       downloadUrl = best ? selectPixabayFile(best, format) : null;
       if (downloadUrl) {
         provider = "pixabay";
@@ -313,16 +450,19 @@ export async function fetchStockClip({ scene, query, format, itemId }) {
       }
     }
 
-    // 3. Try Wikimedia Commons if no stock video found
+    // 3. Try Wikimedia Commons if no stock video passed strict checks
     console.log(`Searching Wikimedia Commons archive image for query: "${q}"`);
     try {
-      const commonsHits = await searchWikimediaCommons(q, 3);
+      const commonsHits = await searchWikimediaCommons(q, 5);
       if (commonsHits && commonsHits.length) {
-        downloadUrl = commonsHits[0].url;
-        provider = "wikimedia";
-        isArchiveImage = true;
-        nativeDurationSec = targetDurationSec;
-        break;
+        const validCommons = commonsHits.filter((c) => !isMisleadingCandidate(c, scene, topic));
+        if (validCommons.length) {
+          downloadUrl = validCommons[0].url;
+          provider = "wikimedia";
+          isArchiveImage = true;
+          nativeDurationSec = targetDurationSec;
+          break;
+        }
       }
     } catch {
       // Ignore commons search failure and try next query
@@ -330,7 +470,7 @@ export async function fetchStockClip({ scene, query, format, itemId }) {
   }
 
   if (!downloadUrl) {
-    throw new Error(`Tidak menemukan stock video maupun foto arsip untuk kata kunci pencarian di Pexels, Pixabay, dan Wikimedia Commons.`);
+    throw new Error(`Tidak menemukan stock video maupun foto arsip yang relevan secara ketat untuk "${query}" di Pexels, Pixabay, dan Wikimedia Commons.`);
   }
 
   const tempFilename = `temp-raw-stock-${itemId}-${scene.index}${isArchiveImage ? ".jpg" : ".mp4"}`;
@@ -358,7 +498,7 @@ export async function fetchStockClip({ scene, query, format, itemId }) {
   }
 
   if (nativeDurationSec > 0 && nativeDurationSec < targetDurationSec) {
-    console.warn(`[Stock] Clip scene ${scene.index}: native duration ${nativeDurationSec}s < target ${targetDurationSec}s — akan di-loop mulus oleh renderer (bukan dipotong), tapi kalau ini kejadian di banyak scene, cari kata kunci yang lebih umum atau perpendek durasi scene.`);
+    console.warn(`[Stock] Clip scene ${scene.index}: native duration ${nativeDurationSec}s < target ${targetDurationSec}s — akan di-loop mulus oleh renderer.`);
   }
 
   return {
@@ -375,49 +515,38 @@ export async function fetchStockClip({ scene, query, format, itemId }) {
   };
 }
 
-function buildStockQueries(query, scene) {
+function buildStockQueries(query, scene, topic = "") {
   const queries = [];
   const add = (value) => {
     const cleaned = cleanQuery(value);
     if (cleaned && !queries.includes(cleaned)) queries.push(cleaned);
   };
 
-  // 1. Primary: the stockQuery from the scenario (most specific)
+  // 1. Primary: concrete query with physical object noun
+  const concreteQuery = ensureConcreteSubject(query, scene, topic);
+  add(concreteQuery);
   add(query);
 
   // 2. Derived from imagePrompt — usually contains specific visual nouns
-  //    that are better B-roll keywords than narration text
   if (scene?.imagePrompt) {
     const promptWords = scene.imagePrompt
       .split(",")
       .slice(0, 2)
       .map((part) => cleanQuery(part.trim()))
       .filter(Boolean);
-    for (const w of promptWords) add(w);
+    for (const w of promptWords) {
+      add(ensureConcreteSubject(w, scene, topic));
+    }
   }
 
   // 3. Offline fallback from narration/screenText (translated to English)
   add(fallbackSearchQuery(scene));
 
-  // 4. Single words from the primary query
-  for (const word of cleanQuery(query).split(/\s+/).filter((entry) => entry.length > 2)) {
-    add(word);
-  }
-
-  // 5. Broad, high-hit B-roll searches keep the pipeline moving when a
-  // specific factual topic has no matching stock footage. These are last
-  // resort — prefer any topic-specific result above.
-  for (const fallback of [
-    "documentary",
-    "education",
-    "science",
-    "technology",
-    "nature",
-    "history",
-    "abstract background",
-    "learning"
-  ]) {
-    add(fallback);
+  // 4. Topic-anchored concrete queries (NEVER raw single-word materials like "stainless" or "steel"!)
+  const subjectNoun = extractSubjectNoun(scene, topic);
+  if (subjectNoun) {
+    add(subjectNoun);
+    add(`${subjectNoun} close up`);
   }
 
   return queries;
