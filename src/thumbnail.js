@@ -36,35 +36,25 @@ export async function generateThumbnail(item) {
   let lavfiGrad = "";
 
   if (isHorizontal) {
-    if (chosenLayout === "cinematic-gradient") {
-      // Layout 1: Gaya Sinematik Dokumenter (Smooth Left-to-Right Fade + 3D Shadow Typography)
-      lavfiGrad = "gradients=s=1920x1080:c0=black@0.88:c1=black@0.0:x0=0:y0=0:x1=1150:y1=0";
-      filter = [
-        "[0:v]scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,eq=contrast=1.18:saturation=1.20:brightness=-0.02[hero]",
-        "[1:v]format=rgba[grad]",
-        "[hero][grad]overlay=0:0[bg]",
-        "[bg]drawbox=x=0:y=0:w=16:h=1080:color=0xFFE600@1:t=fill[lstrip]",
-        `[lstrip]drawbox=x=74:y=180:w=220:h=48:color=0xFFE600@1:t=fill[tagbox]`,
-        `[tagbox]drawtext=fontfile='${fontPath}':text='${drawtextEscape(badgeCategory)}':fontcolor=black:fontsize=26:borderw=0:x=94:y=191[tagtext]`,
-        `[tagtext]drawtext=fontfile='${fontPath}':text='${drawtextEscape(line1)}':fontcolor=0xFFFFFF:fontsize=125:bordercolor=black:borderw=8:shadowcolor=black@0.9:shadowx=6:shadowy=6:x=74:y=280[l1]`,
-        `[l1]drawtext=fontfile='${fontPath}':text='${drawtextEscape(line2)}':fontcolor=0xFFE600:fontsize=138:bordercolor=black:borderw=9:shadowcolor=black@0.9:shadowx=7:shadowy=7:x=74:y=430[l2]`,
-        `[l2]drawbox=x=74:y=610:w=440:h=54:color=0xDD1122@0.95:t=fill[subpill]`,
-        `[subpill]drawtext=fontfile='${fontPath}':text='${drawtextEscape(subtitleContext)}':fontcolor=white:fontsize=28:bordercolor=black:borderw=2:x=94:y=623`
-      ].join(";");
-    } else {
-      // Layout 2: Gaya Breaking News / Vox (Full-Screen B-Roll + Vignette + High-Contrast Box Badges)
-      lavfiGrad = "gradients=s=1920x1080:c0=black@0.0:c1=black@0.85:x0=0:y0=400:x1=0:y1=1080";
-      filter = [
-        "[0:v]scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,eq=contrast=1.20:saturation=1.25:brightness=-0.03,vignette=PI/4[hero]",
-        "[1:v]format=rgba[grad]",
-        "[hero][grad]overlay=0:0[bg]",
-        "[bg]drawbox=x=80:y=80:w=260:h=52:color=black@0.85:t=fill[topcard]",
-        "[topcard]drawbox=x=80:y=80:w=12:h=52:color=0xFFE600@1:t=fill[topaccent]",
-        `[topaccent]drawtext=fontfile='${fontPath}':text='⚠️ ${drawtextEscape(badgeCategory)}':fontcolor=0xFFE600:fontsize=28:borderw=0:x=110:y=92[toptext]`,
-        `[toptext]drawtext=fontfile='${fontPath}':text=' ${drawtextEscape(line1)} ':fontcolor=0xFFE600:fontsize=128:bordercolor=black:borderw=8:box=1:boxcolor=black@0.85:boxborderw=16:x=80:y=720[b1]`,
-        `[b1]drawtext=fontfile='${fontPath}':text=' ${drawtextEscape(line2 + " • " + subtitleContext)} ':fontcolor=white:fontsize=44:bordercolor=black:borderw=4:box=1:boxcolor=0xCC1122@0.90:boxborderw=12:x=80:y=900`
-      ].join(";");
-    }
+    // Format 16:9 YouTube Widescreen: Gaya Viral Colossal 3D (Bersih, Teks Raksasa 3D Melayang & Gradasi Halus)
+    lavfiGrad = "gradients=s=1920x1080:c0=black@0.86:c1=black@0.0:x0=0:y0=0:x1=1180:y1=0";
+    const size1 = colossalFontSize(line1, 210);
+    const size2 = colossalFontSize(line2, 160);
+    const y1 = 200;
+    const y2 = y1 + size1 + 25;
+    const y3 = y2 + size2 + 40;
+
+    filter = [
+      "[0:v]scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,eq=contrast=1.18:saturation=1.22:brightness=-0.02[hero]",
+      "[1:v]format=rgba[grad]",
+      "[hero][grad]overlay=0:0[bg]",
+      // Word 1: Raksasa Kuning Neon (3D shadow + 12px border)
+      `[bg]drawtext=fontfile='${fontPath}':text='${drawtextEscape(line1)}':fontcolor=0xFFE600:fontsize=${size1}:bordercolor=black:borderw=12:shadowcolor=black@0.92:shadowx=10:shadowy=10:x=90:y=${y1}[w1]`,
+      // Word 2: Raksasa Putih Bersih (3D shadow + 11px border)
+      `[w1]drawtext=fontfile='${fontPath}':text='${drawtextEscape(line2)}':fontcolor=0xFFFFFF:fontsize=${size2}:bordercolor=black:borderw=11:shadowcolor=black@0.92:shadowx=9:shadowy=9:x=90:y=${y2}[w2]`,
+      // Word 3: Subtitle Konteks Kuning Rapi
+      `[w2]drawtext=fontfile='${fontPath}':text='${drawtextEscape(subtitleContext)}!':fontcolor=0xFFE600:fontsize=48:bordercolor=black:borderw=5:shadowcolor=black@0.85:shadowx=5:shadowy=5:x=95:y=${y3}`
+    ].join(";");
   } else {
     // Format 9:16 Shorts/Reels Vertikal (1080x1920) dengan Smooth Bottom Gradient
     lavfiGrad = "gradients=s=1080x1920:c0=black@0.0:c1=black@0.90:x0=0:y0=960:x1=0:y1=1920";
@@ -139,6 +129,14 @@ function titleFontSize(lines) {
   if (lines.length >= 4 || longest > 16) return 88;
   if (lines.length === 3 || longest > 13) return 102;
   return 118;
+}
+
+function colossalFontSize(text, defaultSize = 210) {
+  const len = String(text || "").length;
+  if (len <= 5) return defaultSize;
+  if (len <= 8) return Math.round(defaultSize * 0.86);
+  if (len <= 11) return Math.round(defaultSize * 0.74);
+  return Math.round(defaultSize * 0.64);
 }
 
 function thumbnailFontPath() {
