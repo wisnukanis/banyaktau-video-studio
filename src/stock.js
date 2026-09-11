@@ -156,10 +156,11 @@ async function downloadFile(url, destPath) {
   await fs.writeFile(destPath, buffer);
 }
 
-async function searchPexels(query, { perPage = 18 } = {}) {
+async function searchPexels(query, { perPage = 18, orientation = "" } = {}) {
   const apiKey = config.stock?.pexelsApiKey;
   if (!apiKey) return null;
-  const url = `https://api.pexels.com/videos/search?query=${encodeURIComponent(query)}&per_page=${perPage}`;
+  const orientParam = orientation ? `&orientation=${orientation}` : "";
+  const url = `https://api.pexels.com/videos/search?query=${encodeURIComponent(query)}&per_page=${perPage}${orientParam}`;
   try {
     const res = await fetch(url, {
       headers: { Authorization: apiKey }
@@ -218,6 +219,16 @@ function extractSubjectNoun(scene, topic = "") {
   if (/ikan|fish/i.test(combined)) return "fish";
   if (/es\b|ice\b/i.test(combined)) return "ice";
   if (/gigi|tooth|teeth/i.test(combined)) return "teeth";
+  if (/darah|blood/i.test(combined)) return "blood";
+  if (/otak|brain/i.test(combined)) return "brain";
+  if (/jantung|heart/i.test(combined)) return "heart";
+  if (/tulang|bone/i.test(combined)) return "bone";
+  if (/mata\b|eye\b/i.test(combined)) return "eye";
+  if (/mobil|car\b/i.test(combined)) return "car";
+  if (/kereta|train/i.test(combined)) return "train";
+  if (/pabrik|factory|manufaktur|manufacturing|forge/i.test(combined)) return "factory";
+  if (/api\b|fire\b/i.test(combined)) return "fire";
+  if (/air\b|water\b/i.test(combined)) return "water";
   return "";
 }
 
@@ -245,9 +256,9 @@ function isMisleadingCandidate(candidate, scene, topic = "") {
   // 1. Cutlery / Food / Kitchen
   const isCutlery = /spoon|sendok|garpu|fork|pisau|knife|cutlery|kitchen|makan|food|dining|dapur/i.test(textContext);
   if (isCutlery) {
-    const forbidden = ["watch", "wristwatch", "clock", "jewelry", "necklace", "bracelet", "ring", "earring", "smartwatch", "timepiece", "tumbler", "perfume", "motorcycle", "highway"];
+    const forbidden = ["watch", "wristwatch", "clock", "jewelry", "necklace", "bracelet", "ring", "earring", "smartwatch", "timepiece", "tumbler", "perfume", "motorcycle", "highway", "car", "automobile"];
     if (forbidden.some((w) => tokenSet.has(w))) {
-      console.warn(`[Stock Filter] Video ditolak (mismatch objek): "${urlSlug}" mengandung jam/perhiasan untuk topik alat makan/sendok!`);
+      console.warn(`[Stock Filter] Video ditolak (mismatch objek): "${urlSlug}" mengandung jam/perhiasan/kendaraan untuk topik alat makan/sendok!`);
       return true;
     }
   }
@@ -255,7 +266,7 @@ function isMisleadingCandidate(candidate, scene, topic = "") {
   // 2. Animals / Nature
   const isAnimal = /hewan|animal|kucing|cat|ular|snake|paus|whale|burung|bird|ikan|fish|gurita|octopus|satwa/i.test(textContext);
   if (isAnimal) {
-    const forbidden = ["office", "laptop", "computer", "smartphone", "skyscraper", "cryptocurrency", "coding", "business", "meeting", "desk"];
+    const forbidden = ["office", "laptop", "computer", "smartphone", "skyscraper", "cryptocurrency", "coding", "business", "meeting", "desk", "watch", "jewelry"];
     if (forbidden.some((w) => tokenSet.has(w))) {
       console.warn(`[Stock Filter] Video ditolak (mismatch objek): "${urlSlug}" mengandung gadget/kantor untuk topik hewan.`);
       return true;
@@ -271,10 +282,20 @@ function isMisleadingCandidate(candidate, scene, topic = "") {
     }
   }
 
+  // 4. Human Anatomy / Biology / Health
+  const isBiology = /darah|blood|otak|brain|jantung|heart|tulang|bone|organ|sel\b|cell\b|medis|biology/i.test(textContext);
+  if (isBiology) {
+    const forbidden = ["automobile", "car", "traffic", "jewelry", "fashion", "party", "nightclub", "motorcycle", "watch"];
+    if (forbidden.some((w) => tokenSet.has(w))) {
+      console.warn(`[Stock Filter] Video ditolak (mismatch objek): "${urlSlug}" tidak relevan untuk biologi/anatomi.`);
+      return true;
+    }
+  }
+
   return false;
 }
 
-function pickBestCandidate(candidates, targetDurationSec, getDuration, scene, topic = "") {
+function pickBestCandidate(candidates, targetDurationSec, getDuration, scene, topic = "", usedUrls = new Set()) {
   if (!candidates.length) return null;
   const valid = candidates.filter((c) => !isMisleadingCandidate(c, scene, topic));
   if (!valid.length) {
@@ -294,6 +315,12 @@ function pickBestCandidate(candidates, targetDurationSec, getDuration, scene, to
 
     if (subjectNoun && tokenSet.has(subjectNoun.toLowerCase())) {
       score += 1000; // Strong match with exact subject noun
+    }
+
+    // Deprioritize already used clips across scenes (crucial for long-form video with 15-40 scenes)
+    const itemUrl = String(item.url || "");
+    if (itemUrl && (usedUrls.has(itemUrl) || Array.from(usedUrls).some(u => itemUrl.includes(u) || u.includes(itemUrl)))) {
+      score -= 5000;
     }
 
     const duration = Number(getDuration(item) || 0);
@@ -404,7 +431,7 @@ function fallbackSearchQuery(scene) {
   return cleanQuery(selected.join(" ")) || FALLBACK_QUERY;
 }
 
-export async function fetchStockClip({ scene, query, format, itemId, topic = "" }) {
+export async function fetchStockClip({ scene, query, format, itemId, topic = "", usedUrls = new Set() }) {
   if (!stockProvidersAvailable()) {
     throw new Error("PEXELS_API_KEY atau PIXABAY_API_KEY belum dikonfigurasi.");
   }
@@ -421,14 +448,19 @@ export async function fetchStockClip({ scene, query, format, itemId, topic = "" 
   let isArchiveImage = false;
 
   const queries = buildStockQueries(query, scene, topic);
+  const desiredOrientation = format === "horizontal" ? "landscape" : "portrait";
 
   for (const q of queries) {
     usedQuery = q;
-    // 1. Try Pexels first — strictly filter candidate videos so mismatched subjects (e.g. watch for spoon) are rejected
-    console.log(`Searching Pexels for query: "${q}" (target ${targetDurationSec}s)`);
-    const pexelsVideos = await searchPexels(q);
+    // 1. Try Pexels first — strictly filter candidate videos and match target orientation
+    console.log(`Searching Pexels for query: "${q}" (target ${targetDurationSec}s, orientation: ${desiredOrientation})`);
+    let pexelsVideos = await searchPexels(q, { orientation: desiredOrientation });
+    if (!pexelsVideos || !pexelsVideos.length) {
+      pexelsVideos = await searchPexels(q); // fallback unconstrained
+    }
+
     if (pexelsVideos && pexelsVideos.length) {
-      const best = pickBestCandidate(pexelsVideos, targetDurationSec, (v) => v.duration, scene, topic);
+      const best = pickBestCandidate(pexelsVideos, targetDurationSec, (v) => v.duration, scene, topic, usedUrls);
       downloadUrl = best ? selectPexelsFile(best, format) : null;
       if (downloadUrl) {
         provider = "pexels";
@@ -441,7 +473,7 @@ export async function fetchStockClip({ scene, query, format, itemId, topic = "" 
     console.log(`Searching Pixabay for query: "${q}" (target ${targetDurationSec}s)`);
     const pixabayHits = await searchPixabay(q);
     if (pixabayHits && pixabayHits.length) {
-      const best = pickBestCandidate(pixabayHits, targetDurationSec, (v) => v.duration, scene, topic);
+      const best = pickBestCandidate(pixabayHits, targetDurationSec, (v) => v.duration, scene, topic, usedUrls);
       downloadUrl = best ? selectPixabayFile(best, format) : null;
       if (downloadUrl) {
         provider = "pixabay";
@@ -507,6 +539,7 @@ export async function fetchStockClip({ scene, query, format, itemId, topic = "" 
     model: "stock-footage",
     path: finalPath,
     url: `/generated/clips/${finalFilename}`,
+    downloadUrl: downloadUrl || "",
     prompt: usedQuery,
     seconds: nativeDurationSec || targetDurationSec,
     targetDurationSec,

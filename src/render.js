@@ -115,7 +115,8 @@ export async function renderKnowledgeVideo(item) {
   const renderScenes = buildRenderScenes(item, timing.contentDuration);
   const allScenes = [buildIntroScene(item, renderScenes[0]), ...renderScenes, buildOutroScene(item, renderScenes.at(-1))];
 
-  const format = item.input?.videoFormat || "vertical";
+  const isHorizontal = item.input?.videoFormat === "horizontal" || Boolean(item.input?.longForm);
+  const format = isHorizontal ? "horizontal" : (item.input?.videoFormat || "vertical");
   const concurrencyLimit = config.render.concurrencyLimit || 3;
   const segmentPaths = new Array(allScenes.length);
 
@@ -755,7 +756,7 @@ async function muxVideoAudio({ videoPath, audioPath, outputPath }) {
 
 async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, narrationTempo, totalDuration }) {
   const events = [];
-  const isHorizontal = item.input?.videoFormat === "horizontal";
+  const isHorizontal = item.input?.videoFormat === "horizontal" || Boolean(item.input?.longForm);
   const hookText = splitLines(item.plan?.hook || item.title || "BanyakTau", isHorizontal ? 32 : 24, 4).join("\\N");
   events.push(dialogue(0.05, introDuration - 0.05, "Hook", `{\\fad(150,150)}${assEscape(hookText)}`));
 
@@ -985,7 +986,7 @@ function endOverlayText(item) {
 }
 
 function outroOverlayEvents(item, start, end) {
-  const isHorizontal = item.input?.videoFormat === "horizontal";
+  const isHorizontal = item.input?.videoFormat === "horizontal" || Boolean(item.input?.longForm);
   const centerX = isHorizontal ? 960 : 540;
   const kickerY = isHorizontal ? 320 : 630;
   const summaryY = isHorizontal ? 510 : 840;

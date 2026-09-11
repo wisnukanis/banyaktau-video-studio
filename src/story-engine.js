@@ -485,7 +485,7 @@ function normalizeInput(input) {
       }
       return greenAvatars[Math.abs(hash) % greenAvatars.length];
     })(),
-    videoFormat: cleanText(input.videoFormat || config.stock?.defaultVideoFormat || "vertical", 40),
+    videoFormat: cleanText(input.videoFormat || (input.longForm ? "horizontal" : (config.stock?.defaultVideoFormat || "vertical")), 40),
     visualSource: cleanText(input.visualSource || config.stock?.defaultVisualSource || "stock", 40)
   };
 }
@@ -534,7 +534,7 @@ function buildPrompt(input, context) {
     "Tulis narasi scene sebagai satu cerita utuh yang dibagi untuk visual, bukan potongan-potongan yang terasa terpisah.",
     "Field imagePrompt harus menggambarkan visual yang LANGSUNG dan SPESIFIK merepresentasikan poin utama narasi scene tersebut — bukan visual generik atau simbolik. Contoh: jika narasi membahas 'sel darah merah membawa oksigen', imagePrompt harus tentang sel darah merah di pembuluh darah, bukan gambar manusia berlari atau tubuh manusia secara umum.",
     longForm
-      ? "Setiap scene mewakili sekitar 10-15 detik narasi. Karena jumlah scene banyak, variasikan visualPrompt seluas mungkin (jangan ulang tema visual yang sama berturut-turut) supaya B-roll stock footage yang dicari nanti juga bervariasi dan tidak terasa diulang-ulang. Jangan gunakan stockQuery yang sama atau hampir sama di dua scene berturut-turut."
+      ? "ATURAN VISUAL KHUSUS YOUTUBE LONG-FORM (16:9 Landscape):\n- Video berdurasi panjang ditonton di layar lebar/TV. Visual B-roll harus bervariasi, dinamis, dan berganti secara logis mengikuti babak narasi (jangan monoton).\n- Variasikan sudut pandang visual di setiap babak: scene awal (pengenalan benda nyata di meja makan/dapur), babak asal-usul (arsip/sejarah/alat kuno), babak proses manufaktur (pabrik peleburan logam/mesin cetak/forging), babak sains/sifat bahan (uji ketahanan/reaksi kimia/korosi), babak penutup (kehidupan modern).\n- Setiap scene WAJIB memiliki stockQuery yang unik dan berbeda dengan scene lainnya! DILARANG mengulang stockQuery yang sama di scene berbeda agar video tidak repetitif."
       : "Setiap scene harus punya imagePrompt & stockQuery yang berbeda dan unik: variasikan objek close-up, diagram konseptual tanpa teks, aksi/gerakan menonjol, sudut pandang ekstrem, atau visual makro. Jangan gunakan stockQuery yang sama atau hampir sama di dua scene berturut-turut.",
     "Jangan minta gambar berisi teks, logo, watermark, atau wajah tokoh nyata yang masih hidup.",
     "ATURAN KETAT stockQuery (WAJIB DIPATUHI UNTUK MENCEGAH SALAH VISUAL):",

@@ -131,7 +131,8 @@ export async function ensureOptionalClip(item, options = {}) {
 export async function ensureVisualClips(item, options = {}) {
   const warnings = options.warnings || [];
   const visualSource = item.input.visualSource || "stock";
-  const format = item.input.videoFormat || "vertical";
+  const isHorizontal = item.input.videoFormat === "horizontal" || Boolean(item.input.longForm);
+  const format = isHorizontal ? "horizontal" : (item.input.videoFormat || "vertical");
 
   if (visualSource !== "ai" && !stockProvidersAvailable()) {
     const message = "Stock video dilewati karena PEXELS_API_KEY dan PIXABAY_API_KEY belum dikonfigurasi.";
@@ -139,6 +140,9 @@ export async function ensureVisualClips(item, options = {}) {
     if (options.strict) throw new Error(message);
     return;
   }
+
+  const clips = [...(item.assets.clips || [])];
+  const usedUrls = new Set(clips.map(c => c.downloadUrl || c.url).filter(Boolean));
   
   if (visualSource === "ai") {
     for (const scene of item.plan.scenes) {
@@ -155,12 +159,14 @@ export async function ensureVisualClips(item, options = {}) {
         console.warn(msg);
         try {
           const query = await extractSearchQuery(scene, item.input.topic);
-          const clip = await fetchStockClip({ scene, query, format, itemId: item.id, topic: item.input?.topic || item.title });
-          const clips = [...(item.assets.clips || [])];
-          const idx = clips.findIndex(c => Number(c.sceneIndex) === Number(scene.index));
-          if (idx >= 0) clips.splice(idx, 1, clip);
-          else clips.push(clip);
-          item.assets.clips = sortByScene(clips);
+          const clip = await fetchStockClip({ scene, query, format, itemId: item.id, topic: item.input?.topic || item.title, usedUrls });
+          if (clip.downloadUrl) usedUrls.add(clip.downloadUrl);
+          if (clip.url) usedUrls.add(clip.url);
+          const currentClips = [...(item.assets.clips || [])];
+          const idx = currentClips.findIndex(c => Number(c.sceneIndex) === Number(scene.index));
+          if (idx >= 0) currentClips.splice(idx, 1, clip);
+          else currentClips.push(clip);
+          item.assets.clips = sortByScene(currentClips);
           item.updatedAt = nowIso();
           await saveItem(item);
         } catch (stockError) {
@@ -173,15 +179,15 @@ export async function ensureVisualClips(item, options = {}) {
     return;
   }
   
-  const clips = [...(item.assets.clips || [])];
-  
   for (const scene of item.plan.scenes) {
     const existing = clips.find(c => Number(c.sceneIndex) === Number(scene.index));
     if (existing?.path) continue;
     
     try {
       const query = await extractSearchQuery(scene, item.input.topic);
-      const clip = await fetchStockClip({ scene, query, format, itemId: item.id, topic: item.input?.topic || item.title });
+      const clip = await fetchStockClip({ scene, query, format, itemId: item.id, topic: item.input?.topic || item.title, usedUrls });
+      if (clip.downloadUrl) usedUrls.add(clip.downloadUrl);
+      if (clip.url) usedUrls.add(clip.url);
       
       const idx = clips.findIndex(c => Number(c.sceneIndex) === Number(scene.index));
       if (idx >= 0) clips.splice(idx, 1, clip);
