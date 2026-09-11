@@ -20,70 +20,72 @@ export async function generateThumbnail(item) {
   const isVideo = media[0].path.toLowerCase().endsWith(".mp4");
   const inputArgs = isVideo ? ["-ss", "00:00:01.0", "-i", media[0].path] : ["-i", media[0].path];
 
+  const fontPath = thumbnailFontPath();
+  const badgeCategory = cleanDisplayText(item.input?.category || "BANYAKTAU").toUpperCase();
+  const hookText = extractThumbnailHook(item);
+  const { line1, line2 } = splitHookLines(hookText);
+  const subtitleContext = shortSubtitle(item.title || item.plan?.hook || "FAKTA MENGEJUTKAN");
+
+  // Otomatis memilih layout terbaik secara dinamis & variatif per video
+  const hash = Math.abs(hashString(item.id || item.title || "default"));
+  const chosenLayout = isHorizontal
+    ? (hash % 2 === 0 ? "cinematic-gradient" : "boxcard-viral")
+    : "vertical-cinematic";
+
   let filter = "";
+  let lavfiGrad = "";
 
   if (isHorizontal) {
-    // Format 16:9 YouTube Widescreen (1920x1080)
-    const titleLines = fitLines(shortTitle(item.title || item.plan?.hook || "BanyakTau").toUpperCase(), {
-      maxChars: 18,
-      maxLines: 3
-    });
-    const titleSize = titleFontSizeHorizontal(titleLines);
-    const titleY = 320;
-    const titleStep = titleSize + 22;
-    const badgeCategory = cleanDisplayText(item.input?.category || "BANYAKTAU").toUpperCase();
-
-    const textFilters = [
-      `drawtext=${thumbnailFontExpr()}:text='${drawtextEscape(badgeCategory)}':fontcolor=0xF5C84C:fontsize=36:bordercolor=black:borderw=5:x=74:y=180`,
-      ...drawLineFilters(titleLines, {
-        x: 74,
-        y: titleY,
-        step: titleStep,
-        fontsize: titleSize,
-        colors: ["0xFFD700", "0xFFFFFF", "0xFFD700"],
-        borderw: 8
-      })
-    ];
-
-    filter = [
-      "[0:v]scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,eq=contrast=1.15:saturation=1.15:brightness=-0.02[hero]",
-      "[hero]drawbox=x=0:y=0:w=1120:h=1080:color=black@0.65:t=fill[panel]",
-      "[panel]drawbox=x=0:y=0:w=16:h=1080:color=0xF5C84C@1:t=fill[border_l]",
-      "[border_l]drawbox=x=74:y=245:w=180:h=10:color=0xF5C84C@1:t=fill[accent]",
-      `[accent]${textFilters.join(",")}`
-    ].filter(Boolean).join(";");
+    if (chosenLayout === "cinematic-gradient") {
+      // Layout 1: Gaya Sinematik Dokumenter (Smooth Left-to-Right Fade + 3D Shadow Typography)
+      lavfiGrad = "gradients=s=1920x1080:c0=black@0.88:c1=black@0.0:x0=0:y0=0:x1=1150:y1=0";
+      filter = [
+        "[0:v]scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,eq=contrast=1.18:saturation=1.20:brightness=-0.02[hero]",
+        "[1:v]format=rgba[grad]",
+        "[hero][grad]overlay=0:0[bg]",
+        "[bg]drawbox=x=0:y=0:w=16:h=1080:color=0xFFE600@1:t=fill[lstrip]",
+        `[lstrip]drawbox=x=74:y=180:w=220:h=48:color=0xFFE600@1:t=fill[tagbox]`,
+        `[tagbox]drawtext=fontfile='${fontPath}':text='${drawtextEscape(badgeCategory)}':fontcolor=black:fontsize=26:borderw=0:x=94:y=191[tagtext]`,
+        `[tagtext]drawtext=fontfile='${fontPath}':text='${drawtextEscape(line1)}':fontcolor=0xFFFFFF:fontsize=125:bordercolor=black:borderw=8:shadowcolor=black@0.9:shadowx=6:shadowy=6:x=74:y=280[l1]`,
+        `[l1]drawtext=fontfile='${fontPath}':text='${drawtextEscape(line2)}':fontcolor=0xFFE600:fontsize=138:bordercolor=black:borderw=9:shadowcolor=black@0.9:shadowx=7:shadowy=7:x=74:y=430[l2]`,
+        `[l2]drawbox=x=74:y=610:w=440:h=54:color=0xDD1122@0.95:t=fill[subpill]`,
+        `[subpill]drawtext=fontfile='${fontPath}':text='${drawtextEscape(subtitleContext)}':fontcolor=white:fontsize=28:bordercolor=black:borderw=2:x=94:y=623`
+      ].join(";");
+    } else {
+      // Layout 2: Gaya Breaking News / Vox (Full-Screen B-Roll + Vignette + High-Contrast Box Badges)
+      lavfiGrad = "gradients=s=1920x1080:c0=black@0.0:c1=black@0.85:x0=0:y0=400:x1=0:y1=1080";
+      filter = [
+        "[0:v]scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,eq=contrast=1.20:saturation=1.25:brightness=-0.03,vignette=PI/4[hero]",
+        "[1:v]format=rgba[grad]",
+        "[hero][grad]overlay=0:0[bg]",
+        "[bg]drawbox=x=80:y=80:w=260:h=52:color=black@0.85:t=fill[topcard]",
+        "[topcard]drawbox=x=80:y=80:w=12:h=52:color=0xFFE600@1:t=fill[topaccent]",
+        `[topaccent]drawtext=fontfile='${fontPath}':text='⚠️ ${drawtextEscape(badgeCategory)}':fontcolor=0xFFE600:fontsize=28:borderw=0:x=110:y=92[toptext]`,
+        `[toptext]drawtext=fontfile='${fontPath}':text=' ${drawtextEscape(line1)} ':fontcolor=0xFFE600:fontsize=128:bordercolor=black:borderw=8:box=1:boxcolor=black@0.85:boxborderw=16:x=80:y=720[b1]`,
+        `[b1]drawtext=fontfile='${fontPath}':text=' ${drawtextEscape(line2 + " • " + subtitleContext)} ':fontcolor=white:fontsize=44:bordercolor=black:borderw=4:box=1:boxcolor=0xCC1122@0.90:boxborderw=12:x=80:y=900`
+      ].join(";");
+    }
   } else {
-    // Format 9:16 Shorts/Reels Vertikal (1080x1920)
-    const titleLines = fitLines(shortTitle(item.title || item.plan?.hook || "BanyakTau"), {
-      maxChars: 14,
-      maxLines: 4
-    });
-    const titleSize = titleFontSize(titleLines);
-    const titleY = titleLines.length > 3 ? 1140 : 1220;
-    const titleStep = titleSize + 14;
-    const textFilters = [
-      ...drawLineFilters(titleLines, {
-        x: 74,
-        y: titleY,
-        step: titleStep,
-        fontsize: titleSize,
-        color: "0xFFF6D7",
-        borderw: 6
-      })
-    ];
-
+    // Format 9:16 Shorts/Reels Vertikal (1080x1920) dengan Smooth Bottom Gradient
+    lavfiGrad = "gradients=s=1080x1920:c0=black@0.0:c1=black@0.90:x0=0:y0=960:x1=0:y1=1920";
     filter = [
-      "[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,eq=contrast=1.12:saturation=1.10:brightness=-0.01[hero]",
-      "[hero]drawbox=x=0:y=980:w=1080:h=940:color=black@0.64:t=fill[panel]",
-      "[panel]drawbox=x=0:y=980:w=1080:h=10:color=0xF5C84C@1:t=fill[accent]",
-      "[accent]drawbox=x=74:y=1052:w=156:h=12:color=0xF5C84C@1:t=fill[base]",
-      `[base]${textFilters.join(",")}`
-    ].filter(Boolean).join(";");
+      "[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,eq=contrast=1.15:saturation=1.15:brightness=-0.02[hero]",
+      "[1:v]format=rgba[grad]",
+      "[hero][grad]overlay=0:0[bg]",
+      "[bg]drawbox=x=74:y=1080:w=220:h=48:color=0xFFE600@1:t=fill[tagbox]",
+      `[tagbox]drawtext=fontfile='${fontPath}':text='${drawtextEscape(badgeCategory)}':fontcolor=black:fontsize=26:borderw=0:x=94:y=1091[tagtext]`,
+      `[tagtext]drawtext=fontfile='${fontPath}':text='${drawtextEscape(line1)}':fontcolor=0xFFFFFF:fontsize=110:bordercolor=black:borderw=7:shadowcolor=black@0.9:shadowx=5:shadowy=5:x=74:y=1170[l1]`,
+      `[l1]drawtext=fontfile='${fontPath}':text='${drawtextEscape(line2)}':fontcolor=0xFFE600:fontsize=120:bordercolor=black:borderw=8:shadowcolor=black@0.9:shadowx=6:shadowy=6:x=74:y=1300[l2]`,
+      `[l2]drawbox=x=74:y=1460:w=440:h=50:color=0xDD1122@0.95:t=fill[subpill]`,
+      `[subpill]drawtext=fontfile='${fontPath}':text='${drawtextEscape(subtitleContext)}':fontcolor=white:fontsize=26:bordercolor=black:borderw=2:x=94:y=1472`
+    ].join(";");
   }
 
   const args = [
     "-y",
     ...inputArgs,
+    "-f", "lavfi",
+    "-i", lavfiGrad,
     "-filter_complex", filter,
     "-frames:v", "1",
     "-q:v", "2",
@@ -96,6 +98,7 @@ export async function generateThumbnail(item) {
     path: outputPath,
     url: `/generated/thumbnails/${filename}`,
     provider: "ffmpeg-collage",
+    layout: chosenLayout,
     aspectRatio: isHorizontal ? "16:9" : "9:16"
   };
 }
@@ -138,14 +141,7 @@ function titleFontSize(lines) {
   return 118;
 }
 
-function titleFontSizeHorizontal(lines) {
-  const longest = Math.max(...lines.map((line) => line.length), 1);
-  if (lines.length >= 3 || longest > 18) return 98;
-  if (lines.length === 2 || longest > 14) return 110;
-  return 122;
-}
-
-function thumbnailFontExpr() {
+function thumbnailFontPath() {
   const candidates = process.platform === "win32"
     ? [
         "C:/Windows/Fonts/impact.ttf",
@@ -157,15 +153,80 @@ function thumbnailFontExpr() {
         "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf"
       ];
   const found = candidates.find((c) => fsSync.existsSync(c))?.replace(/:/g, "\\:");
-  if (found) return `fontfile='${found}'`;
-  return fontExpr();
+  if (found) return found;
+  return fontPathFallback();
 }
 
-function fontExpr() {
-  const fontPath = findScholarFont() || (process.platform === "win32"
+function fontPathFallback() {
+  const scholar = findScholarFont();
+  if (scholar) return scholar;
+  return process.platform === "win32"
     ? "C\\:/Windows/Fonts/arialbd.ttf"
-    : "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf");
-  return `fontfile='${fontPath}'`;
+    : "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf";
+}
+
+export function extractThumbnailHook(item) {
+  if (item.plan?.thumbnailHook && item.plan.thumbnailHook.trim().length > 3) {
+    return cleanDisplayText(item.plan.thumbnailHook).toUpperCase();
+  }
+
+  const raw = cleanDisplayText(item.plan?.hook || item.title || "BanyakTau");
+  const stopWords = new Set([
+    "gimana", "sih", "kok", "dong", "nih", "lah", "deh", "kan",
+    "yang", "di", "ke", "dari", "untuk", "pada", "dalam", "dan", "atau", "dengan",
+    "ini", "itu", "bisa", "adalah", "karena", "saat", "jika", "akan", "tapi", "secara",
+    "menurut", "seperti", "sudah", "belum", "hanya", "oleh", "tentang"
+  ]);
+
+  const words = raw
+    .replace(/[^\p{L}\p{N}\s]/gu, " ")
+    .split(/\s+/)
+    .filter((w) => w.length > 2 && !stopWords.has(w.toLowerCase()));
+
+  if (words.length >= 4) {
+    return `${words[0]} ${words[1]} ${words[2]} ${words[3]}`.toUpperCase();
+  }
+  if (words.length >= 2) {
+    return words.slice(0, 3).join(" ").toUpperCase();
+  }
+  return (words[0] || "FAKTA MENGEJUTKAN").toUpperCase();
+}
+
+function splitHookLines(hookText) {
+  const words = hookText.trim().split(/\s+/).filter(Boolean);
+  if (words.length <= 2) {
+    return {
+      line1: words[0] || "FAKTA",
+      line2: words[1] ? (words[1] + (/[?!]$/.test(words[1]) ? "" : "!")) : "MENGEJUTKAN!"
+    };
+  }
+  const mid = Math.ceil(words.length / 2);
+  const l1 = words.slice(0, mid).join(" ");
+  let l2 = words.slice(mid).join(" ");
+  if (!/[?!]$/.test(l2)) {
+    l2 += "!";
+  }
+  return { line1: l1, line2: l2 };
+}
+
+function shortSubtitle(title) {
+  return cleanDisplayText(title)
+    .replace(/[^\p{L}\p{N}\s-]/gu, " ")
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 5)
+    .join(" ")
+    .toUpperCase();
+}
+
+function hashString(str) {
+  let hash = 0;
+  const s = String(str || "");
+  for (let i = 0; i < s.length; i++) {
+    hash = (hash << 5) - hash + s.charCodeAt(i);
+    hash |= 0;
+  }
+  return hash;
 }
 
 function findScholarFont() {

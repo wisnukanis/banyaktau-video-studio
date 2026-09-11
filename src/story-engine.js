@@ -539,8 +539,9 @@ function buildPrompt(input, context) {
     "Jangan minta gambar berisi teks, logo, watermark, atau wajah tokoh nyata yang masih hidup.",
     "Untuk setiap scene, isi stockQuery dengan kata kunci pencarian B-roll dalam Bahasa Inggris (WAJIB bahasa Inggris), maksimal 3 kata, SANGAT SPESIFIK ke subjek visual utama yang dinarasikan di scene itu — bukan tema besar video secara umum. Contoh BAIK: 'red blood cells', 'iron ship hull', 'light refraction', 'ancient cave painting', 'honey crystallization'. Contoh BURUK: 'education', 'science', 'documentary', 'knowledge', 'interesting facts'. Pastikan stockQuery mencerminkan APA yang terlihat di video untuk scene itu, bukan TENTANG APA video itu.",
     "Untuk setiap scene, tentukan emosi/pose avatar di field 'avatarPose'. Pilihan yang valid hanya: 'thinking' (jika bertanya/misteri), 'surprised' (jika ada fakta unik/kejutan), 'pointing' (jika menekankan fakta penting), 'clipboard' (jika penjelas biasa), atau 'thumbs_up' (khusus scene penutup).",
+    "Field thumbnailHook wajib diisi 2-4 kata super singkat, provokatif, dan memicu rasa penasaran untuk teks besar di thumbnail YouTube (contoh: 'ZONA TERLARANG!', 'KITA SALAH BESAR?!', 'JANGAN MENYELAM!').",
     "Kembalikan JSON valid saja dengan shape:",
-    "{ title, hook, summary, importantPoints:[string], factCheckNote, scenes:[{ index, durationSec, narration, screenText, imagePrompt, stockQuery, visualStyle, avatarPose }] }",
+    "{ title, hook, thumbnailHook, summary, importantPoints:[string], factCheckNote, scenes:[{ index, durationSec, narration, screenText, imagePrompt, stockQuery, visualStyle, avatarPose }] }",
     `Topik: ${input.topic}`,
     `Kategori: ${input.category}`,
     input.hookStyle ? `Hook yang harus dipakai atau dijadikan dasar: ${input.hookStyle}` : "",
@@ -572,6 +573,7 @@ function normalizePlan(plan, input) {
   return {
     title: cleanPublicTitle(plan?.title || input.selectedIdea?.title || fallback.title),
     hook: cleanText(plan?.hook || input.selectedIdea?.hook || fallback.hook, 180),
+    thumbnailHook: cleanText(plan?.thumbnailHook || "", 80),
     summary: normalizeSummary(plan?.summary, input, scenes, fallback.summary),
     importantPoints: normalizePoints(plan?.importantPoints || fallback.importantPoints),
     factCheckNote: cleanText(plan?.factCheckNote || "Disusun sebagai penjelasan populer; detail teknis dapat diperdalam lagi dari sumber ilmiah.", 220),
