@@ -111,7 +111,7 @@ app.get("/api/trends/:region", async (req, res, next) => {
       return res.status(400).json({ error: "Region harus 'ID' atau 'US'." });
     }
     const [live, snapshot] = await Promise.all([
-      getLiveViralData(region).catch(() => ({ googleTrends: [], globalScience: [] })),
+      getLiveViralData(region).catch(() => ({ googleTrends: [], globalScience: [], realWorldEvents: [] })),
       getLatestSnapshot(region).catch(() => null)
     ]);
     res.json({ live, snapshot });
@@ -128,7 +128,7 @@ app.post("/api/trends/:region/refresh", async (req, res, next) => {
     }
     await refreshTrendSnapshot(region);
     const [live, snapshot] = await Promise.all([
-      getLiveViralData(region, 0).catch(() => ({ googleTrends: [], globalScience: [] })),
+      getLiveViralData(region, 0).catch(() => ({ googleTrends: [], globalScience: [], realWorldEvents: [] })),
       getLatestSnapshot(region).catch(() => null)
     ]);
     res.json({ ok: true, live, snapshot });

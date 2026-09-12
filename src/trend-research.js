@@ -103,6 +103,84 @@ export async function fetchGlobalScienceTrends() {
   })).filter((i) => i.title && i.description);
 }
 
+export async function fetchRealWorldIncidents() {
+  const queries = [
+    '(keracunan OR "keracunan makanan" OR "makanan basi" OR bakteri OR wabah OR virus OR lambung OR "panas ekstrem" OR "heatstroke") when:7d',
+    '(gempa OR "gunung meletus" OR erupsi OR banjir OR longsor OR tsunami OR "angin puting beliung" OR krakatau OR marapi) when:7d'
+  ];
+
+  const results = [];
+  const seenTitles = new Set();
+
+  for (const q of queries) {
+    try {
+      const url = `https://news.google.com/rss/search?q=${encodeURIComponent(q)}&hl=id&gl=ID&ceid=ID:id`;
+      const response = await fetch(url, {
+        headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" },
+        signal: AbortSignal.timeout(8000)
+      });
+      if (!response.ok) continue;
+      const xml = await response.text();
+      const items = xml.match(/<item>[\s\S]*?<\/item>/g) || [];
+
+      for (const item of items) {
+        const rawTitle = cleanXmlEntities(extractXmlTag(item, "title"));
+        const pubDate = cleanXmlEntities(extractXmlTag(item, "pubDate"));
+        const source = rawTitle.includes(" - ") ? rawTitle.split(" - ").pop().trim() : "Berita Terkini";
+        const cleanHeadline = rawTitle.includes(" - ") ? rawTitle.split(" - ").slice(0, -1).join(" - ").trim() : rawTitle;
+
+        if (!cleanHeadline || seenTitles.has(cleanHeadline.toLowerCase())) continue;
+        seenTitles.add(cleanHeadline.toLowerCase());
+
+        let category = "Fenomena Alam";
+        let studioCategory = "fenomena alam";
+        let suggestedTopic = cleanHeadline;
+        let suggestedAngle = "Ditinjau dari sisi sains & mekanisme alam";
+        const lower = cleanHeadline.toLowerCase();
+
+        if (/keracunan|makanan|bakteri|infeksi|wabah|virus|organ|otak|lambung|kesehatan|penyakit|medis/i.test(lower)) {
+          category = "Kesehatan & Makanan";
+          studioCategory = "tubuh manusia";
+          suggestedAngle = "Kupas apa yang terjadi di sel/organ tubuh manusia saat insiden ini terjadi";
+          if (/keracunan/i.test(lower)) suggestedTopic = "Bahaya Keracunan Makanan: Cara Bakteri Menyerang Lambung dan Otak";
+          else if (/bakteri|infeksi/i.test(lower)) suggestedTopic = "Bagaimana Bakteri Menginfeksi Tubuh Manusia";
+        } else if (/gempa|seismik|sesar|lempeng/i.test(lower)) {
+          category = "Gempa & Geologi";
+          studioCategory = "fenomena alam";
+          suggestedAngle = "Jelaskan pergeseran lempeng bawah tanah dan sains gempa bumi";
+          suggestedTopic = "Sains di Balik Gempa Bumi: Mengapa Getarannya Bisa Terasa Ratusan Kilometer?";
+        } else if (/gunung|erupsi|meletus|lahar|lava|abu vulkanik/i.test(lower)) {
+          category = "Vulkanologi";
+          studioCategory = "fenomena alam";
+          suggestedAngle = "Kupas fenomena awan panas dan tekanan magma di dapur bumi";
+          suggestedTopic = "Sains Erupsi Gunung Api: Rahasia Awan Panas dan Dapur Magma Bumi";
+        } else if (/banjir|longsor|cuaca|hujan|badai|angin|petir|panas/i.test(lower)) {
+          category = "Bencana & Cuaca Ekstrem";
+          studioCategory = "fenomena alam";
+          suggestedAngle = "Kupas kekuatan fisik alam di balik fenomena cuaca ini";
+          suggestedTopic = "Mekanisme Cuaca Ekstrem dan Bencana Alam";
+        }
+
+        results.push({
+          headline: cleanHeadline,
+          source,
+          category,
+          studioCategory,
+          suggestedTopic,
+          suggestedAngle,
+          pubDate
+        });
+
+        if (results.length >= 20) break;
+      }
+    } catch {
+      // Continue to next query
+    }
+  }
+
+  return results;
+}
+
 function tokenizeTitles(titles) {
   const freq = new Map();
   for (const title of titles) {
@@ -161,6 +239,7 @@ export async function refreshTrendSnapshot(regionCode = "ID") {
   store.regions = store.regions || {};
   store.googleTrends = store.googleTrends || {};
   store.globalScience = store.globalScience || [];
+  store.realWorldEvents = store.realWorldEvents || [];
 
   const errors = [];
 
@@ -182,6 +261,15 @@ export async function refreshTrendSnapshot(regionCode = "ID") {
     store.globalScienceFetchedAt = new Date().toISOString();
   } catch (err) {
     errors.push(`Global Science: ${err.message}`);
+  }
+
+  // 3. Fetch Real-World Incidents (Indonesia: Health, Food Safety, Nature, Disasters)
+  try {
+    const incidents = await fetchRealWorldIncidents();
+    store.realWorldEvents = incidents;
+    store.realWorldFetchedAt = new Date().toISOString();
+  } catch (err) {
+    errors.push(`Real World Incidents: ${err.message}`);
   }
 
   // 3. YouTube Data API (if key available)
@@ -231,6 +319,7 @@ export async function getLiveViralData(regionCode = "ID", maxAgeHours = 4) {
   }
 
   return {
+    realWorldEvents: store.realWorldEvents || [],
     googleTrends: store.googleTrends?.[regionCode]?.items || [],
     globalScience: store.globalScience || [],
     lastUpdated: store.lastUpdated || null
@@ -241,7 +330,18 @@ export async function getTrendNotesText(regionCode = "ID", category = "random") 
   const live = await getLiveViralData(regionCode);
   const sections = [];
 
-  // 1. ScienceDaily global breaking discoveries
+  // 1. Real-World Incidents in Indonesia (Disasters, Health, Food Incidents)
+  if (live.realWorldEvents?.length) {
+    const topReal = live.realWorldEvents.slice(0, 6).map((e, idx) => {
+      return `  ${idx + 1}. [${e.category.toUpperCase()}] "${e.headline}" (Sumber: ${e.source}) -> Angle Sains: ${e.suggestedAngle}`;
+    }).join("\n");
+
+    sections.push(
+      `PERISTIWA NYATA & BENCANA/KESEHATAN TERKINI DI INDONESIA:\n${topReal}`
+    );
+  }
+
+  // 2. ScienceDaily global breaking discoveries
   if (live.globalScience?.length) {
     const topSci = live.globalScience.slice(0, 4).map((s, idx) => {
       return `  ${idx + 1}. [GLOBAL DISCOVERY] ${s.title}: "${s.description.slice(0, 160)}..."`;
@@ -252,7 +352,7 @@ export async function getTrendNotesText(regionCode = "ID", category = "random") 
     );
   }
 
-  // 2. Google Trends real-time
+  // 3. Google Trends real-time
   if (live.googleTrends?.length) {
     const topGt = live.googleTrends.slice(0, 5).map((t, idx) => {
       const headline = t.news?.[0]?.title ? ` - Headline: "${t.news[0].title}"` : "";
@@ -264,7 +364,7 @@ export async function getTrendNotesText(regionCode = "ID", category = "random") 
     );
   }
 
-  // 3. YouTube aggregate signal (if available)
+  // 4. YouTube aggregate signal (if available)
   const snapshot = await getLatestSnapshot(regionCode);
   if (snapshot) {
     const ytCategoryId = CATEGORY_TO_YT_ID[String(category).toLowerCase()] || CATEGORY_TO_YT_ID.random;
@@ -281,9 +381,9 @@ export async function getTrendNotesText(regionCode = "ID", category = "random") 
     "=== SINYAL TREN VIRAL & PENEMUAN DUNIA HARI INI ===",
     sections.join("\n\n"),
     "INSTRUKSI ADAPTASI TREN:",
-    "- Utamakan memilih atau mengaitkan ide video dengan penemuan atau topik yang sedang viral di atas jika relevan dengan edukasi/fakta menarik BanyakTau.",
+    "- SANGAT DIANJURKAN mengaitkan ide video dengan peristiwa nyata (seperti insiden keracunan makanan, gempa bumi, erupsi gunung api, atau fenomena cuaca) yang terjadi di Indonesia saat ini.",
+    "- Jangan menyebarkan hoaks atau kepanikan. Kupas dari sisi EDUKASI SAINS, BIOLOGI TUBUH, MEKANISME ALAM, atau MITIGASI KESELAMATAN (contoh: jika keracunan makanan, jelaskan bagaimana bakteri berkembang biak dan memicu muntah; jika gempa, jelaskan sains lempeng tektonik).",
     "- Ubah topik tersebut menjadi hook yang mengejutkan, faktual, dan membuat orang penasaran sejak detik pertama.",
-    "- JANGAN membuat konten clickbait palsu atau gosip/politik kotor; bawa sudut pandang sains, sejarah, logika, atau dampak uniknya bagi kehidupan manusia.",
     "==================================================="
   ].join("\n");
 }

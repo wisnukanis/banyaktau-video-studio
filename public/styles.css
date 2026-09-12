@@ -1344,6 +1344,16 @@ button:disabled {
   color: #60a5fa;
 }
 
+.trend-chip-tag.health {
+  background: rgba(16, 185, 129, 0.18);
+  color: #34d399;
+}
+
+.trend-chip-tag.disaster {
+  background: rgba(239, 68, 68, 0.18);
+  color: #f87171;
+}
+
 .trend-chip-traffic {
   font-size: 10px;
   color: var(--muted);

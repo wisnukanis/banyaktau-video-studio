@@ -13,9 +13,10 @@ const state = {
   logs: [],
   projectFilter: "capybara_banyak_tau_id",
   trends: {
+    realWorldEvents: [],
     globalScience: [],
     googleTrends: { ID: [], US: [] },
-    activeTab: "global",
+    activeTab: "incidents",
     loading: false
   }
 };
@@ -879,6 +880,7 @@ async function loadTrends(refresh = false) {
     const method = refresh ? "POST" : "GET";
     const res = await api(endpoint, { method });
     if (res.live) {
+      state.trends.realWorldEvents = res.live.realWorldEvents || [];
       state.trends.globalScience = res.live.globalScience || [];
       state.trends.googleTrends.ID = res.live.googleTrends || [];
     }
@@ -913,17 +915,39 @@ async function loadTrendsForRegion(region = "US") {
 
 function renderTrends() {
   if (!els.trendsList) return;
-  const tab = state.trends.activeTab || "global";
+  const tab = state.trends.activeTab || "incidents";
   let items = [];
 
-  if (tab === "global") {
+  if (tab === "incidents") {
+    items = state.trends.realWorldEvents || [];
+    if (!items.length) {
+      els.trendsList.innerHTML = '<div class="trend-loading">Belum ada data peristiwa nyata terkini. Klik Refresh Tren.</div>';
+      return;
+    }
+    els.trendsList.innerHTML = items.slice(0, 15).map((item) => {
+      const isHealth = item.category?.includes("Kesehatan") || item.category?.includes("Makanan");
+      const badgeClass = isHealth ? "health" : "disaster";
+      const icon = isHealth ? "🏥" : "🌋";
+      return `
+        <div class="trend-chip" data-topic="${escapeHtml(item.suggestedTopic || item.headline)}" data-category="${escapeHtml(item.studioCategory || 'fenomena alam')}">
+          <div class="trend-chip-header">
+            <span class="trend-chip-tag ${badgeClass}">${icon} ${escapeHtml(item.category)}</span>
+            <span class="trend-chip-traffic">📰 ${escapeHtml(item.source || "Berita")}</span>
+          </div>
+          <strong>${escapeHtml(item.headline)}</strong>
+          <p>🔬 <em>Angle:</em> ${escapeHtml(item.suggestedAngle || "")}</p>
+          <div class="trend-chip-action">✨ Jadikan video edukasi &rarr;</div>
+        </div>
+      `;
+    }).join("");
+  } else if (tab === "global") {
     items = state.trends.globalScience || [];
     if (!items.length) {
       els.trendsList.innerHTML = '<div class="trend-loading">Belum ada data penemuan sains global. Klik Refresh Tren.</div>';
       return;
     }
     els.trendsList.innerHTML = items.slice(0, 12).map((item) => `
-      <div class="trend-chip" data-topic="${escapeHtml(item.title)}">
+      <div class="trend-chip" data-topic="${escapeHtml(item.title)}" data-category="sains">
         <div class="trend-chip-header">
           <span class="trend-chip-tag sci">Sains Dunia</span>
         </div>
@@ -955,13 +979,17 @@ function renderTrends() {
   els.trendsList.querySelectorAll(".trend-chip").forEach((chip) => {
     chip.addEventListener("click", async () => {
       const topic = chip.dataset.topic;
+      const category = chip.dataset.category;
       if (!topic) return;
       if (els.form.topic) {
         els.form.topic.value = topic;
       }
-      setStatus(`Topik viral dipilih: "${topic}". Mencari rekomendasi ide...`);
-      pushLog(`Topik viral dipilih: ${topic}`);
-      showToast(`Topik viral dipilih: "${topic}"`, "info");
+      if (category && els.form.category) {
+        els.form.category.value = category;
+      }
+      setStatus(`Topik peristiwa dipilih: "${topic}". Mencari rekomendasi ide...`);
+      pushLog(`Topik peristiwa dipilih: ${topic}`);
+      showToast(`Topik peristiwa dipilih: "${topic}"`, "info");
       await generateIdeas();
       const panel = document.querySelector("#ideaPanel");
       if (panel) {
