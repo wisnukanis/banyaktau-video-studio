@@ -1,7 +1,27 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-29T09:36:34.846Z",
+  "updatedAt": "2026-09-12T02:12:16.709Z",
   "items": [
+    {
+      "id": "tau_9bf50972aef1",
+      "title": "Bahaya Keracunan Makanan: Bakteri Bisa Menyerang Otak",
+      "topic": "Tubuh Manusia",
+      "category": "Tubuh Manusia",
+      "hook": "Bakteri tertentu bisa menyerang lambung dan berpotensi merusak otak!",
+      "summary": "Bakteri dalam makanan dapat menginfeksi lambung dan berpotensi memengaruhi otak secara serius, sehingga penting untuk mengenali risikonya.",
+      "importantPoints": [
+        "Keracunan makanan disebabkan oleh bakteri seperti E. coli dan Salmonella.",
+        "Bakteri ini dapat menginfeksi lambung dan menyebabkan gejala serius.",
+        "Infeksi dapat memengaruhi sistem saraf dan berpotensi merusak otak.",
+        "Penting untuk menjaga kebersihan makanan dan memasak dengan benar.",
+        "Kesadaran akan bahaya ini sangat penting di tengah insiden terkini."
+      ],
+      "createdAt": "2026-09-12T02:09:43.409Z",
+      "updatedAt": "2026-09-12T02:11:18.456Z",
+      "videoUrl": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_9bf50972aef1-openai-bahaya-keracunan-makanan-bakteri-bisa-menyerang-otak.mp4",
+      "facebookUrl": "https://www.facebook.com/reel/1746558899898685",
+      "instagramUrl": "https://www.instagram.com/reel/DdK4juGEWyZ/"
+    },
     {
       "id": "tau_52682ce14c59",
       "title": "Mengapa Air Laut Tidak Pernah Membeku",
