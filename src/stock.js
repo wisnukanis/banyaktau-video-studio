@@ -91,7 +91,20 @@ const QUERY_TRANSLATIONS = new Map([
   ["burung", "bird"],
   ["ikan", "fish"],
   ["paus", "whale"],
-  ["gurita", "octopus"]
+  ["gurita", "octopus"],
+  ["meletus", "volcano eruption"],
+  ["letusan", "volcano eruption"],
+  ["erupsi", "volcano eruption"],
+  ["gempa", "earthquake"],
+  ["banjir", "flood"],
+  ["tsunami", "tsunami"],
+  ["longsor", "landslide"],
+  ["badai", "storm"],
+  ["petir", "lightning"],
+  ["lava", "lava volcano"],
+  ["lahar", "volcano mudflow"],
+  ["sesar", "fault line"],
+  ["lempeng", "tectonic plates"]
 ]);
 
 function runFfmpeg(args) {
@@ -229,6 +242,13 @@ function extractSubjectNoun(scene, topic = "") {
   if (/pabrik|factory|manufaktur|manufacturing|forge/i.test(combined)) return "factory";
   if (/api\b|fire\b/i.test(combined)) return "fire";
   if (/air\b|water\b/i.test(combined)) return "water";
+  if (/gunung meletus|volcano|erupsi|eruption|lahar|lava|magma/i.test(combined)) return "volcano";
+  if (/gempa|earthquake|seismic|sesar|lempeng/i.test(combined)) return "earthquake";
+  if (/banjir|flood/i.test(combined)) return "flood";
+  if (/tsunami/i.test(combined)) return "tsunami";
+  if (/longsor|landslide/i.test(combined)) return "landslide";
+  if (/badai|storm|topan|tornado|hurricane/i.test(combined)) return "storm";
+  if (/petir|lightning|kilat/i.test(combined)) return "lightning";
   return "";
 }
 
@@ -288,6 +308,16 @@ function isMisleadingCandidate(candidate, scene, topic = "") {
     const forbidden = ["automobile", "car", "traffic", "jewelry", "fashion", "party", "nightclub", "motorcycle", "watch"];
     if (forbidden.some((w) => tokenSet.has(w))) {
       console.warn(`[Stock Filter] Video ditolak (mismatch objek): "${urlSlug}" tidak relevan untuk biologi/anatomi.`);
+      return true;
+    }
+  }
+
+  // 5. Natural Disaster / Extreme Weather / Geology
+  const isDisaster = /gunung meletus|volcano|erupsi|gempa|earthquake|banjir|flood|tsunami|longsor|landslide|badai|storm|topan|bencana/i.test(textContext);
+  if (isDisaster) {
+    const forbidden = ["office", "laptop", "cryptocurrency", "coding", "fashion", "model", "shopping", "makeup", "party", "nightclub", "perfume", "lipstick", "jewelry", "cocktail", "restaurant", "spoon", "fork"];
+    if (forbidden.some((w) => tokenSet.has(w))) {
+      console.warn(`[Stock Filter] Video ditolak (mismatch objek): "${urlSlug}" tidak relevan untuk fenomena/bencana alam.`);
       return true;
     }
   }
