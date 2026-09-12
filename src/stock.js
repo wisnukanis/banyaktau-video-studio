@@ -104,7 +104,22 @@ const QUERY_TRANSLATIONS = new Map([
   ["lava", "lava volcano"],
   ["lahar", "volcano mudflow"],
   ["sesar", "fault line"],
-  ["lempeng", "tectonic plates"]
+  ["lempeng", "tectonic plates"],
+  ["keracunan", "food poisoning"],
+  ["racun", "toxin poison"],
+  ["bakteri", "bacteria microscope"],
+  ["kuman", "bacteria germ"],
+  ["virus", "virus microscope"],
+  ["lambung", "human stomach"],
+  ["usus", "human intestine"],
+  ["perut", "human stomach"],
+  ["mual", "nausea sick"],
+  ["basi", "spoiled food mold"],
+  ["busuk", "rotten food"],
+  ["jamur", "mold fungus"],
+  ["kebersihan", "washing hands hygiene"],
+  ["imun", "immune system cells"],
+  ["infeksi", "infection medical"]
 ]);
 
 function runFfmpeg(args) {
@@ -249,6 +264,13 @@ function extractSubjectNoun(scene, topic = "") {
   if (/longsor|landslide/i.test(combined)) return "landslide";
   if (/badai|storm|topan|tornado|hurricane/i.test(combined)) return "storm";
   if (/petir|lightning|kilat/i.test(combined)) return "lightning";
+  if (/keracunan|racun|poison|toxic/i.test(combined)) return "poisoning";
+  if (/bakteri|kuman|bacteria|microbe|salmonella|ecoli/i.test(combined)) return "bacteria";
+  if (/virus/i.test(combined)) return "virus";
+  if (/lambung|perut|stomach/i.test(combined)) return "stomach";
+  if (/usus|intestine|digestive/i.test(combined)) return "intestine";
+  if (/jamur|mold|fungus/i.test(combined)) return "mold";
+  if (/basi|busuk|spoil|rot/i.test(combined)) return "spoiled food";
   return "";
 }
 
