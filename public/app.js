@@ -924,10 +924,9 @@ function renderTrends() {
       els.trendsList.innerHTML = '<div class="trend-loading">Belum ada data peristiwa nyata terkini. Klik Refresh Tren.</div>';
       return;
     }
-    els.trendsList.innerHTML = items.slice(0, 15).map((item) => {
-      const isHealth = item.category?.includes("Kesehatan") || item.category?.includes("Makanan");
-      const badgeClass = isHealth ? "health" : "disaster";
-      const icon = isHealth ? "🏥" : "🌋";
+    els.trendsList.innerHTML = items.slice(0, 20).map((item) => {
+      const badgeClass = item.badgeClass || (item.category?.includes("Kesehatan") ? "health" : "disaster");
+      const icon = item.icon || (badgeClass === "health" ? "🏥" : (badgeClass === "animal" ? "🐾" : (badgeClass === "tech" ? "⚡" : (badgeClass === "history" ? "🏺" : "🌋"))));
       return `
         <div class="trend-chip" data-topic="${escapeHtml(item.suggestedTopic || item.headline)}" data-category="${escapeHtml(item.studioCategory || 'fenomena alam')}">
           <div class="trend-chip-header">

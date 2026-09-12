@@ -104,17 +104,55 @@ export async function fetchGlobalScienceTrends() {
 }
 
 export async function fetchRealWorldIncidents() {
-  const queries = [
-    '(keracunan OR "keracunan makanan" OR "makanan basi" OR bakteri OR wabah OR virus OR lambung OR "panas ekstrem" OR "heatstroke") when:7d',
-    '(gempa OR "gunung meletus" OR erupsi OR banjir OR longsor OR tsunami OR "angin puting beliung" OR krakatau OR marapi) when:7d'
+  const streamConfigs = [
+    {
+      category: "Kesehatan & Tubuh",
+      studioCategory: "tubuh manusia",
+      suggestedAngle: "Kupas apa yang terjadi di sel/organ tubuh manusia saat insiden ini terjadi",
+      icon: "🏥",
+      badgeClass: "health",
+      q: '(keracunan OR "makanan basi" OR bakteri OR wabah OR infeksi OR virus OR lambung OR "panas ekstrem" OR heatstroke) when:5d'
+    },
+    {
+      category: "Fenomena Alam & Bencana",
+      studioCategory: "fenomena alam",
+      suggestedAngle: "Kupas kekuatan fisik alam, pergerakan bumi, atau dinamika atmosfer di baliknya",
+      icon: "🌋",
+      badgeClass: "disaster",
+      q: '(gempa OR "gunung meletus" OR erupsi OR banjir OR longsor OR tsunami OR badai OR krakatau OR marapi) when:5d'
+    },
+    {
+      category: "Satwa & Dunia Hewan",
+      studioCategory: "hewan",
+      suggestedAngle: "Kupas insting bertahan hidup, perilaku unik, atau bahaya biologis satwa ini",
+      icon: "🐾",
+      badgeClass: "animal",
+      q: '(satwa OR hewan OR ular OR buaya OR serangga OR paus OR rabies OR sengatan OR tawon OR lumba-lumba) when:5d'
+    },
+    {
+      category: "Fisika & Teknologi Sehari-hari",
+      studioCategory: "benda sehari-hari",
+      suggestedAngle: "Kupas hukum fisika, reaksi kimia, atau kegagalan teknis di balik insiden ini",
+      icon: "⚡",
+      badgeClass: "tech",
+      q: '(kebakaran OR ledakan OR "baterai terbakar" OR "tabung gas" OR jembatan OR pesawat OR turbulensi OR kapal OR listrik) when:5d'
+    },
+    {
+      category: "Sejarah & Misteri Purba",
+      studioCategory: "sejarah",
+      suggestedAngle: "Kupas misteri masa lampau dan bagaimana ilmuwan mengungkap temuan ini",
+      icon: "🏺",
+      badgeClass: "history",
+      q: '(fosil OR artefak OR candi OR "kapal karam" OR purba OR prasejarah OR meteor OR gerhana) when:7d'
+    }
   ];
 
   const results = [];
   const seenTitles = new Set();
 
-  for (const q of queries) {
+  for (const stream of streamConfigs) {
     try {
-      const url = `https://news.google.com/rss/search?q=${encodeURIComponent(q)}&hl=id&gl=ID&ceid=ID:id`;
+      const url = `https://news.google.com/rss/search?q=${encodeURIComponent(stream.q)}&hl=id&gl=ID&ceid=ID:id`;
       const response = await fetch(url, {
         headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" },
         signal: AbortSignal.timeout(8000)
@@ -123,6 +161,7 @@ export async function fetchRealWorldIncidents() {
       const xml = await response.text();
       const items = xml.match(/<item>[\s\S]*?<\/item>/g) || [];
 
+      let addedForStream = 0;
       for (const item of items) {
         const rawTitle = cleanXmlEntities(extractXmlTag(item, "title"));
         const pubDate = cleanXmlEntities(extractXmlTag(item, "pubDate"));
@@ -130,51 +169,25 @@ export async function fetchRealWorldIncidents() {
         const cleanHeadline = rawTitle.includes(" - ") ? rawTitle.split(" - ").slice(0, -1).join(" - ").trim() : rawTitle;
 
         if (!cleanHeadline || seenTitles.has(cleanHeadline.toLowerCase())) continue;
+        // Filter out political/election noise, sports matches, and bureaucratic vacancy announcements
+        if (/pilkada|kpu|bawaslu|dpr|sidang korupsi|debat paslon|pengumuman|seleksi|lowongan|cpns|loker|liga|manchester|klasemen|juara|vs\b|kontra\b|piala/i.test(cleanHeadline)) continue;
+
         seenTitles.add(cleanHeadline.toLowerCase());
-
-        let category = "Fenomena Alam";
-        let studioCategory = "fenomena alam";
-        let suggestedTopic = cleanHeadline;
-        let suggestedAngle = "Ditinjau dari sisi sains & mekanisme alam";
-        const lower = cleanHeadline.toLowerCase();
-
-        if (/keracunan|makanan|bakteri|infeksi|wabah|virus|organ|otak|lambung|kesehatan|penyakit|medis/i.test(lower)) {
-          category = "Kesehatan & Makanan";
-          studioCategory = "tubuh manusia";
-          suggestedAngle = "Kupas apa yang terjadi di sel/organ tubuh manusia saat insiden ini terjadi";
-          if (/keracunan/i.test(lower)) suggestedTopic = "Bahaya Keracunan Makanan: Cara Bakteri Menyerang Lambung dan Otak";
-          else if (/bakteri|infeksi/i.test(lower)) suggestedTopic = "Bagaimana Bakteri Menginfeksi Tubuh Manusia";
-        } else if (/gempa|seismik|sesar|lempeng/i.test(lower)) {
-          category = "Gempa & Geologi";
-          studioCategory = "fenomena alam";
-          suggestedAngle = "Jelaskan pergeseran lempeng bawah tanah dan sains gempa bumi";
-          suggestedTopic = "Sains di Balik Gempa Bumi: Mengapa Getarannya Bisa Terasa Ratusan Kilometer?";
-        } else if (/gunung|erupsi|meletus|lahar|lava|abu vulkanik/i.test(lower)) {
-          category = "Vulkanologi";
-          studioCategory = "fenomena alam";
-          suggestedAngle = "Kupas fenomena awan panas dan tekanan magma di dapur bumi";
-          suggestedTopic = "Sains Erupsi Gunung Api: Rahasia Awan Panas dan Dapur Magma Bumi";
-        } else if (/banjir|longsor|cuaca|hujan|badai|angin|petir|panas/i.test(lower)) {
-          category = "Bencana & Cuaca Ekstrem";
-          studioCategory = "fenomena alam";
-          suggestedAngle = "Kupas kekuatan fisik alam di balik fenomena cuaca ini";
-          suggestedTopic = "Mekanisme Cuaca Ekstrem dan Bencana Alam";
-        }
-
         results.push({
           headline: cleanHeadline,
           source,
-          category,
-          studioCategory,
-          suggestedTopic,
-          suggestedAngle,
+          category: stream.category,
+          studioCategory: stream.studioCategory,
+          suggestedAngle: stream.suggestedAngle,
+          icon: stream.icon,
+          badgeClass: stream.badgeClass,
           pubDate
         });
-
-        if (results.length >= 20) break;
+        addedForStream++;
+        if (addedForStream >= 4) break;
       }
     } catch {
-      // Continue to next query
+      // Continue to next stream
     }
   }
 

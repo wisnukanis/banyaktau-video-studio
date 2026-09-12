@@ -1354,6 +1354,21 @@ button:disabled {
   color: #f87171;
 }
 
+.trend-chip-tag.animal {
+  background: rgba(245, 158, 11, 0.18);
+  color: #fbbf24;
+}
+
+.trend-chip-tag.tech {
+  background: rgba(6, 182, 212, 0.18);
+  color: #22d3ee;
+}
+
+.trend-chip-tag.history {
+  background: rgba(168, 85, 247, 0.18);
+  color: #c084fc;
+}
+
 .trend-chip-traffic {
   font-size: 10px;
   color: var(--muted);
