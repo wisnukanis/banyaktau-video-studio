@@ -32,7 +32,7 @@ const input = {
   sceneCount: Number(argValue("--scenes", process.env.BANYAKTAU_SCENES || "7")),
   imageQuality: argValue("--image-quality", process.env.IMAGE_QUALITY || "low"),
   imageSize: argValue("--image-size", process.env.IMAGE_SIZE || "1024x1792"),
-  visualSource: argValue("--visual-source", process.env.DEFAULT_VISUAL_SOURCE || "stock"),
+  visualSource: argValue("--visual-source", process.env.DEFAULT_VISUAL_SOURCE || config.stock?.defaultVisualSource || "interleaved"),
   videoFormat: argValue("--video-format", process.env.DEFAULT_VIDEO_FORMAT || "vertical"),
   avatarMode: argValue("--avatar-mode", process.env.BANYAKTAU_AVATAR_MODE || "random-green")
 };

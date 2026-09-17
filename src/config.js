@@ -141,7 +141,8 @@ export const config = {
   stock: {
     pexelsApiKey: process.env.PEXELS_API_KEY || "",
     pixabayApiKey: process.env.PIXABAY_API_KEY || "",
-    defaultVisualSource: clean(process.env.DEFAULT_VISUAL_SOURCE || "stock"),
+    coverrApiKey: process.env.COVERR_API_KEY || "",
+    defaultVisualSource: clean(process.env.DEFAULT_VISUAL_SOURCE || "interleaved"),
     defaultVideoFormat: clean(process.env.DEFAULT_VIDEO_FORMAT || "vertical")
   },
   usProject: {

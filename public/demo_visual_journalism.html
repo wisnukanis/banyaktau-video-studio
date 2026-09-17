@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Demo Visual Journalism — Where 4 in 10 Boxes Pass Through</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0B0B0C;
+  --ink: #F5F2EA;
+  --yel: #FFD400;
+  --red: #E8402F;
+  --cyan: #38BDF8;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  user-select: none;
+}
+#stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background: var(--bg);
+  font-family: "Barlow Condensed", system-ui, sans-serif;
+  color: var(--ink);
+  transform-origin: center center;
+}
+#world {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+.paper {
+  position: absolute;
+  inset: -2000px;
+  background: var(--bg);
+}
+.grid {
+  position: absolute;
+  inset: -2000px;
+  opacity: 0.12;
+  background-size: 40px 40px;
+  background-image: linear-gradient(to right, #38bdf8 1px, transparent 1px),
+                    linear-gradient(to bottom, #38bdf8 1px, transparent 1px);
+}
+.cut {
+  position: absolute;
+  opacity: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+}
+.line {
+  position: absolute;
+  left: 140px;
+  right: 140px;
+  font-weight: 800;
+  font-size: 92px;
+  line-height: 1.0;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  opacity: 0;
+}
+.w {
+  display: inline-block;
+  white-space: nowrap;
+  margin: 0 .1em;
+  opacity: 0;
+}
+.hl {
+  position: relative;
+  display: inline-block;
+  color: #111;
+  padding: 0 .14em;
+}
+.hl i {
+  position: absolute;
+  inset: 0;
+  background: var(--yel);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  z-index: -1;
+  border-radius: 2px;
+}
+.tag-badge {
+  position: absolute;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 18px;
+  color: #fff;
+  background: rgba(232,64,47,0.85);
+  padding: 4px 14px;
+  border-radius: 4px;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  opacity: 0;
+}
+.stat-box {
+  position: absolute;
+  opacity: 0;
+  background: rgba(14,16,22,0.92);
+  border-left: 6px solid var(--yel);
+  padding: 24px 32px;
+  border-radius: 8px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  border-right: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.ghost {
+  position: absolute;
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 900;
+  font-size: 320px;
+  line-height: 0.85;
+  color: transparent;
+  -webkit-text-stroke: 3px rgba(255,255,255,0.08);
+  opacity: 0;
+}
+</style>
+</head>
+<body>
+
+<div id="stage">
+  <div id="world">
+    <div class="paper"></div>
+    <div class="grid"></div>
+
+    <div class="ghost" id="ghost" style="left:380px;top:80px">12.4 M</div>
+
+    <!-- Center Photo Container (Pelabuhan Kontainer) -->
+    <div class="cut" id="cutPort" style="left:520px;top:160px;width:960px;height:540px;">
+      <svg viewBox="0 0 960 540" style="width:100%;height:100%;">
+        <!-- Dark Harbor Backdrop -->
+        <rect width="960" height="540" fill="#121820"/>
+        <!-- Air Laut Gelap -->
+        <rect y="280" width="960" height="260" fill="#0b1016"/>
+        <!-- Siluet Dermaga & Kontainer Bertumpuk -->
+        <rect x="80" y="240" width="800" height="60" fill="#1e2530"/>
+        <rect x="120" y="160" width="80" height="80" fill="#c0392b"/>
+        <rect x="210" y="180" width="90" height="60" fill="#2980b9"/>
+        <rect x="150" y="100" width="90" height="60" fill="#f39c12"/>
+        <rect x="310" y="140" width="100" height="100" fill="#27ae60"/>
+        <rect x="420" y="180" width="80" height="60" fill="#d35400"/>
+        <rect x="520" y="130" width="110" height="110" fill="#34495e"/>
+        <!-- Crane Raksasa Pelabuhan Kuning -->
+        <line x1="680" y1="280" x2="740" y2="80" stroke="#f1c40f" stroke-width="8"/>
+        <line x1="740" y1="80" x2="800" y2="280" stroke="#f1c40f" stroke-width="8"/>
+        <line x1="650" y1="120" x2="840" y2="120" stroke="#f1c40f" stroke-width="10"/>
+        <line x1="740" y1="120" x2="740" y2="210" stroke="#fff" stroke-width="3" stroke-dasharray="4 4"/>
+        <rect x="715" y="210" width="50" height="30" fill="#e74c3c"/>
+        <!-- Lampu Kilau Air -->
+        <circle cx="740" cy="330" r="40" fill="#f1c40f" opacity="0.15"/>
+      </svg>
+    </div>
+
+    <!-- Target Reticle & Anotasi Bidik -->
+    <svg id="annoLayer" style="position:absolute;inset:0;width:1920px;height:1080px;overflow:visible;pointer-events:none;">
+      <!-- Lingkaran Bidik Kuning Putus-putus pada Crane/Kapal -->
+      <g id="reticle" transform="translate(1260, 310)">
+        <circle id="pulseRing" cx="0" cy="0" r="85" fill="none" stroke="#FFD400" stroke-width="2" stroke-dasharray="8 6"/>
+        <circle cx="0" cy="0" r="70" fill="rgba(255,212,0,0.08)" stroke="#FFD400" stroke-width="4"/>
+        <!-- Crosshairs -->
+        <line x1="-90" y1="0" x2="-60" y2="0" stroke="#FFD400" stroke-width="3"/>
+        <line x1="60" y1="0" x2="90" y2="0" stroke="#FFD400" stroke-width="3"/>
+        <line x1="0" y1="-90" x2="0" y2="-60" stroke="#FFD400" stroke-width="3"/>
+        <line x1="0" y1="60" x2="0" y2="90" stroke="#FFD400" stroke-width="3"/>
+        <circle cx="0" cy="0" r="8" fill="#E8402F"/>
+      </g>
+      <!-- Garis Siku Penghubung ke Data Card Kiri -->
+      <path id="leaderLine" d="M 1190 310 L 980 310 L 940 370 L 460 370" fill="none" stroke="#38BDF8" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="460" cy="370" r="6" fill="#38BDF8"/>
+    </svg>
+
+    <!-- Stat Box Kiri: 4 in 10 Boxes -->
+    <div class="stat-box" id="statCard" style="left:120px;top:200px;width:380px;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#38BDF8;letter-spacing:0.1em;">ARSIP DATA 2026</div>
+      <div style="font-size:76px;font-weight:900;color:#FFD400;line-height:0.95;margin:8px 0;">4 DARI 10</div>
+      <div style="font-size:26px;font-weight:800;color:#F5F2EA;line-height:1.1;text-transform:uppercase;">KONTAINER DUNIA MELINTAS DI SINI</div>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1);font-family:'IBM Plex Mono',monospace;font-size:13px;color:#9CA3AF;">
+        CHOKEPOINT #1 MARITIM GLOBAL
+      </div>
+    </div>
+
+    <!-- Stat Box Angka Besar 12.4 M di Pojok Kiri Bawah -->
+    <div id="statBig" style="position:absolute;left:120px;top:530px;opacity:0;">
+      <div style="font-size:110px;font-weight:900;color:#F5F2EA;line-height:0.85;">12.4 M</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:16px;color:#9CA3AF;margin-top:6px;letter-spacing:0.12em;">KONTAINER / TAHUN (TEU)</div>
+    </div>
+
+    <!-- Badge Merah Stempel di Foto -->
+    <div class="tag-badge" id="tagBadge" style="left:1280px;top:650px;">
+      TITIK RAWAN LOGISTIK
+    </div>
+
+    <!-- Kalimat Narasi Utama -->
+    <div class="line" id="line1" style="left:120px;top:840px;">
+      Hampir separuh perdagangan dunia bergantung pada <span class="hl"><i></i>satu selat sempit ini</span>.
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const W = 1920, H = 1080, DUR = 10;
+
+function fit() {
+  const s = Math.min(innerWidth / W, innerHeight / H);
+  $('#stage').style.transform = `translate(-50%,-50%) scale(${s})`;
+}
+addEventListener('resize', fit);
+fit();
+
+// Pecah kalimat per kata
+$$('.line').forEach(el => {
+  const out = [];
+  el.childNodes.forEach(n => {
+    if (n.nodeType === 3) {
+      n.textContent.split(/\s+/).filter(Boolean).forEach(w => {
+        const s = document.createElement('span');
+        s.className = 'w';
+        s.textContent = w;
+        out.push(s);
+      });
+    } else {
+      const s = document.createElement('span');
+      s.className = 'w';
+      s.appendChild(n.cloneNode(true));
+      out.push(s);
+    }
+  });
+  el.textContent = '';
+  out.forEach(s => el.appendChild(s));
+});
+
+const tl = gsap.timeline({ repeat: -1 });
+const rig = $('#world');
+const C = { x: 960, y: 540, z: 1 };
+
+function applyCam() {
+  rig.style.transform = `translate(${960 - C.x * C.z}px, ${540 - C.y * C.z}px) scale(${C.z})`;
+}
+
+// 1. Mulai: Close-up ke Titik Target di Pelabuhan
+tl.set(C, { x: 1260, y: 380, z: 1.7, onUpdate: applyCam }, 0);
+tl.fromTo('#ghost', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.0, ease: 'power2.out' }, 0.2);
+
+// Foto pelabuhan muncul
+tl.fromTo('#cutPort', { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.9, ease: 'power2.out' }, 0.2);
+
+// Reticle bidik muncul & pulse
+tl.fromTo('#reticle', { scale: 0.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(2)' }, 0.5);
+tl.fromTo('#pulseRing', { scale: 0.8, opacity: 1 }, { scale: 1.6, opacity: 0, duration: 1.4, repeat: 3, ease: 'sine.out' }, 0.7);
+
+// 2. Kamera Zoom Out ke Tampilan Penuh
+tl.to(C, { x: 960, y: 540, z: 1.0, duration: 1.4, ease: 'power3.inOut', onUpdate: applyCam }, 2.0);
+
+// Gambar garis siku ke data card
+tl.fromTo('#leaderLine', { strokeDasharray: 900, strokeDashoffset: 900 }, { strokeDashoffset: 0, duration: 0.9, ease: 'power2.out' }, 2.6);
+
+// Kartu data 4 in 10 & 12.4 M muncul
+tl.fromTo('#statCard', { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.7, ease: 'power3.out' }, 3.0);
+tl.fromTo('#statBig', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, 3.4);
+tl.fromTo('#tagBadge', { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(2)' }, 3.8);
+
+// 3. Narasi teks per kata + stabilo kuning menyapu
+tl.set('#line1', { opacity: 1 }, 4.6);
+tl.fromTo($$('#line1 .w'), { opacity: 0, yPercent: 60 }, { opacity: 1, yPercent: 0, duration: 0.5, stagger: 0.07, ease: 'power4.out' }, 4.6);
+tl.fromTo('#line1 .hl i', { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: 'power2.out' }, 5.6);
+
+// Kamera bernapas halus di akhir
+tl.to(C, { z: 1.025, duration: 2.5, ease: 'sine.inOut', yoyo: true, repeat: 1, onUpdate: applyCam }, 5.5);
+
+// Tahan hingga detik 10 lalu loop
+tl.to({}, { duration: 1.0 }, DUR);
+</script>
+
+</body>
+</html>

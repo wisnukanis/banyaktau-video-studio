@@ -1,7 +1,7 @@
 import { config } from "./config.js";
 import { estimateTotalCost } from "./cost.js";
 import { requestIdeaJson, requestKnowledgeJson } from "./openai.js";
-import { clamp, cleanText, createId, nowIso } from "./util.js";
+import { clamp, cleanText, createId, nowIso, extractKeywordHighlight } from "./util.js";
 import { ensureStrongHook } from "./hook-engine.js";
 
 // Short-form (default): YouTube Shorts / Reels pacing, 45s-2min.
@@ -176,12 +176,17 @@ function buildIdeaPrompt(input, context) {
     "Bahasa hook harus natural seperti kreator Indonesia, bukan judul artikel kaku. Hindari kata yang terlalu lebay seperti ajaib, tergila-gila, dan klaim bombastis tanpa dasar.",
     "Kembalikan JSON valid saja dengan shape:",
     "{ ideas:[{ title, topic, hook, category, angle, whyGood, visualPotential:[string], riskLevel, estimatedDurationSec }] }",
-    input.seed ? `Arah topik dari user: ${input.seed}` : "Arah topik dari user: bebas, cari ide paling menarik.",
+    input.seed 
+      ? `Arah topik dari user: ${input.seed} (Kaitkan langsung dengan berita viral atau fenomena terkini yang relevan)` 
+      : "Arah topik dari user: WAJIB AMBIL DARI BERITA / TREN VIRAL TERKINI HARI INI (Google Trends / peristiwa viral di bawah). Jangan membuat ide generik lama.",
     `Kategori prioritas: ${input.category}`,
     `Durasi target: ${input.durationSec} detik`,
+    "ATURAN UTAMA SELEKSI TOPIK (TRENDING & VIRAL):",
+    "- WAJIB utamakan topik yang sedang hangat, viral, atau ramai dicari di Google Trends dan berita terkini hari ini.",
+    "- Ambil sudut pandang edukatif/sains yang membongkar rasa penasaran di balik fenomena atau peristiwa viral tersebut.",
     input.longForm ? "Gunakan sinyal tren/performa hanya untuk memilih angle dan kata kunci yang diminati audiens; jangan meniru struktur atau naskah video tertentu." : "",
     recent.length ? `Hindari duplikasi dari riwayat ini:\n${recent.join("\n")}` : "",
-    context.trendNotes ? `\n${context.trendNotes}\nPrioritaskan merekomendasikan ide yang mengangkat atau terinspirasi langsung dari tren/penemuan viral di atas, kemas dengan rasa ingin tahu khas BanyakTau.` : "",
+    context.trendNotes ? `\n${context.trendNotes}\nATURAN MUTLAK: Seluruh rekomendasi ide WAJIB terinspirasi langsung dari tren pencarian viral atau berita/peristiwa nyata terkini di atas. Kemas dengan rasa ingin tahu khas BanyakTau.` : "",
     context.performanceNotes ? `\n${context.performanceNotes}` : ""
   ].filter(Boolean).join("\n");
 }
@@ -486,7 +491,7 @@ function normalizeInput(input) {
       return greenAvatars[Math.abs(hash) % greenAvatars.length];
     })(),
     videoFormat: cleanText(input.videoFormat || (input.longForm ? "horizontal" : (config.stock?.defaultVideoFormat || "vertical")), 40),
-    visualSource: cleanText(input.visualSource || config.stock?.defaultVisualSource || "stock", 40)
+    visualSource: cleanText(input.visualSource || config.stock?.defaultVisualSource || "interleaved", 40)
   };
 }
 
@@ -506,14 +511,19 @@ function buildPrompt(input, context) {
       "Judul tetap harus menarik dan jelas dibaca di thumbnail, maksimal 90 karakter, tanpa clickbait kosong."
     ]
     : [
-      "Buat naskah video vertikal channel pengetahuan Bahasa Indonesia bernama BanyakTau. Gunakan formula 'The Punchy Post Builder'.",
-      "Judul harus siap pakai untuk Reels/Shorts: singkat, jelas, maksimal 70 karakter, tanpa slang pembuka seperti 'gimana sih', dan kuat dibaca di thumbnail.",
-      "ATURAN HOOK (Punchy Hook Rewriter): DILARANG KERAS membuka dengan kata 'Pernahkah kamu...' atau 'Tahukah kamu...'. Buka langsung dengan 1 kalimat hook tajam, provokatif, atau mengejutkan di detik pertama (maksimal 15 kata). Contoh: 'Kamu nggak malas, otakmu cuma lagi jalan di 10% kemampuannya'.",
-      "STRUKTUR SKENARIO (Detik 0 - 25):",
-      "1. HOOK (1 Kalimat, <15 kata): Langsung menarik perhatian di detik pertama.",
-      "2. SUPPORTING LINES (2-3 Kalimat): Detail fakta utama secara singkat, jelas, bahasa sederhana, tanpa jargon rumit dan tanpa emdash.",
-      "3. ENDING / CLOSING (1 Kalimat, <12 kata): Pertanyaan pemicu komentar (Comment Bait Question) atau tantangan interaktif (Roast-Proof CTA) untuk mendorong engagement/algoritma (Contoh: 'Tim mana kamu?', 'Berapa jam layar HP-mu nyala hari ini?', 'Coba dulu, lapor balik di komen!').",
-      "Kalimat di scene terakhir (penutup) HARUS dibuat menyambung secara mulus (seamless loop) kembali ke kalimat hook pembuka jika diputar berulang-ulang."
+      "Buat naskah video vertikal channel pengetahuan Bahasa Indonesia bernama BanyakTau menggunakan formula 'The News Hook Breakdown'.",
+      "STRUKTUR SKENARIO (Detik 0 - 25+):",
+      "1. SCENE 1 (Hook Berita Viral / Kejutan Ekstrem, Detik 0-4): WAJIB STOP-SCROLL!",
+      "   - Langsung buka dengan HENTAKAN DRAMATIS, ANOMALI MENGEJUTKAN, atau KASUS VIRAL NYATA di 8-14 kata pertama!",
+      "   - DILARANG KERAS membuka dengan: 'Setiap tahun...', 'Banyak orang...', 'Pernahkah kamu...', 'Tahukah kamu...', atau penjelasan deskriptif datar.",
+      "   - Wajib isi 'visualType': 'motion', 'illustration': 'newspaper'. Layar menampilkan kartu arsip laporan berita investigasi dengan headline mencolok.",
+      "   - Contoh Hook Bagus: 'Kasus ini bikin geger: satu gigitan makanan bisa melumpuhkan usus dalam hitungan menit!', 'Geger ratusan orang tiba-tiba tumbang serentak hanya karena sebutir beras!', 'Ini alasan mengerikan kenapa racun tak kasat mata bisa lolos ke piring makanmu.'",
+      "2. SCENE 2 dst (Pembongkaran Sains / Fakta BanyakTau): Masuk ke inti penjelasan yang mengupas hal yang TIDAK dijelaskan media biasa ('Tapi kenapa hal ini bisa terjadi? Secara sains...'). Gunakan visualType 'stock' (stok video asli) berseling dengan diagram Bang Motion ('stats', 'flowchart', 'shield', 'concept').",
+      "3. ENDING / CLOSING (Scene Terakhir): WAJIB ADA PANCINGAN FOLLOW & KOMENTAR (Viral Growth CTA)!",
+      "   - Jangan beri nasihat klise seperti 'Mari kita jaga kesehatan' atau 'Penting bagi kita...'.",
+      "   - Berikan pancingan follow BanyakTau yang padat dan pertanyaan pemicu debat/komentar.",
+      "   - Contoh Bagus: 'Follow BanyakTau biar wawasanmu makin nambah tiap hari! Menurut kalian fakta ini masuk akal nggak? Tulis di komentar!', atau 'Klik follow untuk rahasia sains lainnya! Kamu tim yang percaya atau nggak? Komen di bawah!'",
+      "ATURAN HOOK: DILARANG KERAS membuka dengan kata klise atau datar. Buka langsung dengan 1 kalimat tajam, provokatif, atau mengejutkan di detik pertama (maksimal 15 kata)."
     ];
 
   return [
@@ -527,6 +537,7 @@ function buildPrompt(input, context) {
     "Kamu yang membuat hook, judul, dan alur narasi. Jangan terasa seperti template.",
     idea ? "Pakai ide terpilih user sebagai sumber utama. Jangan mengganti topik atau angle utamanya." : "Jika user belum memilih ide, buat sendiri hook paling kuat dari topik yang tersedia.",
     idea ? `Ide terpilih:\n- Judul: ${idea.title}\n- Topik: ${idea.topic}\n- Hook: ${idea.hook}\n- Angle: ${idea.angle}\n- Alasan kuat: ${idea.whyGood}` : "",
+    context.trendNotes ? `\nKonteks tren & isu viral terkini:\n${context.trendNotes}\nKaitkan narasi dengan peristiwa/tren hangat ini agar terasa sangat segar, aktual, dan relevan dengan obrolan publik saat ini.` : "",
     context.researchFacts ? `\n${context.researchFacts}` : "",
     "Field summary wajib meringkas inti video, bukan CTA. Tulis 1-2 kalimat lengkap, 110-170 karakter, menyebut penyebab/proses utama dan alasan kenapa fakta ini penting diingat. Jangan membuat kalimat menggantung.",
     "Field importantPoints wajib berisi 3-5 fakta inti dari video. Jangan isi dengan instruksi produksi seperti mulai dari contoh, gunakan analogi, atau akhiri dengan fakta.",
@@ -542,9 +553,11 @@ function buildPrompt(input, context) {
     "- DILARANG KERAS hanya menulis nama bahan/material mentah atau sifat abstrak tanpa nama bendanya! Dilarang hanya menulis 'stainless steel', 'metal', 'steel', 'plastic', 'glass', 'gold', 'durability', 'corrosion', 'chemistry' karena mesin pencari stok video akan salah mengambil jam tangan, perhiasan, atau pipa pabrik yang tidak nyambung! Selalu sertakan nama bendanya (contoh: 'steel spoon', 'glass bottle', 'rubber tire').",
     "- Pastikan stockQuery benar-benar mencerminkan APA BENDA NYATA yang terlihat di layar untuk mendukung narasi scene itu.",
     "Untuk setiap scene, tentukan emosi/pose avatar di field 'avatarPose'. Pilihan yang valid hanya: 'thinking' (jika bertanya/misteri), 'surprised' (jika ada fakta unik/kejutan), 'pointing' (jika menekankan fakta penting), 'clipboard' (jika penjelas biasa), atau 'thumbs_up' (khusus scene penutup).",
+    "Untuk scene yang menjelaskan konsep, sains, data statistik, atau mekanisme: isi 'visualType': 'motion' dan pilih 'illustration' yang relevan ('stats' | 'gauge' | 'callout' | 'newspaper' | 'pinboard' | 'map' | 'waveform' | 'shield' | 'flowchart' | 'kartun' | 'vintage' | 'concept') agar dirender sebagai motion graphic sinematik Bang Motion (pilih 'kartun' untuk gaya kolase kertas/sticker baru bertema, 'vintage' untuk sketsa ukiran tembaga/arsip sejarah paten, atau 'callout'/'stats'/'gauge' untuk jurnalisme visual Vox).",
     "Field thumbnailHook wajib diisi 2-4 kata super singkat, provokatif, dan memicu rasa penasaran untuk teks besar di thumbnail YouTube (contoh: 'ZONA TERLARANG!', 'KITA SALAH BESAR?!', 'JANGAN MENYELAM!').",
+    "Field 'highlight' pada setiap scene: 1-3 kata kunci paling penting/krusial dalam narration scene ini untuk di-highlight dengan stabilo kuning di video (contoh: 'reaksi berantai', '5.000 tahun', 'suhu 1000 derajat').",
     "Kembalikan JSON valid saja dengan shape:",
-    "{ title, hook, thumbnailHook, summary, importantPoints:[string], factCheckNote, scenes:[{ index, durationSec, narration, screenText, imagePrompt, stockQuery, visualStyle, avatarPose }] }",
+    "{ title, hook, thumbnailHook, summary, importantPoints:[string], factCheckNote, scenes:[{ index, durationSec, narration, screenText, highlight, imagePrompt, stockQuery, visualStyle, avatarPose, visualType, illustration }] }",
     `Topik: ${input.topic}`,
     `Kategori: ${input.category}`,
     input.hookStyle ? `Hook yang harus dipakai atau dijadikan dasar: ${input.hookStyle}` : "",
@@ -593,19 +606,46 @@ function cleanPublicTitle(value) {
 }
 
 function normalizeScene(scene, index, input, durationSec) {
-  const screenText = cleanSceneText(scene?.screenText || sceneTitle(index, input));
-  const narration = cleanText(scene?.narration || fallbackNarration(index, input), 520);
-  const rawPose = cleanText(scene?.avatarPose || "clipboard", 20).toLowerCase();
+  const isFirstScene = index === 0 && !input.longForm;
+  const isLastScene = index === input.sceneCount - 1 && !input.longForm;
+  const screenText = cleanSceneText(scene?.screenText || (isFirstScene ? "SOROTAN BERITA VIRAL" : sceneTitle(index, input)));
+  let narration = cleanText(scene?.narration || fallbackNarration(index, input), 520);
+
+  if (isFirstScene) {
+    narration = narration
+      .replace(/^setiap\s+(tahun|hari|saat|bulan|detik|waktu),?\s*/i, "")
+      .replace(/^(banyak|sebagian|kebanyakan|hampir semua)\s+orang,?\s*/i, "")
+      .replace(/^(pernahkah|tahukah)\s+(kamu|anda),?\s*/i, "")
+      .replace(/^di\s+dunia\s+ini,?\s*/i, "");
+    if (narration) narration = narration.charAt(0).toUpperCase() + narration.slice(1);
+  }
+
+  if (isLastScene) {
+    if (!/follow|banyaktau/i.test(narration)) {
+      narration = narration.replace(/[.!?]+$/, "");
+      narration += ". Follow BanyakTau biar wawasanmu makin nambah tiap hari! Menurut kalian gimana? Tulis di komentar ya!";
+    }
+  }
+
+  const highlight = cleanText(scene?.highlight || extractKeywordHighlight(narration, screenText), 60);
+  const rawPose = cleanText(scene?.avatarPose || (isFirstScene ? "surprised" : (isLastScene ? "thumbs_up" : "clipboard")), 20).toLowerCase();
   const avatarPose = ["thinking", "surprised", "pointing", "clipboard", "thumbs_up"].includes(rawPose) ? rawPose : "clipboard";
+
+  const defaultVisualType = isFirstScene ? "motion" : (index % 2 === 1 ? "motion" : "stock");
+  const defaultIllustration = isFirstScene ? "newspaper" : undefined;
+
   return {
     index: index + 1,
     durationSec,
     narration,
     screenText,
+    highlight,
     imagePrompt: enhanceImagePrompt(scene?.imagePrompt || `${screenText}. ${narration}`, input, index),
     stockQuery: cleanStockQuery(scene?.stockQuery),
     visualStyle: cleanText(scene?.visualStyle || visualStyle(index), 120),
-    avatarPose
+    avatarPose,
+    visualType: cleanText(scene?.visualType || defaultVisualType, 20),
+    illustration: cleanText(scene?.illustration || defaultIllustration, 40) || undefined
   };
 }
 
@@ -676,21 +716,76 @@ function distributeDurations(total, count) {
 }
 
 function enhanceImagePrompt(prompt, input, index) {
+  const cat = String(input.category || "").toLowerCase();
+  const topic = String(input.topic || "").toLowerCase();
+  const motionTheme = String(input.motionTheme || "").toLowerCase();
+
+  const isKartun = motionTheme === "kartun" || motionTheme === "collage" || 
+                   cat === "hewan" || /(dino|hewan|binatang|anak|kartun|cartoon|purba|fosil|serangga)/i.test(topic);
+  const isVintage = motionTheme === "vintage" || motionTheme === "sketsa" || 
+                    cat === "sejarah" || cat === "penemuan" || /(sejarah|penemu|abad|kuno|arkeologi|arsip|manuskrip|piramida)/i.test(topic);
+  const isGradient = motionTheme === "gradient" || cat === "alam semesta" || /(alam semesta|luar angkasa|bintang|galaksi|black hole|kosmik|quantum|kuantum|partikel|ai|futuristik)/i.test(topic);
+  const isCatalog = motionTheme === "catalog" || cat === "benda sehari-hari" || /(benda sehari-hari|material|pabrik|manufaktur|anatomi benda|spesifikasi|helm|kacamata|sendok|koper)/i.test(topic);
+  const isPoster = motionTheme === "poster" || /(rekor|angka gila|fakta mengejutkan|jangan pernah|viral|kontroversial|provokatif)/i.test(topic);
+
+  if (isKartun) {
+    return [
+      cleanText(prompt, 600),
+      `subject: ${input.topic}`,
+      "visual style: clean flat vector cutout illustration, sticker style cutout, vibrant saturated colors, bold outlines, isolated on pure solid white background, paper collage aesthetic, sharp silhouette",
+      "vertical 9:16, clear single subject, no written text, no letters, no logo, no watermark, no frame"
+    ].join(", ");
+  }
+
+  if (isVintage) {
+    return [
+      cleanText(prompt, 600),
+      `subject: ${input.topic}`,
+      "visual style: antique 18th century copperplate engraving illustration, sepia ink etching on clean white background, vintage encyclopedia scientific plate, fine cross-hatching linework, historical engraving aesthetic",
+      "vertical 9:16, clear single subject, no written text, no letters, no logo, no watermark, no modern artifacts"
+    ].join(", ");
+  }
+
+  if (isGradient) {
+    return [
+      cleanText(prompt, 600),
+      `subject: ${input.topic}`,
+      "visual style: cinematic deep space cosmic visual, ethereal glowing volumetric lighting, soft ambient particle grain, vibrant cyan and violet celestial highlights, elegant abstract scientific render",
+      "vertical 9:16, clear single subject, no written text, no letters, no logo, no watermark"
+    ].join(", ");
+  }
+
+  if (isCatalog) {
+    return [
+      cleanText(prompt, 600),
+      `subject: ${input.topic}`,
+      "visual style: clean studio product photography on pure white seamless background, architectural precision lighting, sharp macro object details, crisp subtle contact shadow, modern scientific museum catalog aesthetic",
+      "vertical 9:16, clear single subject, no written text, no letters, no logo, no watermark"
+    ].join(", ");
+  }
+
+  if (isPoster) {
+    return [
+      cleanText(prompt, 600),
+      `subject: ${input.topic}`,
+      "visual style: bold high-contrast graphic pop-art visual, vibrant saturated color blocking, sharp dramatic silhouette, dynamic punchy lighting, modern editorial magazine aesthetic",
+      "vertical 9:16, clear single subject, no written text, no letters, no logo, no watermark"
+    ].join(", ");
+  }
+
   const styles = [
     "clean macro detail shot",
     "cinematic everyday object demonstration",
     "museum archive inspired scene",
     "bright science explainer composition",
-    "soft 3D cutaway style illustration",
     "natural documentary moment",
-    "timeline-like scene without text",
     "conceptual diagram style without labels"
   ];
   return [
-    cleanText(prompt, 700),
+    cleanText(prompt, 600),
     `topic: ${input.topic}`,
     `visual approach: ${styles[index % styles.length]}`,
-    "vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark"
+    "vertical 9:16, editorial investigative documentary look, bright readable lighting, rich realistic colors, clear single subject, no written text, no logo, no watermark"
   ].join(", ");
 }
 

@@ -13653,5 +13653,894 @@
         "publishedAt": "2026-09-12T02:12:16.666Z"
       }
     }
+  },
+  {
+    "id": "tau_9e8d7efe182b",
+    "source": "motion_generator",
+    "status": "rendered",
+    "title": "Kenapa Burung Hantu Terbang Tanpa Suara?",
+    "createdAt": "2026-09-15T03:55:37.585Z",
+    "updatedAt": "2026-09-15T03:55:37.586Z",
+    "input": {
+      "topic": "Mekanisme biomimikri sayap burung hantu yang meredam suara di udara",
+      "category": "sains",
+      "videoFormat": "vertical",
+      "visualSource": "motion",
+      "ttsProvider": "edge_tts",
+      "durationSec": 17
+    },
+    "plan": {
+      "title": "Kenapa Burung Hantu Terbang Tanpa Suara?",
+      "hook": "Burung hantu bisa menyergap mangsa dalam gelap tanpa mengeluarkan suara sedikit pun.",
+      "scenes": [
+        {
+          "index": 1,
+          "kicker": "AKUSTIK ALAM",
+          "narration": "Burung hantu bisa menyergap mangsa dalam gelap tanpa mengeluarkan suara sedikit pun.",
+          "highlight": "tanpa mengeluarkan suara",
+          "sourceTag": "JOURNAL OF ACOUSTICS",
+          "note": "Predator Senyap",
+          "ghost": "0 dB"
+        },
+        {
+          "index": 2,
+          "kicker": "STRUKTUR SAYAP",
+          "narration": "Tepi sayapnya memiliki gerigi mikro yang memecah turbulensi angin menjadi gelombang halus yang tak terdengar.",
+          "highlight": "memecah turbulensi angin",
+          "sourceTag": "MIKROSKOP ELEKTRON",
+          "note": "Gerigi Aerodinamis",
+          "ghost": "SAYAP"
+        },
+        {
+          "index": 3,
+          "kicker": "BIOMIMIKRI",
+          "narration": "Kini desain sayap ini ditiru para insinyur untuk membuat bilah turbin dan kereta cepat yang jauh lebih senyap.",
+          "highlight": "ditiru para insinyur",
+          "sourceTag": "TEKNOLOGI BIOMIMIKRI",
+          "note": "Inovasi Modern",
+          "ghost": "MASA DEPAN"
+        }
+      ]
+    },
+    "assets": {
+      "audio": {
+        "provider": "edge_tts",
+        "voice": "id-ID-ArdiNeural",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_9e8d7efe182b-vo.mp3",
+        "seconds": 16.608
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_9e8d7efe182b-burung-hantu-reels.mp4",
+        "filename": "tau_9e8d7efe182b-burung-hantu-reels.mp4",
+        "seconds": 16.608,
+        "width": 1080,
+        "height": 1920,
+        "provider": "bang-motion",
+        "format": "vertical"
+      },
+      "htmlPreview": "C:\\xampp\\htdocs\\videoasal\\generated\\work\\tau_9e8d7efe182b_preview.html"
+    }
+  },
+  {
+    "id": "tau_1cf24a31dd5a",
+    "source": "motion_generator_hybrid",
+    "status": "rendered",
+    "title": "Rahasia Sayap Burung Hantu: Dari Alam ke Kereta Cepat",
+    "createdAt": "2026-09-15T04:54:01.609Z",
+    "updatedAt": "2026-09-15T04:54:01.610Z",
+    "input": {
+      "topic": "Biomimikri sayap burung hantu yang menginspirasi desain moncong kereta Shinkansen",
+      "category": "sains",
+      "videoFormat": "vertical",
+      "visualSource": "motion",
+      "ttsProvider": "edge_tts",
+      "durationSec": 16
+    },
+    "plan": {
+      "title": "Rahasia Sayap Burung Hantu: Dari Alam ke Kereta Cepat",
+      "hook": "Burung hantu bisa menyergap mangsa dalam gelap tanpa mengeluarkan suara sedikit pun.",
+      "scenes": [
+        {
+          "index": 1,
+          "kicker": "PREDATOR SENYAP",
+          "narration": "Burung hantu bisa menyergap mangsa dalam gelap tanpa mengeluarkan suara sedikit pun.",
+          "highlight": "tanpa mengeluarkan suara",
+          "sourceTag": "FOTO DOKUMENTER: WIKIMEDIA COMMONS",
+          "note": "Tyto Alba di Udara",
+          "ghost": "0 dB",
+          "imagePath": "file:///C:/xampp/htdocs/videoasal/generated/images/owl_flight.jpg"
+        },
+        {
+          "index": 2,
+          "kicker": "SIMULASI AKUSTIK",
+          "narration": "Tepi sayapnya memiliki gerigi mikro yang memecah turbulensi angin menjadi aliran senyap.",
+          "highlight": "memecah turbulensi angin",
+          "sourceTag": "LAB AERODINAMIKA",
+          "note": "Diagram Akustik",
+          "ghost": "GELOMBANG",
+          "illustration": "waveform"
+        },
+        {
+          "index": 3,
+          "kicker": "INOVASI BIOMIMIKRI",
+          "narration": "Kini struktur bulu tersebut ditiru insinyur Jepang untuk meredam ledakan suara kereta peluru Shinkansen.",
+          "highlight": "ditiru insinyur Jepang",
+          "sourceTag": "ARSIP SHINKANSEN N700",
+          "note": "Teknologi Terapan",
+          "ghost": "300 KM/H",
+          "imagePath": "file:///C:/xampp/htdocs/videoasal/generated/images/shinkansen_train.jpg"
+        }
+      ]
+    },
+    "assets": {
+      "audio": {
+        "provider": "edge_tts",
+        "voice": "id-ID-ArdiNeural",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_1cf24a31dd5a-hybrid-vo.mp3",
+        "seconds": 15.768
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_1cf24a31dd5a-hybrid-owl-reels.mp4",
+        "filename": "tau_1cf24a31dd5a-hybrid-owl-reels.mp4",
+        "seconds": 15.768,
+        "width": 1080,
+        "height": 1920,
+        "provider": "bang-motion",
+        "format": "vertical"
+      },
+      "htmlPreview": "C:\\xampp\\htdocs\\videoasal\\generated\\work\\tau_1cf24a31dd5a_hybrid_preview.html"
+    }
+  },
+  {
+    "id": "tau_8a9423b861b1",
+    "source": "motion_generator_hybrid",
+    "status": "rendered",
+    "title": "Rahasia Sayap Burung Hantu: Dari Alam ke Kereta Cepat",
+    "createdAt": "2026-09-15T05:01:00.310Z",
+    "updatedAt": "2026-09-15T05:01:00.311Z",
+    "input": {
+      "topic": "Biomimikri sayap burung hantu yang menginspirasi desain moncong kereta Shinkansen",
+      "category": "sains",
+      "videoFormat": "vertical",
+      "visualSource": "motion",
+      "ttsProvider": "edge_tts",
+      "durationSec": 16
+    },
+    "plan": {
+      "title": "Rahasia Sayap Burung Hantu: Dari Alam ke Kereta Cepat",
+      "hook": "Burung hantu bisa menyergap mangsa dalam gelap tanpa mengeluarkan suara sedikit pun.",
+      "scenes": [
+        {
+          "index": 1,
+          "kicker": "PREDATOR SENYAP",
+          "narration": "Burung hantu bisa menyergap mangsa dalam gelap tanpa mengeluarkan suara sedikit pun.",
+          "highlight": "tanpa mengeluarkan suara",
+          "sourceTag": "FOTO DOKUMENTER: WIKIMEDIA COMMONS",
+          "note": "Tyto Alba di Udara",
+          "ghost": "0 dB",
+          "imagePath": "file:///C:/xampp/htdocs/videoasal/generated/images/owl_flight.jpg"
+        },
+        {
+          "index": 2,
+          "kicker": "SIMULASI AKUSTIK",
+          "narration": "Tepi sayapnya memiliki gerigi mikro yang memecah turbulensi angin menjadi aliran senyap.",
+          "highlight": "memecah turbulensi angin",
+          "sourceTag": "LAB AERODINAMIKA",
+          "note": "Diagram Akustik",
+          "ghost": "GELOMBANG",
+          "illustration": "waveform"
+        },
+        {
+          "index": 3,
+          "kicker": "INOVASI BIOMIMIKRI",
+          "narration": "Kini struktur bulu tersebut ditiru insinyur Jepang untuk meredam ledakan suara kereta peluru Shinkansen.",
+          "highlight": "ditiru insinyur Jepang",
+          "sourceTag": "ARSIP SHINKANSEN N700",
+          "note": "Teknologi Terapan",
+          "ghost": "300 KM/H",
+          "imagePath": "file:///C:/xampp/htdocs/videoasal/generated/images/shinkansen_train.jpg"
+        }
+      ]
+    },
+    "assets": {
+      "audio": {
+        "provider": "edge_tts",
+        "voice": "id-ID-ArdiNeural",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_8a9423b861b1-hybrid-vo.mp3",
+        "seconds": 15.768
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_8a9423b861b1-hybrid-owl-reels.mp4",
+        "filename": "tau_8a9423b861b1-hybrid-owl-reels.mp4",
+        "seconds": 15.768,
+        "width": 1080,
+        "height": 1920,
+        "provider": "bang-motion",
+        "format": "vertical"
+      },
+      "htmlPreview": "C:\\xampp\\htdocs\\videoasal\\generated\\work\\tau_8a9423b861b1_hybrid_preview.html"
+    }
+  },
+  {
+    "id": "tau_fb1e07f83266",
+    "source": "motion_generator_1min",
+    "status": "rendered",
+    "title": "Perisai Tak Kasat Mata: Kenapa Bumi Kita Selamat?",
+    "createdAt": "2026-09-15T05:24:41.359Z",
+    "updatedAt": "2026-09-15T05:24:41.360Z",
+    "input": {
+      "topic": "Mekanisme medan magnet bumi yang membelokkan radiasi badai matahari dan melahirkan aurora",
+      "category": "alam semesta",
+      "videoFormat": "vertical",
+      "visualSource": "motion",
+      "ttsProvider": "edge_tts",
+      "durationSec": 44
+    },
+    "plan": {
+      "title": "Perisai Tak Kasat Mata: Kenapa Bumi Kita Selamat?",
+      "hook": "Bumi kita diselimuti perisai tak kasat mata yang menyelamatkan miliaran nyawa setiap detik dari radiasi mematikan luar angkasa.",
+      "scenes": [
+        {
+          "index": 1,
+          "kicker": "PERISAI KOSMIK",
+          "narration": "Bumi kita diselimuti perisai tak kasat mata yang menyelamatkan miliaran nyawa setiap detik dari radiasi mematikan luar angkasa.",
+          "highlight": "menyelamatkan miliaran nyawa",
+          "sourceTag": "NASA GODDARD SPACE CENTER",
+          "note": "Perisai Tak Kasat Mata",
+          "ghost": "EARTH",
+          "imagePath": "file:///C:/xampp/htdocs/videoasal/generated/images/earth_blue_marble.jpg"
+        },
+        {
+          "index": 2,
+          "kicker": "BADAI RADIASI SURYA",
+          "narration": "Matahari terus melontarkan miliaran ton partikel plasma bermuatan listrik berkecepatan jutaan kilometer per jam menuju planet kita.",
+          "highlight": "miliaran ton partikel plasma",
+          "sourceTag": "OBSERVATORIUM SDO NASA",
+          "note": "Angin Matahari Ekstrem",
+          "ghost": "PLASMA",
+          "imagePath": "file:///C:/xampp/htdocs/videoasal/generated/images/solar_flare.jpg"
+        },
+        {
+          "index": 3,
+          "kicker": "DINAMO GEOMAGNETIK",
+          "narration": "Untungnya di kedalaman tiga ribu kilometer, inti luar bumi yang berisi besi cair terus berputar menciptakan medan magnet raksasa.",
+          "highlight": "menciptakan medan magnet raksasa",
+          "sourceTag": "MODEL GEOFISIKA INTI BUMI",
+          "note": "Efek Dinamo Inti Luar",
+          "ghost": "3.000 KM",
+          "illustration": "stats",
+          "statValue": "99.8%",
+          "statLabel": "Efisiensi Dinamo Geomagnetik"
+        },
+        {
+          "index": 4,
+          "kicker": "DEFLEKSI MEDAN MAGNET",
+          "narration": "Garis-garis magnet inilah yang membelokkan radiasi mematikan itu, sehingga atmosfer dan lautan kita tidak terkikis habis seperti di Mars.",
+          "highlight": "membelokkan radiasi mematikan",
+          "sourceTag": "SIMULASI SABUK VAN ALLEN",
+          "note": "Peredaman Radiasi Kosmik",
+          "ghost": "DEFLEKSI",
+          "illustration": "waveform"
+        },
+        {
+          "index": 5,
+          "kicker": "JEJAK CAHAYA KUTUB",
+          "narration": "Sebagian kecil partikel yang berhasil menembus di kutub utara dan selatan bereaksi dengan oksigen, melahirkan tarian Aurora Borealis.",
+          "highlight": "tarian Aurora Borealis",
+          "sourceTag": "DOKUMENTER TROMSO NORWEGIA",
+          "note": "Reaksi Partikel & Oksigen",
+          "ghost": "AURORA",
+          "imagePath": "file:///C:/xampp/htdocs/videoasal/generated/images/aurora_borealis.jpg"
+        },
+        {
+          "index": 6,
+          "kicker": "BENTENG ALAMI KITA",
+          "narration": "Bumi bukan sekadar tempat kita berpijak, tapi sebuah benteng raksasa hidup yang terus melindungi peradaban manusia dari kejamnya semesta.",
+          "highlight": "benteng raksasa hidup",
+          "sourceTag": "BANYAKTAU STUDIO SAINS",
+          "note": "Planet Kehidupan",
+          "ghost": "BANYAKTAU",
+          "imagePath": "file:///C:/xampp/htdocs/videoasal/generated/images/earth_blue_marble.jpg"
+        }
+      ]
+    },
+    "assets": {
+      "audio": {
+        "provider": "edge_tts",
+        "voice": "id-ID-ArdiNeural",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_fb1e07f83266-1min-vo.mp3",
+        "seconds": 44.304
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_fb1e07f83266-perisai-bumi-1min.mp4",
+        "filename": "tau_fb1e07f83266-perisai-bumi-1min.mp4",
+        "seconds": 44.304,
+        "width": 1080,
+        "height": 1920,
+        "provider": "bang-motion",
+        "format": "vertical"
+      },
+      "htmlPreview": "C:\\xampp\\htdocs\\videoasal\\generated\\work\\tau_fb1e07f83266_1min_preview.html"
+    }
+  },
+  {
+    "id": "tau_252876c553f9",
+    "source": "openai",
+    "status": "rendered",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-09-15T08:32:33.720Z",
+    "updatedAt": "2026-09-15T09:44:00.481Z",
+    "input": {
+      "topic": "Misteri Perisai Magnetik Bumi",
+      "category": "alam semesta",
+      "hookStyle": "Perisai magnetik Bumi menyelamatkan kita dari radiasi mematikan luar angkasa.",
+      "selectedIdea": {
+        "id": "idea_3e829007068e",
+        "title": "Misteri Perisai Magnetik Bumi: Penyelamat Dari Radiasi",
+        "topic": "Misteri Perisai Magnetik Bumi",
+        "hook": "Perisai magnetik Bumi menyelamatkan kita dari radiasi mematikan luar angkasa.",
+        "category": "alam semesta",
+        "angle": "Menjelaskan bagaimana perisai magnetik Bumi melindungi kehidupan dari ancaman luar angkasa.",
+        "whyGood": "Memicu rasa ingin tahu tentang perlindungan Bumi dan pentingnya fenomena alam ini."
+      },
+      "tone": "cosmic_deep",
+      "longForm": false,
+      "durationSec": 24,
+      "sceneCount": 4,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1792",
+      "imageQuality": "standard",
+      "elevenlabsVoiceId": "",
+      "elevenlabsModel": "",
+      "openaiTtsVoice": "",
+      "avatarMode": "avatar hijau 1.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "interleaved"
+    },
+    "title": "Misteri Perisai Magnetik Bumi: Penyelamat Dari Radiasi",
+    "plan": {
+      "title": "Misteri Perisai Magnetik Bumi: Penyelamat Dari Radiasi",
+      "hook": "Perisai magnetik Bumi menyelamatkan kita dari radiasi mematikan luar angkasa.",
+      "thumbnailHook": "PERISAI MAGNETIK!",
+      "summary": "Perisai magnetik Bumi melindungi kehidupan dari radiasi luar angkasa yang berbahaya. Fenomena ini penting untuk dipahami agar kita lebih menghargai keselamatan planet kita.",
+      "importantPoints": [
+        "Perisai magnetik Bumi memblokir radiasi berbahaya dari luar angkasa.",
+        "Tanpa perisai ini, kehidupan di Bumi akan terancam.",
+        "Perisai magnetik memainkan peran penting dalam menjaga atmosfer Bumi."
+      ],
+      "factCheckNote": "Semua informasi diverifikasi dari sumber terpercaya dan fakta ilmiah.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 6.36,
+          "narration": "Perisai magnetik Bumi berfungsi sebagai pelindung hidup dari radiasi berbahaya.",
+          "screenText": "Perisai Magnetik: Pelindung Hidup",
+          "imagePrompt": "Earth's magnetic field illustration, topic: Misteri Perisai Magnetik Bumi, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "Earth magnetic field",
+          "visualStyle": "cosmic_deep",
+          "avatarPose": "thinking"
+        },
+        {
+          "index": 2,
+          "durationSec": 6,
+          "narration": "Radiasi dari luar angkasa dapat menghancurkan sel-sel hidup kita.",
+          "screenText": "Bahaya Radiasi Luar Angkasa",
+          "imagePrompt": "cosmic radiation effects, topic: Misteri Perisai Magnetik Bumi, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "cosmic radiation",
+          "visualStyle": "cosmic_deep",
+          "avatarPose": "surprised"
+        },
+        {
+          "index": 3,
+          "durationSec": 6,
+          "narration": "Tanpa perisai ini, kehidupan di Bumi akan terancam dan sulit bertahan.",
+          "screenText": "Kehidupan Terancam Tanpa Perisai",
+          "imagePrompt": "life on Earth without protection, topic: Misteri Perisai Magnetik Bumi, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "life on Earth",
+          "visualStyle": "cosmic_deep",
+          "avatarPose": "pointing"
+        },
+        {
+          "index": 4,
+          "durationSec": 6.12,
+          "narration": "Apakah kamu merasa aman berkat perlindungan ini?",
+          "screenText": "Apakah Kamu Merasa Aman?",
+          "imagePrompt": "people experiencing safety on Earth, topic: Misteri Perisai Magnetik Bumi, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "people feeling safe",
+          "visualStyle": "cosmic_deep",
+          "avatarPose": "thumbs_up"
+        }
+      ]
+    },
+    "assets": {
+      "images": [],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_252876c553f9-scene-1-stock.mp4",
+          "url": "/generated/clips/tau_252876c553f9-scene-1-stock.mp4",
+          "downloadUrl": "https://videos.pexels.com/video-files/36187677/15347144_1080_1920_60fps.mp4",
+          "prompt": "Earth magnetic field",
+          "seconds": 9,
+          "targetDurationSec": 6.36,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_252876c553f9-scene-2-motion.mp4",
+          "filename": "tau_252876c553f9-scene-2-motion.mp4",
+          "provider": "bang-motion",
+          "seconds": 6,
+          "costUsd": 0,
+          "illustration": "shield"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_252876c553f9-scene-3-stock.mp4",
+          "url": "/generated/clips/tau_252876c553f9-scene-3-stock.mp4",
+          "downloadUrl": "https://videos.pexels.com/video-files/19018924/19018924-hd_1080_1920_30fps.mp4",
+          "prompt": "life on Earth",
+          "seconds": 9,
+          "targetDurationSec": 6,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_252876c553f9-scene-4-motion.mp4",
+          "filename": "tau_252876c553f9-scene-4-motion.mp4",
+          "provider": "bang-motion",
+          "seconds": 6.12,
+          "costUsd": 0,
+          "illustration": "concept"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "onyx",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_252876c553f9-openai-natural-narration.mp3",
+        "url": "/generated/audio/tau_252876c553f9-openai-natural-narration.mp3",
+        "characters": 265
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_252876c553f9-openai-misteri-perisai-magnetik-bumi-penyelamat-dari-radiasi.mp4",
+        "url": "/generated/videos/tau_252876c553f9-openai-misteri-perisai-magnetik-bumi-penyelamat-dari-radiasi.mp4",
+        "provider": "openai",
+        "durationSec": 45.03,
+        "scenes": 4
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Perisai magnetik bumi berfungsi sebagai pelindung hidup dari radiasi berbahaya. Radiasi dari luar angkasa dapat menghancurkan sel-sel hidup kita. Tanpa perisai ini, kehidupan di bumi akan terancam dan sulit bertahan. Apakah kamu merasa aman berkat perlindungan ini?"
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_252876c553f9-thumbnail-misteri-perisai-magnetik-bumi-penyelamat-dari-radiasi.jpg",
+        "url": "/generated/thumbnails/tau_252876c553f9-thumbnail-misteri-perisai-magnetik-bumi-penyelamat-dari-radiasi.jpg",
+        "provider": "ffmpeg-collage",
+        "layout": "vertical-cinematic",
+        "aspectRatio": "9:16"
+      }
+    },
+    "cost": {
+      "inputTokens": 3408,
+      "outputTokens": 714,
+      "totalTokens": 4122,
+      "storyUsd": 0.00251,
+      "imageUnitUsd": 0.04,
+      "imageUsd": 0.16,
+      "ttsUsd": 0.00398,
+      "totalUsd": 0.16649,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 100,
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
+    }
+  },
+  {
+    "id": "tau_40c66fca1b5a",
+    "source": "vox_hybrid_demo",
+    "status": "rendered",
+    "title": "Misteri Belokan Terakhir MH370",
+    "createdAt": "2026-09-16T09:11:31.520Z",
+    "updatedAt": "2026-09-16T09:13:49.288Z",
+    "cost": {
+      "videoUsd": 0,
+      "ttsUsd": 0,
+      "totalUsd": 0
+    },
+    "input": {
+      "topic": "Misteri belokan tajam pesawat MH370 yang menghilang dari radar",
+      "category": "misteri",
+      "videoFormat": "vertical",
+      "visualSource": "interleaved",
+      "avatarMode": "avatar hijau 1.mp4",
+      "ttsProvider": "edge_tts",
+      "durationSec": 31
+    },
+    "plan": {
+      "title": "Misteri Belokan Terakhir MH370",
+      "hook": "Tepat tengah malam, Boeing 777 tiba-tiba mematikan transponder dan memutus seluruh komunikasi radio.",
+      "summary": "Misteri aviasi terbesar di dunia: pesawat berbelok manual melintasi Samudera Hindia dan lenyap tanpa jejak.",
+      "importantPoints": [
+        "Transponder sengaja dimatikan",
+        "Radar rekam belokan tajam ke laut lepas",
+        "Pencarian dasar laut sedalam 5.000m nihil"
+      ],
+      "scenes": [
+        {
+          "index": 1,
+          "screenText": "KOMUNIKASI TERPUTUS",
+          "kicker": "KOMUNIKASI TERPUTUS",
+          "narration": "Tepat tengah malam, Boeing 777 tiba-tiba mematikan transponder dan memutus seluruh komunikasi radio.",
+          "highlight": "mematikan transponder",
+          "sourceTag": "ARSIP DOKUMENTER",
+          "visualType": "stock",
+          "stockClipSource": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_0b4c72563491-scene-1-stock.mp4",
+          "durationSec": 5.91
+        },
+        {
+          "index": 2,
+          "screenText": "JALUR RADAR MILITER",
+          "kicker": "RADAR TAKTIS",
+          "narration": "Radar militer mencatat pesawat berbelok tajam melintasi Selat Malaka menuju Samudera Hindia.",
+          "highlight": "berbelok tajam",
+          "sourceTag": "DATA RADAR PRIMER",
+          "visualType": "motion",
+          "illustration": "map",
+          "track1Label": "KUALA LUMPUR",
+          "track2Label": "SAMUDERA HINDIA",
+          "box1Title": "KETINGGIAN",
+          "box1Value": "35.000 FT",
+          "box2Title": "STATUS TRANSPONDER",
+          "box2Value": "OFFLINE",
+          "note": "Peta Lintasan Terakhir",
+          "durationSec": 5.46
+        },
+        {
+          "index": 3,
+          "screenText": "KORELASI BUKTI ARSIP",
+          "kicker": "BUKTI INVESTIGASI",
+          "narration": "Penyelidik menemukan berkas simulator penerbangan di rumah kapten dengan rute identik ke selatan laut lepas.",
+          "highlight": "rute identik",
+          "sourceTag": "DOKUMEN FBI & POLISIA",
+          "visualType": "motion",
+          "illustration": "pinboard",
+          "box1Title": "DATA SIMULATOR",
+          "box1Value": "ARSIP #07",
+          "box2Title": "STATUS TEMUAN",
+          "box2Value": "TERVERIFIKASI",
+          "note": "Berkas Rahasia Rumah Pilot",
+          "durationSec": 6.82
+        },
+        {
+          "index": 4,
+          "screenText": "DASAR SAMUDERA HITAM",
+          "kicker": "PENCARIAN TERBESAR",
+          "narration": "Pencarian dasar laut terdalam selama bertahun-tahun di kedalaman lima ribu meter pun tak menemukan badan pesawat.",
+          "highlight": "kedalaman lima ribu meter",
+          "sourceTag": "DOKUMEN EKSPLORASI",
+          "visualType": "stock",
+          "stockClipSource": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_0b4c72563491-scene-4-stock.mp4",
+          "durationSec": 7.27
+        },
+        {
+          "index": 5,
+          "screenText": "KESIMPULAN RESMI",
+          "kicker": "LAPORAN FINAL",
+          "narration": "Laporan investigasi resmi menyimpulkan: pesawat dikendalikan seseorang hingga detik-detik terakhir sebelum hilang.",
+          "highlight": "dikendalikan seseorang",
+          "sourceTag": "BIRO KESELAMATAN DUNIA",
+          "visualType": "motion",
+          "illustration": "newspaper",
+          "track1Label": "BIRO KESELAMATAN",
+          "track2Label": "LAPORAN RESMI",
+          "note": "KENDALI MANUAL TERAKHIR",
+          "durationSec": 5.46
+        }
+      ]
+    },
+    "assets": {
+      "audio": {
+        "provider": "edge_tts",
+        "voice": "id-ID-ArdiNeural",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_40c66fca1b5a-audio.mp3",
+        "seconds": 30.912
+      },
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_40c66fca1b5a-scene-1-stock.mp4",
+          "filename": "tau_40c66fca1b5a-scene-1-stock.mp4",
+          "provider": "stock",
+          "seconds": 5.91,
+          "costUsd": 0
+        },
+        {
+          "sceneIndex": 2,
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_40c66fca1b5a-scene-2-motion.mp4",
+          "filename": "tau_40c66fca1b5a-scene-2-motion.mp4",
+          "provider": "bang-motion",
+          "seconds": 5.46,
+          "costUsd": 0,
+          "illustration": "map"
+        },
+        {
+          "sceneIndex": 3,
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_40c66fca1b5a-scene-3-motion.mp4",
+          "filename": "tau_40c66fca1b5a-scene-3-motion.mp4",
+          "provider": "bang-motion",
+          "seconds": 6.82,
+          "costUsd": 0,
+          "illustration": "pinboard"
+        },
+        {
+          "sceneIndex": 4,
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_40c66fca1b5a-scene-4-stock.mp4",
+          "filename": "tau_40c66fca1b5a-scene-4-stock.mp4",
+          "provider": "stock",
+          "seconds": 7.27,
+          "costUsd": 0
+        },
+        {
+          "sceneIndex": 5,
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_40c66fca1b5a-scene-5-motion.mp4",
+          "filename": "tau_40c66fca1b5a-scene-5-motion.mp4",
+          "provider": "bang-motion",
+          "seconds": 5.46,
+          "costUsd": 0,
+          "illustration": "newspaper"
+        }
+      ],
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_40c66fca1b5a-edge_tts-misteri-belokan-terakhir-mh370.mp4",
+        "url": "/generated/videos/tau_40c66fca1b5a-edge_tts-misteri-belokan-terakhir-mh370.mp4",
+        "provider": "edge_tts",
+        "durationSec": 45.03,
+        "scenes": 5
+      }
+    },
+    "progress": {
+      "percent": 100,
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
+    }
+  },
+  {
+    "id": "tau_d655e13ecb50",
+    "source": "openai",
+    "status": "rendered",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-09-16T15:21:42.690Z",
+    "updatedAt": "2026-09-16T15:24:47.973Z",
+    "input": {
+      "topic": "Sains",
+      "category": "sains",
+      "hookStyle": "Madu asli bisa bertahan tanpa basi selama bertahun-tahun! Apa rahasianya?",
+      "selectedIdea": {
+        "id": "idea_859a4d8d619d",
+        "title": "Kenapa Madu Asli Tahan Lama Tanpa Basi",
+        "topic": "Sains",
+        "hook": "Madu asli bisa bertahan tanpa basi selama bertahun-tahun! Apa rahasianya?",
+        "category": "sains",
+        "angle": "Menjelaskan sifat antibakteri dan cara madu terbentuk yang menghindari pembusukan.",
+        "whyGood": "Menarik perhatian karena banyak orang menganggap madu cepat basi, padahal tidak."
+      },
+      "tone": "science_documentary",
+      "longForm": false,
+      "durationSec": 24,
+      "sceneCount": 4,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1792",
+      "imageQuality": "standard",
+      "elevenlabsVoiceId": "",
+      "elevenlabsModel": "",
+      "openaiTtsVoice": "",
+      "avatarMode": "avatar hijau 1.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "interleaved"
+    },
+    "title": "Kenapa Madu Asli Tahan Lama Tanpa Basi",
+    "plan": {
+      "title": "Kenapa Madu Asli Tahan Lama Tanpa Basi",
+      "hook": "Madu asli bisa bertahan tanpa basi selama bertahun-tahun! Apa rahasianya?",
+      "thumbnailHook": "MADU TAHAN LAMA!",
+      "summary": "Madu asli memiliki sifat antibakteri dan cara pembentukan unik, sehingga tidak mudah basi. Ini penting untuk mengetahui kualitas makanan alami.",
+      "importantPoints": [
+        "Madu asli memiliki sifat antibakteri",
+        "Proses pembentukan mencegah pembusukan",
+        "Bisa bertahan bertahun-tahun tanpa basi"
+      ],
+      "factCheckNote": "Semua informasi akurat berdasarkan studi sains terkait madu dan sifatnya.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 6.36,
+          "narration": "Madu asli bisa bertahan hingga bertahun-tahun tanpa basi karena sifatnya yang unik.",
+          "screenText": "Madu tahan lama!",
+          "highlight": "tahan lama",
+          "imagePrompt": "close-up honey jar with honey dripping, topic: Sains, visual approach: clean macro detail shot, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "honey jar close-up",
+          "visualStyle": "motion",
+          "avatarPose": "surprised",
+          "visualType": "concept",
+          "illustration": "stats"
+        },
+        {
+          "index": 2,
+          "durationSec": 6,
+          "narration": "Sifat antibakteri dalam madu melindunginya dari bakteri dan jamur.",
+          "screenText": "Sifat antibakteri",
+          "highlight": "antibakteri",
+          "imagePrompt": "illustration of bacteria and honey interaction, topic: Sains, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "bacteria and honey",
+          "visualStyle": "motion",
+          "avatarPose": "pointing",
+          "visualType": "concept",
+          "illustration": "stats"
+        },
+        {
+          "index": 3,
+          "durationSec": 6,
+          "narration": "Madu terbentuk melalui proses penguapan yang membuatnya sangat kental.",
+          "screenText": "Proses penguapan",
+          "highlight": "proses penguapan",
+          "imagePrompt": "honeycomb close-up showing evaporation, topic: Sains, visual approach: museum archive inspired scene, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "honeycomb close-up",
+          "visualStyle": "motion",
+          "avatarPose": "clipboard",
+          "visualType": "concept",
+          "illustration": "stats"
+        },
+        {
+          "index": 4,
+          "durationSec": 6.12,
+          "narration": "Apakah kamu sudah pernah mencicipi madu asli yang bertahan lama?",
+          "screenText": "Coba madu asli!",
+          "highlight": "madu asli",
+          "imagePrompt": "person tasting honey, topic: Sains, visual approach: bright science explainer composition, vertical 9:16, editorial science magazine look, bright readable lighting, rich but realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "person tasting honey",
+          "visualStyle": "motion",
+          "avatarPose": "thumbs_up",
+          "visualType": "concept",
+          "illustration": "stats"
+        }
+      ]
+    },
+    "assets": {
+      "images": [],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_d655e13ecb50-scene-1-stock.mp4",
+          "url": "/generated/clips/tau_d655e13ecb50-scene-1-stock.mp4",
+          "downloadUrl": "https://videos.pexels.com/video-files/9154214/9154214-hd_1080_1920_25fps.mp4",
+          "prompt": "honey jar close-up",
+          "seconds": 7,
+          "targetDurationSec": 6.36,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_d655e13ecb50-scene-2-motion.mp4",
+          "filename": "tau_d655e13ecb50-scene-2-motion.mp4",
+          "provider": "bang-motion",
+          "seconds": 6,
+          "costUsd": 0,
+          "illustration": "stats"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_d655e13ecb50-scene-3-stock.mp4",
+          "url": "/generated/clips/tau_d655e13ecb50-scene-3-stock.mp4",
+          "downloadUrl": "https://videos.pexels.com/video-files/34308474/14534464_1080_1920_30fps.mp4",
+          "prompt": "honeycomb close-up",
+          "seconds": 6,
+          "targetDurationSec": 6,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 4,
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_d655e13ecb50-scene-4-motion.mp4",
+          "filename": "tau_d655e13ecb50-scene-4-motion.mp4",
+          "provider": "bang-motion",
+          "seconds": 6.12,
+          "costUsd": 0,
+          "illustration": "stats"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "onyx",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_d655e13ecb50-openai-natural-narration.mp3",
+        "url": "/generated/audio/tau_d655e13ecb50-openai-natural-narration.mp3",
+        "characters": 286
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_d655e13ecb50-openai-kenapa-madu-asli-tahan-lama-tanpa-basi.mp4",
+        "url": "/generated/videos/tau_d655e13ecb50-openai-kenapa-madu-asli-tahan-lama-tanpa-basi.mp4",
+        "provider": "openai",
+        "durationSec": 45,
+        "scenes": 4
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Madu asli bisa bertahan hingga bertahun-tahun tanpa basi karena sifatnya yang unik. Sifat antibakteri dalam madu melindunginya dari bakteri dan jamur. Madu terbentuk melalui proses penguapan yang membuatnya sangat kental. Apakah kamu sudah pernah mencicipi madu asli yang bertahan lama?"
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_d655e13ecb50-thumbnail-kenapa-madu-asli-tahan-lama-tanpa-basi.jpg",
+        "url": "/generated/thumbnails/tau_d655e13ecb50-thumbnail-kenapa-madu-asli-tahan-lama-tanpa-basi.jpg",
+        "provider": "ffmpeg-collage",
+        "layout": "vertical-cinematic",
+        "aspectRatio": "9:16"
+      }
+    },
+    "cost": {
+      "inputTokens": 3580,
+      "outputTokens": 725,
+      "totalTokens": 4305,
+      "storyUsd": 0.00259,
+      "imageUnitUsd": 0.04,
+      "imageUsd": 0.16,
+      "ttsUsd": 0.00429,
+      "totalUsd": 0.16688,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 100,
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
+    },
+    "quality_notes": {
+      "fact_safety_score": 0,
+      "hook_score": 0,
+      "caption_readability_score": 0,
+      "visual_reuse_score": 0,
+      "warnings": [
+        "Durasi hasil render (45.0s) meleset 88% dari target (24s)."
+      ],
+      "lastRenderCheck": {
+        "at": "2026-09-16T15:24:48.149Z",
+        "ok": true,
+        "actualDurationSec": 45,
+        "targetDurationSec": 24
+      }
+    },
+    "publish": {
+      "facebook": {
+        "ok": true,
+        "type": "facebook_reel",
+        "videoId": "1101887808869336",
+        "postId": "122132512887342479",
+        "url": "https://www.facebook.com/reel/1101887808869336",
+        "publishedAt": "2026-09-16T15:25:44.036Z"
+      }
+    }
   }
 ]

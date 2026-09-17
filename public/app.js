@@ -581,12 +581,13 @@ async function renderVideo() {
   const avatarMode = form.get("avatarMode") || "random-green";
   const videoFormat = form.get("videoFormat") || "vertical";
   const visualSource = form.get("visualSource") || "stock";
+  const motionTheme = form.get("motionTheme") || "auto";
   const formatLabel = videoFormat === "horizontal" ? "horizontal" : "vertikal";
   setBusy(true, `Merender video ${formatLabel}...`);
   try {
     startProgressPolling();
     const endpoint = isUs ? `/api/items/${state.current.id}/render-us` : `/api/items/${state.current.id}/render`;
-    const payload = isUs ? {} : { provider, ensureAssets: true, avatarMode, videoFormat, visualSource };
+    const payload = isUs ? {} : { provider, ensureAssets: true, avatarMode, videoFormat, visualSource, motionTheme };
     const data = await api(endpoint, {
       method: "POST",
       body: JSON.stringify(payload)
@@ -626,6 +627,7 @@ function formPayload() {
     avatarMode: form.get("avatarMode") || "random-green",
     videoFormat: form.get("videoFormat") || "vertical",
     visualSource: form.get("visualSource") || "stock",
+    motionTheme: form.get("motionTheme") || "auto",
     openaiTtsVoice: settingsForm.get("openaiTtsVoice"),
     edgeTtsVoice: settingsForm.get("edgeTtsVoice"),
     elevenlabsVoiceId: settingsForm.get("elevenlabsVoiceId"),
@@ -1109,6 +1111,11 @@ function renderCurrent() {
   const sourceSelect = els.form.querySelector("[name='visualSource']");
   if (sourceSelect && item.input?.visualSource) {
     sourceSelect.value = item.input.visualSource;
+  }
+
+  const motionSelect = els.form.querySelector("[name='motionTheme']");
+  if (motionSelect) {
+    motionSelect.value = item.input?.motionTheme || "auto";
   }
   
   els.pointList.innerHTML = (item.plan.importantPoints || []).map((point) => `<li>${escapeHtml(point)}</li>`).join("");

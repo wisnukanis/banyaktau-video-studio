@@ -13,9 +13,10 @@ import { createIdeaRecommendations, createKnowledgeDraft, getToneStyleGuidelines
 import { getPerformanceNotesText } from "./analytics.js";
 import { getTrendNotesText } from "./trend-research.js";
 import { getTopicDeepResearch } from "./research-scraper.js";
-import { nowIso } from "./util.js";
+import { nowIso, extractKeywordHighlight } from "./util.js";
 import { generateVideoClip } from "./video-provider.js";
 import { fetchStockClip, extractSearchQuery, stockProvidersAvailable } from "./stock.js";
+import { generateMotionHtml, renderMotionVideo, renderMotionSceneClip, inferMotionTheme } from "./modules/motion-engine.js";
 
 
 export async function generateFullItem(input = {}, options = {}) {
@@ -23,18 +24,19 @@ export async function generateFullItem(input = {}, options = {}) {
   let payload = { ...input };
   const existingItems = await listContextItems();
 
+  let trendNotes = "";
+  try {
+    trendNotes = await getTrendNotesText("ID", payload.category || "random");
+  } catch (error) {
+    warnings.push(`Trend research dilewati: ${error.message}`);
+  }
+
   if (!payload.selectedIdea) {
     let performanceNotes = "";
     try {
       performanceNotes = await getPerformanceNotesText();
     } catch (error) {
       warnings.push(`Analytics performance notes dilewati: ${error.message}`);
-    }
-    let trendNotes = "";
-    try {
-      trendNotes = await getTrendNotesText("ID", payload.category || "random");
-    } catch (error) {
-      warnings.push(`Trend research dilewati: ${error.message}`);
     }
     const ideas = await createIdeaRecommendations({
       seed: payload.topic || "",
@@ -62,12 +64,30 @@ export async function generateFullItem(input = {}, options = {}) {
   const item = await createKnowledgeDraft(payload, {
     existingItems,
     researchFacts,
+    trendNotes,
     strictAi: Boolean(options.strictAi)
   });
   await saveItem(item);
 
   const visualSource = item.input.visualSource || "stock";
   const wantsClips = options.withClip !== false;
+
+  if (visualSource === "motion") {
+    await ensureAudio(item, { provider: item.input.ttsProvider, warnings, force: true, strict: true });
+    await ensureImages(item, { warnings, strict: false });
+    await ensureMotionVideo(item, { warnings });
+    await ensureThumbnail(item, { warnings });
+    return { item, warnings };
+  }
+
+  if (visualSource === "interleaved") {
+    // Alur Selang-Seling: Audio TTS dibuat dulu agar timing durasi presisi
+    await ensureAudio(item, { provider: item.input.ttsProvider, warnings, force: true, strict: true });
+    await ensureVisualClips(item, { warnings, strict: false });
+    await ensureThumbnail(item, { warnings });
+    await renderAndPersist(item);
+    return { item, warnings };
+  }
 
   if (wantsClips && visualSource !== "ai") {
     // Cost optimization: try stock footage (Pexels/Pixabay, free/licensed)
@@ -133,8 +153,9 @@ export async function ensureVisualClips(item, options = {}) {
   const visualSource = item.input.visualSource || "stock";
   const isHorizontal = item.input.videoFormat === "horizontal" || Boolean(item.input.longForm);
   const format = isHorizontal ? "horizontal" : (item.input.videoFormat || "vertical");
+  const isInterleaved = visualSource === "interleaved" || visualSource === "hybrid_motion";
 
-  if (visualSource !== "ai" && !stockProvidersAvailable()) {
+  if (!isInterleaved && visualSource !== "ai" && !stockProvidersAvailable()) {
     const message = "Stock video dilewati karena PEXELS_API_KEY dan PIXABAY_API_KEY belum dikonfigurasi.";
     warnings.push(message);
     if (options.strict) throw new Error(message);
@@ -179,10 +200,55 @@ export async function ensureVisualClips(item, options = {}) {
     return;
   }
   
-  for (const scene of item.plan.scenes) {
+  const totalAudioSec = Number(item.assets.audio?.seconds || 0);
+  const rawScenes = item.plan?.scenes || [];
+  const totalWords = rawScenes.reduce((sum, s) => sum + Math.max(1, String(s.narration || "").split(/\s+/).length), 0);
+
+  for (const scene of rawScenes) {
     const existing = clips.find(c => Number(c.sceneIndex) === Number(scene.index));
     if (existing?.path) continue;
-    
+
+    // Hitung durasi presisi per scene
+    const sceneWords = Math.max(1, String(scene.narration || "").split(/\s+/).length);
+    const sceneDur = totalAudioSec > 0
+      ? Number(((sceneWords / Math.max(1, totalWords)) * totalAudioSec).toFixed(1))
+      : Number(scene.durationSec || 6.0);
+
+    // Pada mode interleaved (selang-seling):
+    // Scene bernomor genap (2, 4, 6...) atau scene dengan visualType === "motion" dijadikan Bang Motion diagram
+    // Scene bernomor ganjil (1, 3, 5...) dijadikan Stock Video
+    const wantsMotion = isInterleaved
+      ? (Number(scene.index) % 2 === 0 || scene.visualType === "motion")
+      : (scene.visualType === "motion");
+
+    if (wantsMotion) {
+      try {
+        // Jika ada OpenAI API Key dan belum ada gambar untuk scene ini, otomatis generate gambar barunya
+        // agar Bang Motion bisa langsung memakai gambar tersebut sebagai ilustrasi utama!
+        if (config.openai.apiKey && !item.assets?.images?.some(i => Number(i.sceneIndex) === Number(scene.index))) {
+          try {
+            await ensureImages(item, { warnings, strict: false, onlySceneIndex: Number(scene.index) });
+          } catch (imgErr) {
+            console.warn(`Auto-generate image untuk motion scene ${scene.index} dilewati:`, imgErr.message);
+          }
+        }
+
+        console.log(`[Interleaved] Merender Bang Motion diagram scene ${scene.index} (${sceneDur}s)...`);
+        const clip = await renderMotionSceneClip({ item, scene, durationSec: sceneDur, format });
+        const idx = clips.findIndex(c => Number(c.sceneIndex) === Number(scene.index));
+        if (idx >= 0) clips.splice(idx, 1, clip);
+        else clips.push(clip);
+        item.assets.clips = sortByScene(clips);
+        item.updatedAt = nowIso();
+        await saveItem(item);
+        continue;
+      } catch (motionErr) {
+        console.warn(`Bang Motion scene ${scene.index} gagal:`, motionErr.message);
+        warnings.push(`Bang Motion scene ${scene.index} gagal: ${motionErr.message}`);
+      }
+    }
+
+    // Ambil stok video asli
     try {
       const query = await extractSearchQuery(scene, item.input.topic);
       const clip = await fetchStockClip({ scene, query, format, itemId: item.id, topic: item.input?.topic || item.title, usedUrls });
@@ -210,6 +276,22 @@ export async function ensureVisualClips(item, options = {}) {
           warnings.push(msg);
           if (options.strict) throw new Error(msg);
         }
+      } else if (isInterleaved || visualSource === "stock") {
+        // Fallback cerdas Rp 0: Jika pencarian stock video gagal/habis, buatkan Bang Motion diagram secara otomatis!
+        try {
+          console.log(`[Fallback Rp 0] Membuat Bang Motion diagram untuk scene ${scene.index} (${sceneDur}s)...`);
+          const clip = await renderMotionSceneClip({ item, scene, durationSec: sceneDur, format });
+          const idx = clips.findIndex(c => Number(c.sceneIndex) === Number(scene.index));
+          if (idx >= 0) clips.splice(idx, 1, clip);
+          else clips.push(clip);
+          item.assets.clips = sortByScene(clips);
+          item.updatedAt = nowIso();
+          await saveItem(item);
+        } catch (fallbackErr) {
+          const msg = `Stock clip gagal dan fallback Bang Motion juga gagal untuk scene ${scene.index}: ${fallbackErr.message}`;
+          warnings.push(msg);
+          if (options.strict) throw new Error(msg);
+        }
       } else {
         const msg = `Stock clip gagal untuk scene ${scene.index}: ${error.message}`;
         warnings.push(msg);
@@ -232,9 +314,12 @@ export async function ensureImages(item, options = {}) {
   const quality = item.input.imageQuality || config.openai.imageQuality;
 
   const clipSceneIndexes = new Set((item.assets.clips || []).map((clip) => Number(clip.sceneIndex)));
-  const scenesToProcess = options.onlyMissingClips
+  let scenesToProcess = options.onlyMissingClips
     ? item.plan.scenes.filter((scene) => !clipSceneIndexes.has(Number(scene.index)))
     : item.plan.scenes;
+  if (options.onlySceneIndex !== undefined) {
+    scenesToProcess = scenesToProcess.filter((scene) => Number(scene.index) === Number(options.onlySceneIndex));
+  }
 
   for (const scene of scenesToProcess) {
     const existing = images.find((image) => Number(image.sceneIndex) === Number(scene.index));
@@ -350,6 +435,67 @@ export async function ensureThumbnail(item, options = {}) {
   }
 }
 
+export async function ensureMotionVideo(item, options = {}) {
+  const warnings = options.warnings || [];
+  const durationSec = Number(item.assets.audio?.seconds || item.input.durationSec || 60);
+  const isVertical = String(item.input.videoFormat || "").toLowerCase() !== "horizontal";
+  const width = isVertical ? 1080 : 1920;
+  const height = isVertical ? 1920 : 1080;
+
+  const rawScenes = item.plan?.scenes || [];
+  const perSceneDur = Number((durationSec / Math.max(1, rawScenes.length)).toFixed(1));
+
+  const scenes = rawScenes.map((s, idx) => {
+    const sceneImg = item.assets?.images?.find((img) => Number(img.sceneIndex) === Number(s.index || idx + 1));
+    return {
+      text: s.narration || s.screenText || "",
+      kicker: s.screenText || `POIN #${idx + 1}`,
+      highlight: s.highlight || extractKeywordHighlight(s.narration || s.text, s.screenText) || "",
+      sourceTag: item.title?.slice(0, 30) || "BANYAKTAU",
+      note: s.imagePrompt ? s.imagePrompt.split(",")[0].trim() : "Fakta Kunci",
+      ghost: s.year ? String(s.year) : String(idx + 1).padStart(2, "0"),
+      durationSec: perSceneDur,
+      imagePath: sceneImg?.path || s.imagePath || null,
+      illustration: s.illustration
+    };
+  });
+
+  const theme = item.input?.motionTheme || inferMotionTheme(rawScenes[0], item);
+
+  const { html } = generateMotionHtml({
+    title: item.title,
+    format: isVertical ? "vertical" : "horizontal",
+    theme,
+    totalDurationSec: durationSec,
+    voiceoverPath: item.assets.audio?.path || null,
+    scenes
+  });
+
+  const outputPath = path.join(paths.videoDir, `${item.id}-motion.mp4`);
+  const result = await renderMotionVideo({
+    htmlContent: html,
+    audioPath: item.assets.audio?.path || null,
+    outputPath,
+    width,
+    height,
+    fps: 30
+  });
+
+  item.assets.video = {
+    path: outputPath,
+    filename: path.basename(outputPath),
+    seconds: result.durationSec,
+    width,
+    height,
+    provider: "bang-motion",
+    format: isVertical ? "vertical" : "horizontal"
+  };
+  item.status = "rendered";
+  item.updatedAt = nowIso();
+  await saveItem(item);
+  return item;
+}
+
 export async function renderAndPersist(item) {
   assertReadyToRender(item);
   item.assets.video = await renderKnowledgeVideo(item);
@@ -400,8 +546,9 @@ function buildClipPrompt(item, scene) {
 }
 
 async function generateImageWithRetry({ item, scene, size, quality }) {
+  const theme = item.input?.motionTheme || scene.visualStyle || inferMotionTheme(scene, item);
   try {
-    return await generateSceneImage({ itemId: item.id, scene, size, quality });
+    return await generateSceneImage({ itemId: item.id, scene, size, quality, theme });
   } catch (error) {
     const safeScene = {
       ...scene,
@@ -411,7 +558,7 @@ async function generateImageWithRetry({ item, scene, size, quality }) {
         "objects, hands, classroom table, museum display, science concept, no people in danger, no medical procedure, no text"
       ].join(", ")
     };
-    const image = await generateSceneImage({ itemId: item.id, scene: safeScene, size, quality });
+    const image = await generateSceneImage({ itemId: item.id, scene: safeScene, size, quality, theme });
     image.recoveredFrom = error.message;
     return image;
   }

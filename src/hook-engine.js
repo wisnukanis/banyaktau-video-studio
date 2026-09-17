@@ -16,11 +16,17 @@ const HOOK_PATTERNS = [
   }
 ];
 
-// Frasa generik/lebay yang harus dihindari — termasuk pola fallback lama yang terlalu sering kepakai
+// Frasa generik/lebay/klise yang harus dihindari
 const BANNED_PATTERNS = [
   /punya cerita yang jarang dibahas/i,
   /^(pernahkah|tahukah)\s+(kamu|anda)?/i,
   /\b(pernahkah|tahukah)\s+(kamu|anda)\b/i,
+  /^setiap\s+(tahun|hari|saat|bulan|detik|waktu)/i,
+  /^(banyak|sebagian|kebanyakan|hampir semua)\s+orang/i,
+  /^di\s+dunia\s+ini/i,
+  /^dalam\s+(kehidupan|dunia)/i,
+  /^sejak\s+zaman/i,
+  /^sudah\s+bukan\s+rahasia/i,
   /\bajaib\b/i,
   /\btergila-gila\b/i,
   /tidak akan (percaya|menyangka)/i,
@@ -32,12 +38,12 @@ const BANNED_PATTERNS = [
 
 export function buildHookPrompt(input) {
   return [
-    "Buat 3 opsi hook (kalimat pembuka video pendek) untuk channel pengetahuan BanyakTau. Gunakan gaya The Punchy Hook Rewriter.",
-    "ATURAN KETAT HOOK:",
-    "1. Maksimal 15 kata per opsi. No fluff, no hashtag, no intro bertele-tele.",
-    "2. Bahasa Indonesia natural & tajam ala kreator sosial media profesional.",
-    "3. JANGAN PERNAH buka dengan 'Pernahkah kamu...' atau 'Tahukah kamu...'. Langsung masuk ke konflik, sanggahan, atau fakta mengejutkan.",
-    "4. Hindari kata lebay (ajaib, tergila-gila, tidak akan percaya, luar biasa).",
+    "Buat 3 opsi hook (kalimat pembuka video pendek viral) untuk channel pengetahuan BanyakTau. Gunakan gaya The Punchy Hook Rewriter.",
+    "ATURAN KETAT HOOK (Detik 0-3 Stop-Scroll):",
+    "1. Maksimal 12-14 kata per opsi. No fluff, no intro bertele-tele, LANGSUNG HENTAKAN DRAMATIS.",
+    "2. JANGAN PERNAH buka dengan 'Setiap tahun...', 'Banyak orang...', 'Pernahkah kamu...', atau 'Tahukah kamu...'. Buka langsung dengan anomali, bahaya, atau konflik mencengangkan.",
+    "3. Bahasa Indonesia natural & tajam ala kreator sosial media viral.",
+    "4. Hindari kata lebay generik (ajaib, tergila-gila, tidak akan percaya, luar biasa).",
     ...HOOK_PATTERNS.map((p, i) => `Opsi ${i + 1} (pola: ${p.id}) — ${p.instruction}`),
     "Kembalikan JSON valid saja dengan shape:",
     '{ hooks:[{ pattern, text }] }',

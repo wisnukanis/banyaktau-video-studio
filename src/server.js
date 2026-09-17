@@ -249,6 +249,10 @@ app.post("/api/items/:id/render", async (req, res, next) => {
       item.input.visualSource = req.body.visualSource;
       hasUpdates = true;
     }
+    if (req.body?.motionTheme) {
+      item.input.motionTheme = req.body.motionTheme;
+      hasUpdates = true;
+    }
     if (hasUpdates) {
       item.updatedAt = nowIso();
       await saveItem(item);

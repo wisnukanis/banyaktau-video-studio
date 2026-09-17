@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bang Motion Studio — Showcase Eksplorasi Gaya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Caveat:wght@600;700&family=Cinzel:wght@600;700;800&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #08090b;
+  color: #f3f4f6;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header & Controls */
+header {
+  height: 64px;
+  background: #111318;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 100;
+  flex-shrink: 0;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.brand-badge {
+  background: #ffd400;
+  color: #111;
+  font-weight: 800;
+  font-size: 13px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.brand-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Tab Switcher */
+.tabs {
+  display: flex;
+  gap: 8px;
+  background: rgba(255,255,255,0.05);
+  padding: 4px;
+  border-radius: 8px;
+}
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: #9ca3af;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tab-btn:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.06);
+}
+.tab-btn.active {
+  background: #2563eb;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.4);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.btn {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+/* Main Preview Canvas Frame */
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, #151820 0%, #08090b 100%);
+  padding: 20px;
+}
+
+.screen-container {
+  width: 100%;
+  height: 100%;
+  max-width: 1200px;
+  max-height: 675px; /* 16:9 ratio */
+  position: relative;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* Footer Scrub Bar */
+footer {
+  height: 52px;
+  background: #111318;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+.footer-desc strong {
+  color: #fff;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <span class="brand-badge">BANG MOTION</span>
+    <span class="brand-title">Eksplorasi Gaya Explainer Sinematik</span>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="loadStyle('kartun')">
+      <span>🦕</span> Cartoon Collage (Dinosaurus)
+    </button>
+    <button class="tab-btn" onclick="loadStyle('jurnalisme')">
+      <span>📰</span> Visual Journalism (Investigasi)
+    </button>
+    <button class="tab-btn" onclick="loadStyle('vintage')">
+      <span>📜</span> Vintage Sketch (Buku Kuno)
+    </button>
+  </div>
+
+  <div class="actions">
+    <button class="btn" onclick="reloadCurrent()">🔄 Putar Ulang</button>
+  </div>
+</header>
+
+<main>
+  <div class="screen-container">
+    <iframe id="previewFrame" src="/demo_cartoon_collage.html"></iframe>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-desc" id="styleDesc">
+    <strong>Gaya 1: Cartoon Collage</strong> — Kertas krem bertekstur, cutout dinosaurus bergoyang hidup, tulisan tangan Caveat, dan panah melengkung.
+  </div>
+  <div style="display:flex;gap:16px;align-items:center;">
+    <span>⚡ GSAP Dynamic Camera</span>
+    <span>🎬 100% Web Motion Graphic</span>
+  </div>
+</footer>
+
+<script>
+const styles = {
+  kartun: {
+    url: '/demo_cartoon_collage.html',
+    desc: '<strong>Gaya 1: Cartoon Collage (Dinosaurus)</strong> — Kertas krem bertekstur, cutout ilustrasi bergoyang hidup, tulisan tangan Caveat, dan panah sketsa melengkung.'
+  },
+  jurnalisme: {
+    url: '/demo_visual_journalism.html',
+    desc: '<strong>Gaya 2: Visual Journalism (Vox Style)</strong> — Latar gelap pekat, target reticle berdenyut, data highlight 4 in 10 boxes, stabilo kuning menyapu, dan tag telemetri.'
+  },
+  vintage: {
+    url: '/demo_vintage_sketch.html',
+    desc: '<strong>Gaya 3: Vintage Sketch (Buku Sketsa Sejarah)</strong> — Kertas tua sepia, ukiran mesin uap 1769 meresap ke serat kertas (multiply), font Playfair Display & Cinzel, catatan karat.'
+  }
+};
+
+let currentKey = 'kartun';
+
+function loadStyle(key) {
+  currentKey = key;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  const s = styles[key];
+  document.getElementById('previewFrame').src = s.url;
+  document.getElementById('styleDesc').innerHTML = s.desc;
+}
+
+function reloadCurrent() {
+  const f = document.getElementById('previewFrame');
+  f.src = styles[currentKey].url;
+}
+</script>
+
+</body>
+</html>

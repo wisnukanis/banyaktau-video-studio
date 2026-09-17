@@ -56,12 +56,12 @@ export async function generateThumbnail(item) {
       `[w2]drawtext=fontfile='${fontPath}':text='${drawtextEscape(subtitleContext)}!':fontcolor=0xFFE600:fontsize=48:bordercolor=black:borderw=5:shadowcolor=black@0.85:shadowx=5:shadowy=5:x=95:y=${y3}`
     ].join(";");
   } else {
-    // Format 9:16 Shorts/Reels Vertikal (1080x1920) dengan Smooth Bottom Gradient
-    lavfiGrad = "gradients=s=1080x1920:c0=black@0.0:c1=black@0.90:x0=0:y0=960:x1=0:y1=1920";
+    // Format 9:16 Shorts/Reels Vertikal (1080x1920) dengan Smooth Bottom Gradient (hanya separuh bawah y:960..1920)
+    lavfiGrad = "gradients=s=1080x960:c0=black@0.0:c1=black@0.85:x0=0:y0=0:x1=0:y1=960";
     filter = [
       "[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,eq=contrast=1.15:saturation=1.15:brightness=-0.02[hero]",
       "[1:v]format=rgba[grad]",
-      "[hero][grad]overlay=0:0[bg]",
+      "[hero][grad]overlay=0:960[bg]",
       "[bg]drawbox=x=74:y=1080:w=220:h=48:color=0xFFE600@1:t=fill[tagbox]",
       `[tagbox]drawtext=fontfile='${fontPath}':text='${drawtextEscape(badgeCategory)}':fontcolor=black:fontsize=26:borderw=0:x=94:y=1091[tagtext]`,
       `[tagtext]drawtext=fontfile='${fontPath}':text='${drawtextEscape(line1)}':fontcolor=0xFFFFFF:fontsize=110:bordercolor=black:borderw=7:shadowcolor=black@0.9:shadowx=5:shadowy=5:x=74:y=1170[l1]`,

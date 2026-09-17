@@ -17,6 +17,11 @@
             <small>Video studio</small>
           </div>
         </div>
+        <div style="margin: -6px 0 14px 0;">
+          <a href="/bang-motion-showcase.html" target="_blank" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#ffd400;text-decoration:none;background:rgba(255,212,0,0.1);padding:5px 12px;border-radius:20px;border:1px solid rgba(255,212,0,0.3);transition:0.2s;">
+            <span>✨</span> Galeri Bang Motion
+          </a>
+        </div>
 
         <form id="generateForm" class="form-stack">
           <input name="longForm" type="hidden" value="false">
@@ -97,13 +102,28 @@
               <label>
                 <span>Sumber Visual</span>
                 <select name="visualSource">
-                  <option value="stock" selected>Stock Video (Pexels/Pixabay - Gratis & Cepat)</option>
+                  <option value="interleaved" selected>Selang-Seling (Stock Video ⇄ Motion Graphic - Sinematik & Rp 0)</option>
+                  <option value="stock">Stock Video (Pexels/Pixabay - Gratis & Cepat)</option>
+                  <option value="motion">Motion Graphic Penuh (Bang Motion - Sinematik & Rp 0)</option>
                   <option value="ai">AI Video Generator (Gemini Veo)</option>
                   <option value="hybrid">Hybrid (Stock Utama + Fallback AI)</option>
                 </select>
               </label>
             </div>
             <div class="two-col">
+              <label>
+                <span>Gaya Motion (Bang Motion)</span>
+                <select name="motionTheme">
+                  <option value="auto" selected>✨ Otomatis (AI Menyesuaikan Skrip & Topik)</option>
+                  <option value="kartun">🦕 Kartun Kolase (Kertas Krem, Cutout Stiker, Tulisan Tangan)</option>
+                  <option value="vintage">📜 Sketsa Vintage (Kertas Perkamen Kuno, Etsa Tembaga)</option>
+                  <option value="jurnalisme">🎯 Visual Journalism (Vox Style, Dark Mode, HUD Reticle)</option>
+                  <option value="poster">💥 Poster Color-Block (Kinetic Typography, Slam-In)</option>
+                  <option value="gradient">🌌 Grainy Gradient (Kosmik, AI, Fisika Kuat & Push-Through)</option>
+                  <option value="action">⚡ Continuous Action (Alur Bergerak, Garis Waktu & Rute)</option>
+                  <option value="catalog">🔬 White Catalog (Grid Putih Bersih, Bedah Objek & Kaliper)</option>
+                </select>
+              </label>
               <label>
                 <span>Model Avatar</span>
                 <select name="avatarMode" id="avatarModeSelect">
@@ -116,7 +136,8 @@
                   <option value="video2">Capybara Glasses (Video 2)</option>
                 </select>
               </label>
-
+            </div>
+            <div class="two-col">
               <label>
                 <span>Scene</span>
                 <select name="sceneCount">

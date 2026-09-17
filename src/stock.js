@@ -217,6 +217,158 @@ async function searchPixabay(query, { perPage = 18 } = {}) {
   }
 }
 
+export async function searchCoverr(query, { perPage = 18 } = {}) {
+  const apiKey = config.stock?.coverrApiKey;
+  if (!apiKey) return null;
+  const url = `https://api.coverr.co/videos?query=${encodeURIComponent(query)}&page_size=${perPage}`;
+  try {
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${apiKey}` },
+      signal: AbortSignal.timeout(8000)
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    const hits = (data.hits || []).filter((h) => !h.is_premium && h.base_filename);
+    return hits.map((h) => ({
+      id: h.id || h.objectID,
+      title: h.title,
+      duration: Number(h.duration || 0),
+      is_vertical: Boolean(h.is_vertical),
+      tags: Array.isArray(h.tags) ? h.tags : (h.keywords || []).map((k) => k.name || k),
+      url: `https://coverr.co/videos/${h.slug || h.id}`,
+      downloadUrl: `https://cdn.coverr.co/videos/${h.base_filename}/1080p.mp4`
+    }));
+  } catch (error) {
+    console.error("Coverr API error:", error.message);
+    return null;
+  }
+}
+
+export async function searchMixkit(query, { limit = 12 } = {}) {
+  const cleanQ = cleanQuery(query);
+  if (!cleanQ) return null;
+  const slug = cleanQ.replace(/\s+/g, "-");
+  const url = `https://mixkit.co/free-stock-video/${encodeURIComponent(slug)}/`;
+  try {
+    const res = await fetch(url, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+      },
+      signal: AbortSignal.timeout(8000)
+    });
+    if (!res.ok) return null;
+    const html = await res.text();
+    const ids = [...new Set([...html.matchAll(/videos\/(\d+)\/\1-(?:360|720|1080)\.mp4/g)].map((m) => m[1]))];
+    if (!ids.length) return null;
+
+    return ids.slice(0, limit).map((id) => ({
+      id,
+      title: `${cleanQ} stock clip ${id}`,
+      duration: 8,
+      tags: [cleanQ],
+      url: `https://mixkit.co/free-stock-video/${encodeURIComponent(slug)}/#${id}`,
+      downloadUrl: `https://assets.mixkit.co/videos/${id}/${id}-720.mp4`
+    }));
+  } catch (error) {
+    console.warn("[Mixkit Scraper] fetch error:", error.message);
+    return null;
+  }
+}
+
+export async function searchNasaVideos(query, { limit = 5 } = {}) {
+  const cleanQ = cleanQuery(query);
+  if (!cleanQ) return null;
+  const url = `https://images-api.nasa.gov/search?q=${encodeURIComponent(cleanQ)}&media_type=video`;
+  try {
+    const res = await fetch(url, {
+      headers: { "User-Agent": "BanyakTauStudio/1.0 (educational-video-builder)" },
+      signal: AbortSignal.timeout(8000)
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    const items = (data.collection?.items || []).slice(0, limit);
+    if (!items.length) return null;
+
+    const results = [];
+    for (const item of items) {
+      const meta = item.data?.[0];
+      if (!meta || !item.href) continue;
+      try {
+        const colRes = await fetch(item.href, { signal: AbortSignal.timeout(6000) });
+        if (!colRes.ok) continue;
+        const files = await colRes.json();
+        const mp4 = files.find((f) => String(f).includes("~large.mp4"))
+          || files.find((f) => String(f).includes("~orig.mp4"))
+          || files.find((f) => String(f).includes("~medium.mp4"))
+          || files.find((f) => String(f).endsWith(".mp4"));
+        if (mp4) {
+          const httpsMp4 = String(mp4).replace(/^http:\/\//i, "https://");
+          results.push({
+            id: meta.nasa_id || meta.title,
+            title: meta.title,
+            duration: 10,
+            tags: Array.isArray(meta.keywords) ? meta.keywords : [cleanQ],
+            url: `https://images.nasa.gov/details/${encodeURIComponent(meta.nasa_id || "")}`,
+            downloadUrl: httpsMp4
+          });
+        }
+      } catch {
+        // Continue to next item
+      }
+    }
+    return results.length ? results : null;
+  } catch (error) {
+    console.warn("[NASA API] search error:", error.message);
+    return null;
+  }
+}
+
+export async function searchArchiveOrgVideos(query, { limit = 5 } = {}) {
+  const cleanQ = cleanQuery(query);
+  if (!cleanQ) return null;
+  const url = `https://archive.org/advancedsearch.php?q=${encodeURIComponent(cleanQ)}+AND+mediatype:movies&fl[]=identifier,title,description,duration&sort[]=downloads+desc&rows=${limit}&page=1&output=json`;
+  try {
+    const res = await fetch(url, {
+      headers: { "User-Agent": "BanyakTauStudio/1.0 (educational-video-builder)" },
+      signal: AbortSignal.timeout(8000)
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    const docs = data.response?.docs || [];
+    if (!docs.length) return null;
+
+    const results = [];
+    for (const doc of docs) {
+      if (!doc.identifier) continue;
+      try {
+        const metaRes = await fetch(`https://archive.org/metadata/${encodeURIComponent(doc.identifier)}`, {
+          signal: AbortSignal.timeout(6000)
+        });
+        if (!metaRes.ok) continue;
+        const meta = await metaRes.json();
+        const mp4File = meta.files?.find((f) => f.name?.toLowerCase().endsWith(".mp4") && (f.format === "h.264" || f.format?.includes("MP4") || f.format === "512Kb MPEG4"));
+        if (mp4File?.name) {
+          const downloadUrl = `https://archive.org/download/${encodeURIComponent(doc.identifier)}/${encodeURIComponent(mp4File.name)}`;
+          results.push({
+            id: doc.identifier,
+            title: doc.title || doc.identifier,
+            duration: Number(doc.duration || 10),
+            tags: [cleanQ],
+            url: `https://archive.org/details/${encodeURIComponent(doc.identifier)}`,
+            downloadUrl
+          });
+        }
+      } catch {
+        // Continue to next doc
+      }
+    }
+    return results.length ? results : null;
+  } catch (error) {
+    console.warn("[Archive.org API] search error:", error.message);
+    return null;
+  }
+}
+
 const BARE_MATERIALS = new Set([
   "stainless steel", "stainless", "steel", "metal", "iron", "gold", "silver",
   "plastic", "glass", "rubber", "leather", "wooden", "wood", "aluminum",
@@ -401,7 +553,11 @@ function selectPexelsFile(video, format) {
 }
 
 export function stockProvidersAvailable() {
-  return Boolean(config.stock?.pexelsApiKey || config.stock?.pixabayApiKey);
+  return Boolean(config.stock?.pexelsApiKey || config.stock?.pixabayApiKey || config.stock?.coverrApiKey);
+}
+
+function selectCoverrFile(item) {
+  return item?.downloadUrl || null;
 }
 
 function selectPixabayFile(hit, format) {
@@ -534,7 +690,66 @@ export async function fetchStockClip({ scene, query, format, itemId, topic = "",
       }
     }
 
-    // 3. Try Wikimedia Commons if no stock video passed strict checks
+    // 3. Try Coverr (100% Free Catalog)
+    console.log(`Searching Coverr for query: "${q}" (target ${targetDurationSec}s)`);
+    const coverrHits = await searchCoverr(q);
+    if (coverrHits && coverrHits.length) {
+      const best = pickBestCandidate(coverrHits, targetDurationSec, (v) => v.duration, scene, topic, usedUrls);
+      downloadUrl = best ? selectCoverrFile(best) : null;
+      if (downloadUrl) {
+        provider = "coverr";
+        nativeDurationSec = Number(best.duration || 0);
+        break;
+      }
+    }
+
+    // 4. Try Mixkit (Free High-Quality B-roll Scraper)
+    console.log(`Searching Mixkit for query: "${q}" (target ${targetDurationSec}s)`);
+    const mixkitHits = await searchMixkit(q);
+    if (mixkitHits && mixkitHits.length) {
+      const best = pickBestCandidate(mixkitHits, targetDurationSec, (v) => v.duration, scene, topic, usedUrls);
+      downloadUrl = best ? best.downloadUrl : null;
+      if (downloadUrl) {
+        provider = "mixkit";
+        nativeDurationSec = Number(best.duration || 0);
+        break;
+      }
+    }
+
+    // 5. Try NASA Media (Space / Astronomy / Science / Earth)
+    const textContext = `${topic} ${scene?.narration || ""} ${scene?.screenText || ""}`;
+    const isSpaceOrScience = /space|angkasa|planet|bintang|star|bulan|moon|astronomy|nebula|black hole|mars|saturn|jupiter|galaxy|galaksi|semesta|orbit|bumi|earth|satellite|nasa|telescope|cosmos/i.test(textContext);
+    if (isSpaceOrScience || queries.indexOf(q) >= queries.length - 2) {
+      console.log(`Searching NASA Media for query: "${q}" (target ${targetDurationSec}s)`);
+      const nasaHits = await searchNasaVideos(q);
+      if (nasaHits && nasaHits.length) {
+        const best = pickBestCandidate(nasaHits, targetDurationSec, (v) => v.duration, scene, topic, usedUrls);
+        downloadUrl = best ? best.downloadUrl : null;
+        if (downloadUrl) {
+          provider = "nasa";
+          nativeDurationSec = Number(best.duration || 0);
+          break;
+        }
+      }
+    }
+
+    // 6. Try Archive.org (History / Vintage / Archival Footage)
+    const isHistoryOrVintage = /sejarah|history|kuno|ancient|perang|war|vintage|abad|century|penemuan|tokoh|museum|arsip|archive|past|classic/i.test(textContext);
+    if (isHistoryOrVintage || queries.indexOf(q) >= queries.length - 2) {
+      console.log(`Searching Archive.org for query: "${q}" (target ${targetDurationSec}s)`);
+      const archiveHits = await searchArchiveOrgVideos(q);
+      if (archiveHits && archiveHits.length) {
+        const best = pickBestCandidate(archiveHits, targetDurationSec, (v) => v.duration, scene, topic, usedUrls);
+        downloadUrl = best ? best.downloadUrl : null;
+        if (downloadUrl) {
+          provider = "archive_org";
+          nativeDurationSec = Number(best.duration || 0);
+          break;
+        }
+      }
+    }
+
+    // 7. Try Wikimedia Commons if no stock video passed strict checks
     console.log(`Searching Wikimedia Commons archive image for query: "${q}"`);
     try {
       const commonsHits = await searchWikimediaCommons(q, 5);
@@ -554,7 +769,7 @@ export async function fetchStockClip({ scene, query, format, itemId, topic = "",
   }
 
   if (!downloadUrl) {
-    throw new Error(`Tidak menemukan stock video maupun foto arsip yang relevan secara ketat untuk "${query}" di Pexels, Pixabay, dan Wikimedia Commons.`);
+    throw new Error(`Tidak menemukan stock video maupun foto arsip yang relevan secara ketat untuk "${query}" di Pexels, Pixabay, Coverr, Mixkit, NASA, Archive.org, dan Wikimedia Commons.`);
   }
 
   const tempFilename = `temp-raw-stock-${itemId}-${scene.index}${isArchiveImage ? ".jpg" : ".mp4"}`;

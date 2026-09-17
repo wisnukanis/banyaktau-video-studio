@@ -109,7 +109,7 @@ async function runOnce() {
       longForm,
       durationSec: scheduledDuration,
       sceneCount: scheduledScenes,
-      visualSource: "stock",
+      visualSource: config.stock?.defaultVisualSource || "interleaved",
       videoFormat: config.stock?.defaultVideoFormat || "vertical",
       avatarMode: "random-green"
     }, { withClip, requireClip, strictAi });

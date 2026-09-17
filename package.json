@@ -12,15 +12,18 @@
     "schedule": "node src/scheduler.js",
     "analytics:sync": "node -e \"import('./src/analytics.js').then(m => m.syncAllAnalytics()).then(r => console.log(JSON.stringify(r, null, 2)))\"",
     "download:music": "node src/download-music.js",
+    "auth:youtube": "node src/auth-youtube.js",
     "remote:cleanup": "node src/cleanup-remote.js",
     "remote:cleanup:dry": "node src/cleanup-remote.js --dry-run",
-    "check": "node --check src/server.js && node --check src/config.js && node --check src/story-engine.js && node --check src/render.js && node --check src/openai.js && node --check src/elevenlabs.js && node --check src/video-provider.js && node --check src/facebook.js && node --check src/pipeline.js && node --check src/remote.js && node --check src/run-once.js && node --check src/preflight.js && node --check src/thumbnail.js && node --check src/cleanup-remote.js && node --check src/youtube.js && node --check src/analytics.js && node --check src/scheduler.js && node --check src/trend-research.js && node --check src/quality-check.js && node --check src/cost.js && node --check src/storage.js && node --check src/util.js && node --check src/hook-engine.js && node --check src/progress.js && node --check src/stock.js && node --check src/research-scraper.js && node --check src/modules/us_generator.js && node --check src/modules/edge_tts.js"
+    "check": "node --check src/server.js && node --check src/config.js && node --check src/story-engine.js && node --check src/render.js && node --check src/openai.js && node --check src/elevenlabs.js && node --check src/video-provider.js && node --check src/facebook.js && node --check src/pipeline.js && node --check src/remote.js && node --check src/run-once.js && node --check src/preflight.js && node --check src/thumbnail.js && node --check src/cleanup-remote.js && node --check src/youtube.js && node --check src/auth-youtube.js && node --check src/analytics.js && node --check src/scheduler.js && node --check src/trend-research.js && node --check src/quality-check.js && node --check src/cost.js && node --check src/storage.js && node --check src/util.js && node --check src/hook-engine.js && node --check src/progress.js && node --check src/stock.js && node --check src/research-scraper.js && node --check src/modules/us_generator.js && node --check src/modules/edge_tts.js && node --check src/modules/motion-engine.js"
   },
   "dependencies": {
     "basic-ftp": "^5.3.1",
     "dotenv": "^16.4.7",
     "express": "^5.2.1",
+    "gsap": "^3.15.0",
     "node-cron": "^3.0.3",
+    "puppeteer": "^25.11.0",
     "ssh2-sftp-client": "^12.1.1"
   }
 }

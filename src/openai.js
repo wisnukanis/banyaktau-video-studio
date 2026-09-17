@@ -65,11 +65,12 @@ async function fetchAvailableModels() {
   }
 }
 
-export async function generateSceneImage({ itemId, scene, size, quality }) {
+export async function generateSceneImage({ itemId, scene, size, quality, theme }) {
   assertOpenAi();
   await fs.mkdir(paths.imageDir, { recursive: true });
 
-  const prompt = sanitizeImagePrompt(scene.imagePrompt);
+  const chosenTheme = theme || scene.theme || scene.visualStyle || scene.illustration || "";
+  const prompt = sanitizeImagePrompt(scene.imagePrompt, { theme: chosenTheme });
   let modelToUse = config.openai.imageModel;
   let qualityToUse = quality;
   let sizeToUse = size;
@@ -323,7 +324,44 @@ function headersJson() {
   };
 }
 
-function sanitizeImagePrompt(value) {
+function sanitizeImagePrompt(value, options = {}) {
+  const theme = String(options.theme || "").toLowerCase();
+
+  if (theme === "kartun" || theme === "collage" || theme === "cartoon" || theme === "dino") {
+    return [
+      `clean flat 2D vector cutout illustration of ${value || "educational subject"}`,
+      "sticker style cutout with solid clear edges, vibrant saturated colors, bold clean outlines, isolated on pure solid white background, flat paper collage aesthetic, playful educational design, no realistic 3D volume, no shadows, no written text inside image, no logo, no watermark"
+    ].join(", ");
+  }
+
+  if (theme === "vintage" || theme === "sketsa" || theme === "engine" || theme === "sketch") {
+    return [
+      `antique 18th century copperplate engraving illustration of ${value || "historical scientific subject"}`,
+      "sepia and black ink etching on clean background, vintage scientific encyclopedia patent plate, fine cross-hatching linework, authentic historical archival drawing, no modern digital render, no written text inside image, no logo, no watermark"
+    ].join(", ");
+  }
+
+  if (theme === "gradient" || theme === "space" || theme === "kosmik") {
+    return [
+      `cinematic deep space cosmic visual of ${value || "scientific phenomenon"}`,
+      "ethereal glowing volumetric lighting, soft ambient particle grain, vibrant cyan and violet celestial highlights, elegant abstract scientific render, no written text inside image, no logo, no watermark"
+    ].join(", ");
+  }
+
+  if (theme === "catalog" || theme === "product") {
+    return [
+      `clean studio product photography of ${value || "object"}`,
+      "pure white seamless background, architectural precision lighting, sharp macro object details, crisp subtle contact shadow, modern scientific museum catalog aesthetic, no written text inside image, no logo, no watermark"
+    ].join(", ");
+  }
+
+  if (theme === "poster" || theme === "bold") {
+    return [
+      `bold high-contrast graphic pop-art visual of ${value || "subject"}`,
+      "vibrant saturated color blocking, sharp dramatic silhouette, dynamic punchy lighting, modern editorial magazine aesthetic, no written text inside image, no logo, no watermark"
+    ].join(", ");
+  }
+
   return [
     String(value || ""),
     "vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"

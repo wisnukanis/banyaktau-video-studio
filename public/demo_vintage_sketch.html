@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Demo Vintage Sketch — An Engine That Rewrote a Century</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=EB+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #2E2115;
+  --ink2: #5B4634;
+  --rust: #9A3B22;
+  --gold: #B8862B;
+  --paper: #EFE4CC;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  height: 100%;
+  background: #0a0a0a;
+  overflow: hidden;
+  user-select: none;
+}
+#stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background: var(--paper);
+  font-family: "EB Garamond", Georgia, serif;
+  color: var(--ink);
+  transform-origin: center center;
+}
+#world {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+.paper {
+  position: absolute;
+  inset: -2000px;
+  background: var(--paper);
+  background-image: 
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012' numOctaves='4' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .42 0 0 0 0 .25 0 0 0 .35 0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .28 0 0 0 0 .2 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 800px 800px, 300px 300px;
+}
+.cut {
+  position: absolute;
+  opacity: 0;
+  will-change: transform, filter;
+  mix-blend-mode: multiply;
+}
+.line {
+  position: absolute;
+  left: 140px;
+  right: 140px;
+  font-family: "Playfair Display", serif;
+  font-weight: 900;
+  font-size: 96px;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  opacity: 0;
+}
+.w {
+  display: inline-block;
+  white-space: nowrap;
+  margin: 0 .12em;
+  opacity: 0;
+}
+.hl {
+  position: relative;
+  display: inline-block;
+  padding: 0 .08em;
+}
+.hl i {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: .62em;
+  bottom: 0;
+  background: rgba(184,134,43,.45);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  z-index: -1;
+}
+.name {
+  position: absolute;
+  font-family: "Cinzel", serif;
+  font-weight: 700;
+  font-size: 28px;
+  letter-spacing: 0.18em;
+  color: var(--ink2);
+  opacity: 0;
+  white-space: nowrap;
+}
+.hand {
+  position: absolute;
+  font-family: "EB Garamond", serif;
+  font-style: italic;
+  font-size: 46px;
+  color: var(--rust);
+  opacity: 0;
+  white-space: nowrap;
+}
+.ghost {
+  position: absolute;
+  font-family: "Playfair Display", serif;
+  font-weight: 900;
+  font-size: 320px;
+  line-height: 0.85;
+  color: rgba(154,59,34,0.14);
+  white-space: nowrap;
+  opacity: 0;
+}
+.anno * {
+  fill: none;
+  stroke: var(--rust);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.vig {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(70% 62% at 50% 50%, transparent 55%, rgba(60,40,20,.25) 100%);
+}
+</style>
+</head>
+<body>
+
+<div id="stage">
+  <div id="world">
+    <div class="paper"></div>
+
+    <div class="ghost" id="ghost" style="left:480px;top:100px">1769</div>
+
+    <!-- Cutout: Ukiran Mesin Uap Klasik SVG (multiply ke serat kertas) -->
+    <div class="cut" id="cutMachine" style="left:920px;top:160px;width:780px;height:580px;">
+      <svg viewBox="0 0 780 580" style="width:100%;height:100%;overflow:visible;">
+        <!-- Kerangka Penopang Balok Kayu Hitam Engraving -->
+        <rect x="180" y="80" width="30" height="380" fill="#2E2115"/>
+        <rect x="360" y="80" width="30" height="380" fill="#2E2115"/>
+        <line x1="140" y1="95" x2="520" y2="95" stroke="#2E2115" stroke-width="26"/>
+        <line x1="140" y1="460" x2="680" y2="460" stroke="#2E2115" stroke-width="22"/>
+
+        <!-- Balok Ayun (Walking Beam) di Atas -->
+        <line x1="80" y1="120" x2="480" y2="70" stroke="#2E2115" stroke-width="16" stroke-linecap="round"/>
+
+        <!-- Silinder Piston Uap Vertikal -->
+        <rect x="65" y="240" width="110" height="210" fill="none" stroke="#2E2115" stroke-width="8"/>
+        <!-- Garis Arsir Silinder -->
+        <line x1="75" y1="280" x2="165" y2="280" stroke="#2E2115" stroke-width="3"/>
+        <line x1="75" y1="320" x2="165" y2="320" stroke="#2E2115" stroke-width="3"/>
+        <line x1="75" y1="360" x2="165" y2="360" stroke="#2E2115" stroke-width="3"/>
+        <line x1="75" y1="400" x2="165" y2="400" stroke="#2E2115" stroke-width="3"/>
+        <!-- Batang Piston Menghubung ke Balok -->
+        <line x1="120" y1="120" x2="120" y2="240" stroke="#2E2115" stroke-width="6"/>
+
+        <!-- Roda Gila Raksasa (Flywheel) Berarsir Klasik -->
+        <g transform="translate(560, 310)">
+          <circle cx="0" cy="0" r="140" fill="none" stroke="#2E2115" stroke-width="12"/>
+          <circle cx="0" cy="0" r="125" fill="none" stroke="#2E2115" stroke-width="3" stroke-dasharray="4 6"/>
+          <circle cx="0" cy="0" r="28" fill="#2E2115"/>
+          <!-- Jari-jari Roda -->
+          <line x1="-140" y1="0" x2="140" y2="0" stroke="#2E2115" stroke-width="7"/>
+          <line x1="0" y1="-140" x2="0" y2="140" stroke="#2E2115" stroke-width="7"/>
+          <line x1="-100" y1="-100" x2="100" y2="100" stroke="#2E2115" stroke-width="7"/>
+          <line x1="-100" y1="100" x2="100" y2="-100" stroke="#2E2115" stroke-width="7"/>
+        </g>
+        <!-- Engkol Penghubung Beam ke Roda -->
+        <line x1="480" y1="70" x2="560" y2="310" stroke="#2E2115" stroke-width="8"/>
+      </svg>
+    </div>
+
+    <!-- Teks Kolom Sejarah Klasik Kiri -->
+    <div id="docHeader" style="position:absolute;left:140px;top:160px;opacity:0;">
+      <div style="font-family:'Cinzel',serif;font-size:18px;letter-spacing:0.25em;color:var(--rust);font-weight:700;">BAB III &bull; ENERGI BARU</div>
+      <div style="font-family:'Playfair Display',serif;font-size:72px;font-weight:900;color:var(--ink);line-height:1.05;margin:12px 0 16px;">
+        Mesin yang Mengubah Abad
+      </div>
+      <div style="font-family:'EB Garamond',serif;font-size:24px;font-style:italic;color:var(--ink2);max-width:540px;line-height:1.4;">
+        "Batu bara dibakar, air mendidih, dan untuk pertama kalinya tenaga manusia dilipatgandakan oleh uap."
+      </div>
+      <div style="margin-top:24px;border-top:1px solid rgba(91,70,52,0.3);padding-top:10px;font-family:'Cinzel',serif;font-size:15px;color:var(--ink2);letter-spacing:0.15em;">
+        PATEN NO. 913 &bull; TAHUN 1769 &bull; GLASGOW
+      </div>
+    </div>
+
+    <!-- Anotasi Sketsa Karat -->
+    <svg class="anno" id="annoA" style="position:absolute;inset:0;width:1920px;height:1080px;overflow:visible;pointer-events:none;">
+      <!-- Lingkaran Arsir Penunjuk Roda Flywheel -->
+      <path id="annoCircle" d="M 1400 480 C 1340 370 1420 220 1560 250 C 1680 280 1710 430 1600 520 C 1510 580 1380 540 1360 440" stroke="#9A3B22" stroke-width="4" stroke-linecap="round" fill="none"/>
+    </svg>
+
+    <div class="hand" id="handNote" style="left:1280px;top:660px;">
+      roda gila penyeimbang energi ~
+    </div>
+
+    <!-- Kalimat Narasi Utama -->
+    <div class="line" id="line1" style="left:140px;top:840px;">
+      James Watt menemukan cara agar tenaga uap <span class="hl"><i></i>menggantikan jutaan otot</span>.
+    </div>
+  </div>
+  <div class="vig"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const W = 1920, H = 1080, DUR = 10;
+
+function fit() {
+  const s = Math.min(innerWidth / W, innerHeight / H);
+  $('#stage').style.transform = `translate(-50%,-50%) scale(${s})`;
+}
+addEventListener('resize', fit);
+fit();
+
+// Pecah kalimat per kata
+$$('.line').forEach(el => {
+  const out = [];
+  el.childNodes.forEach(n => {
+    if (n.nodeType === 3) {
+      n.textContent.split(/\s+/).filter(Boolean).forEach(w => {
+        const s = document.createElement('span');
+        s.className = 'w';
+        s.textContent = w;
+        out.push(s);
+      });
+    } else {
+      const s = document.createElement('span');
+      s.className = 'w';
+      s.appendChild(n.cloneNode(true));
+      out.push(s);
+    }
+  });
+  el.textContent = '';
+  out.forEach(s => el.appendChild(s));
+});
+
+const tl = gsap.timeline({ repeat: -1 });
+const rig = $('#world');
+const C = { x: 960, y: 540, z: 1 };
+
+function applyCam() {
+  rig.style.transform = `translate(${960 - C.x * C.z}px, ${540 - C.y * C.z}px) scale(${C.z})`;
+}
+
+// 1. Mulai: Close-up ke Roda Gila Mesin Uap
+tl.set(C, { x: 1480, y: 450, z: 1.7, onUpdate: applyCam }, 0);
+tl.fromTo('#ghost', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.0, ease: 'power2.out' }, 0.2);
+
+// Ukiran mesin uap muncul
+tl.fromTo('#cutMachine', { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1, duration: 1.0, ease: 'power2.out' }, 0.2);
+
+// 2. Kamera Meluncur ke Kiri Menatap Teks Dokumen
+tl.to(C, { x: 420, y: 380, z: 1.4, duration: 1.8, ease: 'power2.inOut', onUpdate: applyCam }, 1.8);
+tl.fromTo('#docHeader', { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, 2.4);
+
+// 3. Zoom Out ke Pandangan Penuh Seluruh Sketsa
+tl.to(C, { x: 960, y: 540, z: 1.0, duration: 1.6, ease: 'power3.out', onUpdate: applyCam }, 3.8);
+
+// Anotasi lingkaran karat digambar (draw)
+tl.fromTo('#annoCircle', { strokeDasharray: 900, strokeDashoffset: 900 }, { strokeDashoffset: 0, duration: 1.0, ease: 'power2.out' }, 4.8);
+tl.fromTo('#handNote', { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 5.4);
+
+// 4. Narasi per kata dengan highlight emas transparan
+tl.set('#line1', { opacity: 1 }, 5.8);
+tl.fromTo($$('#line1 .w'), { opacity: 0, yPercent: 60 }, { opacity: 1, yPercent: 0, duration: 0.55, stagger: 0.08, ease: 'power4.out' }, 5.8);
+tl.fromTo('#line1 .hl i', { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: 'power2.out' }, 6.8);
+
+// Kamera bernapas halus
+tl.to(C, { z: 1.02, duration: 2.5, ease: 'sine.inOut', yoyo: true, repeat: 1, onUpdate: applyCam }, 6.5);
+
+// Tahan hingga detik 10 lalu loop
+tl.to({}, { duration: 1.0 }, DUR);
+</script>
+
+</body>
+</html>

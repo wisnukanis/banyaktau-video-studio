@@ -33,10 +33,10 @@ export async function runPreflight() {
   ));
   checks.push(checkValue(
     "STOCK_PROVIDER",
-    Boolean(config.stock.pexelsApiKey || config.stock.pixabayApiKey),
-    (config.stock.pexelsApiKey || config.stock.pixabayApiKey)
-      ? "Stock footage gratis aktif; gambar AI hanya dipakai sebagai fallback."
-      : "PEXELS_API_KEY/PIXABAY_API_KEY kosong; pipeline akan memakai gambar AI berbayar sebagai fallback.",
+    Boolean(config.stock.pexelsApiKey || config.stock.pixabayApiKey || config.stock.coverrApiKey),
+    (config.stock.pexelsApiKey || config.stock.pixabayApiKey || config.stock.coverrApiKey)
+      ? "Stock footage gratis aktif (Pexels / Pixabay / Coverr); gambar AI hanya dipakai sebagai fallback."
+      : "PEXELS_API_KEY/PIXABAY_API_KEY/COVERR_API_KEY kosong; pipeline akan memakai gambar AI berbayar sebagai fallback.",
     false
   ));
   if (remoteEnabled() && remote.driver !== "github") {
@@ -62,6 +62,12 @@ export async function runPreflight() {
       Boolean(config.instagram.accessToken || config.facebook.userAccessToken || config.facebook.accessToken),
       "Access token Instagram atau token Meta/Facebook yang punya izin instagram_content_publish."
     ));
+  }
+
+  if (config.youtube.enabled) {
+    checks.push(checkValue("YOUTUBE_CLIENT_ID", Boolean(config.youtube.clientId), "Client ID OAuth YouTube wajib diisi."));
+    checks.push(checkValue("YOUTUBE_CLIENT_SECRET", Boolean(config.youtube.clientSecret), "Client Secret OAuth YouTube wajib diisi."));
+    checks.push(checkValue("YOUTUBE_REFRESH_TOKEN", Boolean(config.youtube.refreshToken), "Refresh token YouTube wajib diisi. Jalankan 'npm run auth:youtube'."));
   }
 
   checks.push(await checkFile("background_music", path.join(paths.rootDir, "assets", "music", "eksplorasi-literasi.m4a")));

@@ -85,3 +85,60 @@ export function splitLines(value, maxChars = 34, maxLines = 0) {
   }
   return lines;
 }
+
+export function extractKeywordHighlight(narration, screenText = "") {
+  const text = String(narration || "").trim();
+  if (!text) return "";
+
+  // 1. Prioritaskan angka, statistik, tahun, atau satuan numerik
+  const numMatch = text.match(/\b\d+[\d.,]*\s*(?:tahun|meter|km|derajat|kg|ton|persen|%|ribu|juta|miliar|sm|masehi)?\b/i);
+  if (numMatch && numMatch[0].length >= 2) {
+    return numMatch[0].trim();
+  }
+
+  // 2. Cocokkan kata penting dari screenText jika muncul dalam narasi
+  if (screenText) {
+    const cleanSc = String(screenText).replace(/[^\w\s]/g, " ").trim();
+    const scWords = cleanSc.split(/\s+/).filter((w) => w.length >= 4);
+    for (const w of scWords) {
+      const idx = text.toLowerCase().indexOf(w.toLowerCase());
+      if (idx !== -1) {
+        const words = text.split(/\s+/);
+        const wIdx = words.findIndex((item) => item.toLowerCase().includes(w.toLowerCase()));
+        if (wIdx !== -1) {
+          const start = Math.max(0, wIdx);
+          const end = Math.min(words.length, wIdx + 2);
+          return words.slice(start, end).join(" ").replace(/[.,!?;:]+$/g, "");
+        }
+      }
+    }
+  }
+
+  // 3. Cari kata benda / istilah spesifik (bukan stopword)
+  const stopWords = new Set([
+    "yang", "untuk", "pada", "dengan", "adalah", "seperti", "karena", "tetapi", "namun",
+    "mereka", "kita", "kamu", "bisa", "akan", "telah", "sudah", "dalam", "bahwa", "tidak",
+    "bukan", "hanya", "sangat", "lebih", "selalu", "sering", "secara", "tentang", "ketika", "saat",
+    "yaitu", "yakni", "selain", "hingga", "sampai", "kemudian", "bahkan"
+  ]);
+
+  const words = text.split(/\s+/).filter(Boolean);
+  const candidates = words.filter((w) => {
+    const clean = w.replace(/[^\w]/g, "").toLowerCase();
+    return clean.length >= 4 && !stopWords.has(clean);
+  });
+
+  if (candidates.length > 0) {
+    const chosen = candidates[0].replace(/[.,!?;:]+$/g, "");
+    const chosenIdx = words.findIndex((w) => w.includes(chosen));
+    if (chosenIdx !== -1) {
+      const nextWord = words[chosenIdx + 1] ? words[chosenIdx + 1].replace(/[.,!?;:]+$/g, "") : "";
+      if (nextWord && !stopWords.has(nextWord.toLowerCase()) && nextWord.length >= 3) {
+        return `${chosen} ${nextWord}`;
+      }
+    }
+    return chosen;
+  }
+
+  return "";
+}

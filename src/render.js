@@ -8,7 +8,7 @@ import { setProgress, resetProgress } from "./progress.js";
 
 const fps = 30;
 const introDuration = 3.0;
-const outroDuration = 1.5;
+const outroDuration = 3.8;
 const outroSummaryMaxChars = 36;
 const outroSummaryMaxLines = 5;
 
@@ -58,12 +58,12 @@ function getAvatarParams(avatarMode) {
   } else if (modeLower.includes("hijau") || modeLower.includes("green")) {
     // Use colorkey (RGB space) with centered green color 0x3b9b4a (RGB 59, 155, 74)
     // to perfectly key out center background without eating into the capybara.
-    // Crop tightly at crop=820:1080:580:0 to exclude the dark vignette corners entirely.
+    // Crop tightly at crop=820:1040:580:0 to exclude the dark vignette corners and floor grass entirely.
     keyType = "colorkey";
     chromaColor = "0x3b9b4a";
-    chromaSim = "0.18";
+    chromaSim = "0.19";
     chromaBlend = "0.08";
-    avatarCrop = "crop=820:1080:580:0,";
+    avatarCrop = "crop=820:1040:580:0,";
   } else if (isCircleCrop) {
     avatarCrop = "crop=min(iw\\,ih):min(iw\\,ih),";
   } else {
@@ -79,20 +79,20 @@ function getAvatarFilterComplex({ inputLabel, size, duration, chromaColor, chrom
   const rot = rotateAngle;
   if (isCircleCrop) {
     return [
-      `${inputLabel}${avatarCrop}scale=${size}:${size},format=rgba,geq=r='if(gt((X-${size/2})*(X-${size/2})+(Y-${size/2})*(Y-${size/2}),${(size/2 - 5)*(size/2 - 5)}),255,r(X,Y))':g='if(gt((X-${size/2})*(X-${size/2})+(Y-${size/2})*(Y-${size/2}),${(size/2 - 5)*(size/2 - 5)}),255,g(X,Y))':b='if(gt((X-${size/2})*(X-${size/2})+(Y-${size/2})*(Y-${size/2}),${(size/2 - 5)*(size/2 - 5)}),255,b(X,Y))':a='if(gt((X-${size/2})*(X-${size/2})+(Y-${size/2})*(Y-${size/2}),${(size/2)*(size/2)}),0,255)',rotate='${rot}*sin(4.5*t)*PI/180:c=none:ow=rotw(${rot}*PI/180):oh=roth(${rot}*PI/180)'[av]`
+      `${inputLabel}${avatarCrop}scale=${size}:${size}:flags=lanczos,unsharp=5:5:0.8:3:3:0.4,format=rgba,geq=r='if(gt((X-${size/2})*(X-${size/2})+(Y-${size/2})*(Y-${size/2}),${(size/2 - 5)*(size/2 - 5)}),255,r(X,Y))':g='if(gt((X-${size/2})*(X-${size/2})+(Y-${size/2})*(Y-${size/2}),${(size/2 - 5)*(size/2 - 5)}),255,g(X,Y))':b='if(gt((X-${size/2})*(X-${size/2})+(Y-${size/2})*(Y-${size/2}),${(size/2 - 5)*(size/2 - 5)}),255,b(X,Y))':a='if(gt((X-${size/2})*(X-${size/2})+(Y-${size/2})*(Y-${size/2}),${(size/2)*(size/2)}),0,255)',rotate='${rot}*sin(4.5*t)*PI/180:c=none:ow=rotw(${rot}*PI/180):oh=roth(${rot}*PI/180)'[av]`
     ].join(";");
   }
 
   // Build the key filter string: colorkey (RGB) or chromakey (YUV)
   let keyFilter = `${keyType}=${chromaColor}:${chromaSim}:${chromaBlend}`;
   // Enable despill for green background keys to completely remove green spill/halo
-  const isGreenKey = chromaColor === "0x07f506" || chromaColor === "0x1f7328" || chromaColor === "0x1d6e25";
+  const isGreenKey = chromaColor === "0x07f506" || chromaColor === "0x1f7328" || chromaColor === "0x1d6e25" || chromaColor === "0x3b9b4a";
   if (isGreenKey) {
     keyFilter += ",despill=type=green";
   }
 
   return [
-    `${inputLabel}${avatarCrop}${keyFilter},scale=-1:${size},format=rgba[av_raw]`,
+    `${inputLabel}${avatarCrop}${keyFilter},scale=-1:${size}:flags=lanczos,unsharp=5:5:0.8:3:3:0.4,format=rgba[av_raw]`,
     `[av_raw]rotate='${rot}*sin(4.5*t)*PI/180:c=none:ow=rotw(${rot}*PI/180):oh=roth(${rot}*PI/180)'[av]`
   ].join(";");
 }
@@ -333,12 +333,14 @@ function buildOutroScene(item, lastScene) {
 }
 
 function resolveSceneMedia(item, scene) {
+  const sourceIndex = scene.imageSourceSceneIndex || scene.index;
+  const clip = item.assets?.clips?.find((entry) => Number(entry.sceneIndex) === Number(sourceIndex))
+    || (scene.kind === "intro" ? (item.assets?.clips?.find((c) => Number(c.sceneIndex) === 1) || item.assets?.clips?.[0]) : null);
+  if (clip?.path) return { type: "clip", path: clip.path };
+
   if (scene.kind === "intro" && item.assets?.thumbnail?.path) {
     return { type: "image", path: item.assets.thumbnail.path };
   }
-  const sourceIndex = scene.imageSourceSceneIndex || scene.index;
-  const clip = item.assets?.clips?.find((entry) => Number(entry.sceneIndex) === Number(sourceIndex));
-  if (clip?.path) return { type: "clip", path: clip.path };
   const image = item.assets?.images?.find((entry) => Number(entry.sceneIndex) === Number(sourceIndex));
   if (!image?.path) throw new Error(`Gambar untuk scene ${sourceIndex} belum tersedia.`);
   return { type: "image", path: image.path };
@@ -895,6 +897,41 @@ function generateKaraokeCaptionEvents(item, timing, subtitleEnd) {
     return timingStart + Number(t) / tempo;
   };
 
+  // Kumpulkan kata kunci penting dari rencana video untuk efek stabilo
+  const keywordSet = new Set();
+  const rawKeywords = [];
+  for (const s of item.plan?.scenes || []) {
+    if (s.highlight) rawKeywords.push(s.highlight);
+    if (s.screenText) rawKeywords.push(s.screenText);
+  }
+  for (const p of item.plan?.importantPoints || []) {
+    rawKeywords.push(p);
+  }
+  if (item.title) rawKeywords.push(item.title);
+
+  const stopWords = new Set([
+    "YANG", "UNTUK", "PADA", "DENGAN", "ADALAH", "SEPERTI", "KARENA", "TETAPI", "NAMUN",
+    "MEREKA", "KITA", "KAMU", "BISA", "AKAN", "TELAH", "SUDAH", "DALAM", "BAHWA", "TIDAK",
+    "BUKAN", "HANYA", "SANGAT", "LEBIH", "SELALU", "SERING", "SECARA", "TENTANG", "KETIKA", "SAAT",
+    "DAN", "ATAU", "DARI", "INI", "ITU", "KE", "DI", "POIN", "FAKTA"
+  ]);
+
+  for (const phrase of rawKeywords) {
+    const tokens = String(phrase || "").toUpperCase().split(/[^A-Z0-9%]+/);
+    for (const token of tokens) {
+      if (token.length >= 3 && !stopWords.has(token)) {
+        keywordSet.add(token);
+      }
+    }
+  }
+
+  const isKeywordWord = (w) => {
+    const clean = String(w || "").replace(/[^A-Z0-9]/g, "");
+    if (!clean) return false;
+    if (/\d/.test(clean)) return true; // Angka, persentase, tahun selalu kata kunci
+    return keywordSet.has(clean);
+  };
+
   const chunks = [];
   let currentChunk = [];
 
@@ -925,7 +962,7 @@ function generateKaraokeCaptionEvents(item, timing, subtitleEnd) {
   for (const chunk of chunks) {
     const chunkStart = toTimelineTime(chunk[0].start);
     const chunkEnd = toTimelineTime(chunk[chunk.length - 1].end);
-    const wordsText = chunk.map(w => normalizeSubtitleText(w.word).toUpperCase());
+    const wordsText = chunk.map((w) => normalizeSubtitleText(w.word).toUpperCase());
 
     for (let i = 0; i < chunk.length; i++) {
       const activeWord = chunk[i];
@@ -943,8 +980,17 @@ function generateKaraokeCaptionEvents(item, timing, subtitleEnd) {
 
       if (endTimeline - startTimeline >= 0.05) {
         const textParts = wordsText.map((word, idx) => {
+          const isKw = isKeywordWord(word);
           if (idx === i) {
-            return `{\\c&H0024E0FF&}${word}{\\c&HFFFFFF&}`;
+            // Efek Stabilo Kuning Neon untuk kata aktif yang sedang diucapkan
+            if (isKw) {
+              return `{\\fscx112\\fscy112\\bord11\\3c&H0000E6FF&\\c&H00000000&}${word}{\\fscx100\\fscy100\\bord4.5\\3c&H00000000&\\c&H00FFFFFF&}`;
+            }
+            return `{\\fscx108\\fscy108\\bord10\\3c&H0000E6FF&\\c&H00050505&}${word}{\\fscx100\\fscy100\\bord4.5\\3c&H00000000&\\c&H00FFFFFF&}`;
+          }
+          if (isKw) {
+            // Kata kunci belum/sudah dibaca: tetap diberi warna highlight stabilo agar mata penonton tertuju ke poin penting
+            return `{\\c&H0000E6FF&}${word}{\\c&H00FFFFFF&}`;
           }
           return word;
         });
@@ -992,14 +1038,14 @@ function outroOverlayEvents(item, start, end) {
   const summaryY = isHorizontal ? 510 : 840;
   const brandY = isHorizontal ? 780 : 1160;
 
-  const fade = "{\\fad(200,300)}";
-  const kicker = assEscape("KESIMPULAN FAKTA");
+  const fade = "{\\fad(250,300)}";
+  const kicker = assEscape("📌 RANGKUMAN INTI FAKTA");
   const summary = assEscape(outroSummaryText(item));
-  const prompt = assEscape("Ikuti BanyakTau untuk fakta unik lainnya!");
+  const prompt = assEscape("👉 FOLLOW @BanyakTau & Tulis Pendapatmu!");
   return [
     dialogue(start + 0.1, end, "OutroKicker", `${fade}{\\an5\\pos(${centerX},${kickerY})}${kicker}`),
     dialogue(start + 0.35, end, "OutroSummary", `${fade}{\\an5\\pos(${centerX},${summaryY})}${summary}`),
-    dialogue(start + 0.6, end, "OutroBrand", `${fade}{\\an5\\pos(${centerX},${brandY})}${prompt}`)
+    dialogue(start + 0.65, end, "OutroBrand", `${fade}{\\an5\\pos(${centerX},${brandY})}${prompt}`)
   ];
 }
 
