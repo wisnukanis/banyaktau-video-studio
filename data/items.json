@@ -14542,5 +14542,335 @@
         "publishedAt": "2026-09-16T15:25:44.036Z"
       }
     }
+  },
+  {
+    "id": "tau_e706f89a7f7e",
+    "source": "openai",
+    "status": "rendered",
+    "project_id": "capybara_banyak_tau_id",
+    "language": "id-ID",
+    "market": "ID",
+    "version_type": "original",
+    "createdAt": "2026-09-18T07:02:57.181Z",
+    "updatedAt": "2026-09-18T07:30:21.317Z",
+    "input": {
+      "topic": "Fenomena Alam",
+      "category": "Fenomena Alam",
+      "hookStyle": "Gempa NTT tidak hanya sekali, tapi beruntun! Apa yang terjadi di bawah permukaan?",
+      "selectedIdea": {
+        "id": "idea_b9a041069e4e",
+        "title": "Dinamika Gempa NTT: Mengapa Terjadi Beruntun",
+        "topic": "Fenomena Alam",
+        "hook": "Gempa NTT tidak hanya sekali, tapi beruntun! Apa yang terjadi di bawah permukaan?",
+        "category": "Fenomena Alam",
+        "angle": "Kupas kekuatan fisik alam, pergerakan bumi, dan dinamika atmosfer di balik fenomena gempa bumi.",
+        "whyGood": "Menarik perhatian dengan mengaitkan bencana nyata dan penjelasan ilmiah yang mendalam."
+      },
+      "tone": "narator dokumenter TV Indonesia pria dewasa, tenang, berwibawa, tempo sedang, cerdas, tepercaya, jeda alami, transisi halus, tanpa emosi berlebih",
+      "longForm": false,
+      "durationSec": 90,
+      "sceneCount": 7,
+      "ttsProvider": "openai",
+      "imageSize": "1024x1792",
+      "imageQuality": "standard",
+      "elevenlabsVoiceId": "",
+      "elevenlabsModel": "",
+      "openaiTtsVoice": "",
+      "avatarMode": "avatar hijau 1.mp4",
+      "videoFormat": "vertical",
+      "visualSource": "interleaved"
+    },
+    "title": "Dinamika Gempa NTT: Mengapa Terjadi Beruntun",
+    "plan": {
+      "title": "Dinamika Gempa NTT: Mengapa Terjadi Beruntun",
+      "hook": "Gempa NTT tidak hanya sekali, tapi beruntun! Apa yang terjadi di bawah permukaan?",
+      "thumbnailHook": "BERUNTUN GEMPA!",
+      "summary": "Dinamika gempa di NTT terjadi akibat pergerakan lempeng tektonik. Penting untuk memahami ini agar kita lebih siap menghadapi bencana.",
+      "importantPoints": [
+        "Gempa bumi beruntun diakibatkan oleh pergerakan lempeng tektonik.",
+        "Tekanan yang terakumulasi dapat menyebabkan gempa susulan.",
+        "Dinamika atmosfer juga berperan dalam stabilitas geologi."
+      ],
+      "factCheckNote": "Narasi ini tidak mengandung klaim palsu dan berdasarkan fakta ilmiah.",
+      "scenes": [
+        {
+          "index": 1,
+          "durationSec": 13.63,
+          "narration": "Gempa NTT tidak hanya sekali, tapi beruntun! Apa yang terjadi di bawah permukaan?",
+          "screenText": "Gempa NTT Beruntun!",
+          "highlight": "Gempa NTT",
+          "imagePrompt": "news headline about NTT earthquake series, topic: Fenomena Alam, visual approach: clean macro detail shot, vertical 9:16, editorial investigative documentary look, bright readable lighting, rich realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "earthquake news report",
+          "visualStyle": "motion",
+          "avatarPose": "surprised",
+          "visualType": "illustration",
+          "illustration": "newspaper"
+        },
+        {
+          "index": 2,
+          "durationSec": 12.86,
+          "narration": "Tapi kenapa hal ini bisa terjadi? Secara sains, gempa bumi beruntun disebabkan oleh pergerakan lempeng tektonik. Di kawasan NTT, lempeng Indo-Australia bertemu dengan lempeng Eurasia, menciptakan tekanan yang besar.",
+          "screenText": "Pergerakan Lempeng Tektonik",
+          "highlight": "pergerakan lempeng",
+          "imagePrompt": "animated tectonic plates movement, topic: Fenomena Alam, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial investigative documentary look, bright readable lighting, rich realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "tectonic plates animation",
+          "visualStyle": "motion",
+          "avatarPose": "thinking",
+          "visualType": "motion",
+          "illustration": "shield"
+        },
+        {
+          "index": 3,
+          "durationSec": 12.86,
+          "narration": "Ketika tekanan ini terakumulasi, ia akan mencari jalan keluar. Ketika lempeng bergerak, energi dilepaskan dalam bentuk getaran, yang kita sebut gempa bumi. Inilah yang menyebabkan gempa susulan dapat terjadi.",
+          "screenText": "Energi Terakumulasi",
+          "highlight": "energi dilepaskan",
+          "imagePrompt": "diagram showing energy release during an earthquake, topic: Fenomena Alam, visual approach: museum archive inspired scene, vertical 9:16, editorial investigative documentary look, bright readable lighting, rich realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "earthquake energy release",
+          "visualStyle": "motion",
+          "avatarPose": "clipboard",
+          "visualType": "motion",
+          "illustration": "flowchart"
+        },
+        {
+          "index": 4,
+          "durationSec": 12.86,
+          "narration": "Tidak hanya itu, dinamika atmosfer juga memengaruhi gempa. Perubahan tekanan udara, seperti saat badai, dapat memicu aktivitas seismik di bawah tanah.",
+          "screenText": "Dinamika Atmosfer",
+          "highlight": "dinamika atmosfer",
+          "imagePrompt": "animation of atmospheric pressure changes, topic: Fenomena Alam, visual approach: bright science explainer composition, vertical 9:16, editorial investigative documentary look, bright readable lighting, rich realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "atmospheric pressure animation",
+          "visualStyle": "motion",
+          "avatarPose": "thinking",
+          "visualType": "motion",
+          "illustration": "concept"
+        },
+        {
+          "index": 5,
+          "durationSec": 12.86,
+          "narration": "Kawasan NTT yang rawan gempa juga memiliki potensi tsunami. Oleh karena itu, penting bagi penduduk untuk selalu waspada dan mengetahui langkah-langkah evakuasi.",
+          "screenText": "Siaga Tsunami",
+          "highlight": "potensi tsunami",
+          "imagePrompt": "tsunami warning signs, topic: Fenomena Alam, visual approach: natural documentary moment, vertical 9:16, editorial investigative documentary look, bright readable lighting, rich realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "tsunami warning signs",
+          "visualStyle": "motion",
+          "avatarPose": "pointing",
+          "visualType": "motion",
+          "illustration": "gauge"
+        },
+        {
+          "index": 6,
+          "durationSec": 12.86,
+          "narration": "Memahami dinamika ini dapat membantu kita beradaptasi dan mempersiapkan diri. Pengetahuan adalah kunci untuk mengurangi risiko saat bencana datang.",
+          "screenText": "Persiapan Bencana",
+          "highlight": "persiapan bencana",
+          "imagePrompt": "community emergency preparedness drills, topic: Fenomena Alam, visual approach: conceptual diagram style without labels, vertical 9:16, editorial investigative documentary look, bright readable lighting, rich realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "emergency preparedness drills",
+          "visualStyle": "motion",
+          "avatarPose": "thumbs_up",
+          "visualType": "motion",
+          "illustration": "vintage"
+        },
+        {
+          "index": 7,
+          "durationSec": 13.11,
+          "narration": "Follow BanyakTau biar wawasanmu makin nambah tiap hari! Menurut kalian fakta ini masuk akal nggak? Tulis di komentar!",
+          "screenText": "Follow BanyakTau!",
+          "highlight": "Follow BanyakTau",
+          "imagePrompt": "call to action to follow, topic: Fenomena Alam, visual approach: clean macro detail shot, vertical 9:16, editorial investigative documentary look, bright readable lighting, rich realistic colors, clear single subject, no written text, no logo, no watermark",
+          "stockQuery": "social media follow",
+          "visualStyle": "motion",
+          "avatarPose": "thumbs_up",
+          "visualType": "motion",
+          "illustration": "callout"
+        }
+      ]
+    },
+    "assets": {
+      "images": [
+        {
+          "sceneIndex": 2,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e706f89a7f7e-scene-2-pergerakan-lempeng-tektonik.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_e706f89a7f7e-scene-2-pergerakan-lempeng-tektonik.jpg",
+          "prompt": "animated tectonic plates movement, topic: Fenomena Alam, visual approach: cinematic everyday object demonstration, vertical 9:16, editorial investigative documentary look, bright readable lighting, rich realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 3,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e706f89a7f7e-scene-3-energi-terakumulasi.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_e706f89a7f7e-scene-3-energi-terakumulasi.jpg",
+          "prompt": "diagram showing energy release during an earthquake, topic: Fenomena Alam, visual approach: museum archive inspired scene, vertical 9:16, editorial investigative documentary look, bright readable lighting, rich realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 4,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e706f89a7f7e-scene-4-dinamika-atmosfer.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_e706f89a7f7e-scene-4-dinamika-atmosfer.jpg",
+          "prompt": "animation of atmospheric pressure changes, topic: Fenomena Alam, visual approach: bright science explainer composition, vertical 9:16, editorial investigative documentary look, bright readable lighting, rich realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 5,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e706f89a7f7e-scene-5-siaga-tsunami.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_e706f89a7f7e-scene-5-siaga-tsunami.jpg",
+          "prompt": "tsunami warning signs, topic: Fenomena Alam, visual approach: natural documentary moment, vertical 9:16, editorial investigative documentary look, bright readable lighting, rich realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 6,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e706f89a7f7e-scene-6-persiapan-bencana.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_e706f89a7f7e-scene-6-persiapan-bencana.jpg",
+          "prompt": "community emergency preparedness drills, topic: Fenomena Alam, visual approach: conceptual diagram style without labels, vertical 9:16, editorial investigative documentary look, bright readable lighting, rich realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        },
+        {
+          "sceneIndex": 7,
+          "provider": "openai",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\images\\tau_e706f89a7f7e-scene-7-follow-banyaktau.jpg",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/images/tau_e706f89a7f7e-scene-7-follow-banyaktau.jpg",
+          "prompt": "call to action to follow, topic: Fenomena Alam, visual approach: clean macro detail shot, vertical 9:16, editorial investigative documentary look, bright readable lighting, rich realistic colors, clear single subject, no written text, no logo, no watermark, vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+        }
+      ],
+      "clips": [
+        {
+          "sceneIndex": 1,
+          "provider": "pexels",
+          "model": "stock-footage",
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e706f89a7f7e-scene-1-stock.mp4",
+          "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/clips/tau_e706f89a7f7e-scene-1-stock.mp4",
+          "downloadUrl": "https://videos.pexels.com/video-files/31273506/13356276_1080_1920_60fps.mp4",
+          "prompt": "earthquake news report",
+          "seconds": 15,
+          "targetDurationSec": 13.63,
+          "aspectRatio": "9:16",
+          "resolution": "720p"
+        },
+        {
+          "sceneIndex": 2,
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e706f89a7f7e-scene-2-motion.mp4",
+          "filename": "tau_e706f89a7f7e-scene-2-motion.mp4",
+          "provider": "bang-motion",
+          "seconds": 12.86,
+          "costUsd": 0,
+          "illustration": "shield"
+        },
+        {
+          "sceneIndex": 3,
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e706f89a7f7e-scene-3-motion.mp4",
+          "filename": "tau_e706f89a7f7e-scene-3-motion.mp4",
+          "provider": "bang-motion",
+          "seconds": 12.86,
+          "costUsd": 0,
+          "illustration": "flowchart"
+        },
+        {
+          "sceneIndex": 4,
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e706f89a7f7e-scene-4-motion.mp4",
+          "filename": "tau_e706f89a7f7e-scene-4-motion.mp4",
+          "provider": "bang-motion",
+          "seconds": 12.86,
+          "costUsd": 0,
+          "illustration": "concept"
+        },
+        {
+          "sceneIndex": 5,
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e706f89a7f7e-scene-5-motion.mp4",
+          "filename": "tau_e706f89a7f7e-scene-5-motion.mp4",
+          "provider": "bang-motion",
+          "seconds": 12.86,
+          "costUsd": 0,
+          "illustration": "gauge"
+        },
+        {
+          "sceneIndex": 6,
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e706f89a7f7e-scene-6-motion.mp4",
+          "filename": "tau_e706f89a7f7e-scene-6-motion.mp4",
+          "provider": "bang-motion",
+          "seconds": 12.86,
+          "costUsd": 0,
+          "illustration": "vintage"
+        },
+        {
+          "sceneIndex": 7,
+          "path": "C:\\xampp\\htdocs\\videoasal\\generated\\clips\\tau_e706f89a7f7e-scene-7-motion.mp4",
+          "filename": "tau_e706f89a7f7e-scene-7-motion.mp4",
+          "provider": "bang-motion",
+          "seconds": 13.11,
+          "costUsd": 0,
+          "illustration": "callout"
+        }
+      ],
+      "audio": {
+        "provider": "openai",
+        "model": "tts-1",
+        "voice": "onyx",
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\audio\\tau_e706f89a7f7e-openai-natural-narration.mp3",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/audio/tau_e706f89a7f7e-openai-natural-narration.mp3",
+        "characters": 1084
+      },
+      "video": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_e706f89a7f7e-openai-dinamika-gempa-ntt-mengapa-terjadi-beruntun.mp4",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_e706f89a7f7e-openai-dinamika-gempa-ntt-mengapa-terjadi-beruntun.mp4",
+        "provider": "openai",
+        "durationSec": 74.4,
+        "scenes": 7
+      },
+      "captions": [
+        {
+          "start": 0,
+          "end": 0,
+          "text": "Gempa NTT tidak hanya sekali, tapi beruntun. Apa yang terjadi di bawah permukaan? Tapi kenapa hal ini bisa terjadi? Secara sains, gempa bumi beruntun disebabkan oleh pergerakan lempeng tektonik. Di kawasan NTT, lempeng Indo-Australia bertemu dengan lempeng Eurasia, menciptakan tekanan yang besar. Ketika tekanan ini terakumulasi, ia akan mencari jalan keluar. Ketika lempeng bergerak, energi dilepaskan dalam bentuk getaran yang kita sebut gempa bumi. Inilah yang menyebabkan gempa susulan dapat terjadi. Tidak hanya itu, dinamika atmosfer juga memengaruhi gempa. Perubahan tekanan udara, seperti saat badai, dapat memicu aktivitas seismik di bawah tanah. Kawasan NTT yang rawan gempa juga memiliki potensi tsunami. Oleh karena itu, penting bagi penduduk untuk selalu waspada dan mengetahui langkah-langkah evakuasi. Memahami dinamika ini dapat membantu kita beradaptasi dan mempersiapkan diri. Pengetahuan adalah kunci untuk mengurangi risiko saat bencana datang. Follow banyak tau biar wawasanmu makin nambah tiap hari. Menurut kalian fakta ini masuk akal nggak? Tulis di komentar."
+        }
+      ],
+      "thumbnail": {
+        "path": "C:\\xampp\\htdocs\\videoasal\\generated\\thumbnails\\tau_e706f89a7f7e-thumbnail-dinamika-gempa-ntt-mengapa-terjadi-beruntun.jpg",
+        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/thumbnails/tau_e706f89a7f7e-thumbnail-dinamika-gempa-ntt-mengapa-terjadi-beruntun.jpg",
+        "provider": "ffmpeg-collage",
+        "layout": "vertical-cinematic",
+        "aspectRatio": "9:16"
+      }
+    },
+    "cost": {
+      "inputTokens": 4730,
+      "outputTokens": 1374,
+      "totalTokens": 6104,
+      "storyUsd": 0.00409,
+      "imageUnitUsd": 0.04,
+      "imageUsd": 0.28,
+      "ttsUsd": 0.01626,
+      "totalUsd": 0.30035,
+      "videoUsd": 0
+    },
+    "progress": {
+      "percent": 100,
+      "stage": "completed",
+      "message": "Video final selesai dibuat!"
+    },
+    "quality_notes": {
+      "fact_safety_score": 0,
+      "hook_score": 0,
+      "caption_readability_score": 0,
+      "visual_reuse_score": 0,
+      "warnings": [],
+      "lastRenderCheck": {
+        "at": "2026-09-18T07:30:21.489Z",
+        "ok": true,
+        "actualDurationSec": 74.4,
+        "targetDurationSec": 90
+      }
+    },
+    "publish": {
+      "facebook": {
+        "ok": true,
+        "type": "facebook_reel",
+        "videoId": "1058782226951923",
+        "postId": "122132797821342479",
+        "url": "https://www.facebook.com/reel/1058782226951923",
+        "publishedAt": "2026-09-18T07:31:14.127Z"
+      },
+      "errors": {
+        "instagram": "Gagal mengunggah file biner Instagram Reel: {\"debug_info\":{\"retriable\":false,\"type\":\"ProcessingFailedError\",\"message\":\"Request processing failed\"}}"
+      }
+    }
   }
 ]
