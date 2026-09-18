@@ -888,7 +888,7 @@ export function generateMotionHtml(payload = {}, options = {}) {
       }
     }
 
-    const isInterleaved = Boolean(payload.isInterleavedClip);
+    const isInterleaved = Boolean(payload.isInterleavedClip || payload.hideNarrationText);
     if (isVertical) {
       if (isInterleaved) {
         return `
@@ -914,6 +914,15 @@ export function generateMotionHtml(payload = {}, options = {}) {
       `;
     } else {
       // 16:9 Layout
+      if (isInterleaved) {
+        return `
+          <!-- Adegan #${s.idx + 1} (Horizontal 16:9 Clean) -->
+          <div class="ghost" id="ghost_${s.idx}" style="left:${posX + 480}px;top:${posY + 80}px">${escapeHtml(s.ghost)}</div>
+          <div class="cut" id="cut_${s.idx}" style="left:${posX + 260}px;top:${posY + 140}px;width:1400px;height:800px">
+            ${renderCardInner(s)}
+          </div>
+        `;
+      }
       return `
         <!-- Adegan #${s.idx + 1} (Horizontal 16:9) -->
         <div class="ghost" id="ghost_${s.idx}" style="left:${posX + 480}px;top:${posY + 100}px">${escapeHtml(s.ghost)}</div>

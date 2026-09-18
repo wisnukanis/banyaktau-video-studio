@@ -468,7 +468,9 @@ export async function ensureMotionVideo(item, options = {}) {
     theme,
     totalDurationSec: durationSec,
     voiceoverPath: item.assets.audio?.path || null,
-    scenes
+    scenes,
+    isInterleavedClip: true,
+    hideNarrationText: true
   });
 
   const outputPath = path.join(paths.videoDir, `${item.id}-motion.mp4`);
