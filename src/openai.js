@@ -261,6 +261,7 @@ async function transcribeSpeechSegmentsWithModel(audioPath, model, responseForma
   form.append("response_format", responseFormat);
   if (responseFormat === "verbose_json") {
     form.append("timestamp_granularities[]", "word");
+    form.append("timestamp_granularities[]", "segment");
   }
 
   const response = await fetch(`${config.openai.baseUrl}/audio/transcriptions`, {
@@ -269,26 +270,76 @@ async function transcribeSpeechSegmentsWithModel(audioPath, model, responseForma
     body: form
   });
   const data = await parseOpenAiResponse(response);
-  const segments = Array.isArray(data.segments) ? data.segments : [];
-  if (segments.length) {
-    return segments
-      .map((segment) => ({
-        start: Number(segment.start || 0),
-        end: Number(segment.end || 0),
-        text: String(segment.text || "").replace(/\s+/g, " ").trim(),
-        words: Array.isArray(segment.words)
+
+  const rawSegments = Array.isArray(data.segments) ? data.segments : [];
+  const rawWords = Array.isArray(data.words) ? data.words : [];
+
+  const cleanWords = rawWords
+    .map((w) => ({
+      word: String(w.word || "").trim(),
+      start: Number(w.start || 0),
+      end: Number(w.end || 0)
+    }))
+    .filter((w) => w.word && w.end >= w.start);
+
+  if (rawSegments.length) {
+    let wordIdx = 0;
+    return rawSegments
+      .map((segment) => {
+        const segStart = Number(segment.start || 0);
+        const segEnd = Number(segment.end || 0);
+        const segText = String(segment.text || "").replace(/\s+/g, " ").trim();
+
+        let segWords = Array.isArray(segment.words)
           ? segment.words.map((w) => ({
               word: String(w.word || "").trim(),
               start: Number(w.start || 0),
               end: Number(w.end || 0)
-            }))
-          : []
-      }))
+            })).filter((w) => w.word)
+          : [];
+
+        if (!segWords.length && cleanWords.length) {
+          while (wordIdx < cleanWords.length && cleanWords[wordIdx].start < segEnd - 0.01) {
+            segWords.push(cleanWords[wordIdx]);
+            wordIdx++;
+          }
+        }
+
+        return {
+          start: segStart,
+          end: segEnd,
+          text: segText,
+          words: segWords
+        };
+      })
       .filter((segment) => segment.text && segment.end > segment.start);
   }
 
+  // Jika segments kosong tetapi ada cleanWords (word timestamps), buat segments dari kata-kata tersebut
+  if (cleanWords.length) {
+    const segmentsFromWords = [];
+    let currentWords = [];
+    for (let i = 0; i < cleanWords.length; i++) {
+      currentWords.push(cleanWords[i]);
+      const isLast = i === cleanWords.length - 1;
+      const endsWithPunct = /[.!?]$/.test(cleanWords[i].word);
+      const nextGap = !isLast ? (cleanWords[i + 1].start - cleanWords[i].end) : 0;
+
+      if (isLast || endsWithPunct || nextGap > 0.4 || currentWords.length >= 8) {
+        segmentsFromWords.push({
+          start: currentWords[0].start,
+          end: currentWords[currentWords.length - 1].end,
+          text: currentWords.map((w) => w.word).join(" "),
+          words: [...currentWords]
+        });
+        currentWords = [];
+      }
+    }
+    return segmentsFromWords;
+  }
+
   const text = String(data.text || "").replace(/\s+/g, " ").trim();
-  return text ? [{ start: 0, end: 0, text }] : [];
+  return text ? [{ start: 0, end: 0, text, words: [] }] : [];
 }
 
 export async function requestTextCompletion(systemPrompt, userPrompt) {

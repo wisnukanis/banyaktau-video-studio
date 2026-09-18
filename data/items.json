@@ -14552,7 +14552,7 @@
     "market": "ID",
     "version_type": "original",
     "createdAt": "2026-09-18T07:02:57.181Z",
-    "updatedAt": "2026-09-18T07:30:21.317Z",
+    "updatedAt": "2026-09-18T08:44:13.254Z",
     "input": {
       "topic": "Fenomena Alam",
       "category": "Fenomena Alam",
@@ -14810,7 +14810,7 @@
       },
       "video": {
         "path": "C:\\xampp\\htdocs\\videoasal\\generated\\videos\\tau_e706f89a7f7e-openai-dinamika-gempa-ntt-mengapa-terjadi-beruntun.mp4",
-        "url": "https://raw.githubusercontent.com/wisnukanis/banyaktau-video-studio/main/generated/videos/tau_e706f89a7f7e-openai-dinamika-gempa-ntt-mengapa-terjadi-beruntun.mp4",
+        "url": "/generated/videos/tau_e706f89a7f7e-openai-dinamika-gempa-ntt-mengapa-terjadi-beruntun.mp4",
         "provider": "openai",
         "durationSec": 74.4,
         "scenes": 7
@@ -14818,8 +14818,899 @@
       "captions": [
         {
           "start": 0,
-          "end": 0,
-          "text": "Gempa NTT tidak hanya sekali, tapi beruntun. Apa yang terjadi di bawah permukaan? Tapi kenapa hal ini bisa terjadi? Secara sains, gempa bumi beruntun disebabkan oleh pergerakan lempeng tektonik. Di kawasan NTT, lempeng Indo-Australia bertemu dengan lempeng Eurasia, menciptakan tekanan yang besar. Ketika tekanan ini terakumulasi, ia akan mencari jalan keluar. Ketika lempeng bergerak, energi dilepaskan dalam bentuk getaran yang kita sebut gempa bumi. Inilah yang menyebabkan gempa susulan dapat terjadi. Tidak hanya itu, dinamika atmosfer juga memengaruhi gempa. Perubahan tekanan udara, seperti saat badai, dapat memicu aktivitas seismik di bawah tanah. Kawasan NTT yang rawan gempa juga memiliki potensi tsunami. Oleh karena itu, penting bagi penduduk untuk selalu waspada dan mengetahui langkah-langkah evakuasi. Memahami dinamika ini dapat membantu kita beradaptasi dan mempersiapkan diri. Pengetahuan adalah kunci untuk mengurangi risiko saat bencana datang. Follow banyak tau biar wawasanmu makin nambah tiap hari. Menurut kalian fakta ini masuk akal nggak? Tulis di komentar."
+          "end": 2.5399999618530273,
+          "text": "Gempa NTT tidak hanya sekali, tapi beruntun.",
+          "words": [
+            {
+              "word": "Gempa",
+              "start": 0,
+              "end": 0.3400000035762787
+            },
+            {
+              "word": "NTT",
+              "start": 0.3400000035762787,
+              "end": 0.6800000071525574
+            },
+            {
+              "word": "tidak",
+              "start": 0.6800000071525574,
+              "end": 0.9800000190734863
+            },
+            {
+              "word": "hanya",
+              "start": 0.9800000190734863,
+              "end": 1.2200000286102295
+            },
+            {
+              "word": "sekali",
+              "start": 1.2200000286102295,
+              "end": 1.659999966621399
+            },
+            {
+              "word": "tapi",
+              "start": 1.840000033378601,
+              "end": 1.9800000190734863
+            },
+            {
+              "word": "beruntun",
+              "start": 1.9800000190734863,
+              "end": 2.5399999618530273
+            }
+          ]
+        },
+        {
+          "start": 3.5,
+          "end": 5.239999771118164,
+          "text": "Apa yang terjadi di bawah permukaan?",
+          "words": [
+            {
+              "word": "Apa",
+              "start": 3.5,
+              "end": 3.5199999809265137
+            },
+            {
+              "word": "yang",
+              "start": 3.5199999809265137,
+              "end": 3.680000066757202
+            },
+            {
+              "word": "terjadi",
+              "start": 3.680000066757202,
+              "end": 4
+            },
+            {
+              "word": "di",
+              "start": 4,
+              "end": 4.21999979019165
+            },
+            {
+              "word": "bawah",
+              "start": 4.21999979019165,
+              "end": 4.380000114440918
+            },
+            {
+              "word": "permukaan",
+              "start": 4.380000114440918,
+              "end": 5.239999771118164
+            }
+          ]
+        },
+        {
+          "start": 5.78000020980835,
+          "end": 7.260000228881836,
+          "text": "Tapi kenapa hal ini bisa terjadi?",
+          "words": [
+            {
+              "word": "Tapi",
+              "start": 5.78000020980835,
+              "end": 5.980000019073486
+            },
+            {
+              "word": "kenapa",
+              "start": 5.980000019073486,
+              "end": 6.21999979019165
+            },
+            {
+              "word": "hal",
+              "start": 6.21999979019165,
+              "end": 6.460000038146973
+            },
+            {
+              "word": "ini",
+              "start": 6.460000038146973,
+              "end": 6.579999923706055
+            },
+            {
+              "word": "bisa",
+              "start": 6.579999923706055,
+              "end": 6.840000152587891
+            },
+            {
+              "word": "terjadi",
+              "start": 6.840000152587891,
+              "end": 7.260000228881836
+            }
+          ]
+        },
+        {
+          "start": 8.199999809265137,
+          "end": 12.420000076293945,
+          "text": "Secara sains, gempa bumi beruntun disebabkan oleh pergerakan lempeng tektonik.",
+          "words": [
+            {
+              "word": "Secara",
+              "start": 8.199999809265137,
+              "end": 8.460000038146973
+            },
+            {
+              "word": "sains",
+              "start": 8.460000038146973,
+              "end": 8.9399995803833
+            },
+            {
+              "word": "gempa",
+              "start": 9.34000015258789,
+              "end": 9.5
+            },
+            {
+              "word": "bumi",
+              "start": 9.5,
+              "end": 9.720000267028809
+            },
+            {
+              "word": "beruntun",
+              "start": 9.720000267028809,
+              "end": 10.180000305175781
+            },
+            {
+              "word": "disebabkan",
+              "start": 10.180000305175781,
+              "end": 10.760000228881836
+            },
+            {
+              "word": "oleh",
+              "start": 10.760000228881836,
+              "end": 10.960000038146973
+            },
+            {
+              "word": "pergerakan",
+              "start": 10.960000038146973,
+              "end": 11.4399995803833
+            },
+            {
+              "word": "lempeng",
+              "start": 11.4399995803833,
+              "end": 11.739999771118164
+            },
+            {
+              "word": "tektonik",
+              "start": 11.739999771118164,
+              "end": 12.420000076293945
+            }
+          ]
+        },
+        {
+          "start": 13.359999656677246,
+          "end": 17.219999313354492,
+          "text": "Di kawasan NTT, lempeng Indo-Australia bertemu dengan lempeng Eurasia,",
+          "words": [
+            {
+              "word": "Di",
+              "start": 13.359999656677246,
+              "end": 13.479999542236328
+            },
+            {
+              "word": "kawasan",
+              "start": 13.479999542236328,
+              "end": 13.760000228881836
+            },
+            {
+              "word": "NTT",
+              "start": 13.760000228881836,
+              "end": 14.199999809265137
+            },
+            {
+              "word": "lempeng",
+              "start": 14.760000228881836,
+              "end": 14.800000190734863
+            },
+            {
+              "word": "Indo",
+              "start": 14.800000190734863,
+              "end": 15.199999809265137
+            },
+            {
+              "word": "Australia",
+              "start": 15.199999809265137,
+              "end": 15.619999885559082
+            },
+            {
+              "word": "bertemu",
+              "start": 15.619999885559082,
+              "end": 16.040000915527344
+            },
+            {
+              "word": "dengan",
+              "start": 16.040000915527344,
+              "end": 16.399999618530273
+            },
+            {
+              "word": "lempeng",
+              "start": 16.399999618530273,
+              "end": 16.540000915527344
+            },
+            {
+              "word": "Eurasia",
+              "start": 16.540000915527344,
+              "end": 17.219999313354492
+            }
+          ]
+        },
+        {
+          "start": 17.559999465942383,
+          "end": 18.860000610351562,
+          "text": "menciptakan tekanan yang besar.",
+          "words": [
+            {
+              "word": "menciptakan",
+              "start": 17.559999465942383,
+              "end": 17.979999542236328
+            },
+            {
+              "word": "tekanan",
+              "start": 17.979999542236328,
+              "end": 18.3799991607666
+            },
+            {
+              "word": "yang",
+              "start": 18.3799991607666,
+              "end": 18.600000381469727
+            },
+            {
+              "word": "besar",
+              "start": 18.600000381469727,
+              "end": 18.860000610351562
+            }
+          ]
+        },
+        {
+          "start": 19.6200008392334,
+          "end": 22.3799991607666,
+          "text": "Ketika tekanan ini terakumulasi, ia akan mencari jalan keluar.",
+          "words": [
+            {
+              "word": "Ketika",
+              "start": 19.6200008392334,
+              "end": 19.68000030517578
+            },
+            {
+              "word": "tekanan",
+              "start": 19.68000030517578,
+              "end": 20.079999923706055
+            },
+            {
+              "word": "ini",
+              "start": 20.079999923706055,
+              "end": 20.239999771118164
+            },
+            {
+              "word": "terakumulasi",
+              "start": 20.239999771118164,
+              "end": 20.959999084472656
+            },
+            {
+              "word": "ia",
+              "start": 21.059999465942383,
+              "end": 21.18000030517578
+            },
+            {
+              "word": "akan",
+              "start": 21.18000030517578,
+              "end": 21.440000534057617
+            },
+            {
+              "word": "mencari",
+              "start": 21.440000534057617,
+              "end": 21.65999984741211
+            },
+            {
+              "word": "jalan",
+              "start": 21.65999984741211,
+              "end": 21.959999084472656
+            },
+            {
+              "word": "keluar",
+              "start": 21.959999084472656,
+              "end": 22.3799991607666
+            }
+          ]
+        },
+        {
+          "start": 23.200000762939453,
+          "end": 27.920000076293945,
+          "text": "Ketika lempeng bergerak, energi dilepaskan dalam bentuk getaran yang kita sebut gempa bumi.",
+          "words": [
+            {
+              "word": "Ketika",
+              "start": 23.200000762939453,
+              "end": 23.31999969482422
+            },
+            {
+              "word": "lempeng",
+              "start": 23.31999969482422,
+              "end": 23.579999923706055
+            },
+            {
+              "word": "bergerak",
+              "start": 23.579999923706055,
+              "end": 24.040000915527344
+            },
+            {
+              "word": "energi",
+              "start": 24.399999618530273,
+              "end": 24.479999542236328
+            },
+            {
+              "word": "dilepaskan",
+              "start": 24.479999542236328,
+              "end": 25.100000381469727
+            },
+            {
+              "word": "dalam",
+              "start": 25.100000381469727,
+              "end": 25.31999969482422
+            },
+            {
+              "word": "bentuk",
+              "start": 25.31999969482422,
+              "end": 25.579999923706055
+            },
+            {
+              "word": "getaran",
+              "start": 25.579999923706055,
+              "end": 26.020000457763672
+            },
+            {
+              "word": "yang",
+              "start": 26.020000457763672,
+              "end": 26.18000030517578
+            },
+            {
+              "word": "kita",
+              "start": 26.18000030517578,
+              "end": 26.479999542236328
+            },
+            {
+              "word": "sebut",
+              "start": 26.479999542236328,
+              "end": 26.639999389648438
+            },
+            {
+              "word": "gempa",
+              "start": 26.639999389648438,
+              "end": 27.020000457763672
+            },
+            {
+              "word": "bumi",
+              "start": 27.020000457763672,
+              "end": 27.920000076293945
+            }
+          ]
+        },
+        {
+          "start": 27.920000076293945,
+          "end": 30.479999542236328,
+          "text": "Inilah yang menyebabkan gempa susulan dapat terjadi.",
+          "words": [
+            {
+              "word": "Inilah",
+              "start": 27.920000076293945,
+              "end": 28.260000228881836
+            },
+            {
+              "word": "yang",
+              "start": 28.260000228881836,
+              "end": 28.479999542236328
+            },
+            {
+              "word": "menyebabkan",
+              "start": 28.479999542236328,
+              "end": 29.139999389648438
+            },
+            {
+              "word": "gempa",
+              "start": 29.139999389648438,
+              "end": 29.280000686645508
+            },
+            {
+              "word": "susulan",
+              "start": 29.280000686645508,
+              "end": 29.739999771118164
+            },
+            {
+              "word": "dapat",
+              "start": 29.739999771118164,
+              "end": 30.040000915527344
+            },
+            {
+              "word": "terjadi",
+              "start": 30.040000915527344,
+              "end": 30.479999542236328
+            }
+          ]
+        },
+        {
+          "start": 31.440000534057617,
+          "end": 34.68000030517578,
+          "text": "Tidak hanya itu, dinamika atmosfer juga memengaruhi gempa.",
+          "words": [
+            {
+              "word": "Tidak",
+              "start": 31.440000534057617,
+              "end": 31.520000457763672
+            },
+            {
+              "word": "hanya",
+              "start": 31.520000457763672,
+              "end": 31.719999313354492
+            },
+            {
+              "word": "itu",
+              "start": 31.719999313354492,
+              "end": 32.08000183105469
+            },
+            {
+              "word": "dinamika",
+              "start": 32.560001373291016,
+              "end": 32.70000076293945
+            },
+            {
+              "word": "atmosfer",
+              "start": 32.70000076293945,
+              "end": 33.18000030517578
+            },
+            {
+              "word": "juga",
+              "start": 33.18000030517578,
+              "end": 33.47999954223633
+            },
+            {
+              "word": "memengaruhi",
+              "start": 33.47999954223633,
+              "end": 34.18000030517578
+            },
+            {
+              "word": "gempa",
+              "start": 34.18000030517578,
+              "end": 34.68000030517578
+            }
+          ]
+        },
+        {
+          "start": 35.34000015258789,
+          "end": 40.18000030517578,
+          "text": "Perubahan tekanan udara, seperti saat badai, dapat memicu aktivitas seismik di bawah tanah.",
+          "words": [
+            {
+              "word": "Perubahan",
+              "start": 35.34000015258789,
+              "end": 35.599998474121094
+            },
+            {
+              "word": "tekanan",
+              "start": 35.599998474121094,
+              "end": 36.040000915527344
+            },
+            {
+              "word": "udara",
+              "start": 36.040000915527344,
+              "end": 36.400001525878906
+            },
+            {
+              "word": "seperti",
+              "start": 36.619998931884766,
+              "end": 36.81999969482422
+            },
+            {
+              "word": "saat",
+              "start": 36.81999969482422,
+              "end": 37.119998931884766
+            },
+            {
+              "word": "badai",
+              "start": 37.119998931884766,
+              "end": 37.599998474121094
+            },
+            {
+              "word": "dapat",
+              "start": 37.86000061035156,
+              "end": 38.040000915527344
+            },
+            {
+              "word": "memicu",
+              "start": 38.040000915527344,
+              "end": 38.439998626708984
+            },
+            {
+              "word": "aktivitas",
+              "start": 38.439998626708984,
+              "end": 38.97999954223633
+            },
+            {
+              "word": "seismik",
+              "start": 38.97999954223633,
+              "end": 39.459999084472656
+            },
+            {
+              "word": "di",
+              "start": 39.459999084472656,
+              "end": 39.68000030517578
+            },
+            {
+              "word": "bawah",
+              "start": 39.68000030517578,
+              "end": 39.900001525878906
+            },
+            {
+              "word": "tanah",
+              "start": 39.900001525878906,
+              "end": 40.18000030517578
+            }
+          ]
+        },
+        {
+          "start": 41.08000183105469,
+          "end": 44.2400016784668,
+          "text": "Kawasan NTT yang rawan gempa juga memiliki potensi tsunami.",
+          "words": [
+            {
+              "word": "Kawasan",
+              "start": 41.08000183105469,
+              "end": 41.279998779296875
+            },
+            {
+              "word": "NTT",
+              "start": 41.279998779296875,
+              "end": 41.68000030517578
+            },
+            {
+              "word": "yang",
+              "start": 41.68000030517578,
+              "end": 41.959999084472656
+            },
+            {
+              "word": "rawan",
+              "start": 41.959999084472656,
+              "end": 42.2400016784668
+            },
+            {
+              "word": "gempa",
+              "start": 42.2400016784668,
+              "end": 42.560001373291016
+            },
+            {
+              "word": "juga",
+              "start": 42.560001373291016,
+              "end": 42.880001068115234
+            },
+            {
+              "word": "memiliki",
+              "start": 42.880001068115234,
+              "end": 43.279998779296875
+            },
+            {
+              "word": "potensi",
+              "start": 43.279998779296875,
+              "end": 43.779998779296875
+            },
+            {
+              "word": "tsunami",
+              "start": 43.779998779296875,
+              "end": 44.2400016784668
+            }
+          ]
+        },
+        {
+          "start": 45.15999984741211,
+          "end": 50.560001373291016,
+          "text": "Oleh karena itu, penting bagi penduduk untuk selalu waspada dan mengetahui langkah-langkah evakuasi.",
+          "words": [
+            {
+              "word": "Oleh",
+              "start": 45.15999984741211,
+              "end": 45.279998779296875
+            },
+            {
+              "word": "karena",
+              "start": 45.279998779296875,
+              "end": 45.47999954223633
+            },
+            {
+              "word": "itu",
+              "start": 45.47999954223633,
+              "end": 45.79999923706055
+            },
+            {
+              "word": "penting",
+              "start": 46.2599983215332,
+              "end": 46.36000061035156
+            },
+            {
+              "word": "bagi",
+              "start": 46.36000061035156,
+              "end": 46.63999938964844
+            },
+            {
+              "word": "penduduk",
+              "start": 46.63999938964844,
+              "end": 47.08000183105469
+            },
+            {
+              "word": "untuk",
+              "start": 47.08000183105469,
+              "end": 47.41999816894531
+            },
+            {
+              "word": "selalu",
+              "start": 47.41999816894531,
+              "end": 47.720001220703125
+            },
+            {
+              "word": "waspada",
+              "start": 47.720001220703125,
+              "end": 48.279998779296875
+            },
+            {
+              "word": "dan",
+              "start": 48.279998779296875,
+              "end": 48.599998474121094
+            },
+            {
+              "word": "mengetahui",
+              "start": 48.599998474121094,
+              "end": 49.13999938964844
+            },
+            {
+              "word": "langkah",
+              "start": 49.13999938964844,
+              "end": 49.41999816894531
+            },
+            {
+              "word": "langkah",
+              "start": 49.41999816894531,
+              "end": 49.91999816894531
+            },
+            {
+              "word": "evakuasi",
+              "start": 49.91999816894531,
+              "end": 50.560001373291016
+            }
+          ]
+        },
+        {
+          "start": 51.400001525878906,
+          "end": 55.380001068115234,
+          "text": "Memahami dinamika ini dapat membantu kita beradaptasi dan mempersiapkan diri.",
+          "words": [
+            {
+              "word": "Memahami",
+              "start": 51.400001525878906,
+              "end": 51.7400016784668
+            },
+            {
+              "word": "dinamika",
+              "start": 51.7400016784668,
+              "end": 52.220001220703125
+            },
+            {
+              "word": "ini",
+              "start": 52.220001220703125,
+              "end": 52.5
+            },
+            {
+              "word": "dapat",
+              "start": 52.5,
+              "end": 52.779998779296875
+            },
+            {
+              "word": "membantu",
+              "start": 52.779998779296875,
+              "end": 53.15999984741211
+            },
+            {
+              "word": "kita",
+              "start": 53.15999984741211,
+              "end": 53.439998626708984
+            },
+            {
+              "word": "beradaptasi",
+              "start": 53.439998626708984,
+              "end": 54.02000045776367
+            },
+            {
+              "word": "dan",
+              "start": 54.02000045776367,
+              "end": 54.220001220703125
+            },
+            {
+              "word": "mempersiapkan",
+              "start": 54.220001220703125,
+              "end": 54.900001525878906
+            },
+            {
+              "word": "diri",
+              "start": 54.900001525878906,
+              "end": 55.380001068115234
+            }
+          ]
+        },
+        {
+          "start": 55.380001068115234,
+          "end": 59.79999923706055,
+          "text": "Pengetahuan adalah kunci untuk mengurangi risiko saat bencana datang.",
+          "words": [
+            {
+              "word": "Pengetahuan",
+              "start": 55.380001068115234,
+              "end": 56.099998474121094
+            },
+            {
+              "word": "adalah",
+              "start": 56.099998474121094,
+              "end": 56.439998626708984
+            },
+            {
+              "word": "kunci",
+              "start": 56.439998626708984,
+              "end": 56.84000015258789
+            },
+            {
+              "word": "untuk",
+              "start": 56.84000015258789,
+              "end": 57.20000076293945
+            },
+            {
+              "word": "mengurangi",
+              "start": 57.20000076293945,
+              "end": 57.58000183105469
+            },
+            {
+              "word": "risiko",
+              "start": 57.58000183105469,
+              "end": 58.13999938964844
+            },
+            {
+              "word": "saat",
+              "start": 58.13999938964844,
+              "end": 58.560001373291016
+            },
+            {
+              "word": "bencana",
+              "start": 58.560001373291016,
+              "end": 59.02000045776367
+            },
+            {
+              "word": "datang",
+              "start": 59.02000045776367,
+              "end": 59.79999923706055
+            }
+          ]
+        },
+        {
+          "start": 60.400001525878906,
+          "end": 63.2599983215332,
+          "text": "Follow banyak tau biar wawasanmu makin nambah tiap hari.",
+          "words": [
+            {
+              "word": "Follow",
+              "start": 60.400001525878906,
+              "end": 60.41999816894531
+            },
+            {
+              "word": "banyak",
+              "start": 60.41999816894531,
+              "end": 60.7599983215332
+            },
+            {
+              "word": "tau",
+              "start": 60.7599983215332,
+              "end": 61.02000045776367
+            },
+            {
+              "word": "biar",
+              "start": 61.02000045776367,
+              "end": 61.2599983215332
+            },
+            {
+              "word": "wawasanmu",
+              "start": 61.2599983215332,
+              "end": 61.900001525878906
+            },
+            {
+              "word": "makin",
+              "start": 61.900001525878906,
+              "end": 62.220001220703125
+            },
+            {
+              "word": "nambah",
+              "start": 62.220001220703125,
+              "end": 62.599998474121094
+            },
+            {
+              "word": "tiap",
+              "start": 62.599998474121094,
+              "end": 62.939998626708984
+            },
+            {
+              "word": "hari",
+              "start": 62.939998626708984,
+              "end": 63.2599983215332
+            }
+          ]
+        },
+        {
+          "start": 63.97999954223633,
+          "end": 65.58000183105469,
+          "text": "Menurut kalian fakta ini masuk akal nggak?",
+          "words": [
+            {
+              "word": "Menurut",
+              "start": 63.97999954223633,
+              "end": 64.0999984741211
+            },
+            {
+              "word": "kalian",
+              "start": 64.0999984741211,
+              "end": 64.4000015258789
+            },
+            {
+              "word": "fakta",
+              "start": 64.4000015258789,
+              "end": 64.72000122070312
+            },
+            {
+              "word": "ini",
+              "start": 64.72000122070312,
+              "end": 64.87999725341797
+            },
+            {
+              "word": "masuk",
+              "start": 64.87999725341797,
+              "end": 65.0999984741211
+            },
+            {
+              "word": "akal",
+              "start": 65.0999984741211,
+              "end": 65.37999725341797
+            },
+            {
+              "word": "nggak",
+              "start": 65.37999725341797,
+              "end": 65.58000183105469
+            }
+          ]
+        },
+        {
+          "start": 66.23999786376953,
+          "end": 66.87999725341797,
+          "text": "Tulis di komentar.",
+          "words": [
+            {
+              "word": "Tulis",
+              "start": 66.23999786376953,
+              "end": 66.33999633789062
+            },
+            {
+              "word": "di",
+              "start": 66.33999633789062,
+              "end": 66.58000183105469
+            },
+            {
+              "word": "komentar",
+              "start": 66.58000183105469,
+              "end": 66.87999725341797
+            }
+          ]
         }
       ],
       "thumbnail": {

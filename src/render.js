@@ -774,7 +774,7 @@ async function writeCaptionAss({ outputPath, item, scenes, narrationDuration, na
 
   const subtitleEnd = Math.max(introDuration + 0.2, totalDuration - outroDuration - 0.08);
   const timing = {
-    start: introDuration + 0.05,
+    start: introDuration,
     duration: narrationDuration ? narrationDuration / Math.max(0.1, Number(narrationTempo || 1)) : totalDuration - introDuration - outroDuration,
     tempo: narrationTempo
   };
@@ -959,9 +959,19 @@ function generateKaraokeCaptionEvents(item, timing, subtitleEnd) {
     chunks.push(currentChunk);
   }
 
-  for (const chunk of chunks) {
+  for (let cIdx = 0; cIdx < chunks.length; cIdx++) {
+    const chunk = chunks[cIdx];
+    const nextChunk = chunks[cIdx + 1];
     const chunkStart = toTimelineTime(chunk[0].start);
-    const chunkEnd = toTimelineTime(chunk[chunk.length - 1].end);
+    let chunkEnd = toTimelineTime(chunk[chunk.length - 1].end);
+
+    if (nextChunk) {
+      const nextStart = toTimelineTime(nextChunk[0].start);
+      if (nextStart > chunkEnd && (nextStart - chunkEnd) < 0.3) {
+        chunkEnd = nextStart;
+      }
+    }
+
     const wordsText = chunk.map((w) => normalizeSubtitleText(w.word).toUpperCase());
 
     for (let i = 0; i < chunk.length; i++) {
