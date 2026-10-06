@@ -3,51 +3,79 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 import { config, paths } from "./config.js";
 import { safeFilename } from "./util.js";
+import { requestGeminiKnowledgeJson, requestGeminiIdeaJson } from "./gemini.js";
+import { generateEdgeTts } from "./modules/edge_tts.js";
 
 export async function requestKnowledgeJson(promptText) {
-  assertOpenAi();
-  const response = await fetch(`${config.openai.baseUrl}/chat/completions`, {
-    method: "POST",
-    headers: headersJson(),
-    body: JSON.stringify({
-      model: config.openai.storyModel,
-      response_format: { type: "json_object" },
-      messages: [
-        {
-          role: "system",
-          content: "You are an Indonesian educational short-video writer. Write factual, engaging, natural Indonesian narration in a calm, authoritative documentary style. Return valid JSON only."
-        },
-        { role: "user", content: promptText }
-      ],
-      temperature: 0.78
-    })
-  });
-  const data = await parseOpenAiResponse(response);
-  const content = data.choices?.[0]?.message?.content || "";
-  return JSON.parse(content);
+  const shouldUseGemini = process.env.STORY_PROVIDER === "gemini" || !config.openai.apiKey || Boolean((process.env.GEMINI_API_KEY || process.env.VIDEO_API_KEY) && !config.openai.apiKey);
+  if (shouldUseGemini && (process.env.GEMINI_API_KEY || process.env.VIDEO_API_KEY)) {
+    return requestGeminiKnowledgeJson(promptText);
+  }
+
+  try {
+    assertOpenAi();
+    const response = await fetch(`${config.openai.baseUrl}/chat/completions`, {
+      method: "POST",
+      headers: headersJson(),
+      body: JSON.stringify({
+        model: config.openai.storyModel,
+        response_format: { type: "json_object" },
+        messages: [
+          {
+            role: "system",
+            content: "You are an Indonesian educational short-video writer for channel BanyakTau. Write factual, highly engaging Indonesian narration using simple, everyday language that is easy for the general public to understand. Avoid complex academic jargon without clear analogies. Keep sentences short, punchy, and comfortably paced for viewers to read on-screen subtitles. Return valid JSON only."
+          },
+          { role: "user", content: promptText }
+        ],
+        temperature: 0.78
+      })
+    });
+    const data = await parseOpenAiResponse(response);
+    const content = data.choices?.[0]?.message?.content || "";
+    return JSON.parse(content);
+  } catch (err) {
+    if ((process.env.GEMINI_API_KEY || process.env.VIDEO_API_KEY) && (/credits|billing|429|insufficient_quota|unauthorized/i.test(err.message) || !config.openai.apiKey)) {
+      console.warn(`[OpenAI -> Gemini Fallback] ${err.message}. Menggunakan Google Gemini gratis...`);
+      return requestGeminiKnowledgeJson(promptText);
+    }
+    throw err;
+  }
 }
 
 export async function requestIdeaJson(promptText) {
-  assertOpenAi();
-  const response = await fetch(`${config.openai.baseUrl}/chat/completions`, {
-    method: "POST",
-    headers: headersJson(),
-    body: JSON.stringify({
-      model: config.openai.storyModel,
-      response_format: { type: "json_object" },
-      messages: [
-        {
-          role: "system",
-          content: "You are an Indonesian short-video ideation producer for a factual knowledge channel. Recommend scroll-stopping, factual, low-cost visual ideas. Return valid JSON only."
-        },
-        { role: "user", content: promptText }
-      ],
-      temperature: 0.92
-    })
-  });
-  const data = await parseOpenAiResponse(response);
-  const content = data.choices?.[0]?.message?.content || "";
-  return JSON.parse(content);
+  const shouldUseGemini = process.env.STORY_PROVIDER === "gemini" || !config.openai.apiKey || Boolean((process.env.GEMINI_API_KEY || process.env.VIDEO_API_KEY) && !config.openai.apiKey);
+  if (shouldUseGemini && (process.env.GEMINI_API_KEY || process.env.VIDEO_API_KEY)) {
+    return requestGeminiIdeaJson(promptText);
+  }
+
+  try {
+    assertOpenAi();
+    const response = await fetch(`${config.openai.baseUrl}/chat/completions`, {
+      method: "POST",
+      headers: headersJson(),
+      body: JSON.stringify({
+        model: config.openai.storyModel,
+        response_format: { type: "json_object" },
+        messages: [
+          {
+            role: "system",
+            content: "You are an Indonesian short-video ideation producer for BanyakTau. Recommend scroll-stopping, factual, low-cost visual ideas using 3 proven Reels hook formulas (contradictory myth, extreme visual fact, relatable daily problems) in simple, accessible Indonesian. Return valid JSON only."
+          },
+          { role: "user", content: promptText }
+        ],
+        temperature: 0.92
+      })
+    });
+    const data = await parseOpenAiResponse(response);
+    const content = data.choices?.[0]?.message?.content || "";
+    return JSON.parse(content);
+  } catch (err) {
+    if ((process.env.GEMINI_API_KEY || process.env.VIDEO_API_KEY) && (/credits|billing|429|insufficient_quota|unauthorized/i.test(err.message) || !config.openai.apiKey)) {
+      console.warn(`[OpenAI -> Gemini Fallback] ${err.message}. Menggunakan Google Gemini gratis...`);
+      return requestGeminiIdeaJson(promptText);
+    }
+    throw err;
+  }
 }
 
 async function fetchAvailableModels() {
@@ -65,12 +93,12 @@ async function fetchAvailableModels() {
   }
 }
 
-export async function generateSceneImage({ itemId, scene, size, quality, theme }) {
+export async function generateSceneImage({ itemId, scene, size, quality, theme, format }) {
   assertOpenAi();
   await fs.mkdir(paths.imageDir, { recursive: true });
 
   const chosenTheme = theme || scene.theme || scene.visualStyle || scene.illustration || "";
-  const prompt = sanitizeImagePrompt(scene.imagePrompt, { theme: chosenTheme });
+  const prompt = sanitizeImagePrompt(scene.imagePrompt, { theme: chosenTheme, format: format || scene.format });
   let modelToUse = config.openai.imageModel;
   let qualityToUse = quality;
   let sizeToUse = size;
@@ -200,55 +228,79 @@ function optimizeImage(inputPath, outputPath) {
 }
 
 export async function generateOpenAiSpeech({ itemId, text, voice, filenameSuffix = "openai", instructions }) {
-  assertOpenAi();
-  await fs.mkdir(paths.audioDir, { recursive: true });
-
-  const selectedVoice = voice || config.openai.ttsVoice;
+  const preferEdge = process.env.TTS_PROVIDER === "edge_tts" || !config.openai.apiKey;
+  const edgeVoice = config.openai.edgeTtsVoice || "id-ID-ArdiNeural";
   const filename = `${itemId}-${safeFilename(filenameSuffix)}-narration.mp3`;
   const outputPath = path.join(paths.audioDir, filename);
-  const payload = {
-    model: config.openai.ttsModel,
-    voice: selectedVoice,
-    input: text,
-    response_format: "mp3"
-  };
-  if (/dinoiki/i.test(config.openai.baseUrl)) {
-    payload.instructions = instructions || "Bacakan sebagai narator dokumenter Indonesia dengan suara pria dewasa yang tenang, berwibawa, cerdas, dan tepercaya. Gunakan tempo sedang dan aksen Indonesia netral (tidak robotik, tidak dramatis, tidak seperti iklan). Berikan jeda alami antar-kalimat dan jeda sedikit lebih lama sebelum fakta penting atau mengejutkan. Tekankan kata kunci secara halus demi membangun rasa penasaran dan takjub tanpa berlebihan. Gaya narasi tenang, percaya diri, hangat, informatif, dengan sedikit ketegangan saat mengungkap fakta dan transisi mulus. Jangan terburu-buru, jangan berteriak, jangan terdengar heboh seperti influencer YouTube, hindari emosi berlebih.";
-  }
-  const response = await fetch(`${config.openai.baseUrl}/audio/speech`, {
-    method: "POST",
-    headers: headersJson(),
-    body: JSON.stringify(payload)
-  });
-  if (!response.ok) {
-    const detail = await response.text();
-    throw new Error(`OpenAI TTS gagal HTTP ${response.status}: ${detail.slice(0, 500)}`);
+
+  if (preferEdge) {
+    await fs.mkdir(paths.audioDir, { recursive: true });
+    await generateEdgeTts({ text, voiceId: edgeVoice, outputPath });
+    return {
+      provider: "edge_tts",
+      model: "edge-tts-cli",
+      voice: edgeVoice,
+      path: outputPath,
+      url: `/generated/audio/${filename}`
+    };
   }
 
-  await fs.writeFile(outputPath, Buffer.from(await response.arrayBuffer()));
-  return {
-    provider: providerName(),
-    model: config.openai.ttsModel,
-    voice: selectedVoice,
-    path: outputPath,
-    url: `/generated/audio/${filename}`
-  };
+  try {
+    assertOpenAi();
+    await fs.mkdir(paths.audioDir, { recursive: true });
+
+    const selectedVoice = voice || config.openai.ttsVoice;
+    const payload = {
+      model: config.openai.ttsModel,
+      voice: selectedVoice,
+      input: text,
+      response_format: "mp3"
+    };
+    if (/dinoiki/i.test(config.openai.baseUrl)) {
+      payload.instructions = instructions || "Bacakan sebagai narator dokumenter Indonesia dengan suara pria dewasa yang tenang, berwibawa, cerdas, dan tepercaya. Gunakan tempo sedang dan aksen Indonesia netral (tidak robotik, tidak dramatis, tidak seperti iklan). Berikan jeda alami antar-kalimat dan jeda sedikit lebih lama sebelum fakta penting atau mengejutkan. Tekankan kata kunci secara halus demi membangun rasa penasaran dan takjub tanpa berlebihan. Gaya narasi tenang, percaya diri, hangat, informatif, dengan sedikit ketegangan saat mengungkap fakta dan transisi mulus. Jangan terburu-buru, jangan berteriak, jangan terdengar heboh seperti influencer YouTube, hindari emosi berlebih.";
+    }
+    const response = await fetch(`${config.openai.baseUrl}/audio/speech`, {
+      method: "POST",
+      headers: headersJson(),
+      body: JSON.stringify(payload)
+    });
+    if (!response.ok) {
+      const detail = await response.text();
+      throw new Error(`OpenAI TTS gagal HTTP ${response.status}: ${detail.slice(0, 500)}`);
+    }
+
+    await fs.writeFile(outputPath, Buffer.from(await response.arrayBuffer()));
+    return {
+      provider: providerName(),
+      model: config.openai.ttsModel,
+      voice: selectedVoice,
+      path: outputPath,
+      url: `/generated/audio/${filename}`
+    };
+  } catch (err) {
+    console.warn(`[OpenAI TTS -> Edge TTS Fallback] ${err.message}. Menggunakan Edge TTS gratis...`);
+    await generateEdgeTts({ text, voiceId: edgeVoice, outputPath });
+    return {
+      provider: "edge_tts",
+      model: "edge-tts-cli",
+      voice: edgeVoice,
+      path: outputPath,
+      url: `/generated/audio/${filename}`
+    };
+  }
 }
 
 export async function transcribeSpeechSegments(audioPath, language = "id") {
-  assertOpenAi();
-  const model = config.openai.transcribeModel;
+  if (!config.openai.apiKey || process.env.TTS_PROVIDER === "edge_tts") {
+    return [];
+  }
   try {
-    // verbose_json gives per-segment timestamps for word-synced captions.
+    assertOpenAi();
+    const model = config.openai.transcribeModel;
     return await transcribeSpeechSegmentsWithModel(audioPath, model, "verbose_json", language);
   } catch (error) {
-    // Some models/proxies (e.g. gpt-4o-transcribe, gpt-4o-mini-transcribe) reject
-    // verbose_json and only accept plain "json". Fall back so captions still render,
-    // even though timestamps will not be available from the API in that case.
-    if (/verbose_json|response_format|unsupported_value|timestamp/i.test(error.message)) {
-      return transcribeSpeechSegmentsWithModel(audioPath, model, "json", language);
-    }
-    throw error;
+    console.warn(`[Whisper Transcribe Fallback] ${error.message}. Menggunakan karaoke subtitle otomatis.`);
+    return [];
   }
 }
 
@@ -377,45 +429,62 @@ function headersJson() {
 
 function sanitizeImagePrompt(value, options = {}) {
   const theme = String(options.theme || "").toLowerCase();
+  const format = String(options.format || "vertical").toLowerCase();
+  const isHorizontal = format.includes("horiz") || format === "16:9";
+  const aspectInstruction = isHorizontal ? "horizontal 16:9 widescreen, cinematic composition" : "vertical 9:16";
 
   if (theme === "kartun" || theme === "collage" || theme === "cartoon" || theme === "dino") {
     return [
       `clean flat 2D vector cutout illustration of ${value || "educational subject"}`,
-      "sticker style cutout with solid clear edges, vibrant saturated colors, bold clean outlines, isolated on pure solid white background, flat paper collage aesthetic, playful educational design, no realistic 3D volume, no shadows, no written text inside image, no logo, no watermark"
+      `sticker style cutout with solid clear edges, vibrant saturated colors, bold clean outlines, isolated on pure solid white background, flat paper collage aesthetic, playful educational design, no realistic 3D volume, no shadows, no written text inside image, no logo, no watermark, ${aspectInstruction}`
     ].join(", ");
   }
 
   if (theme === "vintage" || theme === "sketsa" || theme === "engine" || theme === "sketch") {
     return [
       `antique 18th century copperplate engraving illustration of ${value || "historical scientific subject"}`,
-      "sepia and black ink etching on clean background, vintage scientific encyclopedia patent plate, fine cross-hatching linework, authentic historical archival drawing, no modern digital render, no written text inside image, no logo, no watermark"
+      `sepia and black ink etching on clean background, vintage scientific encyclopedia patent plate, fine cross-hatching linework, authentic historical archival drawing, no modern digital render, no written text inside image, no logo, no watermark, ${aspectInstruction}`
     ].join(", ");
   }
 
   if (theme === "gradient" || theme === "space" || theme === "kosmik") {
     return [
       `cinematic deep space cosmic visual of ${value || "scientific phenomenon"}`,
-      "ethereal glowing volumetric lighting, soft ambient particle grain, vibrant cyan and violet celestial highlights, elegant abstract scientific render, no written text inside image, no logo, no watermark"
+      `ethereal glowing volumetric lighting, soft ambient particle grain, vibrant cyan and violet celestial highlights, elegant abstract scientific render, no written text inside image, no logo, no watermark, ${aspectInstruction}`
     ].join(", ");
   }
 
   if (theme === "catalog" || theme === "product") {
     return [
       `clean studio product photography of ${value || "object"}`,
-      "pure white seamless background, architectural precision lighting, sharp macro object details, crisp subtle contact shadow, modern scientific museum catalog aesthetic, no written text inside image, no logo, no watermark"
+      `pure white seamless background, architectural precision lighting, sharp macro object details, crisp subtle contact shadow, modern scientific museum catalog aesthetic, no written text inside image, no logo, no watermark, ${aspectInstruction}`
     ].join(", ");
   }
 
   if (theme === "poster" || theme === "bold") {
     return [
       `bold high-contrast graphic pop-art visual of ${value || "subject"}`,
-      "vibrant saturated color blocking, sharp dramatic silhouette, dynamic punchy lighting, modern editorial magazine aesthetic, no written text inside image, no logo, no watermark"
+      `vibrant saturated color blocking, sharp dramatic silhouette, dynamic punchy lighting, modern editorial magazine aesthetic, no written text inside image, no logo, no watermark, ${aspectInstruction}`
+    ].join(", ");
+  }
+
+  if (theme === "action" || theme === "speed" || theme === "motion") {
+    return [
+      `dynamic high-speed action trajectory visual of ${value || "subject"}`,
+      `kinetic motion blur streaks, low-angle dramatic perspective, high energy lighting, no written text inside image, no logo, no watermark, ${aspectInstruction}`
+    ].join(", ");
+  }
+
+  if (theme === "jurnalisme" || theme === "journalism" || theme === "vox") {
+    return [
+      `Vox visual journalism documentary visual of ${value || "subject"}`,
+      `dark mode moody aesthetic, cinematic rim lighting, high contrast, clean forensic detail, premium editorial magazine still, no written text inside image, no logo, no watermark, ${aspectInstruction}`
     ].join(", ");
   }
 
   return [
     String(value || ""),
-    "vertical 9:16 editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury"
+    `${aspectInstruction} editorial knowledge video illustration, Indonesian friendly educational visual style, cinematic but bright, high detail, clear subject, varied composition, no written text inside the image, no logo, no watermark, no celebrity likeness, no gore, no injury`
   ].join(", ");
 }
 

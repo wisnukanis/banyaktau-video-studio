@@ -9,7 +9,8 @@ export async function runPreflight() {
   const checks = [];
   checks.push(checkCommand("ffmpeg"));
   checks.push(checkCommand("ffprobe"));
-  checks.push(checkValue("OPENAI_API_KEY", Boolean(config.openai.apiKey), "Story, image, TTS, dan transkripsi butuh key ini."));
+  const hasAiKey = Boolean(config.openai.apiKey || process.env.GEMINI_API_KEY || process.env.VIDEO_API_KEY);
+  checks.push(checkValue("AI_API_KEY", hasAiKey, "Kunci AI untuk pembuatan naskah (Gemini gratis atau OpenAI).", true));
 
   const remote = remoteConfig();
   const needsPublicBaseUrl = remoteEnabled()

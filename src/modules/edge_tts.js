@@ -59,11 +59,35 @@ export async function generateEdgeTts({ text, voiceId, outputPath }) {
       });
 
       fallbackChild.on("close", (code) => {
-        resolved = true;
+        if (resolved) return;
         if (code === 0) {
+          resolved = true;
           resolve();
         } else {
-          reject(new Error(`edge-tts fallback failed with code ${code}. Stderr: ${fallbackStderr}`));
+          try {
+            console.log("[Edge-TTS] edge-tts not installed. Attempting on-the-fly pip install...");
+            import("node:child_process").then(({ execSync }) => {
+              try {
+                execSync("pip install --break-system-packages edge-tts || pip install edge-tts", { stdio: "inherit" });
+                const retry = spawn("python", ["-m", "edge_tts", ...args], { windowsHide: true, cwd: paths.rootDir });
+                retry.on("close", (rCode) => {
+                  resolved = true;
+                  if (rCode === 0) resolve();
+                  else reject(new Error(`edge-tts retry failed with code ${rCode}`));
+                });
+                retry.on("error", (rErr) => {
+                  resolved = true;
+                  reject(new Error(`edge-tts retry error: ${rErr.message}`));
+                });
+              } catch (pipErr) {
+                resolved = true;
+                reject(new Error(`pip install edge-tts failed: ${pipErr.message}`));
+              }
+            });
+          } catch {
+            resolved = true;
+            reject(new Error(`edge-tts fallback failed with code ${code}. Stderr: ${fallbackStderr}`));
+          }
         }
       });
     }

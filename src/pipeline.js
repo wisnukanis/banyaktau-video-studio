@@ -345,9 +345,9 @@ export async function ensureImages(item, options = {}) {
 export async function ensureAudio(item, options = {}) {
   const hasWarningSink = Array.isArray(options.warnings);
   const warnings = options.warnings || [];
-  let provider = String(options.provider || item.input.ttsProvider || "openai").toLowerCase();
+  let provider = String(options.provider || item.input.ttsProvider || process.env.TTS_PROVIDER || "edge_tts").toLowerCase();
   if (!["elevenlabs", "openai", "edge_tts"].includes(provider)) {
-    provider = "openai";
+    provider = "edge_tts";
   }
   if (item.assets.audio?.path && !options.force && item.assets.audio.provider === provider) return;
 
@@ -536,12 +536,14 @@ function buildClipPrompt(item, scene) {
   const visualConcept = scene.imagePrompt
     ? scene.imagePrompt.split(",").slice(0, 3).join(",").trim()
     : "";
+  const isHorizontal = item.input?.videoFormat === "horizontal" || Boolean(item.input?.longForm);
+  const orientation = isHorizontal ? "horizontal 16:9 widescreen" : "vertical 9:16";
   return [
     `Topic: ${item.input?.topic || item.title}.`,
     `Scene: ${scene.screenText}.`,
     `Narration: ${scene.narration}.`,
     visualConcept ? `Visual concept for this scene: ${visualConcept}.` : "",
-    "Create a short vertical educational B-roll clip that directly supports this scene.",
+    `Create a short ${orientation} educational B-roll clip that directly supports this scene.`,
     "Use realistic, clean, bright documentary style with one clear subject and smooth motion.",
     "Do not include written text, subtitles, logos, watermarks, gore, injuries, or a recognizable public figure."
   ].filter(Boolean).join(" ");
@@ -549,8 +551,9 @@ function buildClipPrompt(item, scene) {
 
 async function generateImageWithRetry({ item, scene, size, quality }) {
   const theme = item.input?.motionTheme || scene.visualStyle || inferMotionTheme(scene, item);
+  const format = item.input?.videoFormat || (item.input?.longForm ? "horizontal" : "vertical");
   try {
-    return await generateSceneImage({ itemId: item.id, scene, size, quality, theme });
+    return await generateSceneImage({ itemId: item.id, scene, size, quality, theme, format });
   } catch (error) {
     const safeScene = {
       ...scene,
@@ -560,7 +563,7 @@ async function generateImageWithRetry({ item, scene, size, quality }) {
         "objects, hands, classroom table, museum display, science concept, no people in danger, no medical procedure, no text"
       ].join(", ")
     };
-    const image = await generateSceneImage({ itemId: item.id, scene: safeScene, size, quality, theme });
+    const image = await generateSceneImage({ itemId: item.id, scene: safeScene, size, quality, theme, format });
     image.recoveredFrom = error.message;
     return image;
   }
